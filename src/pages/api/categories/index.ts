@@ -1,15 +1,15 @@
 //from modules
 import { NextApiRequest, NextApiResponse } from "next";
 //models
-import Categorie from "models/Categorie";
+import Category from "models/Category";
 //interface
-import { ICategorie } from "models/Categorie/ICategorie";
+import { ICategory } from "models/Category/ICategory";
 //db
 import "utils/db";
 
 type DataCategories = {
   message: string;
-  categories?: ICategorie[];
+  categories?: ICategory[];
 };
 
 type DataError = {
@@ -27,10 +27,10 @@ const cases: ICases = {
       const populateQuery = [
         {
           path: "subcategories",
-          model: "Subcategorie",
+          model: "Subcategory",
         },
       ];
-      const categories = await Categorie.find().populate(populateQuery);
+      const categories = await Category.find().populate(populateQuery);
       if (!categories) {
         res.status(404).json({ message: "Error fetching categories" });
       } else {
@@ -39,7 +39,7 @@ const cases: ICases = {
           .json({ message: "Fetching categories succesfully", categories });
       }
     } catch (err) {
-      console.log("Error ocurred in GET CATEGORIE");
+      console.log("Error ocurred in GET category");
       //console.log(err);
     }
   },

@@ -1,9 +1,9 @@
 //from modules
 import { model, models, Schema, Types } from "mongoose";
 //interface
-import { ICategorie } from "./ICategorie";
+import { ICategory } from "./ICategory";
 
-const categorieSchema = new Schema({
+const categorySchema = new Schema({
   name: {
     type: String,
   },
@@ -19,10 +19,10 @@ const categorieSchema = new Schema({
   subcategories: [
     {
       type: Types.ObjectId,
-      ref: "Subcategorie",
+      ref: "Subcategory",
     },
   ],
 });
 
-export default models?.Categorie ||
-  model<ICategorie>("Categorie", categorieSchema);
+export default models?.Category ||
+  model<ICategory>("Category", categorySchema);

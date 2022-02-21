@@ -52,14 +52,14 @@ const userSchema = new Schema(
     },
     items: [
       {
-        categorie: {
+        category: {
           type: Types.ObjectId,
-          ref: "Categorie",
+          ref: "Category",
         },
         subcategories: [
           {
             type: Types.ObjectId,
-            ref: "Subcategorie",
+            ref: "Subcategory",
           },
         ],
         description: {
