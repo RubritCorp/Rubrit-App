@@ -1,11 +1,9 @@
+// native libraries
+import Head from "next/head";
+// components
 import Footer from "components/Footer";
 import Navbar from "components/NavBar";
-import Head from "next/head";
-import React, { Children } from "react";
-
-interface Props {
-  authenticated: boolean;
-}
+// styles
 
 const Layout: React.FC<{
   title?: string;
