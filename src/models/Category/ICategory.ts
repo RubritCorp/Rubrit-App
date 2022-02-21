@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 
-export interface ICategorie {
+export interface ICategory {
   name: string;
   picture: string;
   icon: string;

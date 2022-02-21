@@ -1,4 +1,4 @@
-export interface ISubcategorie {
+export interface ISubcategory {
   name: string;
   picture: string;
   icon: string;
