@@ -15,3 +15,11 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.layoutContainer {
+  /* This allows the footer to stay at the bottom regardless of page height */
+  display: block;
+  min-height: 100vh;
+  padding-bottom: 150px;
+  position: relative;
+}

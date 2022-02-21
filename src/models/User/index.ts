@@ -42,14 +42,16 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    rating: {
-      description: {
-        type: String,
+    rating: [
+      {
+        description: {
+          type: String,
+        },
+        score: {
+          type: String,
+        },
       },
-      score: {
-        type: String,
-      },
-    },
+    ],
     items: [
       {
         categorie: {
