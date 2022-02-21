@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 
 interface HItems {
-  categorie: Types.ObjectId;
+  category: Types.ObjectId;
   subcategories: Types.ObjectId[];
   description: string;
   certification: string[];
