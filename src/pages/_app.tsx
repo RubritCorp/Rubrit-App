@@ -5,11 +5,11 @@ import { ChakraProvider } from "@chakra-ui/react";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <SessionProvider session={pageProps.session}>
-      <ChakraProvider>
-        <Component {...pageProps} />
-      </ChakraProvider>
-    </SessionProvider>
+    //<SessionProvider session={pageProps.session}>
+    <ChakraProvider>
+      <Component {...pageProps} />
+    </ChakraProvider>
+    //</SessionProvider>
   );
 }
 

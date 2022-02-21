@@ -15,7 +15,7 @@ const Layout: React.FC<{
     <div className="layoutContainer">
       <Head>
         <link rel="icon" href="../../public/favicon.ico" />
-        <title>{title}</title>
+        <title>{`Rubrit | ${title}`}</title>
         <meta name="description" content={description} />
       </Head>
       <Navbar />
