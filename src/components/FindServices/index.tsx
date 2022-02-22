@@ -67,14 +67,6 @@ const FindServices: React.FC = () => {
                   weight="fill"
                   color={theme.colors.medium_green}
                 />
-                <div className={styles.line}></div>
-              </div>
-              <div className={styles.circle}>
-                <NumberCircleFour
-                  size={80}
-                  weight="fill"
-                  color={theme.colors.medium_green}
-                />
               </div>
             </div>
           </Box>
@@ -121,25 +113,7 @@ const FindServices: React.FC = () => {
                   </Text>
                 </Box>
               </Flex>
-              <Flex>
-                <Box margin={5} height="200px">
-                  <Box display="flex" alignItems="center" marginBottom={2}>
-                    <Calendar
-                      size={70}
-                      weight="regular"
-                      color={theme.colors.medium_green}
-                    />
-                    <Heading size="lg" marginLeft={5}>
-                      ELEGI FECHA Y HORA
-                    </Heading>
-                  </Box>
-                  <Text fontSize="1.5rem">
-                    Selecciona segun la disponibilidad horaria del profesional
-                    un horario que te quede comodo para que se pueda realizar el
-                    trabajo .
-                  </Text>
-                </Box>
-              </Flex>
+
               <Flex>
                 <Box margin={5}>
                   <Box display="flex" alignItems="center" marginBottom={2}>
