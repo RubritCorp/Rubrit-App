@@ -14,8 +14,8 @@ const config: ThemeConfig = {
   initialColorMode: "light",
   useSystemColorMode: false,
 };
-const theme = extendTheme({
-  colors: {
+
+const  colors: {
     light_green: "#44FEB0",
     dark_blue: "#164399",
     dark_green: "#292E1E",
@@ -120,9 +120,13 @@ const theme = extendTheme({
       800: "#282626",
       900: "#150a0d",
     },
-  },
+  }
+    
+const theme = extendTheme({
+  colors,
   fonts,
   config,
+
   // breakpoints,
 });
 
