@@ -15,7 +15,7 @@ const config: ThemeConfig = {
   useSystemColorMode: false,
 };
 
-const  colors: {
+const  colors = {
     light_green: "#44FEB0",
     dark_blue: "#164399",
     dark_green: "#292E1E",
