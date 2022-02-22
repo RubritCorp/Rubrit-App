@@ -38,7 +38,10 @@ const FindServices: React.FC = () => {
     <Layout>
       <Container maxW="container.lg">
         <Flex justifyContent="center" padding={5}>
-          <Text fontSize="5xl" fontWeight={500}>
+          <Text
+            fontSize={{ base: "1.5rem", md: "2rem", lg: "2.5rem" }}
+            fontWeight={500}
+          >
             COMO FUNCIONA RUBRIT
           </Text>
         </Flex>
@@ -74,18 +77,26 @@ const FindServices: React.FC = () => {
           <Box>
             <SimpleGrid columns={1}>
               <Flex>
-                <Box margin={5} height="200px">
+                <Box
+                  margin={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
+                  height="200px"
+                >
                   <Flex alignItems="center" marginBottom={2}>
-                    <CalendarCheck
-                      size={70}
-                      weight="regular"
-                      color={theme.colors.medium_green}
-                    />
-                    <Heading size="lg" marginLeft={5}>
+                    <Box>
+                      <CalendarCheck
+                        size={70}
+                        weight="regular"
+                        color={theme.colors.medium_green}
+                      />
+                    </Box>
+                    <Heading
+                      fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
+                      marginLeft={5}
+                    >
                       DESCRIBI LAS TAREAS
                     </Heading>
                   </Flex>
-                  <Text fontSize="1.5rem">
+                  <Text fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}>
                     Haces una breve descripcion del trabajo que estas
                     necesitando hacer. Si queres podes adjuntar fotos para que
                     el profesional que lo vea tenga una idea mas exacta de lo
@@ -101,11 +112,14 @@ const FindServices: React.FC = () => {
                       weight="regular"
                       color={theme.colors.medium_green}
                     />
-                    <Heading size="lg" marginLeft={5}>
+                    <Heading
+                      fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
+                      marginLeft={5}
+                    >
                       BUSCAR PROFESIONALES Y PRECIOS
                     </Heading>
                   </Flex>
-                  <Text fontSize="1.5rem">
+                  <Text fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}>
                     Busca en nuestra lista de profesionales cual te parece el
                     mas indicado, vas a poder elegir varios filtros. Entre
                     estos, calificaciones, reseñas, material grafico de sus
@@ -122,11 +136,14 @@ const FindServices: React.FC = () => {
                       weight="regular"
                       color={theme.colors.medium_green}
                     />
-                    <Heading size="lg" marginLeft={5}>
+                    <Heading
+                      fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
+                      marginLeft={5}
+                    >
                       CONFIRMA
                     </Heading>
                   </Box>
-                  <Text fontSize="1.5rem">
+                  <Text fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}>
                     Felicitaciones!!! ya completaste todo el formulario. nunca
                     antes fue tan facil y seguro contratar a un profesional para
                     que te haga el trabajo.
@@ -140,8 +157,17 @@ const FindServices: React.FC = () => {
           <Divider orientation="horizontal" />
         </Center>
         <Flex direction="column" marginTop={10}>
-          <Heading>ESTAS LISTO PARA BUSCAR QUIEN TE HAGA EL TRABAJO</Heading>
-          <Text fontSize="1.5rem" textAlign="center">
+          <Heading
+            fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
+            textAlign="center"
+            marginLeft={5}
+          >
+            ESTAS LISTO PARA BUSCAR QUIEN TE HAGA EL TRABAJO
+          </Heading>
+          <Text
+            fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
+            textAlign="center"
+          >
             Chatea rápidamente con profesionales de servicios para tu casa.
             ¡Elige entre +175 categorías!
           </Text>

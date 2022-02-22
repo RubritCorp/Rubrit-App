@@ -14,3 +14,9 @@
 .link:hover {
   cursor: pointer;
 }
+
+@media (max-width: 600px) {
+  .containerCircles {
+    margin: 0em 0.5em 0 0;
+  }
+}
