@@ -1,4 +1,4 @@
-import { extendTheme } from "@chakra-ui/react";
+import { extendTheme, type ThemeConfig } from "@chakra-ui/react";
 import { createBreakpoints } from "@chakra-ui/theme-tools";
 
 const fonts = { heading: "Poppins", body: "Poppins" };
@@ -10,6 +10,10 @@ const fonts = { heading: "Poppins", body: "Poppins" };
 //   xl: "80em",
 // });
 
+const config: ThemeConfig = {
+  initialColorMode: "light",
+  useSystemColorMode: false,
+};
 const theme = extendTheme({
   colors: {
     light_green: "#44FEB0",
@@ -118,6 +122,7 @@ const theme = extendTheme({
     },
   },
   fonts,
+  config,
   // breakpoints,
 });
 
