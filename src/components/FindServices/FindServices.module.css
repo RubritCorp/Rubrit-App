@@ -1,0 +1,16 @@
+.line {
+  display: flex;
+  border-left: 3px solid grey;
+  height: 10em;
+}
+.circle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.containerCircles {
+  margin: 1em 1em 0 0;
+}
+.link:hover {
+  cursor: pointer;
+}
