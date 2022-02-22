@@ -117,7 +117,10 @@ const theme = extendTheme({
       900: "#150a0d",
     },
   },
-  fonts,
+  fonts: {
+    heading: "Poppins",
+    body: "Roboto",
+  },
   // breakpoints,
 });
 
