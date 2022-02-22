@@ -3,6 +3,7 @@ import Head from "next/head";
 // components
 import Footer from "components/Footer";
 import Navbar from "components/NavBar";
+import { Box } from "@chakra-ui/react";
 // styles
 
 const Layout: React.FC<{
@@ -10,7 +11,7 @@ const Layout: React.FC<{
   description?: string;
 }> = ({ children, title, description }) => {
   return (
-    <div className="layoutContainer">
+    <Box>
       <Head>
         <link rel="icon" href="../../public/favicon.ico" />
         <title>{`Rubrit | ${title}`}</title>
@@ -19,7 +20,7 @@ const Layout: React.FC<{
       <Navbar />
       <main>{children}</main>
       <Footer />
-    </div>
+    </Box>
   );
 };
 
