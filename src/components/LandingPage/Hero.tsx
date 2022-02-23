@@ -4,7 +4,7 @@ const Hero: React.FC = () => {
   return (
     <Flex 
       w="full"
-      h="100vh"
+      h="calc(100vh - 60px)"
       backgroundImage="linear-gradient(rgba(0, 0, 0, 0.7),rgba(0, 0, 0, 0.6)), url(banner-image-1.jpg)"
       backgroundSize="cover"
       backgroundPosition="center center"
