@@ -69,6 +69,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({title}) => {
     <Flex
       w="220px"
       h="300px"
+      margin="0px 10px"
       justifyContent="center"
       alignItems="center"
       padding="10px"
@@ -91,37 +92,11 @@ const CategoryCard: React.FC<CategoryCardProps> = ({title}) => {
 const settings = {
   arrows: true,
   infinite: true,
-  centerMode: true,
   autoplay: false,
-  slidesToShow: 5,
   slidesToScroll: 1,
+  variableWidth: true,
   adaptiveHeight: true,
-  responsive: [
-    {
-      breakpoint: 1400,
-      settings: {
-        slidesToShow: 4
-      }
-    },
-    {
-      breakpoint: 1200,
-      settings: {
-        slidesToShow: 3
-      }
-    },
-    {
-      breakpoint: 800,
-      settings: {
-        slidesToShow: 2
-      }
-    },
-    {
-      breakpoint: 520,
-      settings: {
-        slidesToShow: 1
-      }
-    }
-  ]
+  swipeToSlide: true
 };
 
 interface CategoryCardProps {
