@@ -33,7 +33,6 @@ const Hero: React.FC = () => {
             alignSelf={'center'}
             position={'relative'}>
             <Button
-              colorScheme={'green'}
               bg={'green.400'}
               rounded={'full'}
               px={6}
