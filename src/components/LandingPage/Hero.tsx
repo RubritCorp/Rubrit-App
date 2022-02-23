@@ -9,7 +9,8 @@ const Hero: React.FC = () => {
       backgroundSize="cover"
       backgroundPosition="center center"
       color="white"
-      justifyContent="center">
+      justifyContent="center"
+      alignItems="center">
         <Stack
           as={Box}
           textAlign="center"
