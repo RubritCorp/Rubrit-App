@@ -1,11 +1,11 @@
-import { Box, Heading, Flex, Text, Button, Stack } from "@chakra-ui/react";
+import { Box, Heading, Flex, Text, Button, Stack, Input, InputRightElement, InputGroup } from "@chakra-ui/react";
 
 const Hero: React.FC = () => {
   return (
     <Flex 
       w="full"
       h="100vh"
-      backgroundImage="linear-gradient(rgba(0, 0, 0, 0.527),rgba(0, 0, 0, 0.5)), url(banner-image-1.jpg)"
+      backgroundImage="linear-gradient(rgba(0, 0, 0, 0.7),rgba(0, 0, 0, 0.6)), url(banner-image-1.jpg)"
       backgroundSize="cover"
       backgroundPosition="center center"
       color="white"
@@ -14,31 +14,52 @@ const Hero: React.FC = () => {
         <Stack
           as={Box}
           textAlign="center"
-          spacing={{ base: 8, md: 14 }}
-          py={{ base: 20, md: 36 }}>
-          <Heading
-            fontWeight={600}
-            fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
-            lineHeight={'110%'}>
-            ¿Estás buscando un <br />
-            profesional <Text as={'span'} color={'green.400'}>de confianza?</Text>
-          </Heading>
-          <Text>
-            Chatea rápidamente con profesionales de servicios para tu casa. <br />
-            ¡Elige entre más de 100 categorías!
-          </Text>
+          spacing="14"
+          py="36">
           <Stack
-            direction="column"
-            spacing={3}
-            align="center"
+            as={Box}
+            textAlign="center"
+            spacing={{ md: 3 }}>
+            <Heading
+              fontWeight={600}
+              fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
+              lineHeight="110%">
+              ¿Estás buscando un <br />
+              profesional <Text as={'span'} color="medium_green">de confianza?</Text>
+            </Heading>
+            <Text fontSize="lg">
+              Chatea rápidamente con profesionales de servicios para tu casa. <br />
+              ¡Elige entre más de 100 categorías!
+            </Text>
+          </Stack>
+
+          <Stack
+            as={Box}
+            textAlign="center"
             alignSelf="center"
-            position="relative">
+            spacing="1">
+            <InputGroup paddingX="30px" size="md">
+              <Input placeholder="Comienza a buscar" pr="4.5rem" bg="white" w={{ sm: "28rem", md: "30rem", lg: "30rem" }} color="dark_grey" _placeholder={{ color: "medium_grey" }} />
+              <InputRightElement w="5rem" marginRight="1.7rem">
+                <Button 
+                  bg="medium_green" 
+                  _hover={{
+                    bg: "green.500",
+                  }}
+                  roundedLeft="none">
+                  Buscar
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+            <Text>ó</Text>
             <Button
-              bg={'green.400'}
+              alignSelf="center"
+              maxWidth="10rem"
+              size="sm"
+              bg="medium_green"
               rounded="full"
-              px={6}
               _hover={{
-                bg: 'green.500',
+                bg: "green.500",
               }}>
               Presupuesto gratis
             </Button>
