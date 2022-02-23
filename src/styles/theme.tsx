@@ -19,11 +19,11 @@ const  colors = {
     light_green: "#44FEB0",
     dark_blue: "#164399",
     dark_green: "#292E1E",
-    medium_grey: "#BBE1C3",
+    medium_grey: "#B6B6B6",
     light_grey: "#F9FAFB",
     medium_green: "#2EB67D",
     light_blue: "#1F57C3",
-    dark_grey: "#B6B6B6",
+    dark_grey: "#888888",
     light_green_sub: {
       50: "#dcfff1",
       100: "#aeffde",
