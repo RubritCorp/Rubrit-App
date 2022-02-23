@@ -15,7 +15,6 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { useTheme } from "@chakra-ui/react";
 //from modules
 import { useState } from "react";
 //components
@@ -56,7 +55,6 @@ export default function WithSubnavigation() {
   const { isOpen, onToggle, onOpen, onClose } = useDisclosure();
   const [isAuth, setIsAuth] = useState<boolean>();
   const [isLogin, setIsLogin] = useState<boolean>(true);
-  const theme = useTheme();
 
   return (
     <Box>

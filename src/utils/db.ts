@@ -1,5 +1,5 @@
 //from modules
-import mongoose, { connection, ConnectOptions } from "mongoose";
+import mongoose, { ConnectOptions } from "mongoose";
 import color from "colors";
 color.enable();
 

@@ -10,7 +10,7 @@ const Layout: React.FC<{
   description?: string;
 }> = ({ children, title, description }) => {
   return (
-    <div className="layoutContainer">
+    <div>
       <Head>
         <link rel="icon" href="../../public/favicon.ico" />
         <title>{`Rubrit | ${title}`}</title>

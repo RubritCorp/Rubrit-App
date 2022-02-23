@@ -59,17 +59,17 @@ const Login: React.FC<{
               </InputRightElement>
             </InputGroup>
           </FormControl>
-          <Text paddingTop={"30px"}>
-            Aun no tienes cuenta?
-            <Text
-              display={"inline"}
-              color={theme.colors.medium_green}
-              cursor={"pointer"}
-              onClick={() => setIsLogin(false)}
-            >
-              {" "}
-              Registrate gratis
-            </Text>
+          <Text paddingTop={"30px"} display={"inline-block"}>
+            No tienes una cuenta?
+          </Text>
+          <Text
+            display={"inline"}
+            color={theme.colors.medium_green}
+            cursor={"pointer"}
+            onClick={() => setIsLogin(false)}
+          >
+            {" "}
+            Registrarse Gratis
           </Text>
         </ModalBody>
 
