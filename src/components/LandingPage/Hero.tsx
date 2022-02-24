@@ -54,7 +54,6 @@ const Hero: React.FC = () => {
             <Text>ó</Text>
             <Button
               alignSelf="center"
-              maxWidth="10rem"
               size="sm"
               bg="medium_green"
               rounded="full"
