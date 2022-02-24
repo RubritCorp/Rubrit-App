@@ -149,10 +149,10 @@ function TestmonialCard(props: TestimonialCardProps) {
           <chakra.p
             fontFamily={"Poppins"}
             fontSize={{
-              base: "0.8rem",
-              sm: "1rem",
-              md: "1.2rem",
-              lg: "1.5rem",
+              base: "0.7rem",
+              sm: "0.8rem",
+              md: "0.9rem",
+              lg: "1rem",
             }}
             pb={4}
           >
