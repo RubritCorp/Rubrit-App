@@ -15,26 +15,70 @@ import {
     Button,
     Avatar,
     Center,
+    IconButton,
 } from '@chakra-ui/react';
 
 
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 interface FeatureProps {
     text: string;
     iconBg: string;
     icon?: ReactElement;
 }
 
-
+import Slider from 'react-slick';
 //native libraries
 import Link from "next/link";
 //componentes
 import Layout from "../layout";
-import { AddressBook, CalendarCheck, CircleWavyCheck, CreditCard, ListChecks, PersonSimpleRun, SignIn, Star, UserList } from 'phosphor-react';
+import { AddressBook, CalendarCheck, CircleWavyCheck, CreditCard, ListChecks, PersonSimpleRun, SignIn, Star, UserList, ArrowLeft, ArrowRight } from 'phosphor-react';
 //styles
+
+const whatTheySay = [
+    {
+        image: "https://homesolution.net/blog/wp-content/uploads/2019/02/gasista.jpg",
+        name: "Rodolfo Perez",
+        city: "Calamuchita",
+        province: "Cordoba",
+        opinion: "RUBRIT ME PERMTIO EMPEZAR A TRABAJAR MAS ORDENADAMENTE GRACIAS A SU AGENDA",
+        avatar: "https://avatars0.githubusercontent.com/u/1164541?v=4",
+        whoYouAre: "Soy gasista de la cuna hasta al cajon. Gasista se nace, no se hace.",
+    },
+    {
+        image: "https://cimacnoticias.com.mx/wp-content/uploads/2016/05/carpintera01citlallilopez.jpg",
+        name: "Gabriela Perez",
+        city: "Rosario",
+        province: "Santa Fe",
+        opinion: "RUBRIT ME PERMITIO AUMENTAR MI CARTERA DE CLIENTES AL DOBLE DE LO QUE TENIA ANTES",
+        avatar: "https://static.vecteezy.com/system/resources/previews/001/158/381/non_2x/portrait-of-a-focused-female-carpenter-hard-at-work-photo.jpg",
+        whoYouAre: "Herede la pasion por el oficio de la carpinteria de mi papa desde muy chica",
+    },
+    {
+        image: "https://www.avanzaentucarrera.com/orientacion/comp/uploads/2017/03/soldador.jpg",
+        name: "Roman Nuñez",
+        city: "Toay",
+        province: "La Pampa",
+        opinion: "RUBRIT ME CAMBIO LA VIDA, EN MI ANTIGUO TRABAJO ME EXPLOTABAN, ESTOY FELIZ",
+        avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStwpI95Iv1CZt28y1SXtMTWv5ky1IRTyG6hw&usqp=CAU",
+        whoYouAre: "Soy soldador gracias a un amigo que me invito a tomar unos cursos de soldadura",
+    },
+    {
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbtI-Q1GY_zuR8rWplvkVW5xnxJN3TeMhIlQ&usqp=CAU",
+        name: "romina paez",
+        city: "Capital Federal",
+        province: "Buenos Aires",
+        opinion: "A TRAVEZ DE MIS BUENAS CALIFICACIONES EN RUBRIT, ME HICE CONOCER A MUCHOS CLIENTES",
+        avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA-Sj-ohJS3J6K-LeRdQ5Vp-TAZ9MDfReWxw&usqp=CAU",
+        whoYouAre: "Tengo una gran pasion por los niños,a ellos les encanta pasar el tiempo con migo.",
+    },
+
+];
+
+
 
 
 const Offerservices: React.FC = () => {
+    const [slider, setSlider] = useState<Slider | null>(null);
     return (
         <Layout>
             <Container maxW={'5xl'} py={12}>
@@ -142,7 +186,7 @@ const Offerservices: React.FC = () => {
                 </Container>
             </Stack>
 
-            <Container maxW={'5xl'} py={2}>
+            <Container maxW={'5xl'} paddingBottom={20}>
                 <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
                     <Stack
                         spacing={2}
@@ -194,17 +238,18 @@ const Offerservices: React.FC = () => {
                     </Stack>
                 </SimpleGrid>
             </Container>
-            <Divider p={4} />
+
+            <Divider />
+
             <Stack
                 py={10}
-                spacing={4}
             >
                 <Container
                     maxW={'5xl'}
                     centerContent
                 >
                     <Stack
-                        spacing={4}
+                        spacing={2}
                     >
                         <Heading>¿COMO EMPEZAR?</Heading>
 
@@ -212,7 +257,7 @@ const Offerservices: React.FC = () => {
                 </Container>
             </Stack>
 
-            <Container maxW={'5xl'} py={2}>
+            <Container maxW={'5xl'} paddingBottom={20} >
                 <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
                     <Stack
                         spacing={2}
@@ -305,126 +350,171 @@ const Offerservices: React.FC = () => {
                 </SimpleGrid>
             </Container>
 
-            <Divider p={8} />
+            <Divider />
             <Stack
                 py={10}
                 spacing={3}
             >
-                <Container
-                    maxW={'5xl'}
-                    centerContent
-                >
+
+                <Stack
+                    align={'center'}
+                    alignSelf={'center'}
+                    spacing={3}>
+
                     <Heading>¿QUE DICEN LOS RUBRITS?</Heading>
-                </Container>
+                </Stack>
             </Stack>
 
 
 
-            <Container maxW={'5xl'} py={2}>
-                <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-                    <Stack
-                        spacing={2}
-                    >
-                        <Center py={6}>
-                            <Box
-                                maxW={'350px'}
-                                w={'full'}
-                                bg={useColorModeValue('white', 'gray.900')}
-                                boxShadow={'2xl'}
-                                rounded={'md'}
-                                p={6}
-                                overflow={'hidden'}>
-                                <Box
-                                    h={'210px'}
-                                    bg={'gray.100'}
-                                    mt={-6}
-                                    mx={-6}
-                                    mb={6}
-                                    pos={'relative'}>
-                                    <Image
-                                        src={
-                                            'https://homesolution.net/blog/wp-content/uploads/2019/02/gasista.jpg'
-                                        }
-                                        alt="Gasista"
-                                        objectFit={"fill"}
-                                        w={'full'}
-                                        h={'full'}
-                                    />
-                                </Box>
-                                <Stack>
+            <Container maxW={'5xl'} paddingBottom={20}>
 
-                                    <Text color={'green.500'}>
-                                        “ HENRY PROS ME PERMTIO EMPEZAR A TRABAJAR MAS ORDENADAMENTE GRACIAS A SU AGENDA  ”
-                                    </Text>
-                                </Stack>
-                                <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
-                                    <Avatar
-                                        src={'https://avatars0.githubusercontent.com/u/1164541?v=4'}
-
-                                    />
-                                    <Stack direction={'column'} spacing={0}>
-                                        <Text fontSize={'lg'} fontWeight={600}>Rodolfo perez</Text>
-                                        <Text fontSize={'xs'} color={'gray.500'}>Calamuchita - Cordoba</Text>
-                                        <Text color={'gray.500'}>Soy gasista de la cuna hasta al cajon. Gasista se nace, no se hace.  </Text>
-                                    </Stack>
-                                </Stack>
-                            </Box>
-                        </Center>
-                    </Stack>
-                    <Stack
-                        spacing={2}
-                    >
-                        <Center py={6}>
-                            <Box
-                                maxW={'350px'}
-                                w={'full'}
-                                bg={useColorModeValue('white', 'gray.900')}
-                                boxShadow={'2xl'}
-                                rounded={'md'}
-                                p={6}
-                                overflow={'hidden'}>
-                                <Box
-                                    h={'210px'}
-                                    bg={'gray.100'}
-                                    mt={-6}
-                                    mx={-6}
-                                    mb={6}
-                                    pos={'relative'}>
-                                    <Image
-                                        src={
-                                            'https://cimacnoticias.com.mx/wp-content/uploads/2016/05/carpintera01citlallilopez.jpg'
-                                        }
-                                        alt="Gasista"
-                                        objectFit={"fill"}
-                                        w={'full'}
-                                        h={'full'}
-                                    />
-                                </Box>
-                                <Stack>
-
-                                    <Text color={'green.500'}>
-                                        “ NO ME ALCANZA EL DIA PARA CUBRIR LA CANTIDAD DE CLIENTES QUE PUEDO LLEGAR A TENER ”
-                                    </Text>
-                                </Stack>
-                                <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
-                                    <Avatar
-                                        src={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzxFXIGrIzfbyYSt2fCmV21rAoo6yLv8K0cQ&usqp=CAU'}
-
-                                    />
-                                    <Stack direction={'column'} spacing={0}>
-                                        <Text fontSize={'lg'} fontWeight={600}>Carolina Teraz</Text>
-                                        <Text fontSize={'xs'} color={'gray.500'}>Rosario - Santa Fe </Text>
-                                        <Text color={'gray.500'}>Carpintera que heredo la  pasion de su papa desde muy chica. </Text>
-                                    </Stack>
-                                </Stack>
-                            </Box>
-                        </Center>
-                    </Stack>
-                </SimpleGrid>
+                <Box
+                    position={'relative'}
+                    width={'full'}
+                    overflow={'hidden'}>
+                    <link
+                        rel="stylesheet"
+                        type="text/css"
+                        charSet="UTF-8"
+                        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
+                    />
+                    <link
+                        rel="stylesheet"
+                        type="text/css"
+                        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
+                    />
+                    <IconButton
+                        aria-label="left-arrow"
+                        position="absolute"
+                        backgroundColor="none"
+                        left="20px"
+                        top="40%"
+                        transform={'translate(0%, -50%)'}
+                        zIndex={2}
+                        onClick={() => slider?.slickPrev()}>
+                        <ArrowLeft />
+                    </IconButton>
+                    {/* Right Icon */}
+                    <IconButton
+                        aria-label="right-arrow"
+                        position="absolute"
+                        right="20px"
+                        top="40%"
+                        transform={'translate(0%, -50%)'}
+                        zIndex={2}
+                        onClick={() => slider?.slickNext()}>
+                        <ArrowRight />
+                    </IconButton>
+                    <Slider {...settings} ref={(slider: any) => setSlider(slider)}>
+                        {whatTheySay.map((category, index) => <WhatTheySayCard key={index} opinion={category.opinion} imagen={category.image} name={category.name} city={category.city} province={category.province} whoYouAre={category.whoYouAre} avatar={category.avatar} />)}
+                    </Slider>
+                </Box>
             </Container>
 
         </Layout>
     );
 };
+
+const WhatTheySayCard: React.FC<WhatTheySayCardProps> = ({ imagen, name, city, province, whoYouAre, avatar, opinion }) => {
+    return (
+        <Center p={21} py={6}>
+            <Box
+                maxW={'350px'}
+                w={'full'}
+                bg={useColorModeValue('white', 'gray.900')}
+                boxShadow={'2xl'}
+                rounded={'md'}
+                p={6}
+                overflow={'hidden'}>
+                <Box
+                    h={'210px'}
+                    bg={'gray.100'}
+                    mt={-6}
+                    mx={-6}
+                    mb={6}
+                    pos={'relative'}>
+                    <Image
+                        src={
+                            imagen
+                        }
+                        alt={name}
+                        objectFit={"fill"}
+                        w={'full'}
+                        h={'full'}
+                    />
+                </Box>
+                <Stack>
+
+                    <Text color={'green.500'}>
+                        " {opinion} "
+                    </Text>
+                </Stack>
+                <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
+                    <Avatar
+                        src={avatar}
+
+                    />
+                    <Stack direction={'column'} spacing={0}>
+                        <Text fontSize={'lg'} fontWeight={600}>{name}</Text>
+                        <Text fontSize={'xs'} color={'gray.500'}>{city}-{province}</Text>
+                        <Text color={'gray.500'}>{whoYouAre}</Text>
+                    </Stack>
+                </Stack>
+            </Box>
+        </Center>
+    );
+};
+
+
+const settings = {
+    className: "center",
+    centerMode: true,
+    infinite: true,
+    centerPadding: "100px",
+    slidesToShow: 2,
+    speed: 500,
+    responsive: [
+        {
+            breakpoint: 1006,
+            settings: {
+                arrows: false,
+                centerMode: true,
+                centerPadding: "0px",
+                slidesToShow: 2
+            }
+        },
+        {
+            breakpoint: 805,
+            settings: {
+                arrows: false,
+                centerMode: true,
+                centerPadding: "10px",
+                slidesToShow: 1
+            }
+        },
+        {
+            breakpoint: 480,
+            settings: {
+                arrows: true,
+                centerMode: true,
+                centerPadding: "10px",
+                slidesToShow: 1
+            }
+        }
+    ]
+
+
+};
+
+interface WhatTheySayCardProps {
+    imagen: string,
+    name: string,
+    city: string,
+    province: string,
+    whoYouAre: string,
+    avatar: string,
+    opinion: string
+}
 
 export default Offerservices;
