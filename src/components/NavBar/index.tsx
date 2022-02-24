@@ -9,7 +9,6 @@ import {
   Collapse,
   Link,
   useColorModeValue,
-  useBreakpointValue,
   useDisclosure,
   Modal,
   ModalOverlay,
@@ -89,7 +88,6 @@ export default function WithSubnavigation() {
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
           <Link href="/" _hover={{ textDecoration: "none", scale: "2" }}>
             <Text
-              textAlign={useBreakpointValue({ base: "center", md: "left" })}
               fontFamily={"heading"}
               color={useColorModeValue("gray.800", "white")}
             >
