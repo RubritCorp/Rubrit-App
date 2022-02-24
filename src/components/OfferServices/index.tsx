@@ -133,14 +133,14 @@ const Offerservices: React.FC = () => {
 
                     </Stack>
                 </SimpleGrid>
-                <Stack
-                    py={10}
-                    direction={'column'}
-                    spacing={3}
-                    align={'center'}
-                    alignSelf={'center'}
-                    position={'relative'}>
+                <Container
+                    paddingTop={8}
+                    paddingBottom={3}
+                    maxW={'5xl'}
+                    centerContent
+                >
                     <Button
+
                         colorScheme={'green'}
                         bg={'green.400'}
                         rounded={'md'}
@@ -150,10 +150,15 @@ const Offerservices: React.FC = () => {
                         }}>
                         EMPECEMOS
                     </Button>
+                </Container>
+                <Container
+
+                    paddingBottom={8}
+                    maxW={'5xl'}
+                    centerContent
+                >
                     <Stack
-                        py={10}
                         direction={"row"}
-                        spacing={3}
                         align={'center'}
                         alignSelf={'center'}
                         position={"absolute"}>
@@ -164,7 +169,7 @@ const Offerservices: React.FC = () => {
                             SIGN UP
                         </Button>
                     </Stack>
-                </Stack>
+                </Container>
             </Container>
             <Divider />
             <Stack
@@ -195,7 +200,7 @@ const Offerservices: React.FC = () => {
                                 borderColor={useColorModeValue('gray.100', 'gray.700')}
                             />
                         }>
-                        <ListChecks size={40} color="#6bdaae" />
+                        <ListChecks size={50} color="#6bdaae" />
                         <Heading fontSize={"lg"}>SE TU PROPIO JEFE</Heading>
                         <Text>
                             Vas a poder ofrecerte seun el trabajo que realices. Manejar tu agenda a gusto. Hacerlo como y cuando quieras segun lo acordado con el cliente
@@ -208,7 +213,7 @@ const Offerservices: React.FC = () => {
                                 borderColor={useColorModeValue('gray.100', 'gray.700')}
                             />
                         }>
-                        <AddressBook size={40} color="#6bdaae" />
+                        <AddressBook size={50} color="#6bdaae" />
                         <Heading fontSize={"lg"}>LISTA DE CLIENTES</Heading>
                         <Text>
                             Tu lista de clientes crecera de sobre manera gracias a la cantidad de gente a la cual vas a poder ofrecerte.
@@ -225,11 +230,11 @@ const Offerservices: React.FC = () => {
                             direction={"row"}
                             spacing={3}
                         >
-                            <Star size={40} color="#ffea00" weight="duotone" />
-                            <Star size={40} color="#ffea00" weight="duotone" />
-                            <Star size={40} color="#ffea00" weight="duotone" />
-                            <Star size={40} color="#ffea00" weight="duotone" />
-                            <Star size={40} color="#ffea00" weight="duotone" />
+                            <Star size={50} color="#ffea00" weight="duotone" />
+                            <Star size={50} color="#ffea00" weight="duotone" />
+                            <Star size={50} color="#ffea00" weight="duotone" />
+                            <Star size={50} color="#ffea00" weight="duotone" />
+                            <Star size={50} color="#ffea00" weight="duotone" />
                         </Stack>
                         <Heading fontSize={"lg"}>SISTEMA DE ESTRELLAS</Heading>
                         <Text>
