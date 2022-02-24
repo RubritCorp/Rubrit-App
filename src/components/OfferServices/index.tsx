@@ -1,3 +1,4 @@
+//Style library
 import {
     Container,
     SimpleGrid,
@@ -19,20 +20,15 @@ import {
 } from '@chakra-ui/react';
 
 
-import { ReactElement, useState } from 'react';
-interface FeatureProps {
-    text: string;
-    iconBg: string;
-    icon?: ReactElement;
-}
+import { useState } from 'react';
 
 import Slider from 'react-slick';
 //native libraries
-import Link from "next/link";
+
 //componentes
 import Layout from "../layout";
+//icons
 import { AddressBook, CalendarCheck, CircleWavyCheck, CreditCard, ListChecks, PersonSimpleRun, SignIn, Star, UserList, ArrowLeft, ArrowRight } from 'phosphor-react';
-//styles
 
 const whatTheySay = [
     {
@@ -81,7 +77,7 @@ const Offerservices: React.FC = () => {
     const [slider, setSlider] = useState<Slider | null>(null);
     return (
         <Layout>
-            <Container maxW={'5xl'} py={12}>
+            <Container maxW={"container.xl"} py={12}>
                 <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
                     <Flex>
                         <Image
@@ -136,7 +132,7 @@ const Offerservices: React.FC = () => {
                 <Container
                     paddingTop={8}
                     paddingBottom={3}
-                    maxW={'5xl'}
+                    maxW={"container.xl"}
                     centerContent
                 >
                     <Button
@@ -154,7 +150,7 @@ const Offerservices: React.FC = () => {
                 <Container
 
                     paddingBottom={8}
-                    maxW={'5xl'}
+                    maxW={"container.xl"}
                     centerContent
                 >
                     <Stack
@@ -172,26 +168,14 @@ const Offerservices: React.FC = () => {
                 </Container>
             </Container>
             <Divider />
-            <Stack
-                py={10}
-                spacing={4}
-            >
-                <Container py={2} maxW={'5xl'} >
+            <Container centerContent py={10} maxW={"container.xl"} >
+                <Heading>POSTULATE Y ENCONTRA TRABAJO</Heading>
+                <Text color={'gray.500'} fontSize={'lg'}>
+                    En nuestra pagina vas a poder postularte y llegar a miles de personas que se encuentran en tu ciudad en busca de tus cualidades
+                </Text>
 
-
-                    <Stack
-                        align={'center'}
-                        alignSelf={'center'}
-                        spacing={3}>
-                        <Heading>POSTULATE Y ENCONTRA TRABAJO</Heading>
-                        <Text align={"center"} color={'gray.500'} fontSize={'lg'}>
-                            En nuestra pagina vas a poder postularte y llegar a miles de personas que se encuentran en tu ciudad en busca de tus cualidades
-                        </Text>
-                    </Stack>
-                </Container>
-            </Stack>
-
-            <Container maxW={'5xl'} paddingBottom={20}>
+            </Container>
+            <Container maxW={"container.xl"} paddingBottom={20}>
                 <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
                     <Stack
                         spacing={2}
@@ -243,9 +227,7 @@ const Offerservices: React.FC = () => {
                     </Stack>
                 </SimpleGrid>
             </Container>
-
             <Divider />
-
             <Stack
                 py={10}
             >
@@ -261,8 +243,7 @@ const Offerservices: React.FC = () => {
                     </Stack>
                 </Container>
             </Stack>
-
-            <Container maxW={'5xl'} paddingBottom={20} >
+            <Container maxW={"container.xl"} paddingBottom={20} >
                 <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
                     <Stack
                         spacing={2}
@@ -356,6 +337,7 @@ const Offerservices: React.FC = () => {
             </Container>
 
             <Divider />
+
             <Stack
                 py={10}
                 spacing={3}
@@ -372,7 +354,7 @@ const Offerservices: React.FC = () => {
 
 
 
-            <Container maxW={'5xl'} paddingBottom={20}>
+            <Container maxW={"container.xl"} paddingBottom={20}>
 
                 <Box
                     position={'relative'}
@@ -390,9 +372,9 @@ const Offerservices: React.FC = () => {
                         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
                     />
                     <IconButton
+                        background={"green.500"}
                         aria-label="left-arrow"
                         position="absolute"
-                        backgroundColor="none"
                         left="20px"
                         top="40%"
                         transform={'translate(0%, -50%)'}
@@ -402,6 +384,7 @@ const Offerservices: React.FC = () => {
                     </IconButton>
                     {/* Right Icon */}
                     <IconButton
+                        background={"green.500"}
                         aria-label="right-arrow"
                         position="absolute"
                         right="20px"
@@ -423,7 +406,7 @@ const Offerservices: React.FC = () => {
 
 const WhatTheySayCard: React.FC<WhatTheySayCardProps> = ({ imagen, name, city, province, whoYouAre, avatar, opinion }) => {
     return (
-        <Center p={21} py={6}>
+        <Center py={6}>
             <Box
                 maxW={'350px'}
                 w={'full'}
@@ -476,35 +459,27 @@ const settings = {
     className: "center",
     centerMode: true,
     infinite: true,
-    centerPadding: "100px",
+    centerPadding: "170px",
     slidesToShow: 2,
     speed: 500,
     responsive: [
         {
-            breakpoint: 1006,
+            breakpoint: 1150,
             settings: {
                 arrows: false,
                 centerMode: true,
-                centerPadding: "0px",
+                centerPadding: "10px",
                 slidesToShow: 2
             }
         },
         {
-            breakpoint: 805,
+            breakpoint: 843,
             settings: {
                 arrows: false,
                 centerMode: true,
-                centerPadding: "10px",
-                slidesToShow: 1
-            }
-        },
-        {
-            breakpoint: 480,
-            settings: {
-                arrows: true,
-                centerMode: true,
-                centerPadding: "10px",
-                slidesToShow: 1
+                centerPadding: "1px",
+                slidesToShow: 1,
+                dots: true
             }
         }
     ]
