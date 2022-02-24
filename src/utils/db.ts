@@ -1,6 +1,7 @@
 //from modules
 import mongoose, { ConnectOptions } from "mongoose";
 import color from "colors";
+import envConfig from "../../next-env-config";
 color.enable();
 
 const conn: { isConnected: boolean } = {
@@ -10,7 +11,7 @@ const conn: { isConnected: boolean } = {
 if (!conn.isConnected) {
   (async () => {
     try {
-      const db = await mongoose.connect(`${process.env.MONGO_URI}`, {
+      const db = await mongoose.connect(`${envConfig?.dbConn}`, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       } as ConnectOptions);
