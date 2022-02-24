@@ -20,7 +20,7 @@ const AboutUs: React.FC = () => {
   return (
     <Layout>
       <Box
-        bg={useColorModeValue("medium_grey", "dark_green")}
+        bg={useColorModeValue("#BBE1C3", "dark_green")}
         color={useColorModeValue("dark_green", "medium_grey")}
       >
         <Container maxW={"6xl"} py={10}>
@@ -77,7 +77,7 @@ const AboutUs: React.FC = () => {
         </Flex>
       </Container>
       <Box
-        bg={useColorModeValue("medium_grey", "dark_green")}
+        bg={useColorModeValue("#BBE1C3", "dark_green")}
         color={useColorModeValue("dark_green", "medium_grey")}
       >
         <Container maxW={"6xl"} py={10}>
