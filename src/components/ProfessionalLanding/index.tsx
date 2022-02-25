@@ -167,7 +167,6 @@ const ProfessionalLanding: React.FC = () => {
             <Flex
               flexWrap={{
                 base: "wrap",
-
                 md: "wrap",
                 lg: "nowrap",
               }}
