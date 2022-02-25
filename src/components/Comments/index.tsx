@@ -86,12 +86,12 @@ function TestmonialCard(props: TestimonialCardProps) {
   return (
     <Flex
       boxShadow={"xl"}
-      maxW="90%"
-      margin={"0 auto"}
+      maxW="100%"
+      margin={"0 "}
       direction={{ base: "column-reverse", md: "row" }}
       width={"full"}
       rounded={"xl"}
-      p={5}
+      p={{ base: "1em 0em", lg: "1em 1em" }}
       justifyContent={"space-between"}
       position={"relative"}
       bg={useColorModeValue("white", "gray.800")}
@@ -110,10 +110,10 @@ function TestmonialCard(props: TestimonialCardProps) {
         direction={"row"}
         textAlign={"left"}
         justifyContent={"space-between"}
-        margin={"1rem"}
+        p={"1em 0"}
       >
         <Flex
-          paddingRight={5}
+          paddingRight={"1em"}
           flexDirection="column"
           alignItems="center"
           justifyContent="space-evenly"
@@ -176,18 +176,17 @@ export default function GridBlurredBackdrop() {
   return (
     <Flex
       textAlign={"center"}
-      pt={10}
       justifyContent={"center"}
       direction={"column"}
       width={"full"}
     >
       <SimpleGrid
         columns={[1, null, 1]}
-        spacing={"10"}
+        spacing={"6"}
         mt={5}
         mb={10}
-        mx={"auto"}
-        minChildWidth="420px"
+        mx={"0"}
+        minChildWidth={{ base: "300px", lg: "420px" }}
       >
         {testimonials.map((cardInfo, index) => (
           <TestmonialCard {...cardInfo} index={index} key={cardInfo.name} />
