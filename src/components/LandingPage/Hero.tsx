@@ -4,13 +4,14 @@ const Hero: React.FC = () => {
   return (
     <Flex 
       w="full"
-      h="calc(100vh - 60px)"
+      h={{ base: '430px', md: 'calc(100vh - 60px)' }}
       backgroundImage="linear-gradient(rgba(0, 0, 0, 0.7),rgba(0, 0, 0, 0.6)), url(banner-image-1.jpg)"
       backgroundSize="cover"
       backgroundPosition="center center"
       color="white"
       justifyContent="center"
-      alignItems="center">
+      alignItems="center"
+      paddingX={{ base: '5px', sm: '20px' }}>
         <Stack
           as={Box}
           textAlign="center"
@@ -22,12 +23,12 @@ const Hero: React.FC = () => {
             spacing={{ md: 3 }}>
             <Heading
               fontWeight={600}
-              fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
+              fontSize={{ base: '3xl', sm: '4xl', md: '6xl' }}
               lineHeight="110%">
               ¿Estás buscando un <br />
               profesional <Text as={'span'} color="medium_green">de confianza?</Text>
             </Heading>
-            <Text fontSize="lg">
+            <Text fontSize={{ base: '1xl', sm: '2xl', md: '3xl' }}>
               Chatea rápidamente con profesionales de servicios para tu casa. <br />
               ¡Elige entre más de 100 categorías!
             </Text>
@@ -38,9 +39,9 @@ const Hero: React.FC = () => {
             textAlign="center"
             alignSelf="center"
             spacing="1">
-            <InputGroup paddingX="30px" size="md">
-              <Input placeholder="Comienza a buscar" pr="4.5rem" bg="white" w={{ sm: "28rem", md: "30rem", lg: "30rem" }} color="dark_grey" _placeholder={{ color: "medium_grey" }} />
-              <InputRightElement w="5rem" marginRight="1.7rem">
+            <InputGroup paddingX={{ base: '5px', sm: '25px' }} size="md">
+              <Input placeholder="Comienza a buscar" pr="4.5rem" bg="white" w={{ base: "16rem", sm: "28rem", md: "30rem", lg: "30rem" }} color="dark_grey" _placeholder={{ color: "medium_grey" }} />
+              <InputRightElement w="5rem" marginRight={{ base: '5px', sm: '25px' }}>
                 <Button 
                   bg="medium_green" 
                   _hover={{
