@@ -21,6 +21,7 @@ import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
 import Login from "components/Login";
 import Register from "components/Register";
+import { signOut, useSession } from "next-auth/react";
 
 interface NavItem {
   label: string;
@@ -54,7 +55,9 @@ export default function WithSubnavigation() {
   const { isOpen, onToggle, onOpen, onClose } = useDisclosure();
   const [isAuth, setIsAuth] = useState<boolean>();
   const [isLogin, setIsLogin] = useState<boolean>(true);
-
+  const { data: session, status } = useSession();
+  const loading = status === "loading";
+  console.log(session);
   return (
     <Box>
       <Flex
@@ -106,22 +109,38 @@ export default function WithSubnavigation() {
           direction={"row"}
           spacing={6}
         >
-          <Button
-            display={{ base: "inline-flex", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"white"}
-            bg={"#2EB67D"}
-            _hover={{
-              bg: "#33a173",
-            }}
-            onClick={() => {
-              setIsAuth(true);
-              onOpen();
-            }}
-          >
-            Comenzar
-          </Button>
+          {!session ? (
+            <Button
+              display={{ base: "inline-flex", md: "inline-flex" }}
+              fontSize={"sm"}
+              fontWeight={600}
+              color={"white"}
+              bg={"#2EB67D"}
+              _hover={{
+                bg: "#33a173",
+              }}
+              onClick={() => {
+                setIsAuth(true);
+                onOpen();
+              }}
+            >
+              Comenzar
+            </Button>
+          ) : (
+            <Button
+              display={{ base: "inline-flex", md: "inline-flex" }}
+              fontSize={"sm"}
+              fontWeight={600}
+              color={"white"}
+              bg={"#2EB67D"}
+              _hover={{
+                bg: "#33a173",
+              }}
+              onClick={() => signOut()}
+            >
+              Cerrar Sesión
+            </Button>
+          )}
 
           {isAuth && (
             <Modal
@@ -132,7 +151,7 @@ export default function WithSubnavigation() {
             >
               <ModalOverlay />
               {isLogin ? (
-                <Login {...{ setIsAuth, setIsLogin }} />
+                <Login {...{ setIsLogin }} />
               ) : (
                 <Register {...{ setIsAuth, setIsLogin }} />
               )}

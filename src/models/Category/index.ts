@@ -12,7 +12,6 @@ const categorySchema = new Schema({
   },
   icon: {
     type: String,
-    default: "",
   },
   description: {
     type: String,

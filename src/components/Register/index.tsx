@@ -13,19 +13,38 @@ import {
   Text,
   Box,
   useTheme,
+  HStack,
+  PinInput,
+  PinInputField,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverHeader,
+  PopoverBody,
+  InputLeftAddon,
+  useToast,
 } from "@chakra-ui/react";
 import { InputControl, ResetButton, SubmitButton } from "formik-chakra-ui";
-import { ChevronLeftIcon } from "@chakra-ui/icons";
+import {
+  ChevronLeftIcon,
+  InfoIcon,
+  ViewIcon,
+  ViewOffIcon,
+} from "@chakra-ui/icons";
 //from modules
 import { useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import ReCAPTCHA, { ReCAPTCHAProps } from "react-google-recaptcha";
+import ReCAPTCHA from "react-google-recaptcha";
+import axios from "axios";
 
 interface DataInitialValues {
   firstName: string;
   lastName: string;
   email: string;
+  phone: string;
   password: string;
   confirmPassword: string;
 }
@@ -34,6 +53,7 @@ const initialValues: DataInitialValues = {
   firstName: "",
   lastName: "",
   email: "",
+  phone: "",
   password: "",
   confirmPassword: "",
 };
@@ -44,6 +64,7 @@ const validationSchema = Yup.object({
   email: Yup.string()
     .email("Correo electronico invalido")
     .required("El correo es requerido"),
+  phone: Yup.number().required("El numero de telefono es requerido"),
   password: Yup.string().required("La contraseña es requerida"),
   confirmPassword: Yup.string()
     .required("Debe confirmar la contraseña")
@@ -56,14 +77,6 @@ const validationSchema = Yup.object({
     }),
 });
 
-const sleep = (ms: any) => new Promise((resolve) => setTimeout(resolve, ms));
-
-const onSubmit = (values: DataInitialValues) => {
-  sleep(300).then(() => {
-    window.alert(JSON.stringify(values, null, 2));
-  });
-};
-
 const Register: React.FC<{
   setIsAuth(value: boolean): void;
   setIsLogin(value: boolean): void;
@@ -73,7 +86,37 @@ const Register: React.FC<{
   const [show, setShow] = useState<boolean>(false);
   const [step, setStep] = useState<number>(1);
   const [verified, setVerified] = useState<boolean>(false);
-  //handle submit verify captcha
+  const toast = useToast();
+
+  const onSubmit = async (values: DataInitialValues) => {
+    const user = {
+      name: values.firstName + " " + values.lastName,
+      email: values.email,
+      password: values.password,
+      phone: `${values.phone}`,
+    };
+    try {
+      const { data } = await axios.post("/api/auth/signup", user);
+
+      toast({
+        title: `¡Felicidades ${data.user.name}!`,
+        description: "Tu cuenta fue creada con exito.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    } catch (err) {
+      toast({
+        title: "¡Lo Sentimos!.",
+        description: "Hubo un error al crear la cuenta.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      //console.log(err);
+    }
+  };
+
   return (
     <ModalContent position={"relative"}>
       {step === 2 && (
@@ -127,6 +170,43 @@ const Register: React.FC<{
                     }}
                   />
 
+                  <FormLabel>Numero de Teléfono</FormLabel>
+                  <InputGroup>
+                    <InputLeftAddon>+54</InputLeftAddon>
+                    <InputControl
+                      name="phone"
+                      inputProps={{
+                        placeholder: "Numero de teléfono",
+                        autoComplete: "off",
+                      }}
+                    />
+                    <InputRightElement position={"absolute"} zIndex={999}>
+                      <Popover>
+                        <PopoverTrigger>
+                          <Button
+                            bg={theme.colors.medium_green}
+                            _hover={{
+                              bg: theme.colors.light_green_sub[700],
+                            }}
+                          >
+                            <InfoIcon color={"#fafafa"} />
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                          <PopoverArrow />
+                          <PopoverCloseButton />
+                          <PopoverHeader textAlign={"center"} color={"red"}>
+                            ¡No compartiremos tu número a nadie!
+                          </PopoverHeader>
+                          <PopoverBody>
+                            Mediante tu número de celular hacemos una aplicación
+                            mas segura para todos, gracias por su colaboración!
+                          </PopoverBody>
+                        </PopoverContent>
+                      </Popover>
+                    </InputRightElement>
+                  </InputGroup>
+
                   <FormLabel>Contraseña</FormLabel>
                   <InputGroup>
                     <InputControl
@@ -137,15 +217,19 @@ const Register: React.FC<{
                       }}
                       name="password"
                     />
-                    <InputRightElement width={"4.5rem"}>
+                    <InputRightElement>
                       <Button
-                        h="1.75rem"
-                        size={"sm"}
-                        bg={"white"}
-                        m={"0 10px 0 0"}
+                        bg={theme.colors.medium_green}
+                        _hover={{
+                          bg: theme.colors.light_green_sub[700],
+                        }}
                         onClick={() => setShow(!show)}
                       >
-                        {show ? "Ocultar" : "Mostrar"}
+                        {show ? (
+                          <ViewOffIcon color={"#fafafa"} />
+                        ) : (
+                          <ViewIcon color={"#fafafa"} />
+                        )}
                       </Button>
                     </InputRightElement>
                   </InputGroup>
@@ -161,15 +245,19 @@ const Register: React.FC<{
                         autoComplete: "off",
                       }}
                     />
-                    <InputRightElement width={"4.5rem"}>
+                    <InputRightElement>
                       <Button
-                        h="1.75rem"
-                        size={"sm"}
-                        bg={"white"}
-                        m={"0 10px 0 0"}
+                        bg={theme.colors.medium_green}
+                        _hover={{
+                          bg: theme.colors.light_green_sub[700],
+                        }}
                         onClick={() => setShow(!show)}
                       >
-                        {show ? "Ocultar" : "Mostrar"}
+                        {show ? (
+                          <ViewOffIcon color={"#fafafa"} />
+                        ) : (
+                          <ViewIcon color={"#fafafa"} />
+                        )}
                       </Button>
                     </InputRightElement>
                   </InputGroup>
@@ -189,7 +277,9 @@ const Register: React.FC<{
                   <Box d={"flex"} justifyContent={"center"} marginTop={"2rem"}>
                     <ReCAPTCHA
                       sitekey={`${process.env.CAPTCHA_ID}`}
-                      onChange={() => setVerified(true)}
+                      onChange={(e: any) => {
+                        setVerified(true);
+                      }}
                     />
                   </Box>
                   <ModalFooter p={"40px 0px 0px 0px"}>
@@ -210,7 +300,7 @@ const Register: React.FC<{
                     </Button>
 
                     <ResetButton
-                      colorScheme="green"
+                      colorScheme={"green"}
                       mr={3}
                       fontSize={{ base: "xs", md: "l", lg: "l" }}
                     >
@@ -228,6 +318,15 @@ const Register: React.FC<{
                 </>
               ) : (
                 <>
+                  <HStack d={"flex"} justifyContent={"center"} h={"10rem"}>
+                    <PinInput type="alphanumeric">
+                      <PinInputField w={"4rem"} h={"4rem"} />
+                      <PinInputField w={"4rem"} h={"4rem"} />
+                      <PinInputField w={"4rem"} h={"4rem"} />
+                      <PinInputField w={"4rem"} h={"4rem"} />
+                    </PinInput>
+                  </HStack>
+
                   <ModalFooter p={"40px 0px 0px 0px"}>
                     <SubmitButton
                       colorScheme="blue"
