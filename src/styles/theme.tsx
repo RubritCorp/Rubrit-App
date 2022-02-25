@@ -1,4 +1,4 @@
-import { extendTheme } from "@chakra-ui/react";
+import { extendTheme, type ThemeConfig } from "@chakra-ui/react";
 import { createBreakpoints } from "@chakra-ui/theme-tools";
 
 const fonts = { heading: "Poppins", body: "Poppins" };
@@ -10,16 +10,22 @@ const fonts = { heading: "Poppins", body: "Poppins" };
 //   xl: "80em",
 // });
 
-const theme = extendTheme({
-  colors: {
+const config: ThemeConfig = {
+  initialColorMode: "light",
+  useSystemColorMode: false,
+};
+
+const  colors = {
     light_green: "#44FEB0",
     dark_blue: "#164399",
     dark_green: "#292E1E",
-    medium_grey: "#BBE1C3",
+    medium_grey: "#B6B6B6",
     light_grey: "#F9FAFB",
     medium_green: "#2EB67D",
     light_blue: "#1F57C3",
-    dark_grey: "#B6B6B6",
+    dark_grey: "#888888",
+    ghost_white: "#F3F6FF",
+    l_green: "#BBE1C3",
     light_green_sub: {
       50: "#dcfff1",
       100: "#aeffde",
@@ -56,7 +62,7 @@ const theme = extendTheme({
       800: "#292e1e",
       900: "#0d1004",
     },
-    medium_grey_sub: {
+    l_green_sub: {
       50: "#e9f8ec",
       100: "#cae8d0",
       200: "#a9d7b2",
@@ -104,7 +110,7 @@ const theme = extendTheme({
       800: "#031d46",
       900: "#000a1d",
     },
-    dark_grey_sub: {
+    medium_grey_sub: {
       50: "#fbf0f2",
       100: "#dcd8d9",
       200: "#bfbfbf",
@@ -116,8 +122,37 @@ const theme = extendTheme({
       800: "#282626",
       900: "#150a0d",
     },
-  },
+    dark_grey_sub: {
+      50: '#feeff2',
+      100: '#ded7d9',
+      200: '#c2bebf',
+      300: '#a7a5a6',
+      400: '#8c8c8c',
+      500: '#737373',
+      600: '#5a5959',
+      700: '#423f40',
+      800: '#2a2526',
+      900: '#17080d',
+    },
+    ghost_white_sub: {
+      50: '#e5ecff',
+      100: '#b6c6fa',
+      200: '#859ff7',
+      300: '#5679f7',
+      400: '#2f54f6',
+      500: '#203bdd',
+      600: '#172eac',
+      700: '#0f217a',
+      800: '#061349',
+      900: '#00061a',
+    }
+  }
+    
+const theme = extendTheme({
+  colors,
   fonts,
+  config,
+
   // breakpoints,
 });
 

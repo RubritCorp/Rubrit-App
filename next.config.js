@@ -9,6 +9,9 @@ const nextConfig = {
     GOOGLE_SECRET:process.env.GOOGLE_SECRET,
     FACEBOOK_ID:process.env.FACEBOOK_ID,
     FACEBOOK_SECRET:process.env.FACEBOOK_SECRET
+  },
+  images: {
+    domains: ['cimacnoticias.com.mx'],
   }
 }
 
