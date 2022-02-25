@@ -55,8 +55,8 @@ const ProfessionalLanding: React.FC = () => {
   const theme = useTheme();
 
   return (
-    <Container maxW={"container.xl"} padding={"0 0.2em"}>
-      <Layout>
+    <Layout>
+      <Container maxW={"container.xl"}>
         <Flex
           flexDirection={"row"}
           justifyContent={"space-evenly"}
@@ -67,27 +67,25 @@ const ProfessionalLanding: React.FC = () => {
             <Image
               src="https://bit.ly/dan-abramov"
               borderRadius="full"
-              margin={"1rem"}
+              margin={{ base: "0rem", md: "1rem", lg: "1rem" }}
               alt={"Dan Abramov"}
             ></Image>
           </Box>
-          <Flex flexDirection={"column"} marginRight={"2rem"}>
+          <Flex flexDirection={"column"}>
             <Flex
               flexDirection={"row"}
               alignItems={"center"}
               flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}
+              justifyContent={"center"}
             >
-              <Box padding={"1rem"}>
-                <Box>
-                  <Heading
-                    fontSize={{ base: "1rem", md: "1.2rem", lg: "2rem" }}
-                  >
-                    Jose Cito
-                  </Heading>
+              <Flex padding={"1rem"} flexDirection={"column"}>
+                <Heading fontSize={{ base: "1rem", md: "1.2rem", lg: "2rem" }}>
+                  Jose Cito
+                </Heading>
 
-                  <Text color={theme.colors.medium_green}>Plomero</Text>
-                  <Text>Buenos Aires</Text>
-                </Box>
+                <Text color={theme.colors.medium_green}>Plomero</Text>
+                <Text>Buenos Aires</Text>
+
                 <Flex flexDirection={"column"}>
                   <Flex flexDirection={"row"}>
                     <Star size={20} weight="fill" />
@@ -118,7 +116,7 @@ const ProfessionalLanding: React.FC = () => {
                     </Text>
                   </Flex>
                 </Flex>
-              </Box>
+              </Flex>
               <Flex flexDirection={"column"} alignItems={"center"}>
                 <Link href="/">
                   <Box
@@ -152,28 +150,28 @@ const ProfessionalLanding: React.FC = () => {
             </Flex>
           </Flex>
         </Flex>
-        <Container maxW={"container.lg"}>
+        <Container maxW={"container.lg"} p={"0 "} margin={"0 1em"}>
           <Flex margin={"1rem"} flexDirection={"column"} textAlign={"start"}>
-            <Heading fontSize={"1.5rem"}>
+            <Heading fontSize={"1.5rem"} margin={"1rem"}>
               Soy el indicado para trabajar:
             </Heading>
-            <Text fontSize={"0.8rem"}>
+            <Text fontSize={"1rem"} margin={"0.5rem"}>
               Soy plomero hace muchos años y nunca mostre la raja, soy ideal
               para el empleo y para bailar en tu despedida de soltero porque...
             </Text>
           </Flex>
+          <Divider margin={"1em 0"}></Divider>
         </Container>
-        <Container maxW={"container.lg"}>
+        <Container maxW={"container.lg"} p={"0 "} margin={"0 1em"}>
           <Flex flexDirection={"column"}>
             <Flex
               flexWrap={{
                 base: "wrap",
-
                 md: "wrap",
                 lg: "nowrap",
               }}
             >
-              <Stack margin={"1rem"}>
+              <Stack>
                 <Box>
                   <Heading
                     fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
@@ -271,7 +269,7 @@ const ProfessionalLanding: React.FC = () => {
                 </Heading>
                 <Image
                   src="https://s03.s3c.es/imag/_v0/770x420/6/4/2/Google-maps-nueva-york.jpg"
-                  maxW={"300px"}
+                  maxW={"250px"}
                   borderRadius="1rem"
                   margin={"1em 0"}
                   alt="Dan Abramov"
@@ -318,8 +316,8 @@ const ProfessionalLanding: React.FC = () => {
             </Flex>
           </Flex>
         </Container>
-      </Layout>
-    </Container>
+      </Container>
+    </Layout>
   );
 };
 
