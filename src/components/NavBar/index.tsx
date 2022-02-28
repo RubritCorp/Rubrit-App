@@ -9,11 +9,11 @@ import {
   Collapse,
   Link,
   useColorModeValue,
-  useBreakpointValue,
   useDisclosure,
   Modal,
   ModalOverlay,
   useToast,
+  Avatar,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 //from modules
@@ -51,7 +51,7 @@ const NAV_ITEMS: Array<NavItem> = [
   },
   {
     label: "Ofrece tus Servicios",
-    href: "/",
+    href: "/offerservices",
   },
 ];
 
@@ -62,37 +62,42 @@ export default function WithSubnavigation() {
   const { data: session, status } = useSession();
 
   const [user, setUser] = useState<IUser>();
-  const [load, setLoad] = useState<boolean>(false);
   const toast = useToast();
 
   useEffect(() => {
     if (session && status === "authenticated") {
-      const userData = async () => {
-        const { data } = await axios.post("api/user", {
-          email: session.user?.email,
-          name: session.user?.name,
-          profilePic: session.user?.image,
-        });
-        if (data) {
-          localStorage.setItem("user", JSON.stringify(data));
-          toast({
-            title: `Bienvenido ${data.user.name}`,
-            status: "success",
-            duration: 5000,
-            isClosable: true,
+      if (!localStorage.getItem("user")) {
+        const userData = async () => {
+          const { data } = await axios.post("api/user", {
+            email: session.user?.email,
+            name: session.user?.name,
+            profilePic: session.user?.image,
           });
-        } else {
-          toast({
-            title: `Lo sentimos!`,
-            description:
-              "Hubo un problema para recuperar tu cuenta, intentalo de nuevo",
-            status: "success",
-            duration: 5000,
-            isClosable: true,
-          });
-        }
-      };
-      userData();
+          if (data) {
+            localStorage.setItem("user", JSON.stringify(data));
+            setUser(data);
+            toast({
+              title: `Bienvenido ${data.user.name}`,
+              status: "success",
+              duration: 5000,
+              isClosable: true,
+            });
+          } else {
+            toast({
+              title: `Lo sentimos!`,
+              description:
+                "Hubo un problema para recuperar tu cuenta, intentalo de nuevo",
+              status: "success",
+              duration: 5000,
+              isClosable: true,
+            });
+          }
+        };
+        userData();
+      } else {
+        var user = JSON.parse(localStorage.getItem("user") || "{}");
+        setUser(user.user);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session, status]);
@@ -130,7 +135,6 @@ export default function WithSubnavigation() {
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
           <Link href="/" _hover={{ textDecoration: "none", scale: "2" }}>
             <Text
-              textAlign={useBreakpointValue({ base: "center", md: "left" })}
               fontFamily={"heading"}
               color={useColorModeValue("gray.800", "white")}
             >
@@ -177,7 +181,9 @@ export default function WithSubnavigation() {
               _hover={{
                 bg: "#33a173",
               }}
-              onClick={() => signOut()}
+              onClick={() => {
+                signOut(), localStorage.clear();
+              }}
             >
               Cerrar Sesión
             </Button>

@@ -1,6 +1,7 @@
 //from modules
 import mongoose, { ConnectOptions } from "mongoose";
 
+
 /* const MONGO_URI: string = `${process.env.MONGO_URI}`;
 const options = {
   useUnifiedTopology: true,
@@ -38,6 +39,10 @@ export const dbConnect = async () => {
   return cached.conn;
 }; */
 
+
+import envConfig from "../../next-env-config";
+
+
 const conn: { isConnected: boolean } = {
   isConnected: false,
 };
@@ -45,7 +50,7 @@ const conn: { isConnected: boolean } = {
 if (!conn.isConnected) {
   (async () => {
     try {
-      const db = await mongoose.connect(`${process.env.MONGO_URI}`, {
+      const db = await mongoose.connect(`${envConfig?.dbConn}`, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       } as ConnectOptions);
