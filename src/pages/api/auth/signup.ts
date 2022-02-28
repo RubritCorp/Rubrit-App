@@ -1,13 +1,16 @@
 //from modules
 import { NextApiRequest, NextApiResponse } from "next";
-import { hash } from "bcryptjs";
 //interface
 import { IUser } from "models/User/IUser";
 //model
 import User from "models/User";
 //utils
 import { hashPassword } from "utils/verifyPassword";
-import "utils/db";
+import { dbConnect } from "utils/db";
+
+const connect = async () => {
+  await dbConnect();
+};
 
 interface DataSignUp {
   message: string;
@@ -30,6 +33,7 @@ const cases: ICases = {
       res.status(422).json({ message: "Invalid Data" });
     }
     try {
+      connect();
       const validate = await User.findOne({ email: email });
 
       if (validate) {
@@ -46,7 +50,7 @@ const cases: ICases = {
       res.status(200).json({ message: "User created", user });
     } catch (err) {
       console.log("Error in POST USER");
-      //console.log(err);
+      console.log(err);
     }
   },
   ERROR: (_, res) => {

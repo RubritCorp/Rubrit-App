@@ -13,16 +13,19 @@ import {
   useDisclosure,
   Modal,
   ModalOverlay,
+  useToast,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 //from modules
-import { useState } from "react";
+import { useEffect, useState } from "react";
 //components
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
 import Login from "components/Login";
 import Register from "components/Register";
-import { signOut, useSession } from "next-auth/react";
+import { getSession, signOut, useSession } from "next-auth/react";
+import { IUser } from "models/User/IUser";
+import axios from "axios";
 
 interface NavItem {
   label: string;
@@ -57,8 +60,43 @@ export default function WithSubnavigation() {
   const [isAuth, setIsAuth] = useState<boolean>();
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const { data: session, status } = useSession();
-  const loading = status === "loading";
-  console.log(session);
+
+  const [user, setUser] = useState<IUser>();
+  const [load, setLoad] = useState<boolean>(false);
+  const toast = useToast();
+
+  useEffect(() => {
+    if (session && status === "authenticated") {
+      const userData = async () => {
+        const { data } = await axios.post("api/user", {
+          email: session.user?.email,
+          name: session.user?.name,
+          profilePic: session.user?.image,
+        });
+        if (data) {
+          localStorage.setItem("user", JSON.stringify(data));
+          toast({
+            title: `Bienvenido ${data.user.name}`,
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            title: `Lo sentimos!`,
+            description:
+              "Hubo un problema para recuperar tu cuenta, intentalo de nuevo",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+          });
+        }
+      };
+      userData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session, status]);
+
   return (
     <Box>
       <Flex
@@ -111,7 +149,8 @@ export default function WithSubnavigation() {
           direction={"row"}
           spacing={6}
         >
-          {!session ? (
+          {!session &&
+          (status === "loading" || status === "unauthenticated") ? (
             <Button
               display={{ base: "inline-flex", md: "inline-flex" }}
               fontSize={"sm"}
@@ -147,7 +186,9 @@ export default function WithSubnavigation() {
           {isAuth && (
             <Modal
               isOpen={isOpen}
-              onClose={onClose}
+              onClose={() => {
+                onClose(), setIsLogin(true);
+              }}
               blockScrollOnMount
               preserveScrollBarGap
             >

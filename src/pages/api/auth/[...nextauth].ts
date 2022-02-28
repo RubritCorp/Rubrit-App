@@ -4,6 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import GitHubProvider from "next-auth/providers/github";
+import Adapters from "next-auth/adapters";
 
 //utils
 import "utils/db";
@@ -35,22 +36,7 @@ export default NextAuth({
         if (!isValid) {
           return null;
         }
-
         return user;
-
-        /* const populateQuery = [
-          { path: "category", model: "Category" },
-          { path: "subcategory", model: "Subcategory" },
-        ];
-        const fullUser: IUser = await User.findOne({
-          email: credentials?.email,
-        }).populate(user.items.length ? populateQuery : "");
-
-        return {
-          email: fullUser.email,
-          name: fullUser.name,
-          phone: fullUser.phone,
-        }; */
       },
     }),
     GoogleProvider({
@@ -66,6 +52,8 @@ export default NextAuth({
       clientSecret: `${process.env.GITHUB_SECRET}`,
     }),
   ],
+  secret: process.env.SECRET,
+
   events: {
     async signIn(message) {
       "Inicio de sesión exitoso";
@@ -90,4 +78,5 @@ export default NextAuth({
     /* newUser: "http://localhost:3000/COMPLETARPERFIL", */
     error: "http://localhost:3000/",
   },
+  debug: false,
 });
