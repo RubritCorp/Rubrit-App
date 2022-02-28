@@ -7,6 +7,8 @@ import {
   Heading,
   useTheme,
   useColorModeValue,
+  Avatar,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import { Storefront, Wrench, UsersFour, Handshake } from "phosphor-react";
 
@@ -185,6 +187,200 @@ const AboutUs: React.FC = () => {
             Contamos los mejores profesionales a su servicio, para asistirlo las
             24 hs. del día
           </Text>
+          <SimpleGrid columns={[2, null, 4]} spacing="40px">
+          <Flex marginBottom={2} justifyContent="center">
+              <Box height="300px">
+                <Avatar
+                  size={"7"}
+                  src={"https://avatars.githubusercontent.com/u/86489779?v=4"}
+                  mb={4}
+                  pos={"relative"}
+                />
+                <Heading
+                  fontSize={{ base: "0.8rem", md: "1rem", lg: "1.2rem" }}
+                  textAlign="center"
+                  fontWeight="bold"
+                  marginBottom={2}
+                >
+                  Tomás Anastasio
+                </Heading>
+                <Text
+                  fontSize={{ base: "0.5rem", md: "0.5rem", lg: "1rem" }}
+                  textAlign="center"
+                >
+                  Buenos Aires, Argentina.
+                </Text>
+              </Box> 
+            </Flex>
+            <Flex marginBottom={2} justifyContent="center">
+              <Box height="300px">
+                <Avatar
+                  size={"7"}
+                  src={"https://avatars.githubusercontent.com/u/74109226?v=4"}
+                  mb={4}
+                  pos={"relative"}
+                />
+                <Heading
+                  fontSize={{ base: "0.8rem", md: "1rem", lg: "1.2rem" }}
+                  textAlign="center"
+                  fontWeight="bold"
+                  marginBottom={2}
+                >
+                  Santiago Bancalari
+                </Heading>
+                <Text
+                  fontSize={{ base: "0.5rem", md: "0.5rem", lg: "1rem" }}
+                  textAlign="center"
+                >
+                  Buenos Aires, Argentina.
+                </Text>
+              </Box> 
+            </Flex>
+            <Flex marginBottom={2} justifyContent="center">
+            <Box height="300px">
+                <Avatar
+                  size={"7"}
+                  src={"https://avatars.githubusercontent.com/u/88420434?v=4"}
+                  mb={4}
+                  pos={"relative"}
+                />
+                <Heading
+                  fontSize={{ base: "0.8rem", md: "1rem", lg: "1.2rem" }}
+                  textAlign="center"
+                  fontWeight="bold"
+                  marginBottom={2}
+                >
+                  Agustín Castro
+                </Heading>
+                <Text
+                  fontSize={{ base: "0.5rem", md: "0.5rem", lg: "1rem" }}
+                  textAlign="center"
+                >
+                  Córdoba, Argentina.
+                </Text>
+              </Box>
+              </Flex>
+            <Flex marginBottom={2} justifyContent="center">
+            <Box height="300px">
+                <Avatar
+                  size={"7"}
+                  src={"https://avatars.githubusercontent.com/u/78768949?v=4"}
+                  mb={4}
+                  pos={"relative"}
+                />
+                <Heading
+                  fontSize={{ base: "0.8rem", md: "1rem", lg: "1.2rem" }}
+                  textAlign="center"
+                  fontWeight="bold"
+                  marginBottom={2}
+                >
+                  María Victoria Casal
+                </Heading>
+                <Text
+                  fontSize={{ base: "0.5rem", md: "0.5rem", lg: "1rem" }}
+                  textAlign="center"
+                >
+                  Tucumán, Argentina.
+                </Text>
+              </Box>
+              </Flex>
+            <Flex marginBottom={2} justifyContent="center">
+            <Box height="300px">
+                <Avatar
+                  size={"7"}
+                  src={"https://avatars.githubusercontent.com/u/89716856?v=4"}
+                  mb={4}
+                  pos={"relative"}
+                />
+                <Heading
+                  fontSize={{ base: "0.8rem", md: "1rem", lg: "1.2rem" }}
+                  textAlign="center"
+                  fontWeight="bold"
+                  marginBottom={2}
+                >
+                  Oscar Corregidor
+                </Heading>
+                <Text
+                  fontSize={{ base: "0.5rem", md: "0.5rem", lg: "1rem" }}
+                  textAlign="center"
+                >
+                  Salta, Argentina.
+                </Text>
+              </Box>
+              </Flex>
+              <Flex marginBottom={2} justifyContent="center">
+            <Box height="300px">
+                <Avatar
+                  size={"7"}
+                  src={"https://ca.slack-edge.com/TPRS7H4PN-U02MPR191SL-8bd0566e47d4-512"}
+                  mb={4}
+                  pos={"relative"}
+                />
+                <Heading
+                  fontSize={{ base: "0.8rem", md: "1rem", lg: "1.2rem" }}
+                  textAlign="center"
+                  fontWeight="bold"
+                  marginBottom={2}
+                >
+                  Luis Carlos Enriquez
+                </Heading>
+                <Text
+                  fontSize={{ base: "0.5rem", md: "0.5rem", lg: "1rem" }}
+                  textAlign="center"
+                >
+                  México.
+                </Text>
+              </Box>
+              </Flex>
+              <Flex marginBottom={2} justifyContent="center">
+            <Box height="300px">
+                <Avatar
+                  size={"7"}
+                  src={"https://avatars.githubusercontent.com/u/79219062?v=4"}
+                  mb={4}
+                  pos={"relative"}
+                />
+                <Heading
+                  fontSize={{ base: "0.8rem", md: "1rem", lg: "1.2rem" }}
+                  textAlign="center"
+                  fontWeight="bold"
+                  marginBottom={2}
+                >
+                  Eliana Sciclone
+                </Heading>
+                <Text
+                  fontSize={{ base: "0.5rem", md: "0.5rem", lg: "1rem" }}
+                  textAlign="center"
+                >
+                  CABA, Argentina.
+                </Text>
+              </Box>
+              </Flex>
+              <Flex marginBottom={2} justifyContent="center">
+            <Box height="300px">
+                <Avatar
+                  size={"7"}
+                  src={"https://ca.slack-edge.com/TPRS7H4PN-U01M0BP7CQJ-416c76e76358-512"}
+                  mb={4}
+                  pos={"relative"}
+                />
+                <Heading
+                  fontSize={{ base: "0.8rem", md: "1rem", lg: "1.2rem" }}
+                  textAlign="center"
+                  fontWeight="bold"
+                  marginBottom={2}
+                >
+                  Daniela Suárez
+                </Heading>
+                <Text
+                  fontSize={{ base: "0.5rem", md: "0.5rem", lg: "1rem" }}
+                  textAlign="center"
+                >
+                  Buenos Aires, Argentina.
+                </Text>
+              </Box>
+              </Flex>
+          </SimpleGrid>
         </Flex>
       </Container>
     </Layout>
