@@ -14,18 +14,31 @@ import {
   ModalOverlay,
   useToast,
   Avatar,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
 } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import {
+  HamburgerIcon,
+  CloseIcon,
+  BellIcon,
+  ChevronDownIcon,
+} from "@chakra-ui/icons";
 //from modules
 import { useEffect, useState } from "react";
+import { signOut, useSession } from "next-auth/react";
+import axios from "axios";
 //components
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
 import Login from "components/Login";
 import Register from "components/Register";
-import { getSession, signOut, useSession } from "next-auth/react";
+import DarkModeSwitch from "components/DarkModeSwitch";
+import Loading from "components/Loading";
+//interfaces
 import { IUser } from "models/User/IUser";
-import axios from "axios";
 
 interface NavItem {
   label: string;
@@ -152,7 +165,9 @@ export default function WithSubnavigation() {
           justify={"flex-end"}
           direction={"row"}
           spacing={6}
+          alignItems={"center"}
         >
+          <DarkModeSwitch />
           {!session &&
           (status === "loading" || status === "unauthenticated") ? (
             <Button
@@ -172,21 +187,50 @@ export default function WithSubnavigation() {
               Comenzar
             </Button>
           ) : (
-            <Button
-              display={{ base: "inline-flex", md: "inline-flex" }}
-              fontSize={"sm"}
-              fontWeight={600}
-              color={"white"}
-              bg={"#2EB67D"}
-              _hover={{
-                bg: "#33a173",
-              }}
-              onClick={() => {
-                signOut(), localStorage.clear();
-              }}
-            >
-              Cerrar Sesión
-            </Button>
+            <>
+              {user ? (
+                <>
+                  <Menu>
+                    <MenuButton p={1} d={{ base: "none", md: "inline" }}>
+                      <BellIcon fontSize={"2xl"} m={1} />
+                    </MenuButton>
+                  </Menu>
+                  <Menu>
+                    <MenuButton
+                      as={Button}
+                      ightIcon={<ChevronDownIcon />}
+                      bg={"transparent"}
+                    >
+                      {user && (
+                        <Avatar
+                          src={user.profilePic}
+                          name={user.name}
+                          cursor={"pointer"}
+                          size={"sm"}
+                        />
+                      )}
+                    </MenuButton>
+                    <MenuList>
+                      <MenuItem>Mi Perfil</MenuItem>
+                      <MenuDivider />
+                      <MenuItem d={{ base: "inline", md: "none" }}>
+                        Notificaciones
+                      </MenuItem>
+                      <MenuDivider d={{ base: "", md: "none" }} />
+                      <MenuItem
+                        onClick={() => {
+                          signOut(), localStorage.clear();
+                        }}
+                      >
+                        Cerrar Sesion
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
+                </>
+              ) : (
+                <Loading width={"50"} height={"50"} />
+              )}
+            </>
           )}
 
           {isAuth && (

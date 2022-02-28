@@ -6,7 +6,7 @@ const DarkModeSwitch = () => {
   const isDark = colorMode === "dark";
   return (
     <Box>
-      <Button
+      {/* <Button
         variant={"ghost"}
         size="md"
         color="transparent"
@@ -22,7 +22,7 @@ const DarkModeSwitch = () => {
         >
           <Moon size={20} color="#292E1E" weight="fill" />
         </Box>
-      </Button>
+      </Button> */}
       <Switch
         position={"relative"}
         size="lg"

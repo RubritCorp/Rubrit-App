@@ -75,7 +75,7 @@ export default NextAuth({
   pages: {
     signIn: "http://localhost:3000/",
     signOut: "http://localhost:3000/",
-    /* newUser: "http://localhost:3000/COMPLETARPERFIL", */
+    newUser: "http://localhost:3000/COMPLETARPERFIL",
     error: "http://localhost:3000/",
   },
   debug: false,

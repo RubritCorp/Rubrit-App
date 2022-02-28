@@ -1,4 +1,6 @@
+//from modules
 import { ReactNode } from "react";
+//chakra
 import {
   Box,
   Container,
@@ -10,8 +12,8 @@ import {
   chakra,
   useColorModeValue,
 } from "@chakra-ui/react";
+//assets
 import { TwitterLogo, YoutubeLogo, InstagramLogo } from "phosphor-react";
-import DarkModeSwitch from "components/DarkModeSwitch";
 
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
@@ -85,7 +87,7 @@ const Footer: React.FC = () => {
           </Stack>
         </SimpleGrid>
       </Container>
-      <DarkModeSwitch />
+
       <Box
         borderTopWidth={1}
         borderStyle={"solid"}
