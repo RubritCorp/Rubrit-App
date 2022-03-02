@@ -118,7 +118,7 @@ const ProfessionalLanding: React.FC = () => {
                 </Flex>
               </Flex>
               <Flex flexDirection={"column"} alignItems={"center"}>
-                <Link href="/">
+                <Link href="/" passHref>
                   <Box
                     as={"button"}
                     width={"15rem"}
