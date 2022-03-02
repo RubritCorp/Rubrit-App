@@ -1,5 +1,5 @@
 //assets
-import { Mail, Facebook, Google, Microsoft, Github } from "assets/icons";
+import { Mail, Facebook, Google } from "assets/icons";
 //from chakra
 import { Box, Button, Text } from "@chakra-ui/react";
 //from modules
