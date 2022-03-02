@@ -10,7 +10,7 @@ interface HItems {
 export interface IUser {
   email: string;
   name: string;
-  phoneNumber: string;
+  phone: string;
   password: string;
   isAuthenticated: boolean;
   profilePic: string;

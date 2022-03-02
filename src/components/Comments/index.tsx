@@ -41,7 +41,7 @@ const testimonials = [
     categorie: "Automotor",
   },
   {
-    name: "Daniel T.",
+    name: "Daniel Td.",
     role: "Musician",
     content:
       "Laura is AMAZING. She is, by far, the BEST we've found on TaskRabbit for cleaning jobs. She is extremely detailed and efficient. I defini...",
@@ -50,7 +50,7 @@ const testimonials = [
     categorie: "Limpieza",
   },
   {
-    name: "Daniel T.",
+    name: "Daniel Ta.",
     role: "Musician",
     content:
       "Dmitriy was great! Was fast to respond to the job, worked quickly but professionally, and had all the appropriate tools. Would recommend ",
@@ -59,7 +59,7 @@ const testimonials = [
     categorie: "Profesor",
   },
   {
-    name: "Daniel T.",
+    name: "Daniel Te.",
     role: "Musician",
     content:
       "Nick did an outstanding job assembling my patio heater, and he got it done faster than I could have imagined. He also has a very pleasan...",
@@ -86,12 +86,12 @@ function TestmonialCard(props: TestimonialCardProps) {
   return (
     <Flex
       boxShadow={"xl"}
-      maxW="90%"
-      margin={"0 auto"}
+      maxW="100%"
+      margin={"0 "}
       direction={{ base: "column-reverse", md: "row" }}
       width={"full"}
       rounded={"xl"}
-      p={5}
+      p={{ base: "1em 0em", lg: "1em 1em" }}
       justifyContent={"space-between"}
       position={"relative"}
       bg={useColorModeValue("white", "gray.800")}
@@ -110,10 +110,10 @@ function TestmonialCard(props: TestimonialCardProps) {
         direction={"row"}
         textAlign={"left"}
         justifyContent={"space-between"}
-        margin={5}
+        p={"1em 0"}
       >
         <Flex
-          paddingRight={5}
+          paddingRight={"1em"}
           flexDirection="column"
           alignItems="center"
           justifyContent="space-evenly"
@@ -135,7 +135,7 @@ function TestmonialCard(props: TestimonialCardProps) {
           </Flex>
         </Flex>
         <Flex flexDirection="column">
-          <chakra.p fontFamily={"Poppins"} fontWeight={"bold"} fontSize="1rem">
+          <chakra.p fontFamily={"Poppins"} fontWeight={"bold"}>
             {name}
             <chakra.span
               fontFamily={"Roboto"}
@@ -146,7 +146,16 @@ function TestmonialCard(props: TestimonialCardProps) {
               - {role}
             </chakra.span>
           </chakra.p>
-          <chakra.p fontFamily={"Poppins"} fontSize={"1rem"} pb={4}>
+          <chakra.p
+            fontFamily={"Poppins"}
+            fontSize={{
+              base: "0.7rem",
+              sm: "0.8rem",
+              md: "0.9rem",
+              lg: "1rem",
+            }}
+            pb={4}
+          >
             {content}
           </chakra.p>
           <chakra.p
@@ -167,14 +176,20 @@ export default function GridBlurredBackdrop() {
   return (
     <Flex
       textAlign={"center"}
-      pt={10}
       justifyContent={"center"}
       direction={"column"}
       width={"full"}
     >
-      <SimpleGrid columns={[1, null, 2]} spacing={"10"} mt={5} mx={"auto"}>
+      <SimpleGrid
+        columns={[1, null, 1]}
+        spacing={"6"}
+        mt={5}
+        mb={10}
+        mx={"0"}
+        minChildWidth={{ base: "300px", lg: "420px" }}
+      >
         {testimonials.map((cardInfo, index) => (
-          <TestmonialCard {...cardInfo} index={index} />
+          <TestmonialCard {...cardInfo} index={index} key={cardInfo.name} />
         ))}
       </SimpleGrid>
     </Flex>

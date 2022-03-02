@@ -15,8 +15,11 @@
   cursor: pointer;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 479px) {
   .containerCircles {
     margin: 0em 0.5em 0 0;
+  }
+  .line {
+    height: 13em;
   }
 }

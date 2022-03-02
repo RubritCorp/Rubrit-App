@@ -1,3 +1,3 @@
-import Offerservices from "../components/Offerservices"
+import OfferServices from "../components/OfferServices"
 
-export default Offerservices 
+export default OfferServices 

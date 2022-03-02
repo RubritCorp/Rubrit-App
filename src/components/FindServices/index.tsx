@@ -36,11 +36,15 @@ const FindServices: React.FC = () => {
 
   return (
     <Layout>
-      <Container maxW="container.lg">
-        <Flex justifyContent="center" padding={5}>
+      <Container maxW={"container.xl"}>
+        <Flex
+          justifyContent="center"
+          margin={{ base: "1em 0", sm: "1.2rem", lg: "1rem" }}
+        >
           <Text
             fontSize={{ base: "1.5rem", md: "2rem", lg: "2.5rem" }}
             fontWeight={500}
+            textAlign={"center"}
           >
             COMO FUNCIONA RUBRIT
           </Text>
@@ -78,17 +82,15 @@ const FindServices: React.FC = () => {
             <SimpleGrid columns={1}>
               <Flex>
                 <Box
-                  margin={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
+                  margin={{ base: "0 0 2em 0", sm: "1.2rem", lg: "1rem" }}
                   height="200px"
                 >
                   <Flex alignItems="center" marginBottom={2}>
-                    <Box>
-                      <CalendarCheck
-                        size={70}
-                        weight="regular"
-                        color={theme.colors.medium_green}
-                      />
-                    </Box>
+                    <CalendarCheck
+                      size={70}
+                      weight="regular"
+                      color={theme.colors.medium_green}
+                    />
                     <Heading
                       fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
                       marginLeft={5}
@@ -105,7 +107,10 @@ const FindServices: React.FC = () => {
                 </Box>
               </Flex>
               <Flex>
-                <Box margin={5} height="200px">
+                <Box
+                  margin={{ base: "4em 0 5em 0", sm: "1.2rem", lg: "1rem" }}
+                  height="200px"
+                >
                   <Flex alignItems="center" marginBottom={2}>
                     <MagnifyingGlass
                       size={70}
@@ -129,8 +134,10 @@ const FindServices: React.FC = () => {
               </Flex>
 
               <Flex>
-                <Box margin={5}>
-                  <Box display="flex" alignItems="center" marginBottom={2}>
+                <Box
+                  margin={{ base: "0 0 2em 0", md: "1.2rem", lg: "2rem 1rem" }}
+                >
+                  <Flex alignItems="center" marginBottom={2}>
                     <CheckCircle
                       size={70}
                       weight="regular"
@@ -142,7 +149,7 @@ const FindServices: React.FC = () => {
                     >
                       CONFIRMA
                     </Heading>
-                  </Box>
+                  </Flex>
                   <Text fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}>
                     Felicitaciones!!! ya completaste todo el formulario. nunca
                     antes fue tan facil y seguro contratar a un profesional para
@@ -156,6 +163,7 @@ const FindServices: React.FC = () => {
         <Center height="20px">
           <Divider orientation="horizontal" />
         </Center>
+
         <Flex direction="column" marginTop={10}>
           <Heading
             fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
@@ -176,14 +184,14 @@ const FindServices: React.FC = () => {
               <Link href="/">
                 <Box
                   as="button"
-                  width="20rem"
+                  width="18rem"
                   height="3rem"
                   borderRadius="10px"
                   bg={theme.colors.medium_green}
                   color="white"
                   fontSize="1.8rem"
                 >
-                  COMENZAR
+                  COMENZARR
                 </Box>
               </Link>
               <Flex flexDirection="row" justifyContent="center" padding={2}>
@@ -197,10 +205,10 @@ const FindServices: React.FC = () => {
             </Flex>
           </Flex>
         </Flex>
+        <Flex>
+          <Comments />
+        </Flex>
       </Container>
-      <Flex margin={5}>
-        <Comments />
-      </Flex>
     </Layout>
   );
 };

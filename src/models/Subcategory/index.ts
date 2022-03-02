@@ -6,15 +6,7 @@ import { ISubcategory } from "./ISubcategory";
 const subcategorySchema = new Schema({
   name: {
     type: String,
-  },
-  picture: {
-    type: String,
-  },
-  icon: {
-    type: String,
-  },
-  description: {
-    type: String,
+    trim: true,
   },
 });
 
