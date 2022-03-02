@@ -23,9 +23,16 @@ const userSchema = new Schema(
     password: {
       type: String,
     },
+    authCode: {
+      type: String,
+    },
+    withProvider: {
+      type: Boolean,
+      default: true,
+    },
     isAuthenticated: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     profilePic: {
       type: String,

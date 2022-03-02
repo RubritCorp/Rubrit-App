@@ -15,3 +15,15 @@ export async function verifyPassword(
     return isValid;
   }
 }
+
+export async function hashCode(code: string) {
+  const hashedCode = await hash(code, 12);
+  return hashedCode;
+}
+
+export async function verifyCode(code: string, hashedCode: string) {
+  if (code && hashedCode) {
+    const isValid = await compare(code, hashedCode);
+    return isValid;
+  }
+}

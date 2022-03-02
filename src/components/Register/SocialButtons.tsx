@@ -92,59 +92,6 @@ const SocialButtons: React.FC<{
                   />
                 </Box> */}
         </Button>
-        <Button
-          colorScheme="green"
-          variant={"outline"}
-          /* position={"relative"} */
-          paddingLeft={"3rem"}
-          marginTop={"1rem"}
-          w={"100%"}
-          textAlign={"center"}
-          fontSize={"sm"}
-          leftIcon={<Microsoft />}
-        >
-          Continuar con Microsoft
-          {/* <Box
-                  position={"absolute"}
-                  w={"1.2rem"}
-                  height={"1.2rem"}
-                  left={5}
-                >
-                  <Image
-                    src={microsoft}
-                    alt="microsoftLogo"
-                    layout="fill"
-                    objectFit="cover"
-                  />
-                </Box> */}
-        </Button>
-        <Button
-          variant={"outline"}
-          /* position={"relative"} */
-          paddingLeft={"3rem"}
-          marginTop={"1rem"}
-          marginBottom={"2rem"}
-          w={"100%"}
-          textAlign={"center"}
-          fontSize={"sm"}
-          onClick={() => signIn("github")}
-          leftIcon={<Github />}
-        >
-          Continuar con Github
-          {/* <Box
-                  position={"absolute"}
-                  w={"1.2rem"}
-                  height={"1.2rem"}
-                  left={5}
-                >
-                  <Image
-                    src={github}
-                    alt="githubLogo"
-                    layout="fill"
-                    objectFit="cover"
-                  />
-                </Box> */}
-        </Button>
       </Box>
       <Box d={"flex"} justifyContent={"center"} paddingTop={"30px"}>
         <Text>Ya tienes una cuenta?</Text>

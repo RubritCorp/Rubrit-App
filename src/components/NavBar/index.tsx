@@ -19,6 +19,7 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
+  RenderProps,
 } from "@chakra-ui/react";
 import {
   HamburgerIcon,
@@ -39,6 +40,7 @@ import DarkModeSwitch from "components/DarkModeSwitch";
 import Loading from "components/Loading";
 //interfaces
 import { IUser } from "models/User/IUser";
+import EmailAuthModal from "./emailAuthModal";
 
 interface NavItem {
   label: string;
@@ -73,7 +75,7 @@ export default function WithSubnavigation() {
   const [isAuth, setIsAuth] = useState<boolean>();
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const { data: session, status } = useSession();
-
+  const [reload, setReload] = useState<number>(0);
   const [user, setUser] = useState<IUser>();
   const toast = useToast();
 
@@ -95,6 +97,7 @@ export default function WithSubnavigation() {
               duration: 5000,
               isClosable: true,
             });
+            setReload(reload + 1);
           } else {
             toast({
               title: `Lo sentimos!`,
@@ -110,10 +113,21 @@ export default function WithSubnavigation() {
       } else {
         var user = JSON.parse(localStorage.getItem("user") || "{}");
         setUser(user.user);
+        if (
+          user.user?.isAuthenticated === false &&
+          !toast.isActive("verify-account")
+        ) {
+          toast({
+            duration: 30 * 24 * 60 * 60,
+            isClosable: false,
+            id: "verify-account",
+            render: () => <EmailAuthModal email={user.user.email} />,
+          });
+        }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session, status]);
+  }, [session, status, reload]);
 
   return (
     <Box>
@@ -188,48 +202,42 @@ export default function WithSubnavigation() {
             </Button>
           ) : (
             <>
-              {user ? (
-                <>
-                  <Menu>
-                    <MenuButton p={1} d={{ base: "none", md: "inline" }}>
-                      <BellIcon fontSize={"2xl"} m={1} />
-                    </MenuButton>
-                  </Menu>
-                  <Menu>
-                    <MenuButton
-                      as={Button}
-                      ightIcon={<ChevronDownIcon />}
-                      bg={"transparent"}
-                    >
-                      {user && (
-                        <Avatar
-                          src={user.profilePic}
-                          name={user.name}
-                          cursor={"pointer"}
-                          size={"sm"}
-                        />
-                      )}
-                    </MenuButton>
-                    <MenuList>
-                      <MenuItem>Mi Perfil</MenuItem>
-                      <MenuDivider />
-                      <MenuItem d={{ base: "inline", md: "none" }}>
-                        Notificaciones
-                      </MenuItem>
-                      <MenuDivider d={{ base: "", md: "none" }} />
-                      <MenuItem
-                        onClick={() => {
-                          signOut(), localStorage.clear();
-                        }}
-                      >
-                        Cerrar Sesion
-                      </MenuItem>
-                    </MenuList>
-                  </Menu>
-                </>
-              ) : (
-                <Loading width={"50"} height={"50"} />
-              )}
+              <Menu>
+                <MenuButton d={{ base: "none", md: "inline" }}>
+                  <BellIcon fontSize={"2xl"} />
+                </MenuButton>
+              </Menu>
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  rightIcon={<ChevronDownIcon />}
+                  bg={"transparent"}
+                >
+                  {user && (
+                    <Avatar
+                      src={user.profilePic}
+                      name={user.name}
+                      cursor={"pointer"}
+                      size={"sm"}
+                    />
+                  )}
+                </MenuButton>
+                <MenuList>
+                  <MenuItem>Mi Perfil</MenuItem>
+                  <MenuDivider />
+                  <MenuItem d={{ base: "inline", md: "none" }}>
+                    Notificaciones
+                  </MenuItem>
+                  <MenuDivider d={{ base: "", md: "none" }} />
+                  <MenuItem
+                    onClick={() => {
+                      signOut(), localStorage.clear();
+                    }}
+                  >
+                    Cerrar Sesion
+                  </MenuItem>
+                </MenuList>
+              </Menu>
             </>
           )}
 

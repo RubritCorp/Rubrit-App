@@ -3,6 +3,9 @@ const nextConfig = {
   reactStrictMode: true,
   env : {
     MONGO_URI:process.env.MONGO_URI,
+    EMAIL_SENDER:process.env.EMAIL_SENDER,
+    EMAIL_PASSWORD:process.env.EMAIL_PASSWORD,
+    CALLBACK_REDIRECT_EMAIL_AUTH:process.env.CALLBACK_REDIRECT_EMAIL_AUTH,
     CAPTCHA_ID: process.env.CAPTCHA_ID,
     SECRET:process.env.SECRET,
     NEXTAUTH_URL:process.env.NEXTAUTH_URL,

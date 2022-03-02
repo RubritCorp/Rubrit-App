@@ -1,9 +1,6 @@
 import styles from "./Loading.module.css";
 
-const Index: React.FC<{ width: string; height: string }> = ({
-  width,
-  height,
-}) => {
+const Index: React.FC = () => {
   return (
     <div className={styles.main}>
       <svg className={styles["w-0"]}>

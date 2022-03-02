@@ -50,6 +50,7 @@ export const useHelper = () => {
       email: values.email,
       password: values.password,
       phone: `${values.phone}`,
+      withProvider: false,
     };
     try {
       const { data } = await axios.post("/api/auth/signup", user);

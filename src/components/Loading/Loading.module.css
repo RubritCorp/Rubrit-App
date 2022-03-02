@@ -11,10 +11,10 @@
   filter: url(#w-0);
 }
 .stop1 {
-  stop-color: rgb(168 85 247);
+  stop-color: #26664b;
 }
 .stop2 {
-  stop-color: rgb(37 99 235);
+  stop-color: #2eb67d;
 }
 .path-class {
   animation: key01 8s infinite linear;

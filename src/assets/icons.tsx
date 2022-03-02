@@ -4,8 +4,6 @@ import { Box } from "@chakra-ui/react";
 import Image from "next/image";
 //assets
 import mail from "assets/mail.png";
-import microsoft from "./microsoft.png";
-import github from "./github.png";
 import facebook from "./facebook.png";
 import google from "./google.png";
 
@@ -13,22 +11,6 @@ const Mail = () => {
   return (
     <Box width={"1.2rem"} height={"1.2rem"}>
       <Image src={mail} alt="mailIcon" objectFit="cover" />
-    </Box>
-  );
-};
-
-const Microsoft = () => {
-  return (
-    <Box width={"1.2rem"} height={"1.2rem"}>
-      <Image src={microsoft} alt="MicrosoftIcon" objectFit="cover" />
-    </Box>
-  );
-};
-
-const Github = () => {
-  return (
-    <Box width={"1.2rem"} height={"1.2rem"}>
-      <Image src={github} alt="GithubIcon" objectFit="cover" />
     </Box>
   );
 };
@@ -49,4 +31,4 @@ const Google = () => {
   );
 };
 
-export { Mail, Microsoft, Github, Facebook, Google };
+export { Mail, Facebook, Google };
