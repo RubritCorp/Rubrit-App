@@ -10,8 +10,8 @@ const StepsOne: React.FC = () => {
       backgroundSize={'cover'}
       backgroundPosition={'center center'}
       color={'white'}
-      justifyContent={'center'}>
-        bg={useColorModeValue('light_grey', 'dark_green')}
+      justifyContent={'center'}
+        bg={useColorModeValue('light_grey', 'dark_green')}>
         <Stack direction="row" spacing="70px" >
         <Box
         w= {"600px"}
