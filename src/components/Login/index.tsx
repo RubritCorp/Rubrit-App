@@ -23,8 +23,6 @@ import { signIn } from "next-auth/react";
 //assets
 import facebook from "assets/facebook.png";
 import google from "assets/google.png";
-import microsoft from "assets/microsoft.png";
-import github from "assets/github.png";
 import Image from "next/image";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
@@ -165,6 +163,7 @@ const Login: React.FC<{
             paddingLeft={"3rem"}
             marginTop={"1rem"}
             w={"80%"}
+            marginBottom={"2rem"}
             textAlign={"center"}
             fontSize={"sm"}
             onClick={() => signIn("google")}
@@ -174,47 +173,6 @@ const Login: React.FC<{
               <Image
                 src={google}
                 alt="googleLogo"
-                layout="fill"
-                objectFit="cover"
-              />
-            </Box>
-          </Button>
-          <Button
-            colorScheme="green"
-            variant={"outline"}
-            position={"relative"}
-            paddingLeft={"3rem"}
-            marginTop={"1rem"}
-            w={"80%"}
-            textAlign={"center"}
-            fontSize={"sm"}
-          >
-            Continuar con Microsoft
-            <Box position={"absolute"} w={"1.2rem"} height={"1.2rem"} left={5}>
-              <Image
-                src={microsoft}
-                alt="microsoftLogo"
-                layout="fill"
-                objectFit="cover"
-              />
-            </Box>
-          </Button>
-          <Button
-            variant={"outline"}
-            position={"relative"}
-            paddingLeft={"3rem"}
-            marginTop={"1rem"}
-            marginBottom={"2rem"}
-            w={"80%"}
-            textAlign={"center"}
-            fontSize={"sm"}
-            onClick={() => signIn("github")}
-          >
-            Continuar con Github
-            <Box position={"absolute"} w={"1.2rem"} height={"1.2rem"} left={5}>
-              <Image
-                src={github}
-                alt="githubLogo"
                 layout="fill"
                 objectFit="cover"
               />

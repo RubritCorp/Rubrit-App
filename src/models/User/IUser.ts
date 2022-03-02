@@ -13,6 +13,7 @@ export interface IUser {
   phone: string;
   password: string;
   isAuthenticated: boolean;
+  authCode: string;
   profilePic: string;
   isWorker: boolean;
   address: string;
