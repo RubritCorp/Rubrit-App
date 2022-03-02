@@ -1,27 +1,26 @@
+// native libraries
+import Head from "next/head";
+// components
 import Footer from "components/Footer";
 import Navbar from "components/NavBar";
-import Head from "next/head";
-import React, { Children } from "react";
-
-interface Props {
-  authenticated: boolean;
-}
+import { Box } from "@chakra-ui/react";
+// styles
 
 const Layout: React.FC<{
   title?: string;
   description?: string;
 }> = ({ children, title, description }) => {
   return (
-    <div className="layoutContainer">
+    <Box>
       <Head>
         <link rel="icon" href="../../public/favicon.ico" />
-        <title>{title}</title>
+        <title>{`Rubrit | ${title}`}</title>
         <meta name="description" content={description} />
       </Head>
       <Navbar />
       <main>{children}</main>
       <Footer />
-    </div>
+    </Box>
   );
 };
 

@@ -1,5 +1,6 @@
 //from modules
-import { model, models, Schema, Types } from "mongoose";
+import mongoose, { model, models, Schema, Types } from "mongoose";
+import { number } from "yup/lib/locale";
 //interfaces
 import { IUser } from "./IUser";
 
@@ -22,21 +23,33 @@ const userSchema = new Schema(
     password: {
       type: String,
     },
+    authCode: {
+      type: String,
+    },
+    withProvider: {
+      type: Boolean,
+      default: true,
+    },
     isAuthenticated: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     profilePic: {
       type: String,
-      default: "assets/user.png",
+      default:
+        "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
     },
     isWorker: {
       type: Boolean,
       default: false,
     },
     address: {
-      type: String,
-      required: true,
+      lat: {
+        type: Number,
+      },
+      lng: {
+        type: Number,
+      },
     },
     hideAddress: {
       type: Boolean,
@@ -72,15 +85,17 @@ const userSchema = new Schema(
         ],
       },
     ],
-    offers: {
-      title: {
-        type: String,
+    offers: [
+      {
+        title: {
+          type: String,
+        },
+        description: {
+          type: String,
+        },
+        photos: [{ type: String }],
       },
-      description: {
-        type: String,
-      },
-      photos: [{ type: String }],
-    },
+    ],
   },
   {
     timestamps: true,
@@ -88,4 +103,4 @@ const userSchema = new Schema(
   }
 );
 
-export default models?.User || model<IUser>("Task", userSchema);
+export default models?.User || model<IUser>("User", userSchema);
