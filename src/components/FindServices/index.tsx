@@ -181,7 +181,7 @@ const FindServices: React.FC = () => {
           </Text>
           <Flex justifyContent="center" padding={5}>
             <Flex flexDirection="column">
-              <Link href="/">
+              <Link href="/" passHref>
                 <Box
                   as="button"
                   width="18rem"
@@ -196,7 +196,7 @@ const FindServices: React.FC = () => {
               </Link>
               <Flex flexDirection="row" justifyContent="center" padding={2}>
                 <Text marginRight={4}>YA TENES UNA CUENTA?</Text>
-                <Link href="/">
+                <Link href="/" passHref>
                   <Text color={theme.colors.medium_green}>
                     <span className={styles.link}>LOG IN</span>
                   </Text>
