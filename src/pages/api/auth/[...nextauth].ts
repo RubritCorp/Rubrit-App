@@ -63,6 +63,49 @@ export default NextAuth({
       "Recuperación de sesión exitoso";
     },
   },
+  callbacks: {
+    async signIn({ user }) {
+      try {
+        const userSession = await User.findOne({
+          email: user.email,
+        });
+
+        if (userSession) {
+          return userSession;
+        }
+        const newUser = User.create({
+          email: user.email,
+          name: user.name,
+          profilePic: user.image,
+        });
+
+        return newUser;
+      } catch (err) {
+        console.log(err);
+        throw new Error();
+      }
+    },
+    async session({ session, user }) {
+      if (session) {
+        const userSession = await User.findOne({
+          email: session.user?.email,
+        });
+        const newSession = {
+          expires: session.expires,
+          ...session.user,
+          phone: userSession.phone ? userSession.phone : "",
+          withProvider: userSession.withProvider,
+          isAuthenticated: userSession.isAuthenticated,
+          isWorker: userSession.isWorker,
+          hideAddress: userSession.hideAddress,
+          items: userSession.items,
+          offers: userSession.offers,
+        };
+        return newSession;
+      }
+      return session;
+    },
+  },
   theme: {
     colorScheme: "dark",
     /*

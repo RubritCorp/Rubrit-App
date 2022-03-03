@@ -4,7 +4,6 @@ import { getSession, SessionProvider, useSession } from "next-auth/react";
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "../styles/theme";
 import Fonts from "styles/Fonts";
-import { useEffect } from "react";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
