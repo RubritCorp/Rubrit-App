@@ -292,7 +292,7 @@ const ProfessionalLanding: React.FC = () => {
                 >
                   {categories?.map((cat) => {
                     return (
-                      <Flex flexDirection={"column"}>
+                      <Flex flexDirection={"column"} key={cat.name}>
                         <Heading
                           fontSize={{
                             base: "1rem",
@@ -300,12 +300,13 @@ const ProfessionalLanding: React.FC = () => {
                             lg: "1.5rem",
                           }}
                           color={theme.colors.light_grey_sub[500]}
+                          key={cat.name}
                         >
                           {cat.name}
                         </Heading>
                         <Box>
                           {cat.subcategories.map((sub) => (
-                            <Text>{sub}</Text>
+                            <Text key={sub}>{sub}</Text>
                           ))}
                         </Box>
                       </Flex>
