@@ -65,7 +65,7 @@ const Footer: React.FC = () => {
         <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={8}>
           <Stack align={"flex-start"}>
             <ListHeader>Rubrit</ListHeader>
-            <Link href={"#"}>Inicio</Link>
+            <Link href={"/"}>Inicio</Link>
             <Link href={"#"}>Como Funciona</Link>
             <Link href={"#"}>Sobre Nosotros</Link>
             <Link href={"#"}>Registrate como Profesional</Link>
@@ -74,13 +74,13 @@ const Footer: React.FC = () => {
           <Stack align={"flex-start"}>
             <ListHeader>Soporte</ListHeader>
             <Link href={"#"}>FAQs</Link>
-            <Link href={"#"}>Principios de la Comunidad</Link>
+            <Link href={"/comunityPrinci"}>Principios de la Comunidad</Link>
           </Stack>
 
           <Stack align={"flex-start"}>
             <ListHeader>Legales</ListHeader>
-            <Link href={"#"}>Politica de Cookies</Link>
-            <Link href={"#"}>Politicas de Privacidad</Link>
+            <Link href={"/cookiePolicy"}><a>Politica de Cookies</a></Link>
+            <Link href={"/privacyPolicy"}><a>Politicas de Privacidad</a></Link>
             <Link href={"/termService"}><a>Terminos del Servicio</a></Link>
           </Stack>
         </SimpleGrid>

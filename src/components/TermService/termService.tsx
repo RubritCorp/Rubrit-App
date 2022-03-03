@@ -20,13 +20,13 @@ const TermServe: React.FC = () => {
         bg={useColorModeValue("medium_grey", "dark_green")}
         color={useColorModeValue("dark_green", "medium_grey")}
       >
-        <Flex justifyContent="center" p={"7.5em"}>
+        <Flex justifyContent="center" p={"3.5em"}>
           <Text
             fontSize={{ base: "1.5rem", md: "1rem", lg: "2.5rem" }}
             fontWeight={400}
           >
             TERMINOS Y CONDICIONES DEL SERVICIOS
-            <chakra.span fontFamily={"Roboto"} fontWeight={"bold"}>
+            <chakra.span  fontWeight={"bold"}>
               {" RUBRIT"}
             </chakra.span>
           </Text>
