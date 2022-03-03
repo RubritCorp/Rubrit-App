@@ -9,12 +9,9 @@ import {
     Stack,
     Button,
     useColorModeValue,
-    SimpleGrid,
     Container,
     useBreakpointValue,
-    IconButton,
 } from '@chakra-ui/react';
-import { ArrowLeft, ArrowRight } from 'phosphor-react';
 import { useState } from 'react';
 import Slider from 'react-slick';
 
@@ -109,7 +106,7 @@ const settings = {
                
                 centerMode: true,
                 centerPadding: "10px",
-                slidesToShow: 2,
+                slidesToShow: 3,
                 dots: true
             }
         },
