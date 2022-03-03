@@ -1,7 +1,8 @@
+//components
 import Layout from "components/layout";
 import LandingPage from "components/LandingPage";
 
-const index = () => {
+const Index = () => {
   return (
     <Layout
       title="Todos los servicios en un solo lugar"
@@ -12,4 +13,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

@@ -434,9 +434,7 @@ const WhatTheySayCard: React.FC<WhatTheySayCardProps> = ({ imagen, name, city, p
                 </Box>
                 <Stack>
 
-                    <Text color={'green.500'}>
-                        " {opinion} "
-                    </Text>
+                    <Text color={'green.500'}>{`"${opinion}"`}</Text>
                 </Stack>
                 <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
                     <Avatar

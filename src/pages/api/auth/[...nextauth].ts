@@ -3,7 +3,7 @@ import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
-import GitHubProvider from "next-auth/providers/github";
+//import GitHubProvider from "next-auth/providers/github";
 
 //utils
 import "utils/db";
@@ -35,22 +35,7 @@ export default NextAuth({
         if (!isValid) {
           return null;
         }
-
         return user;
-
-        /* const populateQuery = [
-          { path: "category", model: "Category" },
-          { path: "subcategory", model: "Subcategory" },
-        ];
-        const fullUser: IUser = await User.findOne({
-          email: credentials?.email,
-        }).populate(user.items.length ? populateQuery : "");
-
-        return {
-          email: fullUser.email,
-          name: fullUser.name,
-          phone: fullUser.phone,
-        }; */
       },
     }),
     GoogleProvider({
@@ -61,11 +46,12 @@ export default NextAuth({
       clientId: `${process.env.FACEBOOK_ID}`,
       clientSecret: `${process.env.FACEBOOK_SECRET}`,
     }),
-    GitHubProvider({
+    /* GitHubProvider({
       clientId: `${process.env.GITHUB_ID}`,
       clientSecret: `${process.env.GITHUB_SECRET}`,
-    }),
+    }), */
   ],
+  secret: process.env.SECRET,
   events: {
     async signIn(message) {
       "Inicio de sesión exitoso";
@@ -75,6 +61,49 @@ export default NextAuth({
     },
     async session(message) {
       "Recuperación de sesión exitoso";
+    },
+  },
+  callbacks: {
+    async signIn({ user }) {
+      try {
+        const userSession = await User.findOne({
+          email: user.email,
+        });
+
+        if (userSession) {
+          return userSession;
+        }
+        const newUser = User.create({
+          email: user.email,
+          name: user.name,
+          profilePic: user.image,
+        });
+
+        return newUser;
+      } catch (err) {
+        console.log(err);
+        throw new Error();
+      }
+    },
+    async session({ session, user }) {
+      if (session) {
+        const userSession = await User.findOne({
+          email: session.user?.email,
+        });
+        const newSession = {
+          expires: session.expires,
+          ...session.user,
+          phone: userSession.phone ? userSession.phone : "",
+          withProvider: userSession.withProvider,
+          isAuthenticated: userSession.isAuthenticated,
+          isWorker: userSession.isWorker,
+          hideAddress: userSession.hideAddress,
+          items: userSession.items,
+          offers: userSession.offers,
+        };
+        return newSession;
+      }
+      return session;
     },
   },
   theme: {
@@ -87,7 +116,8 @@ export default NextAuth({
   pages: {
     signIn: "http://localhost:3000/",
     signOut: "http://localhost:3000/",
-    /* newUser: "http://localhost:3000/COMPLETARPERFIL", */
+    newUser: "http://localhost:3000/COMPLETARPERFIL",
     error: "http://localhost:3000/",
   },
+  debug: false,
 });

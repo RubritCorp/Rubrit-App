@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import "utils/db";
 
+
 type Data = {
   message: string;
 };
