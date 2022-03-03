@@ -79,7 +79,6 @@ export default function WithSubnavigation() {
   console.log(user);
 
   useEffect(() => {
-    console.log("a");
     if (session && status === "authenticated") {
       setUser(session);
       toast({
