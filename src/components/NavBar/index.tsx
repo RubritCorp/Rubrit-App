@@ -19,7 +19,6 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
-  RenderProps,
 } from "@chakra-ui/react";
 import {
   HamburgerIcon,
@@ -30,7 +29,6 @@ import {
 //from modules
 import { useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
-import axios from "axios";
 //components
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
@@ -75,62 +73,38 @@ export default function WithSubnavigation() {
   const [isAuth, setIsAuth] = useState<boolean>();
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const { data: session, status } = useSession();
-  const [reload, setReload] = useState<number>(0);
-  const [user, setUser] = useState<IUser>();
+  const [user, setUser] = useState<any>();
   const toast = useToast();
 
+  console.log(user);
+
   useEffect(() => {
+    console.log("a");
     if (session && status === "authenticated") {
-      if (!localStorage.getItem("user")) {
-        const userData = async () => {
-          const { data } = await axios.post("api/user", {
-            email: session.user?.email,
-            name: session.user?.name,
-            profilePic: session.user?.image,
-          });
-          if (data) {
-            localStorage.setItem("user", JSON.stringify(data));
-            setUser(data);
-            toast({
-              title: `Bienvenido ${data.user.name}`,
-              status: "success",
-              duration: 5000,
-              isClosable: true,
-            });
-            setReload(reload + 1);
-          } else {
-            toast({
-              title: `Lo sentimos!`,
-              description:
-                "Hubo un problema para recuperar tu cuenta, intentalo de nuevo",
-              status: "success",
-              duration: 5000,
-              isClosable: true,
-            });
-          }
-        };
-        userData();
-      } else {
-        var user = JSON.parse(localStorage.getItem("user") || "{}");
-        setUser(user.user);
-        if (
-          user.user?.isAuthenticated === false &&
-          !toast.isActive("verify-account")
-        ) {
+      setUser(session);
+      toast({
+        title: `Bienvenido ${session.name}`,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+      if (!toast.isActive("verify-account")) {
+        if (!session?.isAuthenticated) {
           toast({
             duration: 30 * 24 * 60 * 60,
             isClosable: false,
             id: "verify-account",
-            render: () => <EmailAuthModal email={user.user.email} />,
+            render: () => <EmailAuthModal email={session?.email} />,
           });
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session, status, reload]);
+
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session, status]);
 
   return (
-    <Box>
+    <Box position={"sticky"} top={0} zIndex={10}>
       <Flex
         bg={useColorModeValue("white", "gray.800")}
         color={useColorModeValue("gray.600", "white")}
@@ -215,8 +189,8 @@ export default function WithSubnavigation() {
                 >
                   {user && (
                     <Avatar
-                      src={user.profilePic}
-                      name={user.name}
+                      src={user?.image}
+                      name={user?.name}
                       cursor={"pointer"}
                       size={"sm"}
                     />
