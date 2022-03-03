@@ -57,7 +57,6 @@ export default function WithSubnavigation() {
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const { data: session, status } = useSession();
   const loading = status === "loading";
-  console.log(session);
   return (
     <Box>
       <Flex
