@@ -12,6 +12,7 @@ import {
   SimpleGrid,
   Container,
 } from "@chakra-ui/react";
+import { string } from "yup";
 
 const whatTheySay = [
   {
@@ -67,84 +68,98 @@ const whatTheySay = [
   },
 ];
 
+interface ItemWTS {
+  image: string;
+  name: string;
+  city: string;
+  province: string;
+  opinion: string;
+  avatar: string;
+  whoYouAre: string;
+}
+
 const NearProfesionals: React.FC = () => {
   return (
     <Container maxW={"container.xl"} centerContent py={10}>
       <SimpleGrid columns={{ base: 1, md: 4 }} spacing={10}>
         {whatTheySay.map((item, index) => (
-          <Flex key={index}>
-            <Center py={6}>
-              <Box
-                maxW={"350px"}
-                w={"full"}
-                bg={useColorModeValue("white", "gray.800")}
-                boxShadow={"2xl"}
-                rounded={"md"}
-                overflow={"hidden"}
-              >
-                <Image
-                  alt=""
-                  h={"120px"}
-                  w={"full"}
-                  src={item.image}
-                  objectFit={"cover"}
-                />
-                <Flex justify={"center"} mt={-12}>
-                  <Avatar
-                    size={"xl"}
-                    src={item.avatar}
-                    css={{
-                      border: "2px solid white",
-                    }}
-                  />
-                </Flex>
-
-                <Box p={6}>
-                  <Stack spacing={0} align={"center"} mb={5}>
-                    <Heading
-                      fontSize={"2xl"}
-                      fontWeight={500}
-                      fontFamily={"body"}
-                    >
-                      {item.name}
-                    </Heading>
-                    <Text color={"gray.500"} fontSize={"small"}>
-                      {item.city}-{item.province}
-                    </Text>
-                  </Stack>
-                  <Stack direction={"row"} justify={"center"} spacing={6}>
-                    <Stack spacing={0} align={"center"}>
-                      <Text
-                        align={"center"}
-                        fontSize={"medium"}
-                        color={"green.500"}
-                      >
-                        Precio por hora promedio $300 / $500
-                      </Text>
-                    </Stack>
-                  </Stack>
-
-                  <Button
-                    w={"full"}
-                    mt={8}
-                    bg={useColorModeValue("green.500", "green.500")}
-                    color={"white"}
-                    rounded={"md"}
-                    _hover={{
-                      transform: "translateY(-2px)",
-                      boxShadow: "lg",
-                    }}
-                  >
-                    Contactar
-                  </Button>
-                </Box>
-              </Box>
-            </Center>
-          </Flex>
+          <WhatTheySay key={index} item={item} />
         ))}
       </SimpleGrid>
     </Container>
   );
 };
+
+function WhatTheySay({ item }: { item: ItemWTS }) {
+  return (
+    <Center py={6}>
+      <Box
+        maxW={"350px"}
+        w={"full"}
+        bg={useColorModeValue("white", "gray.800")}
+        boxShadow={"2xl"}
+        rounded={"md"}
+        overflow={"hidden"}
+      >
+        <Image
+          alt=""
+          h={"120px"}
+          w={"full"}
+          src={item.image}
+          objectFit={"cover"}
+        />
+        <Flex justify={"center"} mt={-12}>
+          <Avatar
+            size={"xl"}
+            src={item.avatar}
+            css={{
+              border: "2px solid white",
+            }}
+          />
+        </Flex>
+
+        <Box p={6}>
+          <Stack spacing={0} align={"center"} mb={5}>
+            <Heading
+              fontSize={"2xl"}
+              fontWeight={500}
+              fontFamily={"body"}
+            >
+              {item.name}
+            </Heading>
+            <Text color={"gray.500"} fontSize={"small"}>
+              {item.city}-{item.province}
+            </Text>
+          </Stack>
+          <Stack direction={"row"} justify={"center"} spacing={6}>
+            <Stack spacing={0} align={"center"}>
+              <Text
+                align={"center"}
+                fontSize={"medium"}
+                color={"green.500"}
+              >
+                Precio por hora promedio $300 / $500
+              </Text>
+            </Stack>
+          </Stack>
+
+          <Button
+            w={"full"}
+            mt={8}
+            bg={useColorModeValue("green.500", "green.500")}
+            color={"white"}
+            rounded={"md"}
+            _hover={{
+              transform: "translateY(-2px)",
+              boxShadow: "lg",
+            }}
+          >
+            Contactar
+          </Button>
+        </Box>
+      </Box>
+    </Center>
+  );
+}
 
 export default NearProfesionals;

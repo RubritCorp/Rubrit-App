@@ -7,13 +7,16 @@ import {
   Stack,
   SimpleGrid,
   Text,
-  Link,
   VisuallyHidden,
   chakra,
   useColorModeValue,
 } from "@chakra-ui/react";
 //assets
 import { TwitterLogo, YoutubeLogo, InstagramLogo } from "phosphor-react";
+
+import DarkModeSwitch from "components/DarkModeSwitch";
+import Link from "next/link";
+
 
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
@@ -83,7 +86,7 @@ const Footer: React.FC = () => {
             <ListHeader>Legales</ListHeader>
             <Link href={"#"}>Politica de Cookies</Link>
             <Link href={"#"}>Politicas de Privacidad</Link>
-            <Link href={"#"}>Terminos del Servicio</Link>
+            <Link href={"/termService"}><a>Terminos del Servicio</a></Link>
           </Stack>
         </SimpleGrid>
       </Container>
