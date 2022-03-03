@@ -2,7 +2,7 @@ import { InfoIcon, EmailIcon } from "@chakra-ui/icons";
 import { Box, Text, Flex, Button } from "@chakra-ui/react";
 import axios from "axios";
 
-const EmailAuthModal: React.FC<{ email: string }> = ({ email }) => {
+const EmailAuthModal: React.FC<{ email: any }> = ({ email }) => {
   const resend = async () => {
     await axios.post("api/auth/emailVerification", { email });
   };

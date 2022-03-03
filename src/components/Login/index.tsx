@@ -51,7 +51,7 @@ const Login: React.FC<{
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log(credentials);
+   
     signIn("credentials", {
       email: credentials.email,
       password: credentials.password,
