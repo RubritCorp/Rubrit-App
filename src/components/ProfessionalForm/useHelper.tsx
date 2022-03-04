@@ -4,15 +4,12 @@ import * as Yup from "yup";
 const useHelper = () => {
   const toast = useToast();
 
-  interface Items {
-    category: string[];
-    subcategories: string[];
-  }
   interface DataInitialValues {
     companyName: string;
     description: string;
     location: string;
-    items: Items;
+    category: string[];
+    subcategories: string[];
     rangeCoverage: number;
     images?: string[];
   }
@@ -22,28 +19,37 @@ const useHelper = () => {
     description: "",
     location: "",
     rangeCoverage: 0,
-    items: { category: [], subcategories: [] },
+    category: [],
+    subcategories: [],
     images: [],
   };
 
   const validationSchema = Yup.object({
     companyName: Yup.string().required("El nombre es requerido"),
-    description: Yup.string().required("Una descripcion es requerido"),
+    description: Yup.string().required("Una descripcion es requerida"),
     location: Yup.string().required("Tu ubicacion es requerida"),
     rangeCoverage: Yup.number().required("El rango de cobertura es requerido"),
-    items: Yup.string().required(""),
+    // items: Yup.boolean().required(""),
   });
 
   const onSubmit = async (values: DataInitialValues) => {
-    const { companyName, description, location, rangeCoverage, items, images } =
-      values;
+    const {
+      companyName,
+      description,
+      location,
+      rangeCoverage,
+      category,
+      subcategories,
+      images,
+    } = values;
 
     const userProfessional = {
       companyName,
       description,
       location,
       rangeCoverage,
-      items,
+      category,
+      subcategories,
       images,
     };
     try {
@@ -54,7 +60,7 @@ const useHelper = () => {
 
       toast({
         title: `¡Felicidades NOMBRE DE USUARIO!`,
-        description: "Tu cuenta como profesional fue creada con exito.",
+        description: "Tu perfil como profesional fue creado con exito.",
         status: "success",
         duration: 5000,
         isClosable: true,
@@ -67,7 +73,6 @@ const useHelper = () => {
         duration: 9000,
         isClosable: true,
       });
-      //console.log(err);
     }
   };
 
