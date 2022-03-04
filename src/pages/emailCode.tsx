@@ -1,6 +1,6 @@
 //from modules
-import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
 import Router from "next/router";
 //components
@@ -20,7 +20,7 @@ const Code: React.FC = () => {
 
   useEffect(() => {
     const session = async () => {
-      const storage = await JSON.parse(localStorage.getItem("user") || "");
+      const storage = await JSON.parse(localStorage.getItem("user") || "{}");
       if (storage.user && storage.user.isAuthenticated === true) {
         Router.push("http://localhost:3000/");
       } else {

@@ -45,7 +45,6 @@ const cases: ICases = {
       res.status(200).json({ message: "User created successfully", user });
     } catch (err) {
       console.log(err);
-
       res.status(404).json({ message: "Error fetching data" });
     }
   },
