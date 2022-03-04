@@ -12,16 +12,33 @@ import {
   useDisclosure,
   Modal,
   ModalOverlay,
+  useToast,
+  Avatar,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
 } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import {
+  HamburgerIcon,
+  CloseIcon,
+  BellIcon,
+  ChevronDownIcon,
+} from "@chakra-ui/icons";
 //from modules
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { signOut, useSession } from "next-auth/react";
 //components
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
 import Login from "components/Login";
 import Register from "components/Register";
-import { signOut, useSession } from "next-auth/react";
+import DarkModeSwitch from "components/DarkModeSwitch";
+import Loading from "components/Loading";
+//interfaces
+import { IUser } from "models/User/IUser";
+import EmailAuthModal from "./emailAuthModal";
 
 interface NavItem {
   label: string;
@@ -56,10 +73,37 @@ export default function WithSubnavigation() {
   const [isAuth, setIsAuth] = useState<boolean>();
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const { data: session, status } = useSession();
-  const loading = status === "loading";
-  console.log(session);
+  const [user, setUser] = useState<any>();
+  const toast = useToast();
+
+  console.log(user);
+
+  useEffect(() => {
+    if (session && status === "authenticated") {
+      setUser(session);
+      toast({
+        title: `Bienvenido ${session.name}`,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+      if (!toast.isActive("verify-account")) {
+        if (!session?.isAuthenticated) {
+          toast({
+            duration: 30 * 24 * 60 * 60,
+            isClosable: false,
+            id: "verify-account",
+            render: () => <EmailAuthModal email={session?.email} />,
+          });
+        }
+      }
+    }
+
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session, status]);
+
   return (
-    <Box>
+    <Box position={"sticky"} top={0} zIndex={10}>
       <Flex
         bg={useColorModeValue("white", "gray.800")}
         color={useColorModeValue("gray.600", "white")}
@@ -108,8 +152,11 @@ export default function WithSubnavigation() {
           justify={"flex-end"}
           direction={"row"}
           spacing={6}
+          alignItems={"center"}
         >
-          {!session ? (
+          <DarkModeSwitch />
+          {!session &&
+          (status === "loading" || status === "unauthenticated") ? (
             <Button
               display={{ base: "inline-flex", md: "inline-flex" }}
               fontSize={"sm"}
@@ -127,25 +174,52 @@ export default function WithSubnavigation() {
               Comenzar
             </Button>
           ) : (
-            <Button
-              display={{ base: "inline-flex", md: "inline-flex" }}
-              fontSize={"sm"}
-              fontWeight={600}
-              color={"white"}
-              bg={"#2EB67D"}
-              _hover={{
-                bg: "#33a173",
-              }}
-              onClick={() => signOut()}
-            >
-              Cerrar Sesión
-            </Button>
+            <>
+              <Menu>
+                <MenuButton d={{ base: "none", md: "inline" }}>
+                  <BellIcon fontSize={"2xl"} />
+                </MenuButton>
+              </Menu>
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  rightIcon={<ChevronDownIcon />}
+                  bg={"transparent"}
+                >
+                  {user && (
+                    <Avatar
+                      src={user?.image}
+                      name={user?.name}
+                      cursor={"pointer"}
+                      size={"sm"}
+                    />
+                  )}
+                </MenuButton>
+                <MenuList>
+                  <MenuItem>Mi Perfil</MenuItem>
+                  <MenuDivider />
+                  <MenuItem d={{ base: "inline", md: "none" }}>
+                    Notificaciones
+                  </MenuItem>
+                  <MenuDivider d={{ base: "", md: "none" }} />
+                  <MenuItem
+                    onClick={() => {
+                      signOut(), localStorage.clear();
+                    }}
+                  >
+                    Cerrar Sesion
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            </>
           )}
 
           {isAuth && (
             <Modal
               isOpen={isOpen}
-              onClose={onClose}
+              onClose={() => {
+                onClose(), setIsLogin(true);
+              }}
               blockScrollOnMount
               preserveScrollBarGap
             >
