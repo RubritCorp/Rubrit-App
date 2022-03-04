@@ -73,8 +73,8 @@ const Footer: React.FC = () => {
 
           <Stack align={"flex-start"}>
             <ListHeader>Soporte</ListHeader>
-            <Link href={"#"}>FAQs</Link>
-            <Link href={"/comunityPrinci"}>Principios de la Comunidad</Link>
+            <Link href={"/faqs"}><a>FAQs</a></Link>
+            <Link href={"/comunityPrinci"}><a>Principios de la Comunidad</a></Link>
           </Stack>
 
           <Stack align={"flex-start"}>

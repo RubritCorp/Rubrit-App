@@ -1,6 +1,5 @@
 import {
   useColorModeValue,
-  ChakraProvider,
   Flex,
   Box,
   chakra,
@@ -31,7 +30,6 @@ const PrivacyPolicy: React.FC = () => {
           </Text>
         </Flex>
       </Box>
-      <ChakraProvider theme={theme}>
         <Container maxW="container.xl" p={"2em 0"}>
           <Box p={"1em 3em 0 3em"} w="100%" justifyContent="center">
             <Text as='i' fontSize='lg'>
@@ -73,7 +71,6 @@ const PrivacyPolicy: React.FC = () => {
             </Text>
           </Box>
         </Container>
-      </ChakraProvider>
     </Layout>
   );
 };
