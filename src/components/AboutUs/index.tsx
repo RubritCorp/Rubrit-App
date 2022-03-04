@@ -324,7 +324,7 @@ const AboutUs: React.FC = () => {
                   src={
                     "https://ca.slack-edge.com/TPRS7H4PN-U01M0BP7CQJ-416c76e76358-512"
                   }
-                  mb={2}
+                  mb={4}
                   pos={"relative"}
                 />
                 <Heading
