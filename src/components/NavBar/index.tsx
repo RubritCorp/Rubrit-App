@@ -66,6 +66,10 @@ const NAV_ITEMS: Array<NavItem> = [
     label: "Ofrece tus Servicios",
     href: "/offerservices",
   },
+  {
+    label: "Bolsa De Trabajo",
+    href: "/workbag",
+  },
 ];
 
 export default function WithSubnavigation() {

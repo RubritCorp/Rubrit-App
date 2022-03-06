@@ -97,7 +97,7 @@ const settings = {
     autoplay: true,
     speed: 500,
     autoplaySpeed: 5000,
-    slidesToShow: 4,
+    slidesToShow: 5,
     slidesToScroll: 1,
     responsive: [
         {
