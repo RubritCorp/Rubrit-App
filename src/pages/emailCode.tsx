@@ -30,6 +30,11 @@ const Code: React.FC = () => {
     session();
   }, []);
 
+  const reloadSession = () => {
+    const event = new Event("visibilitychange");
+    document.dispatchEvent(event);
+  };
+
   const validate = async () => {
     setIsLoading(true);
     try {
@@ -43,6 +48,7 @@ const Code: React.FC = () => {
       });
       setIsLoading(false);
       setStatus("resolved");
+      reloadSession();
     } catch (err) {
       console.log("Error ocurred in EMAIL_CODE VERIFICATION");
       toast({

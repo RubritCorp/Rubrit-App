@@ -7,7 +7,6 @@ import {
   Button,
   Stack,
   Collapse,
-  Link,
   useColorModeValue,
   useDisclosure,
   Modal,
@@ -29,6 +28,8 @@ import {
 //from modules
 import { useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
+import { Session } from "next-auth/core/types";
+import Link from "next/link";
 //components
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
@@ -37,8 +38,9 @@ import Register from "components/Register";
 import DarkModeSwitch from "components/DarkModeSwitch";
 import Loading from "components/Loading";
 //interfaces
-import { IUser } from "models/User/IUser";
 import EmailAuthModal from "./emailAuthModal";
+import Router from "next/router";
+import Profile from "components/Profile/Profile";
 
 interface NavItem {
   label: string;
@@ -70,37 +72,58 @@ const NAV_ITEMS: Array<NavItem> = [
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenProfile,
+    onOpen: onOpenProfile,
+    onClose: onCloseProfile,
+  } = useDisclosure();
+  const { data: session, status } = useSession();
+
   const [isAuth, setIsAuth] = useState<boolean>();
   const [isLogin, setIsLogin] = useState<boolean>(true);
-  const { data: session, status } = useSession();
-  const [user, setUser] = useState<any>();
-  const toast = useToast();
+  const [user, setUser] = useState<Session>();
 
-  console.log(user);
+  const toast = useToast();
 
   useEffect(() => {
     if (session && status === "authenticated") {
       setUser(session);
+
       toast({
         title: `Bienvenido ${session.name}`,
         status: "success",
         duration: 5000,
         isClosable: true,
+        position: "bottom-left",
       });
-      if (!toast.isActive("verify-account")) {
-        if (!session?.isAuthenticated) {
+      if (!session?.isAuthenticated) {
+        if (!toast.isActive("verify-account")) {
           toast({
             duration: 30 * 24 * 60 * 60,
             isClosable: false,
             id: "verify-account",
             render: () => <EmailAuthModal email={session?.email} />,
+            position: "bottom-left",
           });
         }
       }
+      toast.close("verify-account");
     }
-
+    if (Router.query) {
+      const { authenticated } = Router.query;
+      if (authenticated === "false") {
+        toast({
+          title: "¡Hubo un problema!",
+          description:
+            "¡Debes Registrarte o Iniciar Sesión para poder acceder a un perfil!",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    }
     //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session, status]);
+  }, [session, session?.isAuthenticated, status]);
 
   return (
     <Box position={"sticky"} top={0} zIndex={10}>
@@ -133,7 +156,7 @@ export default function WithSubnavigation() {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
-          <Link href="/" _hover={{ textDecoration: "none", scale: "2" }}>
+          <Link href="/" passHref={true}>
             <Text
               fontFamily={"heading"}
               color={useColorModeValue("gray.800", "white")}
@@ -196,7 +219,7 @@ export default function WithSubnavigation() {
                   )}
                 </MenuButton>
                 <MenuList>
-                  <MenuItem>Mi Perfil</MenuItem>
+                  <MenuItem onClick={() => onOpenProfile()}>Mi Perfil</MenuItem>
                   <MenuDivider />
                   <MenuItem d={{ base: "inline", md: "none" }}>
                     Notificaciones
@@ -204,7 +227,7 @@ export default function WithSubnavigation() {
                   <MenuDivider d={{ base: "", md: "none" }} />
                   <MenuItem
                     onClick={() => {
-                      signOut(), localStorage.clear();
+                      signOut();
                     }}
                   >
                     Cerrar Sesion
@@ -238,6 +261,10 @@ export default function WithSubnavigation() {
         <Collapse in={isOpen} animateOpacity>
           <MobileNav NAV_ITEMS={NAV_ITEMS} />
         </Collapse>
+      )}
+
+      {session && status === "authenticated" && (
+        <Profile {...{ isOpenProfile, onCloseProfile }} />
       )}
     </Box>
   );
