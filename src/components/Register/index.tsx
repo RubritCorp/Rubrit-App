@@ -21,9 +21,15 @@ import {
   PopoverHeader,
   PopoverBody,
   InputLeftAddon,
+  Select,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
 import { InputControl, ResetButton, SubmitButton } from "formik-chakra-ui";
 import {
+  ChevronDownIcon,
   ChevronLeftIcon,
   InfoIcon,
   ViewIcon,
@@ -35,19 +41,27 @@ import { Formik } from "formik";
 import ReCAPTCHA from "react-google-recaptcha";
 //helper
 import { useHelper } from "./useHelper";
+//assets
 import SocialButtons from "./SocialButtons";
 
 const Register: React.FC<{
   setIsAuth(value: boolean): void;
   setIsLogin(value: boolean): void;
 }> = ({ setIsAuth, setIsLogin }) => {
-  const { initialValues, validationSchema, onSubmit } = useHelper();
+  const {
+    initialValues,
+    validationSchema,
+    countries,
+    countryCode,
+    setCountryCode,
+    onSubmit,
+  } = useHelper({ setIsLogin });
   const theme = useTheme();
   const { onClose } = useDisclosure();
   const [mailProfile, setMailProfile] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
-  const [step, setStep] = useState<number>(1);
   const [verified, setVerified] = useState<boolean>(false);
+  const [step, setStep] = useState<number>(1);
 
   return (
     <ModalContent position={"relative"}>
@@ -67,7 +81,7 @@ const Register: React.FC<{
       <ModalHeader textAlign={"center"} color={theme.colors.medium_green}>
         Registrate
       </ModalHeader>
-      <ModalCloseButton />
+      <ModalCloseButton onClick={() => setCountryCode("País")} />
       <ModalBody pb={6}>
         {!mailProfile && (
           <SocialButtons
@@ -110,8 +124,31 @@ const Register: React.FC<{
                   />
 
                   <FormLabel>Numero de Teléfono</FormLabel>
+
                   <InputGroup>
-                    <InputLeftAddon>+54</InputLeftAddon>
+                    <InputLeftAddon p={0}>
+                      <Menu>
+                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                          {countryCode}
+                        </MenuButton>
+                        <MenuList>
+                          {countries.map((m, i: number) => (
+                            <MenuItem key={i}>
+                              <Button
+                                leftIcon={m.img}
+                                value={m.code}
+                                fontWeight={400}
+                                variant={"ghost"}
+                                onClick={() => setCountryCode(m.code)}
+                                _hover={{ bg: "transparent" }}
+                              >
+                                {m.name} {m.code}
+                              </Button>
+                            </MenuItem>
+                          ))}
+                        </MenuList>
+                      </Menu>
+                    </InputLeftAddon>
                     <InputControl
                       name="phone"
                       inputProps={{
@@ -229,6 +266,7 @@ const Register: React.FC<{
                       disabled={
                         Object.keys(errors).length > 0 ||
                         !Object.values(values)[0].length ||
+                        countryCode === "País" ||
                         !verified
                           ? true
                           : false
