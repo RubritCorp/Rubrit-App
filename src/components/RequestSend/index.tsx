@@ -20,6 +20,7 @@ const Requestsend: React.FC = () => {
         box-shadow= {"rgba(0, 0, 0, 0.25)"}
         border-radius= {"5px"}
         >
+         <Text>-</Text>
           <Text>-</Text>
           <Heading>
             <Text color={"black"}
@@ -35,14 +36,16 @@ const Requestsend: React.FC = () => {
          >Tu solicitud se ha enviado correctamente. Estos son algunos de los profesionales a los hemos enviado tu solicitud.</Text>
         <Text>-</Text>
         <Text
-        color={"black"}>¡Atento al chat!</Text>
+        color={"black"}
+        ml={"50px"}>¡Atento al chat!</Text>
         <Text
+         ml={"50px"}
          color={"black"}>Recibirás respuestas en pocos minutos..</Text>
         <Text>-</Text>
         <Button
               colorScheme={'green'}
               bg={'green.500'}
-              rounded={'full'}
+              borderRadius={"10px"}
               ml={"140px"}   
               w={"300px"}      
               px={6}
