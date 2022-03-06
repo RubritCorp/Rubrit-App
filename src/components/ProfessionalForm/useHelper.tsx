@@ -33,6 +33,7 @@ const useHelper = () => {
   });
 
   const onSubmit = async (values: DataInitialValues) => {
+    console.log(values);
     const {
       companyName,
       description,
