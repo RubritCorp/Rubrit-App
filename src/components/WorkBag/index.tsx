@@ -27,8 +27,6 @@ import {
 } from '@chakra-ui/react';
 import React, { ReactNode, useState } from "react";
 
-
-import { format } from 'date-fns';
 import { CurrencyDollarSimple, Envelope, Phone } from "phosphor-react";
 
 const Testimonial = ({ children }: { children: ReactNode }) => {
@@ -163,15 +161,6 @@ const workBag = [
 
 
 const WorkBag: React.FC = () => {
-
-    const today = new Date();
-    const [selectedDay, setSelectedDay] = useState<Date | undefined>(today);
-
-    const footer = selectedDay
-        ? `You selected ${format(selectedDay, 'PPP')}.`
-        : `Please pick a day.`;
-
-
 
     const [value, setValue] = React.useState('')
     const handleChange = (event: any) => setValue(event.target.value)
