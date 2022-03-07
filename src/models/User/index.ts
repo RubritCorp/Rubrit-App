@@ -23,6 +23,11 @@ const userSchema = new Schema(
     password: {
       type: String,
     },
+    description: {
+      type: String,
+      max: 290,
+      default: "",
+    },
     authCode: {
       type: String,
     },

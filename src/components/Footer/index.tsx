@@ -72,7 +72,7 @@ const Footer: React.FC = () => {
             <ListHeader>Rubrit</ListHeader>
             <Link href={"#"}>Inicio</Link>
             <Link href={"#"}>Como Funciona</Link>
-            <Link href={"#"}>Sobre Nosotros</Link>
+            <Link href={"/aboutus"}>Sobre Nosotros</Link>
             <Link href={"#"}>Registrate como Profesional</Link>
           </Stack>
 

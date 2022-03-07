@@ -13,6 +13,7 @@ import {
   Button,
   Text,
   Box,
+  useToast,
 } from "@chakra-ui/react";
 import { useTheme } from "@chakra-ui/react";
 
@@ -40,7 +41,8 @@ const Login: React.FC<{
     email: "",
     password: "",
   });
-
+  const [loading, setLoading] = useState<boolean>(false);
+  const toast = useToast();
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
     setCredentails({
@@ -51,11 +53,23 @@ const Login: React.FC<{
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-   
-    signIn("credentials", {
-      email: credentials.email,
-      password: credentials.password,
-    });
+    setLoading(true);
+    try {
+      signIn("credentials", {
+        email: credentials.email,
+        password: credentials.password,
+      });
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      toast({
+        title: "Error al iniciar sesión.",
+        description: "El correo o la contraseña son incorrectos.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
@@ -129,6 +143,7 @@ const Login: React.FC<{
                 ? true
                 : false
             }
+            isLoading={loading}
           >
             Iniciar Sesión
           </Button>

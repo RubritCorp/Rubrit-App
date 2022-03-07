@@ -85,15 +85,19 @@ export default NextAuth({
         throw new Error();
       }
     },
-    async session({ session, user }) {
+    async session({ session }) {
       if (session) {
         const userSession = await User.findOne({
           email: session.user?.email,
         });
         const newSession = {
           expires: session.expires,
-          ...session.user,
+          email: userSession.email,
+          name: userSession.name,
+          image: userSession.profilePic,
           phone: userSession.phone ? userSession.phone : "",
+          description: userSession.description,
+          adress: userSession.adress,
           withProvider: userSession.withProvider,
           isAuthenticated: userSession.isAuthenticated,
           isWorker: userSession.isWorker,
