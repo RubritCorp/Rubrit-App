@@ -213,11 +213,13 @@ const CardFindProfesional:  React.FC<CardFindProfesionalProps> = ({name, img, av
                     </Stack>
 
                     <Button
+                        as={'a'}
                         w={'full'}
                         mt={8}
                         bg={useColorModeValue('green.500', 'green.500')}
                         color={'white'}
                         rounded={'md'}
+                        href={`/request/new`}
                         _hover={{
                             transform: 'translateY(-2px)',
                             boxShadow: 'lg',
