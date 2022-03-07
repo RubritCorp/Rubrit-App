@@ -118,7 +118,7 @@ const ProfessionalLanding: React.FC = () => {
                 </Flex>
               </Flex>
               <Flex flexDirection={"column"} alignItems={"center"}>
-                <Link href="/" passHref>
+                <Link href="/stepsTwo" passHref>
                   <Box
                     as={"button"}
                     width={"15rem"}
@@ -292,7 +292,7 @@ const ProfessionalLanding: React.FC = () => {
                 >
                   {categories?.map((cat, index) => {
                     return (
-                      <Flex flexDirection={"column"} key={index}>
+                      <Flex flexDirection={"column"} key={cat.name}>
                         <Heading
                           fontSize={{
                             base: "1rem",
@@ -300,6 +300,7 @@ const ProfessionalLanding: React.FC = () => {
                             lg: "1.5rem",
                           }}
                           color={theme.colors.light_grey_sub[500]}
+                          key={cat.name}
                         >
                           {cat.name}
                         </Heading>

@@ -192,7 +192,7 @@ const FindServices: React.FC = () => {
                   color="white"
                   fontSize="1.8rem"
                 >
-                  COMENZARR
+                  COMENZAR
                 </Box>
               </Link>
               <Flex flexDirection="row" justifyContent="center" padding={2}>
