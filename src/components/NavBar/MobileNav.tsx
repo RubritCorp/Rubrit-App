@@ -21,12 +21,6 @@ import {
 import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 import Link from "next/link";
-interface NavItem {
-  label: string;
-  subLabel?: string;
-  children?: Array<NavItem>;
-  href?: string;
-}
 
 const MobileNav = () => {
   const { pathname } = useRouter();

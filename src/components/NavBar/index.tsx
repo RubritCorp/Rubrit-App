@@ -18,18 +18,19 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
+  Divider,
 } from "@chakra-ui/react";
 import {
-  HamburgerIcon,
-  CloseIcon,
   BellIcon,
   ChevronDownIcon,
   ExternalLinkIcon,
+  HamburgerIcon,
 } from "@chakra-ui/icons";
 //from modules
 import { useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { Session } from "next-auth/core/types";
+import { useRouter } from "next/router";
 import Link from "next/link";
 //components
 import DesktopNav from "./DesktopNav";
@@ -38,6 +39,7 @@ import Login from "components/Login";
 import Register from "components/Register";
 import DarkModeSwitch from "components/DarkModeSwitch";
 import Loading from "components/Loading";
+import { DrawerOptions } from "components/MyAccount";
 //interfaces
 import EmailAuthModal from "./emailAuthModal";
 import Router from "next/router";
@@ -63,34 +65,35 @@ const NAV_ITEMS: Array<NavItem> = [
   },
   {
     label: "Buscar Servicios",
-    href: "findservices",
+    href: "/findServices",
   },
   {
     label: "Ofrece tus Servicios",
-    href: "offerservices",
+    href: "offerServices",
   },
 ];
 
 export default function WithSubnavigation() {
-  const { isOpen, onToggle, onOpen, onClose } = useDisclosure();
-  const {
-    isOpen: isOpenMenu,
-    onOpen: onOpenMenu,
-    onClose: onCloseMenu,
-  } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: isOpenProfile,
     onOpen: onOpenProfile,
     onClose: onCloseProfile,
   } = useDisclosure();
+  const {
+    isOpen: isOpenDrawerOptions,
+    onOpen: onOpenDrawerOptions,
+    onClose: onCloseDrawerOptions,
+  } = useDisclosure();
   const { data: session, status } = useSession();
-
+  const { pathname } = useRouter();
   const [isAuth, setIsAuth] = useState<boolean>();
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [user, setUser] = useState<Session>();
   const [welcome, setWelcome] = useState<boolean>(false);
 
   const toast = useToast();
+  console.log(session);
 
   useEffect(() => {
     if (session && status === "authenticated") {
@@ -106,8 +109,8 @@ export default function WithSubnavigation() {
           position: "bottom-left",
         });
       }
-      if (!session?.isAuthenticated) {
-        if (!toast.isActive("verify-account")) {
+      if (!toast.isActive("verify-account")) {
+        if (!session.isAuthenticated) {
           toast({
             duration: 30 * 24 * 60 * 60,
             isClosable: false,
@@ -116,8 +119,9 @@ export default function WithSubnavigation() {
             position: "bottom-left",
           });
         }
+      } else {
+        toast.close("verify-account");
       }
-      toast.close("verify-account");
     }
     if (Router.query) {
       const { authenticated } = Router.query;
@@ -155,7 +159,26 @@ export default function WithSubnavigation() {
         >
           <MobileNav />
         </Flex>
-        <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
+        <Flex
+          flex={{ base: 1 }}
+          justify={{ base: "center", md: "start" }}
+          align={"center"}
+        >
+          {pathname === "/myAccount" && (
+            <Box d={{ base: "none", md: "inline", xl: "none" }}>
+              <Button
+                rightIcon={<HamburgerIcon boxSize={"1.5rem"} />}
+                iconSpacing={0}
+                variant={"ghost"}
+                mr={5}
+                onClick={onOpenDrawerOptions}
+              />
+              <DrawerOptions
+                isOpen={isOpenDrawerOptions}
+                onClose={onCloseDrawerOptions}
+              />
+            </Box>
+          )}
           <Link href="/" passHref={true}>
             <Text
               fontFamily={"heading"}
@@ -164,7 +187,6 @@ export default function WithSubnavigation() {
               Logo
             </Text>
           </Link>
-
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
             <DesktopNav NAV_ITEMS={NAV_ITEMS} />
           </Flex>
