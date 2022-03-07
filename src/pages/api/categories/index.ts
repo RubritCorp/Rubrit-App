@@ -6,6 +6,7 @@ import Category from "models/Category";
 import { ICategory } from "models/Category/ICategory";
 //db
 import "utils/db";
+import Subcategory from "models/Subcategory";
 
 type DataCategories = {
   message: string;
@@ -24,6 +25,7 @@ interface ICases {
 const cases: ICases = {
   GET: async (_, res) => {
     try {
+      await Subcategory.find();
       const populateQuery = [
         {
           path: "subcategories",
