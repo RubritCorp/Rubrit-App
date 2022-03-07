@@ -60,8 +60,6 @@ const cases: ICases = {
     const { email, image } = req.body;
     if (!email) return res.status(404).json({ message: "Email is required" });
 
-    console.log(email, image);
-
     try {
       const user = await User.findOne({ email: email });
 

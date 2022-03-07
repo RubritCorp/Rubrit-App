@@ -24,6 +24,7 @@ import {
   CloseIcon,
   BellIcon,
   ChevronDownIcon,
+  ExternalLinkIcon,
 } from "@chakra-ui/icons";
 //from modules
 import { useEffect, useState } from "react";
@@ -62,16 +63,21 @@ const NAV_ITEMS: Array<NavItem> = [
   },
   {
     label: "Buscar Servicios",
-    href: "/findservices",
+    href: "findservices",
   },
   {
     label: "Ofrece tus Servicios",
-    href: "/offerservices",
+    href: "offerservices",
   },
 ];
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenMenu,
+    onOpen: onOpenMenu,
+    onClose: onCloseMenu,
+  } = useDisclosure();
   const {
     isOpen: isOpenProfile,
     onOpen: onOpenProfile,
@@ -82,6 +88,7 @@ export default function WithSubnavigation() {
   const [isAuth, setIsAuth] = useState<boolean>();
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [user, setUser] = useState<Session>();
+  const [welcome, setWelcome] = useState<boolean>(false);
 
   const toast = useToast();
 
@@ -89,13 +96,16 @@ export default function WithSubnavigation() {
     if (session && status === "authenticated") {
       setUser(session);
 
-      toast({
-        title: `Bienvenido ${session.name}`,
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom-left",
-      });
+      if (!welcome) {
+        setWelcome(true);
+        toast({
+          title: `Bienvenido ${session.name}`,
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom-left",
+        });
+      }
       if (!session?.isAuthenticated) {
         if (!toast.isActive("verify-account")) {
           toast({
@@ -143,17 +153,7 @@ export default function WithSubnavigation() {
           ml={{ base: -2 }}
           display={{ base: "flex", md: "none" }}
         >
-          <IconButton
-            onClick={() => {
-              onToggle();
-              setIsAuth(false);
-            }}
-            icon={
-              isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
-            }
-            variant={"ghost"}
-            aria-label={"Toggle Navigation"}
-          />
+          <MobileNav />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
           <Link href="/" passHref={true}>
@@ -221,6 +221,18 @@ export default function WithSubnavigation() {
                 <MenuList>
                   <MenuItem onClick={() => onOpenProfile()}>Mi Perfil</MenuItem>
                   <MenuDivider />
+                  <Link href={"myAccount"} passHref>
+                    <MenuItem icon={<ExternalLinkIcon />}>
+                      Ajustes De Cuenta
+                    </MenuItem>
+                  </Link>
+                  <MenuDivider />
+                  <MenuItem>Solicitudes</MenuItem>
+                  <MenuDivider />
+                  <MenuItem>Solicita Cotización</MenuItem>
+                  <MenuDivider />
+                  <MenuItem>Ofrecé tus Servicios</MenuItem>
+                  <MenuDivider />
                   <MenuItem d={{ base: "inline", md: "none" }}>
                     Notificaciones
                   </MenuItem>
@@ -256,12 +268,6 @@ export default function WithSubnavigation() {
           )}
         </Stack>
       </Flex>
-
-      {!isAuth && (
-        <Collapse in={isOpen} animateOpacity>
-          <MobileNav NAV_ITEMS={NAV_ITEMS} />
-        </Collapse>
-      )}
 
       {session && status === "authenticated" && (
         <Profile {...{ isOpenProfile, onCloseProfile }} />

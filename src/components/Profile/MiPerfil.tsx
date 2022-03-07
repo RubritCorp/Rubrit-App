@@ -18,21 +18,28 @@ import {
   ModalFooter,
   Textarea,
   useToast,
+  Menu,
+  MenuButton,
+  IconButton,
+  MenuItem,
+  MenuList,
+  MenuDivider,
 } from "@chakra-ui/react";
 import {
   EditIcon,
   DragHandleIcon,
   DeleteIcon,
   StarIcon,
+  ExternalLinkIcon,
 } from "@chakra-ui/icons";
 //interfaces
 import { Session } from "next-auth";
 //components
-import DeleteUser from "./DeleteUser";
 import EditProfile from "./EditProfile";
 //from modules
-import { ChangeEvent, useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
+import Link from "next/link";
 
 const MiPerfil: React.FC<{
   user: Session;
@@ -132,7 +139,26 @@ const MiPerfil: React.FC<{
           flexDirection={"column"}
           w={"33%"}
         >
-          <Button leftIcon={<DragHandleIcon />} iconSpacing={0} />
+          <Menu>
+            <MenuButton
+              as={IconButton}
+              aria-label="Más"
+              icon={<DragHandleIcon />}
+              iconSpacing={0}
+            />
+            <MenuList>
+              <Link href={"myAccount"} passHref>
+                <MenuItem icon={<ExternalLinkIcon />}>
+                  Ajustes De La Cuenta
+                </MenuItem>
+              </Link>
+              <MenuDivider />
+              <MenuItem>Preferencias</MenuItem>
+              <MenuDivider />
+              <MenuItem>Ver Tus Archivos</MenuItem>
+            </MenuList>
+          </Menu>
+
           <Text
             textAlign={"center"}
             fontSize={{ base: "sm", lg: "md" }}
@@ -182,7 +208,12 @@ const MiPerfil: React.FC<{
             Recordá que debes completar tu perfil antes de poder disfrutar todo
             lo que tenemos para ofrecerte
           </Flex>
-          <Button leftIcon={<EditIcon />} w={"100%"} variant={"ghost"}>
+          <Button
+            leftIcon={<EditIcon />}
+            w={"100%"}
+            variant={"ghost"}
+            onClick={() => onOpenEditProfile()}
+          >
             Completar Perfil
           </Button>
         </Alert>
@@ -245,7 +276,7 @@ const UpdateDescription: React.FC<{
           <ModalCloseButton />
         </ModalHeader>
         <ModalBody>
-          <Text>Máximo 290 caracteres</Text>
+          <Text>Descripción Máximo 290 caracteres</Text>
           <Textarea
             height={"10rem"}
             maxLength={290}

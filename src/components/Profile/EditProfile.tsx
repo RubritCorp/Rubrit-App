@@ -157,7 +157,6 @@ const EditProfile: React.FC<{
               <Tooltip label="Editar foto">
                 <AvatarBadge
                   as={IconButton}
-                  con
                   w={"1rem"}
                   size="md"
                   rounded="full"
@@ -364,7 +363,7 @@ const UpdateImage: React.FC<{
               type: "image/png",
             })
         );
-      setCroppedImage(croppedImage);
+      setCroppedImage(newImage);
     } catch (err) {
       console.log(err);
     }
@@ -492,7 +491,7 @@ const UpdateImage: React.FC<{
                   <Box
                     height="20px"
                     width={"140px"}
-                    bg={"gray.600"}
+                    bg={"gray.700"}
                     borderRadius={"10px"}
                     marginTop={1}
                   />
