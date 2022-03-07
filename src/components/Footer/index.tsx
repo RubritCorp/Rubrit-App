@@ -78,14 +78,14 @@ const Footer: React.FC = () => {
 
           <Stack align={"flex-start"}>
             <ListHeader>Soporte</ListHeader>
-            <Link href={"#"}>FAQs</Link>
-            <Link href={"#"}>Principios de la Comunidad</Link>
+            <Link href={"/faqs"}><a>FAQs</a></Link>
+            <Link href={"/comunityPrinciply"}><a>Principios de la Comunidad</a></Link>
           </Stack>
 
           <Stack align={"flex-start"}>
             <ListHeader>Legales</ListHeader>
-            <Link href={"#"}>Politica de Cookies</Link>
-            <Link href={"#"}>Politicas de Privacidad</Link>
+            <Link href={"cookiesPolicy"}><a>Politica de Cookies</a></Link>
+            <Link href={"/privacyPolicy"}><a>Politicas de Privacidad</a></Link>
             <Link href={"/termService"}>
               <a>Terminos del Servicio</a>
             </Link>
