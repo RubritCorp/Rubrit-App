@@ -6,6 +6,7 @@ import Category from "models/Category";
 import { ICategory } from "models/Category/ICategory";
 //db
 import "utils/db";
+import Subcategory from "models/Subcategory";
 
 type DataCategories = {
   message: string;
@@ -24,6 +25,7 @@ interface ICases {
 const cases: ICases = {
   GET: async (_, res) => {
     try {
+      await Subcategory.find();
       const populateQuery = [
         {
           path: "subcategories",
@@ -39,8 +41,9 @@ const cases: ICases = {
           .json({ message: "Fetching categories succesfully", categories });
       }
     } catch (err) {
+      res.status(404).json({ message: "Error fetching data" });
       console.log("Error ocurred in GET category");
-      //console.log(err);
+      console.log(err);
     }
   },
   ERROR: (_, res) => res.status(400).json({ message: "Error was ocurred!" }),

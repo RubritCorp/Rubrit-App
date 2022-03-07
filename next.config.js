@@ -6,6 +6,7 @@ const nextConfig = {
     EMAIL_SENDER:process.env.EMAIL_SENDER,
     EMAIL_PASSWORD:process.env.EMAIL_PASSWORD,
     CALLBACK_REDIRECT_EMAIL_AUTH:process.env.CALLBACK_REDIRECT_EMAIL_AUTH,
+    DELETE_USER_URL:process.DELETE_USER_URL,
     CAPTCHA_ID: process.env.CAPTCHA_ID,
     SECRET:process.env.SECRET,
     NEXTAUTH_URL:process.env.NEXTAUTH_URL,
