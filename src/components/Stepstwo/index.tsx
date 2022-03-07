@@ -20,30 +20,42 @@ const Stepstwo: React.FC = () => {
         box-shadow= {"rgba(0, 0, 0, 0.25)"}
         border-radius= {"5px"}
         >
-          <Text>-</Text>
+                    <Text>-</Text>
+          <Button
+          color={"white"}
+          colorScheme={'green'}
+          bg={'green.500'}
+          borderRadius={"40px"}
+          ml={"270px"}
+          >2</Button>
+          <Text
+          color={"black"}
+          fontSize={"12px"}
+          ml={"261px"}>
+            Confirma
+          </Text>
           <Heading>
             <Text color={"black"}
              fontFamily={"Poppins"}
              textAlign={'center'}
              >¿Que necesitas?</Text>
         </Heading>
-        <Text>-</Text>
         <Text color={"black"}
          w={"500px"} 
          textAlign={'center'}
          ml={"50px"}
          >Titulo de la solicitud</Text>
-        <Text>-</Text>
         <Button
+        background={"#CCC3C1"}
+        borderRadius={"10px"}
         color={"black"}
-        ml={"130px"}
-        rounded={'full'}
+        ml={"150px"}
         w={"300px"} 
        >
              Ej. Filtraciones de la cocina
             </Button>
             <Text
-            color={'green'}
+            color={'red'}
             ml={"210px"} 
             >Elige una categoría</Text>
             <Text>-</Text>
@@ -54,14 +66,15 @@ const Stepstwo: React.FC = () => {
          >Descripción de la solicitud</Text>
                     <Button
         color={"black"}
-        ml={"240px"}
-        rounded={'full'}
-        w={"90px"} 
+        ml={"50px"}
+        background={"#CCC3C1"}
+        borderRadius={"10px"}
+        w={"490px"} 
        >
              Ej. Tengo una filtracion en la cocina que debo reparar..
             </Button>
             <Text
-            color={'green'}
+            color={'red'}
             ml={"210px"} 
             >Elige una subcategoría</Text>
             <Text>-</Text>
@@ -72,21 +85,22 @@ const Stepstwo: React.FC = () => {
          >Ubicación del servicio</Text>
                     <Button
         color={"black"}
-        ml={"240px"}
-        rounded={'full'}
-        w={"90px"} 
+        ml={"150px"}
+        background={"#CCC3C1"}
+        borderRadius={"10px"}
+        w={"290px"} 
        >
              Ubicacion del trabajo
             </Button>
             <Text
-            color={'green'}
+            color={'red'}
             ml={"210px"} 
             >Elige una subcategoría</Text>
             <Text>-</Text>
             <Button
               colorScheme={'green'}
               bg={'green.500'}
-              rounded={'full'}
+              borderRadius={"10px"}
               ml={"140px"}   
               w={"300px"}      
               px={6}
@@ -99,7 +113,7 @@ const Stepstwo: React.FC = () => {
         <Button
               colorScheme={'green'}
               bg={'green.500'}
-              rounded={'full'}
+              borderRadius={"10px"}
               ml={"140px"}   
               w={"300px"}      
               px={6}
