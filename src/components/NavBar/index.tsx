@@ -3,10 +3,8 @@ import {
   Box,
   Flex,
   Text,
-  IconButton,
   Button,
   Stack,
-  Collapse,
   useColorModeValue,
   useDisclosure,
   Modal,
@@ -20,15 +18,16 @@ import {
   MenuDivider,
 } from "@chakra-ui/react";
 import {
-  HamburgerIcon,
-  CloseIcon,
   BellIcon,
   ChevronDownIcon,
+  ExternalLinkIcon,
+  HamburgerIcon,
 } from "@chakra-ui/icons";
 //from modules
 import { useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { Session } from "next-auth/core/types";
+import { useRouter } from "next/router";
 import Link from "next/link";
 //components
 import DesktopNav from "./DesktopNav";
@@ -37,10 +36,12 @@ import Login from "components/Login";
 import Register from "components/Register";
 import DarkModeSwitch from "components/DarkModeSwitch";
 import Loading from "components/Loading";
+import { DrawerOptions } from "components/MyAccount";
 //interfaces
 import EmailAuthModal from "./emailAuthModal";
 import Router from "next/router";
 import Profile from "components/Profile/Profile";
+import axios from "axios";
 
 interface NavItem {
   label: string;
@@ -62,11 +63,11 @@ const NAV_ITEMS: Array<NavItem> = [
   },
   {
     label: "Buscar Servicios",
-    href: "/findservices",
+    href: "/findServices",
   },
   {
     label: "Ofrece tus Servicios",
-    href: "/offerservices",
+    href: "offerServices",
   },
   {
     label: "Bolsa De Trabajo",
@@ -74,34 +75,41 @@ const NAV_ITEMS: Array<NavItem> = [
   },
 ];
 
-export default function WithSubnavigation() {
-  const { isOpen, onToggle, onOpen, onClose } = useDisclosure();
+const WithSubnavigation: React.FC = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: isOpenProfile,
     onOpen: onOpenProfile,
     onClose: onCloseProfile,
   } = useDisclosure();
+  const {
+    isOpen: isOpenDrawerOptions,
+    onOpen: onOpenDrawerOptions,
+    onClose: onCloseDrawerOptions,
+  } = useDisclosure();
   const { data: session, status } = useSession();
-
+  const { pathname } = useRouter();
   const [isAuth, setIsAuth] = useState<boolean>();
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [user, setUser] = useState<Session>();
 
+  const [categories, setCategories] = useState<any>();
+
   const toast = useToast();
 
   useEffect(() => {
+    //solo para la demo
+    const fillCategories = async () => {
+      const { data } = await axios.get("/api/categories");
+      setCategories(data.categories);
+    };
+    fillCategories();
+    /* ------ */
     if (session && status === "authenticated") {
       setUser(session);
 
-      toast({
-        title: `Bienvenido ${session.name}`,
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom-left",
-      });
-      if (!session?.isAuthenticated) {
-        if (!toast.isActive("verify-account")) {
+      if (!toast.isActive("verify-account")) {
+        if (!session.isAuthenticated) {
           toast({
             duration: 30 * 24 * 60 * 60,
             isClosable: false,
@@ -110,8 +118,9 @@ export default function WithSubnavigation() {
             position: "bottom-left",
           });
         }
+      } else {
+        toast.close("verify-account");
       }
-      toast.close("verify-account");
     }
     if (Router.query) {
       const { authenticated } = Router.query;
@@ -147,19 +156,28 @@ export default function WithSubnavigation() {
           ml={{ base: -2 }}
           display={{ base: "flex", md: "none" }}
         >
-          <IconButton
-            onClick={() => {
-              onToggle();
-              setIsAuth(false);
-            }}
-            icon={
-              isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
-            }
-            variant={"ghost"}
-            aria-label={"Toggle Navigation"}
-          />
+          <MobileNav />
         </Flex>
-        <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
+        <Flex
+          flex={{ base: 1 }}
+          justify={{ base: "center", md: "start" }}
+          align={"center"}
+        >
+          {pathname === "/myAccount" && (
+            <Box d={{ base: "none", md: "inline", xl: "none" }}>
+              <Button
+                rightIcon={<HamburgerIcon boxSize={"1.5rem"} />}
+                iconSpacing={0}
+                variant={"ghost"}
+                mr={5}
+                onClick={onOpenDrawerOptions}
+              />
+              <DrawerOptions
+                isOpen={isOpenDrawerOptions}
+                onClose={onCloseDrawerOptions}
+              />
+            </Box>
+          )}
           <Link href="/" passHref={true}>
             <Text
               fontFamily={"heading"}
@@ -168,9 +186,11 @@ export default function WithSubnavigation() {
               Logo
             </Text>
           </Link>
-
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
-            <DesktopNav NAV_ITEMS={NAV_ITEMS} />
+            {/*solo para la demo*/}
+            <DesktopNav />
+            {/* ------- */}
+            {/* <DesktopNav NAV_ITEMS={NAV_ITEMS} /> */}
           </Flex>
         </Flex>
 
@@ -225,6 +245,18 @@ export default function WithSubnavigation() {
                 <MenuList>
                   <MenuItem onClick={() => onOpenProfile()}>Mi Perfil</MenuItem>
                   <MenuDivider />
+                  <Link href={"myAccount"} passHref>
+                    <MenuItem icon={<ExternalLinkIcon />}>
+                      Ajustes De Cuenta
+                    </MenuItem>
+                  </Link>
+                  <MenuDivider />
+                  <MenuItem>Solicitudes</MenuItem>
+                  <MenuDivider />
+                  <MenuItem>Solicita Cotización</MenuItem>
+                  <MenuDivider />
+                  <MenuItem>Ofrecé tus Servicios</MenuItem>
+                  <MenuDivider />
                   <MenuItem d={{ base: "inline", md: "none" }}>
                     Notificaciones
                   </MenuItem>
@@ -261,15 +293,11 @@ export default function WithSubnavigation() {
         </Stack>
       </Flex>
 
-      {!isAuth && (
-        <Collapse in={isOpen} animateOpacity>
-          <MobileNav NAV_ITEMS={NAV_ITEMS} />
-        </Collapse>
-      )}
-
       {session && status === "authenticated" && (
         <Profile {...{ isOpenProfile, onCloseProfile }} />
       )}
     </Box>
   );
-}
+};
+
+export default WithSubnavigation;

@@ -1,5 +1,10 @@
 //chakra
-import { EditIcon, SmallCloseIcon } from "@chakra-ui/icons";
+import {
+  ChevronDownIcon,
+  EditIcon,
+  InfoIcon,
+  SmallCloseIcon,
+} from "@chakra-ui/icons";
 import {
   Alert,
   AlertIcon,
@@ -26,7 +31,22 @@ import {
   SliderTrack,
   SliderFilledTrack,
   SliderThumb,
-  Skeleton,
+  useTheme,
+  InputGroup,
+  InputLeftAddon,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  InputRightElement,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverHeader,
+  PopoverBody,
+  FormLabel,
 } from "@chakra-ui/react";
 import { IUser } from "models/User/IUser";
 //types
@@ -37,7 +57,8 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { InputControl, SubmitButton } from "formik-chakra-ui";
 import axios from "axios";
-
+//assets
+import { ARG, COL, MEX, PAR, PER, URU } from "assets/flags";
 //crop
 import Image from "next/image";
 import Cropper from "react-easy-crop";
@@ -72,12 +93,54 @@ const EditProfile: React.FC<{
     onClose: onCloseUpdateImage,
   } = useDisclosure();
 
+  const [countryCode, setCountryCode] = useState<string>("País");
+
+  interface DataCountry {
+    name: string;
+    img: JSX.Element;
+    code: string;
+  }
+
+  const countries: DataCountry[] = [
+    {
+      name: "Argentina",
+      img: <ARG />,
+      code: "+54",
+    },
+    {
+      name: "Colombia",
+      img: <COL />,
+      code: "+57",
+    },
+    {
+      name: "México",
+      img: <MEX />,
+      code: "+52",
+    },
+    {
+      name: "Paraguay",
+      img: <PAR />,
+      code: "+595",
+    },
+    {
+      name: "Perú",
+      img: <PER />,
+      code: "+51",
+    },
+    {
+      name: "Uruguay",
+      img: <URU />,
+      code: "+598",
+    },
+  ];
   interface DataInitialValues {
     name: string;
     phone: string;
     adress: string;
     timeZone: string;
   }
+
+  const theme = useTheme();
 
   const inputFileRef = useRef<HTMLInputElement>(null);
 
@@ -157,7 +220,6 @@ const EditProfile: React.FC<{
               <Tooltip label="Editar foto">
                 <AvatarBadge
                   as={IconButton}
-                  con
                   w={"1rem"}
                   size="md"
                   rounded="full"
@@ -204,14 +266,65 @@ const EditProfile: React.FC<{
                     autoComplete: "off",
                   }}
                 />
-                <InputControl
-                  name="phone"
-                  label="Número de Celular"
-                  inputProps={{
-                    placeholder: "Número",
-                    autoComplete: "off",
-                  }}
-                />
+                <FormLabel pt={4}>Número de Celular</FormLabel>
+                <InputGroup>
+                  <InputLeftAddon p={0}>
+                    <Menu>
+                      <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                        {countryCode}
+                      </MenuButton>
+                      <MenuList>
+                        {countries.map((m, i: number) => (
+                          <MenuItem key={i}>
+                            <Button
+                              leftIcon={m.img}
+                              value={m.code}
+                              fontWeight={400}
+                              variant={"ghost"}
+                              onClick={() => setCountryCode(m.code)}
+                              _hover={{ bg: "transparent" }}
+                            >
+                              {m.name} {m.code}
+                            </Button>
+                          </MenuItem>
+                        ))}
+                      </MenuList>
+                    </Menu>
+                  </InputLeftAddon>
+                  <InputControl
+                    name="phone"
+                    inputProps={{
+                      placeholder: "Numero de teléfono",
+                      autoComplete: "off",
+                    }}
+                  />
+                  <InputRightElement position={"absolute"} zIndex={999}>
+                    <Popover>
+                      <PopoverTrigger>
+                        <Button
+                          bg={theme.colors.medium_green}
+                          _hover={{
+                            bg: theme.colors.light_green_sub[700],
+                          }}
+                        >
+                          <InfoIcon color={"#fafafa"} />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent>
+                        <PopoverArrow />
+                        <PopoverCloseButton />
+                        <PopoverHeader textAlign={"center"} color={"red"}>
+                          ¡No compartiremos tu número a nadie!
+                        </PopoverHeader>
+                        <PopoverBody>
+                          Mediante tu número de celular hacemos una aplicación
+                          mas segura para todos, gracias por su colaboración!
+                        </PopoverBody>
+                      </PopoverContent>
+                    </Popover>
+                  </InputRightElement>
+                </InputGroup>
+
                 <InputControl
                   name="adress"
                   label="Dirección"
@@ -364,7 +477,7 @@ const UpdateImage: React.FC<{
               type: "image/png",
             })
         );
-      setCroppedImage(croppedImage);
+      setCroppedImage(newImage);
     } catch (err) {
       console.log(err);
     }
@@ -492,7 +605,7 @@ const UpdateImage: React.FC<{
                   <Box
                     height="20px"
                     width={"140px"}
-                    bg={"gray.600"}
+                    bg={"gray.700"}
                     borderRadius={"10px"}
                     marginTop={1}
                   />
