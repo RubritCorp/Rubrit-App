@@ -21,6 +21,19 @@ const StepsOne: React.FC = () => {
         border-radius= {"5px"}
         >
           <Text>-</Text>
+          <Button
+          color={"white"}
+          colorScheme={'green'}
+          bg={'green.500'}
+          borderRadius={"40px"}
+          ml={"270px"}
+          >1</Button>
+          <Text
+          color={"black"}
+          fontSize={"12px"}
+          ml={"240px"}>
+            Describi la tarea
+          </Text>
           <Heading>
             <Text color={"black"}
              fontFamily={"Poppins"}
@@ -37,36 +50,38 @@ const StepsOne: React.FC = () => {
         Rubrit no dará tu dirección, ni teléfono a ningún profesional.</Text>
         <Text>-</Text>
         <Button
+        background={"#CCC3C1"}
         color={"black"}
         ml={"130px"}
-        rounded={'full'}
         w={"300px"} 
+        borderRadius={"10px"}
        >
              Categoria
             </Button>
             <Text
-            color={'green'}
+            color={'red'}
             ml={"210px"} 
             >Elige una categoría</Text>
             <Text>-</Text>
                     <Button
+        background={"#CCC3C1"}
         color={"black"}
-        ml={"240px"}
-        rounded={'full'}
-        w={"90px"} 
+        ml={"130px"}
+        w={"300px"} 
+        borderRadius={"10px"}
        >
              Subcategoría
             </Button>
             <Text
-            color={'green'}
-            ml={"210px"} 
+            color={'red'}
+            ml={"200px"} 
             >Elige una subcategoría</Text>
             <Text>-</Text>
         <Button
               colorScheme={'green'}
               bg={'green.500'}
-              rounded={'full'}
-              ml={"140px"}   
+              borderRadius={"10px"}
+              ml={"130px"}   
               w={"300px"}      
               px={6}
               _hover={{
@@ -76,7 +91,7 @@ const StepsOne: React.FC = () => {
             </Button>
             <Text
             color={'green'}
-            ml={"240px"} 
+            ml={"233px"} 
             >Paso 1 de 2</Text>
         </Box>
                 <Box

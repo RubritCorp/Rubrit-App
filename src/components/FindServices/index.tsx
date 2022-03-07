@@ -11,6 +11,7 @@ import {
   Button,
   useTheme,
   SimpleGrid,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import {
   CalendarCheck,
@@ -191,7 +192,7 @@ const FindServices: React.FC = () => {
                   color="white"
                   fontSize="1.8rem"
                 >
-                  COMENZARR
+                  COMENZAR
                 </Box>
               </Link>
               <Flex flexDirection="row" justifyContent="center" padding={2}>

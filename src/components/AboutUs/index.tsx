@@ -25,32 +25,24 @@ const AboutUs: React.FC = () => {
         bg={useColorModeValue("#BBE1C3", "dark_green")}
         color={useColorModeValue("dark_green", "medium_grey")}
       >
-        <Container maxW={"6xl"} py={10}>
+        <Container maxW={"container.xl"} py={10}>
           <Flex
             justifyContent="center"
             padding={5}
             direction="column"
             marginTop={10}
           >
-            <Heading
-              fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
-              textAlign="center"
-              marginBottom={1}
-            >
+            <Heading fontSize={"2xl"} textAlign="center" marginBottom={1}>
               Revolucionando el trabajo diario
             </Heading>
-            <Text
-              fontSize={{ base: "0.9rem", md: "0.9rem", lg: "1.4rem" }}
-              textAlign="center"
-              marginBottom={5}
-            >
+            <Text fontSize={"xl"} textAlign="center" marginBottom={5}>
               El trabajo diario es importante. Pero también requiere mucho
               tiempo. Podemos ayudarte.
             </Text>
           </Flex>
         </Container>
       </Box>
-      <Container maxW={"6xl"} py={10}>
+      <Container maxW={"container.xl"} py={10}>
         <Box height="80px">
           <Flex justifyContent="center" align-items="center">
             <Handshake
@@ -61,17 +53,10 @@ const AboutUs: React.FC = () => {
           </Flex>
         </Box>
         <Flex justifyContent="center" padding={5} direction="column">
-          <Heading
-            fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
-            textAlign="center"
-          >
+          <Heading fontSize={"2xl"} textAlign="center" marginBottom={2}>
             Haga más en menos tiempo
           </Heading>
-          <Text
-            fontSize={{ base: "0.9rem", md: "0.9rem", lg: "1.4rem" }}
-            textAlign="center"
-            marginBottom={5}
-          >
+          <Text fontSize={"xl"} textAlign="center" marginBottom={5}>
             Nuestra plataforma de servicio lo conecta instantáneamente con
             trabajadores calificados para ayudarlo en trabajos ocasionales y
             mandados, para que pueda ser más productivo todos los días.
@@ -82,7 +67,7 @@ const AboutUs: React.FC = () => {
         bg={useColorModeValue("#BBE1C3", "dark_green")}
         color={useColorModeValue("dark_green", "medium_grey")}
       >
-        <Container maxW={"6xl"} py={10}>
+        <Container maxW={"container.xl"} py={10}>
           <Flex direction="row">
             <Container marginTop={20}>
               <Box height="100px">
@@ -95,17 +80,14 @@ const AboutUs: React.FC = () => {
                 </Flex>
               </Box>
               <Heading
-                fontSize={{ base: "0.8rem", md: "1rem", lg: "1.2rem" }}
+                fontSize={"xl"}
                 textAlign="center"
                 fontWeight="bold"
                 marginBottom={2}
               >
                 350.000
               </Heading>
-              <Text
-                fontSize={{ base: "0.5rem", md: "0.5rem", lg: "1rem" }}
-                textAlign="center"
-              >
+              <Text fontSize={"lg"} textAlign="center">
                 horas dedicadas a hacer mandados por toda la ciudad
               </Text>
             </Container>
@@ -120,17 +102,14 @@ const AboutUs: React.FC = () => {
                 </Flex>
               </Box>
               <Heading
-                fontSize={{ base: "0.8rem", md: "1rem", lg: "1.2rem" }}
+                fontSize={"xl"}
                 textAlign="center"
                 fontWeight="bold"
                 marginBottom={2}
               >
                 16.000
               </Heading>
-              <Text
-                fontSize={{ base: "0.5rem", md: "0.5rem", lg: "1rem" }}
-                textAlign="center"
-              >
+              <Text fontSize={"lg"} textAlign="center">
                 reparaciones en hogares y oficinas
               </Text>
             </Container>
@@ -145,17 +124,14 @@ const AboutUs: React.FC = () => {
                 </Flex>
               </Box>
               <Heading
-                fontSize={{ base: "0.8rem", md: "1rem", lg: "1.2rem" }}
+                fontSize={"xl"}
                 textAlign="center"
                 fontWeight="bold"
                 marginBottom={2}
               >
                 4.000
               </Heading>
-              <Text
-                fontSize={{ base: "0.5rem", md: "0.5rem", lg: "1rem" }}
-                textAlign="center"
-              >
+              <Text fontSize={"lg"} textAlign="center">
                 nuevos usuarios en el último mes
               </Text>
             </Container>
@@ -163,223 +139,207 @@ const AboutUs: React.FC = () => {
         </Container>
       </Box>
 
-      <Container maxW={"6xl"}>
+      <Container maxW={"container.lg"}>
         <Flex
           justifyContent="flex-start"
           padding={5}
           direction="column"
           marginTop={10}
-          marginBottom={500}
+          marginBottom={90}
         >
           <Heading
-            fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
+            fontSize={"2xl"}
             textAlign="center"
-            marginLeft={5}
-            marginBottom={1}
+            marginBottom={2}
+            marginTop={8}
           >
             Nuestro Equipo
           </Heading>
-          <Text
-            fontSize={{ base: "0.9rem", md: "0.9rem", lg: "1.4rem" }}
-            textAlign="center"
-            marginBottom={5}
-          >
+          <Text fontSize={"xl"} textAlign="center" marginBottom={75}>
             Contamos los mejores profesionales a su servicio, para asistirlo las
             24 hs. del día
           </Text>
-          <SimpleGrid columns={[2, null, 4]} spacing="40px">
-          <Flex marginBottom={2} justifyContent="center">
+          <SimpleGrid columns={[2, null, 4]} spacing="20px">
+            <Flex marginBottom={2} justifyContent="center">
               <Box height="300px">
                 <Avatar
-                  size={"7"}
+                  height={"11rem"}
+                  width={"11rem"}
                   src={"https://avatars.githubusercontent.com/u/86489779?v=4"}
                   mb={4}
                   pos={"relative"}
                 />
                 <Heading
-                  fontSize={{ base: "0.8rem", md: "1rem", lg: "1.2rem" }}
+                  fontSize={"lg"}
                   textAlign="center"
                   fontWeight="bold"
                   marginBottom={2}
                 >
                   Tomás Anastasio
                 </Heading>
-                <Text
-                  fontSize={{ base: "0.5rem", md: "0.5rem", lg: "1rem" }}
-                  textAlign="center"
-                >
+                <Text fontSize={"l"} textAlign="center">
                   Buenos Aires, Argentina.
                 </Text>
-              </Box> 
+              </Box>
             </Flex>
             <Flex marginBottom={2} justifyContent="center">
               <Box height="300px">
                 <Avatar
-                  size={"7"}
+                  height={"11rem"}
+                  width={"11rem"}
                   src={"https://avatars.githubusercontent.com/u/74109226?v=4"}
                   mb={4}
                   pos={"relative"}
                 />
                 <Heading
-                  fontSize={{ base: "0.8rem", md: "1rem", lg: "1.2rem" }}
+                  fontSize={"lg"}
                   textAlign="center"
                   fontWeight="bold"
                   marginBottom={2}
                 >
                   Santiago Bancalari
                 </Heading>
-                <Text
-                  fontSize={{ base: "0.5rem", md: "0.5rem", lg: "1rem" }}
-                  textAlign="center"
-                >
+                <Text fontSize={"l"} textAlign="center">
                   Buenos Aires, Argentina.
                 </Text>
-              </Box> 
+              </Box>
             </Flex>
             <Flex marginBottom={2} justifyContent="center">
-            <Box height="300px">
+              <Box height="300px">
                 <Avatar
-                  size={"7"}
-                  src={"https://avatars.githubusercontent.com/u/88420434?v=4"}
-                  mb={4}
-                  pos={"relative"}
-                />
-                <Heading
-                  fontSize={{ base: "0.8rem", md: "1rem", lg: "1.2rem" }}
-                  textAlign="center"
-                  fontWeight="bold"
-                  marginBottom={2}
-                >
-                  Agustín Castro
-                </Heading>
-                <Text
-                  fontSize={{ base: "0.5rem", md: "0.5rem", lg: "1rem" }}
-                  textAlign="center"
-                >
-                  Córdoba, Argentina.
-                </Text>
-              </Box>
-              </Flex>
-            <Flex marginBottom={2} justifyContent="center">
-            <Box height="300px">
-                <Avatar
-                  size={"7"}
+                  height={"11rem"}
+                  width={"11rem"}
                   src={"https://avatars.githubusercontent.com/u/78768949?v=4"}
                   mb={4}
                   pos={"relative"}
                 />
                 <Heading
-                  fontSize={{ base: "0.8rem", md: "1rem", lg: "1.2rem" }}
+                  fontSize={"lg"}
                   textAlign="center"
                   fontWeight="bold"
                   marginBottom={2}
                 >
                   María Victoria Casal
                 </Heading>
-                <Text
-                  fontSize={{ base: "0.5rem", md: "0.5rem", lg: "1rem" }}
-                  textAlign="center"
-                >
+                <Text fontSize={"l"} textAlign="center">
                   Tucumán, Argentina.
                 </Text>
               </Box>
-              </Flex>
+            </Flex>
             <Flex marginBottom={2} justifyContent="center">
-            <Box height="300px">
+              <Box height="300px">
                 <Avatar
-                  size={"7"}
+                  height={"11rem"}
+                  width={"11rem"}
+                  src={"https://avatars.githubusercontent.com/u/88420434?v=4"}
+                  mb={4}
+                  pos={"relative"}
+                />
+                <Heading
+                  fontSize={"lg"}
+                  textAlign="center"
+                  fontWeight="bold"
+                  marginBottom={2}
+                >
+                  Agustín Castro
+                </Heading>
+                <Text fontSize={"l"} textAlign="center">
+                  Córdoba, Argentina.
+                </Text>
+              </Box>
+            </Flex>
+            <Flex marginBottom={2} justifyContent="center">
+              <Box height="300px">
+                <Avatar
+                  height={"11rem"}
+                  width={"11rem"}
                   src={"https://avatars.githubusercontent.com/u/89716856?v=4"}
                   mb={4}
                   pos={"relative"}
                 />
                 <Heading
-                  fontSize={{ base: "0.8rem", md: "1rem", lg: "1.2rem" }}
+                  fontSize={"lg"}
                   textAlign="center"
                   fontWeight="bold"
                   marginBottom={2}
                 >
                   Oscar Corregidor
                 </Heading>
-                <Text
-                  fontSize={{ base: "0.5rem", md: "0.5rem", lg: "1rem" }}
-                  textAlign="center"
-                >
+                <Text fontSize={"l"} textAlign="center">
                   Salta, Argentina.
                 </Text>
               </Box>
-              </Flex>
-              <Flex marginBottom={2} justifyContent="center">
-            <Box height="300px">
+            </Flex>
+            <Flex marginBottom={2} justifyContent="center">
+              <Box height="300px">
                 <Avatar
-                  size={"7"}
-                  src={"https://ca.slack-edge.com/TPRS7H4PN-U02MPR191SL-8bd0566e47d4-512"}
+                  height={"11rem"}
+                  width={"11rem"}
+                  src={
+                    "https://ca.slack-edge.com/TPRS7H4PN-U02MPR191SL-8bd0566e47d4-512"
+                  }
                   mb={4}
                   pos={"relative"}
                 />
                 <Heading
-                  fontSize={{ base: "0.8rem", md: "1rem", lg: "1.2rem" }}
+                  fontSize={"lg"}
                   textAlign="center"
                   fontWeight="bold"
                   marginBottom={2}
                 >
-                  Luis Carlos Enriquez
+                  Luis Carlos Enríquez
                 </Heading>
-                <Text
-                  fontSize={{ base: "0.5rem", md: "0.5rem", lg: "1rem" }}
-                  textAlign="center"
-                >
+                <Text fontSize={"l"} textAlign="center">
                   México.
                 </Text>
               </Box>
-              </Flex>
-              <Flex marginBottom={2} justifyContent="center">
-            <Box height="300px">
+            </Flex>
+            <Flex marginBottom={2} justifyContent="center">
+              <Box height="300px">
                 <Avatar
-                  size={"7"}
+                  height={"11rem"}
+                  width={"11rem"}
                   src={"https://avatars.githubusercontent.com/u/79219062?v=4"}
                   mb={4}
                   pos={"relative"}
                 />
                 <Heading
-                  fontSize={{ base: "0.8rem", md: "1rem", lg: "1.2rem" }}
+                  fontSize={"lg"}
                   textAlign="center"
                   fontWeight="bold"
                   marginBottom={2}
                 >
                   Eliana Sciclone
                 </Heading>
-                <Text
-                  fontSize={{ base: "0.5rem", md: "0.5rem", lg: "1rem" }}
-                  textAlign="center"
-                >
+                <Text fontSize={"l"} textAlign="center">
                   CABA, Argentina.
                 </Text>
               </Box>
-              </Flex>
-              <Flex marginBottom={2} justifyContent="center">
-            <Box height="300px">
+            </Flex>
+            <Flex marginBottom={2} justifyContent="center">
+              <Box height="300px">
                 <Avatar
-                  size={"7"}
-                  src={"https://ca.slack-edge.com/TPRS7H4PN-U01M0BP7CQJ-416c76e76358-512"}
+                  height={"11rem"}
+                  width={"11rem"}
+                  src={
+                    "https://ca.slack-edge.com/TPRS7H4PN-U01M0BP7CQJ-416c76e76358-512"
+                  }
                   mb={4}
                   pos={"relative"}
                 />
                 <Heading
-                  fontSize={{ base: "0.8rem", md: "1rem", lg: "1.2rem" }}
+                  fontSize={"lg"}
                   textAlign="center"
                   fontWeight="bold"
                   marginBottom={2}
                 >
                   Daniela Suárez
                 </Heading>
-                <Text
-                  fontSize={{ base: "0.5rem", md: "0.5rem", lg: "1rem" }}
-                  textAlign="center"
-                >
+                <Text fontSize={"l"} textAlign="center">
                   Buenos Aires, Argentina.
                 </Text>
               </Box>
-              </Flex>
+            </Flex>
           </SimpleGrid>
         </Flex>
       </Container>

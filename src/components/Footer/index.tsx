@@ -17,7 +17,6 @@ import { TwitterLogo, YoutubeLogo, InstagramLogo } from "phosphor-react";
 import DarkModeSwitch from "components/DarkModeSwitch";
 import Link from "next/link";
 
-
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
     <Text fontWeight={"500"} fontSize={"lg"} mb={2}>
@@ -70,9 +69,10 @@ const Footer: React.FC = () => {
         <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={8}>
           <Stack align={"flex-start"}>
             <ListHeader>Rubrit</ListHeader>
-            <Link href={"/"}>Inicio</Link>
-            <Link href={"#"}>Como Funciona</Link>
-            <Link href={"#"}>Sobre Nosotros</Link>
+            <Link href={"#"}>Inicio</Link>
+            <Link href={"/findServices"}>Como Buscar Servicios</Link>
+            <Link href={"/offerServices"}>Como Ofrecer Servicios</Link>
+            <Link href={"/aboutUs"}>Sobre Nosotros</Link>
             <Link href={"#"}>Registrate como Profesional</Link>
           </Stack>
 
@@ -86,7 +86,9 @@ const Footer: React.FC = () => {
             <ListHeader>Legales</ListHeader>
             <Link href={"cookiesPolicy"}><a>Politica de Cookies</a></Link>
             <Link href={"/privacyPolicy"}><a>Politicas de Privacidad</a></Link>
-            <Link href={"/termService"}><a>Terminos del Servicio</a></Link>
+            <Link href={"/termService"}>
+              <a>Terminos del Servicio</a>
+            </Link>
           </Stack>
         </SimpleGrid>
       </Container>

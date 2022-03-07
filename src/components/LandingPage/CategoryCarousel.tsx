@@ -33,7 +33,7 @@ const CategoryCarousel: React.FC = () => {
       gap="50px"
       bg={useColorModeValue("light_grey", "dark_green")}
     >
-      <Box textAlign="center">
+      <Box  textAlign="center">
         <Heading size="lg">Servicios profesionales populares</Heading>
         <Heading size="md">
           Encuentra todos los profesionales que necesitas para tu hogar
