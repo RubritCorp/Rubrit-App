@@ -49,7 +49,8 @@ const ProfessionalForm: React.FC = () => {
 
   const [selectedFiles, setSelectedFiles] = useState<any>([]);
   const [pathFiles, setPathFiles] = useState<any>({});
-  const [blob, setBlob] = useState<any>([]);
+  const [blob, setBlob] = useState<any>();
+
   // const [form, setForm] = useState<any>({
   //   companyName,
   //   description,
@@ -60,21 +61,36 @@ const ProfessionalForm: React.FC = () => {
   //   images,
   // });
 
-  const btnRef = useRef();
   const inputFileRef = useRef<HTMLInputElement>(null);
-  // const handleOnChangeUpload = (event: any) => {
-  //   console.log(Array.from(event.target.files));
-  // };
+
+  console.log("path files", pathFiles);
 
   const handleOnChangeUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //const { files } = inputFileRef.current;
+    setSelectedFiles([]);
+    // let newDataTransfer = new DataTransfer();
+
+    // for (let value of files) {
+    //   newDataTransfer.items.add(value);
+
+    //   // inputFileRef.current.items.add(value);
+
+    //   console.log(inputFileRef.current);
+    //   // console.log("new data trasnfer", newDataTransfer);
+    //   // console.log("files input", inputFileRef.current.files);
+
+    //   // setPathFiles({ ...pathFiles, value });
+    //   setPathFiles({
+    //     ...pathFiles,
+    //     newData: newDataTransfer.items.add(value),
+    //   });
+    // }
+
     if (e.target.files) {
       let dire = e.target.files;
 
-      setPathFiles({ ...dire });
-
-      const filesArray: any = Array.from(e.target.files).map((file: any) => {
+      const filesArray = Array.from(e.target.files).map((file: any) => {
         let path = URL.createObjectURL(file);
-        setBlob([...blob, path]);
         return path;
       });
 
@@ -84,29 +100,42 @@ const ProfessionalForm: React.FC = () => {
       );
     }
   };
-  console.log(inputFileRef);
+
   const handleDeletePhoto = (e: any) => {
+    // if (inputFileRef.current) {
+    //   let ref = inputFileRef.current.files;
+    //   let arrayBlob = {};
+
+    //   let blobBlob = blob.findIndex((event: any) => {
+    //     let index = event.indexOf(`${e.target.value}`);
+
+    //     if (index !== -1) {
+    //       setBlob(blob.filter((_: any, i: number) => index !== i));
+    //       for (let value in ref) {
+    //         if (value !== index) {
+    //           arrayBlob = { ...arrayBlob, [value]: ref[Number(value)] };
+    //         }
+    //       }
+    //     }
+    //   });
+    // }
+
     if (inputFileRef.current) {
-      let ref = inputFileRef.current.files;
-      let arrayBlob = {};
+      const dt = new DataTransfer();
+      let input = inputFileRef.current.files;
 
-      let blobBlob = blob.findIndex((event: any) => {
-        console.log(event, e.target.value);
-        let index = event.indexOf(`${e.target.value}`);
+      let index = selectedFiles.indexOf(`${e.target.value}`);
 
-        if (index !== -1) {
-          setBlob(blob.filter((_: any, i: number) => index !== i));
-          for (let value in ref) {
-            if (value !== index) {
-              arrayBlob = { ...arrayBlob, [value]: ref[Number(value)] };
-            }
-          }
+      for (let i = 0; i < input.length; i++) {
+        const file = input[i];
+        if (index !== i) dt.items.add(file);
+      }
+      const { items, files } = dt;
 
-          console.log(blob);
-        }
-      });
+      inputFileRef.current.files = files;
+
+      console.log(pathFiles);
     }
-
     if (selectedFiles.includes(String(e.target.value))) {
       let filters = selectedFiles.filter(
         (element: any) => element !== e.target.value
@@ -117,16 +146,16 @@ const ProfessionalForm: React.FC = () => {
   };
 
   const renderPhotos = (source: any) => {
-    // console.log("source: ", source);
     return source.map((photo: any) => {
       return (
-        <Flex flexDirection={"column"}>
+        <Flex flexDirection={"column"} key={photo}>
           <Box position={"relative"} top={"20px"}>
             <Button
               size="xs"
               bgColor="red"
               onClick={handleDeletePhoto}
               value={photo}
+              key={photo}
             >
               X
             </Button>
