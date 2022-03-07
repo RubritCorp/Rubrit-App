@@ -202,7 +202,6 @@ interface CardFindProfesionalProps {
   whoYouAre: string;
 }
 
-
 const CardFindProfesional: React.FC<CardFindProfesionalProps> = ({
   name,
   img,
@@ -231,13 +230,15 @@ const CardFindProfesional: React.FC<CardFindProfesionalProps> = ({
               alt="bg"
             />
             <Flex justify={"center"} mt={-12}>
-              <Avatar
-                size={"xl"}
-                src={avatar}
-                css={{
-                  border: "2px solid white",
-                }}
-              />
+              <Link href={`/nameProfessional?name=${name}`} passHref>
+                <Avatar
+                  size={"xl"}
+                  src={avatar}
+                  css={{
+                    border: "2px solid white",
+                  }}
+                />
+              </Link>
             </Flex>
 
             <Box p={6}>
@@ -267,7 +268,7 @@ const CardFindProfesional: React.FC<CardFindProfesionalProps> = ({
                   </Text>
                 </Stack>
               </Stack>
-              <Link href={"/nameProfessional"} passHref>
+              <Link href={`/nameProfessional`} passHref>
                 <Button
                   w={"full"}
                   mt={8}
