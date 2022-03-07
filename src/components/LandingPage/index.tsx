@@ -10,10 +10,9 @@ const LandingPage: React.FC = () => {
     <>
       <Hero />
       <CategoryCarousel />
-      <NearProfesionals />
       <RubritPros />
-      <Begin />
-      <Services />
+      <NearProfesionals />
+      <Begin /> 
     </>
   );
 };

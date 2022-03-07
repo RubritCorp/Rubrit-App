@@ -168,8 +168,8 @@ interface CardFindProfesionalProps {
 const CardFindProfesional:  React.FC<CardFindProfesionalProps> = ({name, img, avatar, city, province}) => {
     
     return (
-        <Container maxW={"container.xl"} centerContent py={10}>
-    <Flex>
+        <Container  bg={useColorModeValue('white', 'dark_green')} maxW={"container.xl"} centerContent py={10}>
+    <Flex >
         <Center py={6}>
             <Box
                 key={name}
