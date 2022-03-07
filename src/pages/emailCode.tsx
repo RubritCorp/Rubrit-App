@@ -9,6 +9,7 @@ import Layout from "components/layout";
 //from chakra
 import { Button, Flex, Text, useToast } from "@chakra-ui/react";
 import { CheckCircleIcon, EmailIcon } from "@chakra-ui/icons";
+import { useSession } from "next-auth/react";
 
 const Code: React.FC = () => {
   const toast = useToast();
@@ -17,18 +18,18 @@ const Code: React.FC = () => {
   const [status, setStatus] = useState<string>("empty");
   const [isAlreadyValid, setIsAlreadyValid] = useState<boolean>(true);
   const { code, email } = router.query;
+  const { data: session } = useSession();
 
   useEffect(() => {
-    const session = async () => {
-      const storage = await JSON.parse(localStorage.getItem("user") || "{}");
-      if (storage.user && storage.user.isAuthenticated === true) {
+    const sessionCheck = async () => {
+      if (session && session.isAuthenticated === true) {
         Router.push("http://localhost:3000/");
       } else {
         setIsAlreadyValid(false);
       }
     };
-    session();
-  }, []);
+    sessionCheck();
+  }, [session]);
 
   const reloadSession = () => {
     const event = new Event("visibilitychange");

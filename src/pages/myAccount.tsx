@@ -1,11 +1,11 @@
 //components
 import Layout from "components/layout";
-import Profile from "components/Profile/Profile";
+import MyAccount from "components/MyAccount";
 
 const profile: React.FC = () => {
   return (
     <Layout>
-      <Profile />
+      <MyAccount />
     </Layout>
   );
 };
