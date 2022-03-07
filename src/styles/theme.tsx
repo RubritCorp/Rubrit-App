@@ -1,14 +1,7 @@
 import { extendTheme, type ThemeConfig } from "@chakra-ui/react";
-import { createBreakpoints } from "@chakra-ui/theme-tools";
+import { mode, Styles } from "@chakra-ui/theme-tools";
 
 const fonts = { heading: "Poppins", body: "Poppins" };
-
-// const breakpoints = createBreakpoints({
-//   sm: "40em",
-//   md: "52em",
-//   lg: "64em",
-//   xl: "80em",
-// });
 
 const config: ThemeConfig = {
   initialColorMode: "light",
@@ -148,13 +141,21 @@ const colors = {
     900: "#00061a",
   },
 };
-
+// setup light/dark mode global defaults
+const styles: Styles = {
+  global: (props) => ({
+    body: {
+      color: mode("gray.800", "whiteAlpha.900")(props),
+      bg: mode("gray.100", "gray.700")(props),
+    },
+  }),
+};
+//bg={useColorModeValue("gray.100", "gray.700")}
 const theme = extendTheme({
   colors,
   fonts,
   config,
-
-  // breakpoints,
+  styles,
 });
 
 export default theme;

@@ -71,8 +71,6 @@ const Index: React.FC<{ isLogged: Session }> = ({ isLogged }) => {
     },
   };
 
-  console.log(site);
-
   if (
     !session ||
     (route !== "accountSettings" &&
