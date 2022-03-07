@@ -267,7 +267,6 @@ const CardFindProfesional: React.FC<CardFindProfesionalProps> = ({
                   </Text>
                 </Stack>
               </Stack>
-
               <Link href={"/nameProfessional"} passHref>
                 <Button
                   w={"full"}
