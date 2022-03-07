@@ -18,11 +18,43 @@ const useHelper = (session: Session) => {
     email: string;
   }
 
+  interface DataChangePassword {
+    password: string;
+    newPassword: string;
+    confirmNewPassword: string;
+  }
+
   const initialValues: DataInitialValues = {
     password: "",
     confirmPassword: "",
     email: "",
   };
+
+  const initialValuesChangePassword: DataChangePassword = {
+    password: "",
+    newPassword: "",
+    confirmNewPassword: "",
+  };
+
+  const validationSchemaChangePassword = Yup.object({
+    password: Yup.string().required("La contraseña es requerida."),
+    newPassword: Yup.string()
+      .required("La contraseña es requerida.")
+      .min(8, "Contraseña demasiado corta.")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+        "Mínimo 8 caracteres, una letra mayúscula, una minúscula y al menos un número."
+      ),
+    confirmNewPassword: Yup.string()
+      .required("Debe confirmar la contraseña")
+      .when("newPassword", {
+        is: (val: string) => (val && val.length > 0 ? true : false),
+        then: Yup.string().oneOf(
+          [Yup.ref("password")],
+          "Las contraseñas deben coincidir"
+        ),
+      }),
+  });
 
   const validationSchema = Yup.object({
     password: Yup.string().required("La contraseña es requerida."),
@@ -76,15 +108,22 @@ const useHelper = (session: Session) => {
     }
   };
 
+  const onSubmitChangePassword = (values: DataChangePassword) => {
+    setLoading(true);
+  };
+
   return {
     toast,
     show,
     loading,
     initialValues,
     validationSchema,
+    initialValuesChangePassword,
+    validationSchemaChangePassword,
     setShow,
     setLoading,
     onSubmit,
+    onSubmitChangePassword,
   };
 };
 

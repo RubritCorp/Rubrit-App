@@ -202,6 +202,7 @@ interface CardFindProfesionalProps {
   whoYouAre: string;
 }
 
+
 const CardFindProfesional: React.FC<CardFindProfesionalProps> = ({
   name,
   img,

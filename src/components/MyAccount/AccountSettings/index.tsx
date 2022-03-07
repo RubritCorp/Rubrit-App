@@ -26,7 +26,7 @@ import {
 import Image from "next/image";
 import User from "assets/user.png";
 import { Session } from "next-auth/core/types";
-import { DeleteIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { DeleteIcon, EmailIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import DeleteUser from "components/Profile/DeleteUser";
 import { InputControl, ResetButton, SubmitButton } from "formik-chakra-ui";
 import { Formik } from "formik";
@@ -49,7 +49,7 @@ const AccountSettings: React.FC<{ session: Session }> = ({ session }) => {
       </Flex>
       <TabList>
         <Tab
-          fontSize={"xl"}
+          fontSize={{ base: "sm", md: "xl" }}
           color={"blue.500"}
           _selected={{
             color: useColorModeValue("#2D3748", "#fafafa"),
@@ -65,7 +65,7 @@ const AccountSettings: React.FC<{ session: Session }> = ({ session }) => {
           Ajustes
         </Tab>
         <Tab
-          fontSize={"xl"}
+          fontSize={{ base: "sm", md: "xl" }}
           color={"blue.500"}
           _selected={{
             color: useColorModeValue("#2D3748", "#fafafa"),
@@ -84,9 +84,14 @@ const AccountSettings: React.FC<{ session: Session }> = ({ session }) => {
       <TabPanels
         bg={useColorModeValue("#fafafa", "#2D3748")}
         w={"100%"}
-        h={"100%"}
-        border="2px solid gray"
-        borderRadius={5}
+        minH={"100%"}
+        /* border="2px solid gray" */
+        borderBottom="2px solid gray"
+        borderLeft="2px solid gray"
+        borderRight="2px solid gray"
+        borderBottomLeftRadius={5}
+        borderBottomRightRadius={5}
+        borderTopRightRadius={5}
       >
         <TabPanel>
           <Settings {...{ session }} />
@@ -113,9 +118,12 @@ const Settings: React.FC<{ session: Session }> = ({ session }) => {
     loading,
     initialValues,
     validationSchema,
+    initialValuesChangePassword,
+    validationSchemaChangePassword,
     setShow,
     setLoading,
     onSubmit,
+    onSubmitChangePassword,
   } = useHelper(session);
 
   return (
@@ -134,7 +142,126 @@ const Settings: React.FC<{ session: Session }> = ({ session }) => {
             <AccordionIcon />
           </AccordionButton>
         </h2>
-        <AccordionPanel pt={4}>Primer Panel</AccordionPanel>
+        <AccordionPanel pt={4}>
+          <Box mt={4}>
+            <Formik
+              initialValues={initialValuesChangePassword}
+              validationSchema={validationSchemaChangePassword}
+              onSubmit={onSubmitChangePassword}
+            >
+              {({ handleSubmit, values, errors, handleBlur }) => (
+                <Box as="form" onSubmit={handleSubmit as any}>
+                  <InputControl
+                    name="password"
+                    label="Contraseña Actual"
+                    inputProps={{
+                      placeholder: "Contraseña",
+                      type: "password",
+                      autoComplete: "off",
+                    }}
+                  />
+                  <FormLabel mt={4}>Contraseña</FormLabel>
+                  <InputGroup>
+                    <InputControl
+                      inputProps={{
+                        placeholder: "Nueva Contraseña",
+                        type: show ? "text" : "password",
+                        autoComplete: "off",
+                      }}
+                      name="newPassword"
+                    />
+                    <InputRightElement>
+                      <Button
+                        bg={theme.colors.medium_green}
+                        _hover={{
+                          bg: theme.colors.light_green_sub[700],
+                        }}
+                        onClick={() => setShow(!show)}
+                      >
+                        {show ? (
+                          <ViewOffIcon color={"#fafafa"} />
+                        ) : (
+                          <ViewIcon color={"#fafafa"} />
+                        )}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+
+                  <FormLabel mt={4}>Repetir Contraseña</FormLabel>
+                  <InputGroup>
+                    <InputControl
+                      name="confirmNewPassword"
+                      onBlur={handleBlur}
+                      inputProps={{
+                        placeholder: "Contraseña",
+                        type: show ? "text" : "password",
+                        autoComplete: "off",
+                      }}
+                    />
+                    <InputRightElement>
+                      <Button
+                        bg={theme.colors.medium_green}
+                        _hover={{
+                          bg: theme.colors.light_green_sub[700],
+                        }}
+                        onClick={() => setShow(!show)}
+                      >
+                        {show ? (
+                          <ViewOffIcon color={"#fafafa"} />
+                        ) : (
+                          <ViewIcon color={"#fafafa"} />
+                        )}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                  <ButtonGroup
+                    mt={6}
+                    flexDirection={{ base: "column", md: "row" }}
+                    alignItems={{ base: "center", md: "" }}
+                  >
+                    <SubmitButton
+                      w={"10rem"}
+                      mb={{ base: "1rem", md: 0 }}
+                      colorScheme="blue"
+                      fontSize={{ base: "xs", md: "l", lg: "l" }}
+                      disabled={
+                        Object.keys(errors).length > 0 ||
+                        !Object.values(values)[0].length
+                          ? true
+                          : false
+                      }
+                      isLoading={loading}
+                    >
+                      Actualizar Contraseña
+                    </SubmitButton>
+
+                    <ResetButton
+                      colorScheme={"green"}
+                      mr={3}
+                      fontSize={{ base: "xs", md: "l", lg: "l" }}
+                      w={"10rem"}
+                    >
+                      Reiniciar
+                    </ResetButton>
+                  </ButtonGroup>
+                </Box>
+              )}
+            </Formik>
+            <Text pt={4}>
+              Al confirmar la sesión finalizara y debera ingresas nuevamente.
+            </Text>
+            <Text pt={4}>¿No te acuerdas de tu contraseña actual?</Text>
+            <Button
+              fontSize={{ base: "xs", md: "l", lg: "l" }}
+              leftIcon={<EmailIcon />}
+              colorScheme="blue"
+              variant="outline"
+              mt={2}
+            >
+              Restablecer por correo
+            </Button>
+          </Box>
+        </AccordionPanel>
       </AccordionItem>
       {/**/}
       <AccordionItem borderBottom={"2px solid gray"} pt={4} pb={4}>
@@ -144,11 +271,17 @@ const Settings: React.FC<{ session: Session }> = ({ session }) => {
             _hover={{ bg: "transparent" }}
           >
             <Box flex={1} textAlign={"left"}>
-              <Text fontSize={"lg"} fontWeight={500}>
+              <Text fontSize={{ base: "sm", md: "lg" }} fontWeight={500}>
                 Dirección De Correo
               </Text>
-              <Text d={"inline"}>Tu dirección de correo actual es </Text>
-              <Text d={"inline"} fontWeight={600}>
+              <Text d={"inline"} fontSize={{ base: "xs", md: "lg" }}>
+                Tu dirección de correo actual es{" "}
+              </Text>
+              <Text
+                d={"inline"}
+                fontWeight={600}
+                fontSize={{ base: "xs", md: "lg" }}
+              >
                 {session?.email}
               </Text>
             </Box>
@@ -171,7 +304,7 @@ const Settings: React.FC<{ session: Session }> = ({ session }) => {
                       autoComplete: "off",
                     }}
                   />
-                  <FormLabel mt={4}>Contraseña actual</FormLabel>
+                  <FormLabel mt={4}>Contraseña</FormLabel>
                   <InputGroup>
                     <InputControl
                       inputProps={{
@@ -225,11 +358,15 @@ const Settings: React.FC<{ session: Session }> = ({ session }) => {
                       </Button>
                     </InputRightElement>
                   </InputGroup>
-                  <ButtonGroup mt={6}>
+                  <ButtonGroup
+                    mt={6}
+                    flexDirection={{ base: "column", md: "row" }}
+                    alignItems={{ base: "center", md: "" }}
+                  >
                     <SubmitButton
+                      mb={{ base: "1rem", md: 0 }}
                       w={"10rem"}
                       colorScheme="blue"
-                      mr={3}
                       fontSize={{ base: "xs", md: "l", lg: "l" }}
                       disabled={
                         Object.keys(errors).length > 0 ||
@@ -244,7 +381,6 @@ const Settings: React.FC<{ session: Session }> = ({ session }) => {
 
                     <ResetButton
                       colorScheme={"green"}
-                      mr={3}
                       fontSize={{ base: "xs", md: "l", lg: "l" }}
                       w={"10rem"}
                     >
