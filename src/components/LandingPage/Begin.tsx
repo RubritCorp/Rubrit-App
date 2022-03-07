@@ -1,47 +1,68 @@
 // Import external libraries
 import {
-    Text,
-    Box,
-    Heading,
-    Image,
-    Button,
-  } from "@chakra-ui/react";
+  Box,
+  Heading,
+  Image,
+  Button,
+  Container,
+  SimpleGrid,
+  Text,
+  useColorModeValue,
+  StackDivider,
+  Stack,
+  Flex,
+ 
+} from "@chakra-ui/react";
+import people from "assets/people";
+import workers from "assets/workers";
 
-  const Begin: React.FC = () => {
-      return (
-        <Box
-        w= {"1300px"}
-        h= {"480px"}
-        ml={"60px"}
-        background= {"#F2F1F1"}
-        box-shadow= {"rgba(0, 0, 0, 0.25)"}
-        border-radius= {"5px"}
-        >
-            <Text
-            color={"#F2F1F1"}>-</Text>
-<Heading
-ml={"320px"}>
-¿Estas preparado para comenzar?
-</Heading>
-<Image
-ml={"270px"}
-src="https://i.pinimg.com/originals/f6/d0/8c/f6d08c8949f9f18f2075ea095bee3c7a.jpg"
-></Image>
-        <Button
-              colorScheme={'green'}
-              bg={'green.500'}
-              rounded={'md'}
-              ml={"480px"}   
-              w={"300px"}      
-              px={6}
-              _hover={{
-                bg: 'green.600',
-              }}>
-             Empecemos
-            </Button>
-        </Box>
-      )
+
+const Begin: React.FC = () => {
+  return (
+    <Container maxW={"container.xl"} centerContent p={10} >
+
+
+      <Box paddingBottom={10}>
+        <Heading>
+          ¿Estas preparado para comenzar?
+        </Heading>
+      </Box>
       
+      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={20}>
+        <Container centerContent>
+        <Box > 
+          <Heading color={"green.500"} as='h4' size='md'>¿Buscas a los mejores profesionales?</Heading>
+          <Box paddingTop={10} h={"400px"}>
+         {workers}
+         </Box>
+        </Box>
+         </Container>
+         <Container centerContent> 
+        <Box  > 
+          <Heading color={"green.500"} as='h4' size='md'>¿Buscas clientes que completen tu agenda?</Heading>
+          <Box  paddingTop={10} h={"395px"}>
+            {people}
+            </Box>
+        </Box>
+        </Container>
+      </SimpleGrid>
+   
+      <Button
+       marginTop={20}
+        colorScheme={'green'}
+        bg={'green.500'}
+        rounded={'md'}
+        px={20}
+        _hover={{
+          bg: 'green.600',
+        }}>
+        Empecemos
+      </Button>
+
+
+    </Container>
+  )
+
 }
 
 export default Begin;
