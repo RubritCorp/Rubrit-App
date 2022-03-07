@@ -3,10 +3,8 @@ import {
   Box,
   Flex,
   Text,
-  IconButton,
   Button,
   Stack,
-  Collapse,
   useColorModeValue,
   useDisclosure,
   Modal,
@@ -18,7 +16,6 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
-  Divider,
 } from "@chakra-ui/react";
 import {
   BellIcon,
@@ -44,6 +41,7 @@ import { DrawerOptions } from "components/MyAccount";
 import EmailAuthModal from "./emailAuthModal";
 import Router from "next/router";
 import Profile from "components/Profile/Profile";
+import axios from "axios";
 
 interface NavItem {
   label: string;
@@ -77,7 +75,7 @@ const NAV_ITEMS: Array<NavItem> = [
   },
 ];
 
-export default function WithSubnavigation() {
+const WithSubnavigation: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: isOpenProfile,
@@ -94,25 +92,22 @@ export default function WithSubnavigation() {
   const [isAuth, setIsAuth] = useState<boolean>();
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [user, setUser] = useState<Session>();
-  const [welcome, setWelcome] = useState<boolean>(false);
+
+  const [categories, setCategories] = useState<any>();
 
   const toast = useToast();
-  console.log(session);
 
   useEffect(() => {
+    //solo para la demo
+    const fillCategories = async () => {
+      const { data } = await axios.get("/api/categories");
+      setCategories(data.categories);
+    };
+    fillCategories();
+    /* ------ */
     if (session && status === "authenticated") {
       setUser(session);
 
-      if (!welcome) {
-        setWelcome(true);
-        toast({
-          title: `Bienvenido ${session.name}`,
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-          position: "bottom-left",
-        });
-      }
       if (!toast.isActive("verify-account")) {
         if (!session.isAuthenticated) {
           toast({
@@ -192,7 +187,10 @@ export default function WithSubnavigation() {
             </Text>
           </Link>
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
-            <DesktopNav NAV_ITEMS={NAV_ITEMS} />
+            {/*solo para la demo*/}
+            <DesktopNav />
+            {/* ------- */}
+            {/* <DesktopNav NAV_ITEMS={NAV_ITEMS} /> */}
           </Flex>
         </Flex>
 
@@ -300,4 +298,6 @@ export default function WithSubnavigation() {
       )}
     </Box>
   );
-}
+};
+
+export default WithSubnavigation;
