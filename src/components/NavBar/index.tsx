@@ -39,6 +39,8 @@ import { DrawerOptions } from "components/MyAccount";
 //interfaces
 import EmailAuthModal from "./emailAuthModal";
 import Profile from "components/Profile/Profile";
+//providers
+import { useCategories } from "Provider/CategoriesProvider";
 
 interface NavItem {
   label: string;
@@ -46,31 +48,6 @@ interface NavItem {
   children?: Array<NavItem>;
   href?: string;
 }
-
-const NAV_ITEMS: Array<NavItem> = [
-  {
-    label: "Servicios",
-    children: [
-      {
-        label: "Albañil",
-        subLabel: "A",
-        href: "/",
-      },
-    ],
-  },
-  {
-    label: "Buscar Servicios",
-    href: "/findServices",
-  },
-  {
-    label: "Ofrece tus Servicios",
-    href: "offerServices",
-  },
-  {
-    label: "Bolsa De Trabajo",
-    href: "/workbag",
-  },
-];
 
 const WithSubnavigation: React.FC = () => {
   const toast = useToast();
@@ -90,18 +67,21 @@ const WithSubnavigation: React.FC = () => {
     onOpen: onOpenDrawerOptions,
     onClose: onCloseDrawerOptions,
   } = useDisclosure();
+  const { categories } = useCategories();
+  console.log(categories);
 
   useEffect(() => {
-    if (!session && status === "unauthenticated") {
-      if (query.login === "true") {
+    if (query.login === "true") {
+      if (!session && status === "unauthenticated") {
         setIsAuth(true);
         setIsLogin(true);
         onOpen();
+      } else {
+        Router.push("/");
       }
     }
 
     if (session && status === "authenticated") {
-      Router.push("/");
       setUser(session);
 
       if (!toast.isActive("verify-account")) {
