@@ -33,8 +33,8 @@ interface ICredentials {
 }
 
 const Login: React.FC<{
-  setIsLogin(value: boolean): void;
-}> = ({ setIsLogin }) => {
+  setIsLogin(value: boolean): void; onClose(): void; status: string;
+}> = ({ setIsLogin, onClose, status }) => {
   const theme = useTheme();
   const [show, setShow] = useState<boolean>(false);
   const [credentials, setCredentails] = useState<ICredentials>({
@@ -51,14 +51,16 @@ const Login: React.FC<{
     });
   };
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      signIn("credentials", {
+      await signIn("credentials", {
+        redirect: false,
         email: credentials.email,
         password: credentials.password,
       });
+      // onClose();
       setLoading(false);
     } catch (err) {
       setLoading(false);

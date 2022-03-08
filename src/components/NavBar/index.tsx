@@ -107,6 +107,7 @@ const WithSubnavigation: React.FC = () => {
     /* ------ */
     if (session && status === "authenticated") {
       setUser(session);
+      onClose();
 
       if (!toast.isActive("verify-account")) {
         if (!session.isAuthenticated) {
@@ -205,6 +206,7 @@ const WithSubnavigation: React.FC = () => {
           {!session &&
           (status === "loading" || status === "unauthenticated") ? (
             <Button
+              id='signInButton'
               display={{ base: "inline-flex", md: "inline-flex" }}
               fontSize={"sm"}
               fontWeight={600}
@@ -263,7 +265,7 @@ const WithSubnavigation: React.FC = () => {
                   <MenuDivider d={{ base: "", md: "none" }} />
                   <MenuItem
                     onClick={() => {
-                      signOut();
+                      signOut({redirect: false});
                     }}
                   >
                     Cerrar Sesion
@@ -284,7 +286,7 @@ const WithSubnavigation: React.FC = () => {
             >
               <ModalOverlay />
               {isLogin ? (
-                <Login {...{ setIsLogin }} />
+                <Login {...{ setIsLogin }} onClose={onClose} status={status}  />
               ) : (
                 <Register {...{ setIsAuth, setIsLogin }} />
               )}
