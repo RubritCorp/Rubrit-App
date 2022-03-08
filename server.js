@@ -9,18 +9,14 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 
 const httpsOptions = {
-  // key: fs.readFileSync("./cert/localhost.key"),
   key: fs.readFileSync("./cert/key.pem"),
 
-  // cert: fs.readFileSync("./cert/localhost.cert"),
   cert: fs.readFileSync("./cert/cert.pem"),
 };
 
 app.prepare().then(() => {
   createServer(httpsOptions, async (req, res) => {
     try {
-      // Be sure to pass `true` as the second argument to `url.parse`.
-      // This tells it to parse the query portion of the URL.
       const parsedUrl = parse(req.url, true);
       await handle(req, res, parsedUrl);
     } catch (err) {
