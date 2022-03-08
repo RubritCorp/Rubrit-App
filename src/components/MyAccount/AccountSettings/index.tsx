@@ -36,7 +36,7 @@ const AccountSettings: React.FC<{ session: Session }> = ({ session }) => {
   return (
     <Tabs
       w={"100%"}
-      h={"94%"}
+      minH={"94%"}
       variant={"enclosed"}
       defaultIndex={0}
       position={"relative"}
@@ -114,14 +114,7 @@ const Settings: React.FC<{
     onOpen: onOpenDeleteUser,
     onClose: onCloseDeleteUser,
   } = useDisclosure();
-  const { isAuthenticated, code, email } = router.query;
-  const [changeCode, setChangeCode] = useState<string>("");
-
-  useEffect(() => {
-    if (isAuthenticated && typeof code === "string") {
-      setChangeCode(code);
-    }
-  }, [code, isAuthenticated]);
+  const { isAuthenticated, code } = router.query;
 
   const {
     toast,
