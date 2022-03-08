@@ -30,9 +30,9 @@ const CookiePolicy: React.FC = () => {
                     </Text>
                 </Flex>
             </Box>
-            <Container maxW="container.xl" p={"2em 0"}>
-                <Box p={"1em 3em 0 3em"} w="90%" justifyContent="center">
-                    <Text as='i' fontSize='lg'>
+            <Container maxW="container.xl" centerContent p={"2em 0"}>
+                <Box p={"1em 3em "} w="90%" justifyContent="center">
+                    <Text as='i' fontSize='lg' textAlign='justify'>
                         <chakra.p
                             fontFamily={"Poppins"}
                             fontWeight={"lighter"}

@@ -30,8 +30,8 @@ const PrivacyPolicy: React.FC = () => {
                     </Text>
                 </Flex>
             </Box>
-            <Container maxW="container.xl" p={"2em 0"}>
-                <Box p={"1em 3em 0 3em"} w="100%" justifyContent="center">
+            <Container maxW="container.xl" centerContent p={"2em 0"}>
+                <Box p={"1em 3em 0 3em"} w="90%" justifyContent="center">
                     <Text as='i' fontSize='lg'>
                         <chakra.p
                             fontFamily={"Poppins"}
