@@ -22,6 +22,7 @@ const Code: React.FC = () => {
 
   useEffect(() => {
     const sessionCheck = async () => {
+      if (!router.isReady) return;
       if (session && session.isAuthenticated === true) {
         Router.push("http://localhost:3000/");
       } else {
@@ -29,7 +30,11 @@ const Code: React.FC = () => {
       }
     };
     sessionCheck();
-  }, [session]);
+  }, [router, session]);
+
+  const resend = async () => {
+    await axios.post("/api/auth/emailVerification", { email });
+  };
 
   const reloadSession = () => {
     const event = new Event("visibilitychange");
@@ -39,7 +44,9 @@ const Code: React.FC = () => {
   const validate = async () => {
     setIsLoading(true);
     try {
-      await axios.get(`api/auth/emailVerification?code=${code}&email=${email}`);
+      await axios.get(
+        `/api/auth/emailVerification?code=${code}&email=${email}`
+      );
       toast({
         title: "¡La cuenta ha sido verificada!",
         status: "success",
@@ -129,6 +136,7 @@ const Code: React.FC = () => {
                   colorScheme="green"
                   variant="solid"
                   marginTop={"2rem"}
+                  onClick={resend}
                 >
                   Reenviar Email
                 </Button>

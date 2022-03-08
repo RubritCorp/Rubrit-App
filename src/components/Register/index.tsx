@@ -259,9 +259,25 @@ const Register: React.FC<{
                     />
                   </Box>
                   <ModalFooter p={"40px 0px 0px 0px"}>
+                    <Button
+                      mr={3}
+                      fontSize={{ base: "xs", md: "l", lg: "l" }}
+                      onClick={() => {
+                        onClose(), setIsAuth(false), setIsLogin(true);
+                      }}
+                    >
+                      Cancelar
+                    </Button>
+                    <ResetButton
+                      colorScheme={"green"}
+                      mr={3}
+                      fontSize={{ base: "xs", md: "l", lg: "l" }}
+                    >
+                      Reiniciar
+                    </ResetButton>
+
                     <SubmitButton
                       colorScheme="blue"
-                      mr={3}
                       fontSize={{ base: "xs", md: "l", lg: "l" }}
                       disabled={
                         Object.keys(errors).length > 0 ||
@@ -274,22 +290,6 @@ const Register: React.FC<{
                     >
                       Registrarse
                     </SubmitButton>
-
-                    <ResetButton
-                      colorScheme={"green"}
-                      mr={3}
-                      fontSize={{ base: "xs", md: "l", lg: "l" }}
-                    >
-                      Reiniciar
-                    </ResetButton>
-                    <Button
-                      fontSize={{ base: "xs", md: "l", lg: "l" }}
-                      onClick={() => {
-                        onClose(), setIsAuth(false), setIsLogin(true);
-                      }}
-                    >
-                      Cancelar
-                    </Button>
                   </ModalFooter>
                 </>
               </Box>

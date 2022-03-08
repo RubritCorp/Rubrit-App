@@ -19,8 +19,11 @@ import {
   useTheme,
 } from "@chakra-ui/react";
 import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons";
+//from modules
 import { useRouter } from "next/router";
 import Link from "next/link";
+//components
+import DarkModeSwitch from "components/DarkModeSwitch";
 
 const MobileNav = () => {
   const { pathname } = useRouter();
@@ -48,7 +51,12 @@ const MobileNav = () => {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader color={theme.colors.medium_green}>Menu</DrawerHeader>
+          <DrawerHeader color={theme.colors.medium_green}>
+            Menu
+            <Box d={{ base: "inline", md: "none" }}>
+              <DarkModeSwitch />
+            </Box>
+          </DrawerHeader>
           <DrawerBody>
             <Stack spacing={4} onClick={children && onToggleServices}>
               <Flex
