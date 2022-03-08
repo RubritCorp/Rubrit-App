@@ -30,7 +30,10 @@ export default NextAuth({
         if (!user) {
           return null;
         }
-        const isValid = verifyPassword(credentials?.password, user.password);
+        const isValid = await verifyPassword(
+          credentials?.password,
+          user.password
+        );
 
         if (!isValid) {
           return null;
@@ -64,7 +67,7 @@ export default NextAuth({
     },
   },
   callbacks: {
-    async signIn({ user }) {
+    async signIn({ user, credentials }) {
       try {
         const userSession = await User.findOne({
           email: user.email,
@@ -123,5 +126,5 @@ export default NextAuth({
     newUser: "http://localhost:3000/COMPLETARPERFIL",
     error: "http://localhost:3000/",
   },
-  debug: false,
+  debug: true,
 });

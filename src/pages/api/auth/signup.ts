@@ -33,7 +33,7 @@ const cases: ICases = {
       const validate = await User.findOne({ email: email });
 
       if (validate) {
-        res.status(422).json({ message: "User already exists" });
+        return res.status(422).json({ message: "User already exists" });
       }
 
       const createCode = () => {
@@ -79,7 +79,7 @@ const cases: ICases = {
           ],
         },
         (err: any, message: any) => {
-          res.status(404).json({ message: "Error sending email" });
+          return res.status(404).json({ message: "Error sending email" });
         }
       );
 
