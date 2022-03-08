@@ -6,6 +6,7 @@ import theme from "../styles/theme";
 import Fonts from "styles/Fonts";
 
 function MyApp({ Component, pageProps }: AppProps) {
+  
   return (
     <SessionProvider session={pageProps.session}>
       <ChakraProvider resetCSS theme={theme}>
