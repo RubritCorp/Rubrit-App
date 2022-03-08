@@ -25,7 +25,7 @@ const cases: ICases = {
   POST: async (req, res) => {
     const { title, description, location, images } = req.body;
 
-    if (!title || !description || !location || !images) return res.status(422).json({ message: 'Invalid Data' });
+    if (!title || !description || !location) return res.status(422).json({ message: 'Invalid Data' });
 
     try {
       const serviceRequest = await ServiceRequest.create({

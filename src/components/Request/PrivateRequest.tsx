@@ -9,13 +9,13 @@ import {
   Image
 } from '@chakra-ui/react';
 import { InputControl, TextareaControl, SubmitButton } from 'formik-chakra-ui';
-import { Star, Check, Checks } from "phosphor-react";
+import { Star, Check, Checks } from 'phosphor-react';
 import { Formik } from 'formik';
 import { LocationControl } from 'components/CustomFormControls/LocationControl';
 import { MultipleImagesControl } from 'components/CustomFormControls/MultipleImagesControl';
 import { initialValues, validationSchema, handleSubmit } from './newServiceRequestHelper';
 
-const Stepstwo: React.FC = () => {
+const PrivateRequest: React.FC = () => {
   const user = {
     name: 'Rodolfo Pérez',
     title: 'Gasista',
@@ -123,31 +123,31 @@ const Stepstwo: React.FC = () => {
           </Stack>
         </Flex>
 
-        <Flex flexDirection={"column"}>
-          <Flex flexDirection={"row"}>
-            <Star size={20} weight="fill" />
+        <Flex flexDirection={'column'}>
+          <Flex flexDirection={'row'}>
+            <Star size={20} weight='fill' />
 
             <Text
-              ml={"0.5rem"}
-              fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
+              ml={'0.5rem'}
+              fontSize={{ base: '0.7rem', md: '0.8rem', lg: '1rem' }}
             >
               90% de satisfaccion
             </Text>
           </Flex>
-          <Flex flexDirection={"row"}>
-            <Check size={20} weight="fill" />
+          <Flex flexDirection={'row'}>
+            <Check size={20} weight='fill' />
             <Text
-              ml={"0.5rem"}
-              fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
+              ml={'0.5rem'}
+              fontSize={{ base: '0.7rem', md: '0.8rem', lg: '1rem' }}
             >
               900 Trabajos realizados
             </Text>
           </Flex>
-          <Flex flexDirection={"row"}>
-            <Checks size={20} weight="fill" />
+          <Flex flexDirection={'row'}>
+            <Checks size={20} weight='fill' />
             <Text
-              ml={"0.5rem"}
-              fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
+              ml={'0.5rem'}
+              fontSize={{ base: '0.7rem', md: '0.8rem', lg: '1rem' }}
             >
               97% formalidad
             </Text>
@@ -159,4 +159,4 @@ const Stepstwo: React.FC = () => {
   )
 };
 
-export default Stepstwo;
+export default PrivateRequest;

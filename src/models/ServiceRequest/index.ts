@@ -18,10 +18,7 @@ const serviceRequestSchema = new Schema(
       type: String,
       required: true
     },
-    images: {
-      type: Array,
-      required: true
-    }
+    images: Array
   },
   {
     timestamps: true,
