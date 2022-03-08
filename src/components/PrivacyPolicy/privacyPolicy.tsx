@@ -20,7 +20,7 @@ const PrivacyPolicy: React.FC = () => {
             >
                 <Flex justifyContent="center" p={"2.5em"}>
                     <Text
-                        fontSize={{ base: "0.5rem", md: "0.5rem", lg: "2rem" }}
+                        fontSize={{ base: "1.5rem", md: "1rem", lg: "2.5rem" }}
                         fontWeight={300}
                     >
                         POLITICA DE PRIVACIDAD
@@ -31,8 +31,8 @@ const PrivacyPolicy: React.FC = () => {
                 </Flex>
             </Box>
             <Container maxW="container.xl" centerContent p={"2em 0"}>
-                <Box p={"1em 3em 0 3em"} w="90%" justifyContent="center">
-                    <Text as='i' fontSize='lg'>
+                <Box p={"1em 3em 0"} w="100%" justifyContent="center">
+                    <Text as='i' fontSize='lg'textAlign='justify'>
                         <chakra.p
                             fontFamily={"Poppins"}
                             fontWeight={"lighter"}

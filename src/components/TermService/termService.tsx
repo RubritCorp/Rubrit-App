@@ -25,9 +25,9 @@ const TermServe: React.FC = () => {
         bg={useColorModeValue("#BBE1C3", "dark_green")}
         color={useColorModeValue("dark_green", "medium_grey")}
       >
-        <Flex justifyContent="center" p={"2.5em"}>
+        <Flex justifyContent="center" p={"2.5rem"}>
           <Text
-            fontSize={{ base: "0.5rem", md: "0.5rem", lg: "2rem" }}
+            fontSize={{ base: "1.5rem", md: "1rem", lg: "2.5rem" }}
             fontWeight={300}
           >
             TERMINOS Y CONDICIONES DEL SERVICIOS
@@ -77,7 +77,7 @@ const TermServe: React.FC = () => {
               </h2>
               <AccordionPanel pb={4}>
                 <Box p={"1em 3em 0 3em"} w="100%" justifyContent="center">
-                  <Text>
+                  <Text textAlign='justify'>
                     Los productos de RUBRIT están optimizados para ser
                     visualizados en dispositivos nativos y en definiciones
                     responsive (en definiciones menores aparecerán barras de
@@ -100,7 +100,7 @@ const TermServe: React.FC = () => {
               <h2>
                 <AccordionButton
                   _expanded={{
-                    color: "white",
+                    color: "medium_green",
                     textDecoration: "none",
                   }}
                 >
@@ -212,7 +212,7 @@ const TermServe: React.FC = () => {
               <h2>
                 <AccordionButton
                   _expanded={{
-                    color: "white",
+                    color: "medium_green",
                     textDecoration: "none",
                   }}
                 >

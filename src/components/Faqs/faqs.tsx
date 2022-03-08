@@ -1,6 +1,5 @@
 import {
   useColorModeValue,
-  ChakraProvider,
   Heading,
   Flex,
   Box,
@@ -46,7 +45,7 @@ const Faqs: React.FC = () => {
           Soy Usuario
         </Heading>
       </Center>
-      <Container maxW="container.xl" p={"2em 6em 5em 5em"}>
+      <Container maxW="container.xl" p={"2em 2em"}>
         <Accordion allowToggle>
           <AccordionItem>
             <h2>
@@ -253,7 +252,7 @@ const Faqs: React.FC = () => {
           Soy Profesional
         </Heading>
       </Center>
-      <Container maxW="container.xl" p={"2em 6em 5em 5em"}>
+      <Container maxW="container.xl" p={"2em 2em "}>
         <Accordion allowToggle>
           <AccordionItem>
             <h2>
@@ -391,7 +390,7 @@ const Faqs: React.FC = () => {
                 _expanded={{  color: "medium_green" }}
               >
                 <Box flex="1" textAlign="left">
-                  ¿Qué es ser profesional certificado en timbrit?
+                  ¿Qué es ser profesional certificado en Rubrit?
                 </Box>
                 <AccordionIcon />
               </AccordionButton>

@@ -25,9 +25,9 @@ const ComunityPrinci: React.FC = () => {
         bg={useColorModeValue("#BBE1C3", "dark_green")}
         color={useColorModeValue("dark_green", "medium_grey")}
       >
-        <Flex justifyContent="center" p={"2.5em"}>
+        <Flex justifyContent="center" p={"2.5rem"}>
           <Text
-            fontSize={{ base: "0.5rem", md: "0.5rem", lg: "2rem" }}
+            fontSize={{ base: "1.5rem", md: "1rem", lg: "2.5rem" }}
             fontWeight={300}
             as="i"
           >
@@ -36,8 +36,8 @@ const ComunityPrinci: React.FC = () => {
           </Text>
         </Flex>
       </Box>
-      <Container maxW="container.xl" w="90%" p={"1em  1em 2em 0"}>
-        <Box p={"2em 1em 0 3em"} justifyContent="center">
+      <Container maxW="container.xl" centerContent w="100%" p={"2em 2em"}>
+        <Box justifyContent="center">
           <Text as="i" fontSize="lg">
             <chakra.p fontFamily={"Poppins"} fontWeight={"lighter"}>
               <UnorderedList spacing={5}>
