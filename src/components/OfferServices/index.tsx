@@ -52,7 +52,7 @@ const whatTheySay = [
       "RUBRIT ME PERMTIO EMPEZAR A TRABAJAR MAS ORDENADAMENTE GRACIAS A SU AGENDA",
     avatar: "https://avatars0.githubusercontent.com/u/1164541?v=4",
     whoYouAre:
-      "Soy gasista de la cuna hasta al cajon. Gasista se nace, no se hace, como decia mi abuelo",
+      "Soy gasista de la cuna hasta al cajon. Gasista se nace, no se hace,decia mi abuelo.",
   },
   {
     image:
@@ -74,7 +74,7 @@ const whatTheySay = [
     city: "Toay",
     province: "La Pampa",
     opinion:
-      "RUBRIT ME CAMBIO LA VIDA, EN MI ANTIGUO TRABAJO ME EXPLOTABAN, ESTOY FELIZ",
+      "RUBRIT ME CAMBIO LA VIDA, EN MI ANTIGUO TRABAJO ME EXPLOTABAN MUCHO, ESTOY MUY FELIZ",
     avatar:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStwpI95Iv1CZt28y1SXtMTWv5ky1IRTyG6hw&usqp=CAU",
     whoYouAre:
@@ -425,18 +425,18 @@ const WhatTheySayCard: React.FC<WhatTheySayCardProps> = ({
   opinion,
 }) => {
   return (
-    <Center py={6}>
+    <Center py={12}>
       <Box
         maxW={"350px"}
         w={"full"}
         bg={useColorModeValue("white", "gray.900")}
-        boxShadow={"2xl"}
+        boxShadow={"xl"}
         rounded={"md"}
         p={6}
         overflow={"hidden"}
       >
         <Box
-          h={"210px"}
+          h={"200px"}
           bg={"gray.100"}
           mt={-6}
           mx={-6}
