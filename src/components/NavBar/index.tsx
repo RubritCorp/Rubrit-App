@@ -27,7 +27,7 @@ import {
 import { useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { Session } from "next-auth/core/types";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import Link from "next/link";
 //components
 import DesktopNav from "./DesktopNav";
@@ -35,13 +35,12 @@ import MobileNav from "./MobileNav";
 import Login from "components/Login";
 import Register from "components/Register";
 import DarkModeSwitch from "components/DarkModeSwitch";
-import Loading from "components/Loading";
 import { DrawerOptions } from "components/MyAccount";
 //interfaces
 import EmailAuthModal from "./emailAuthModal";
-import Router from "next/router";
 import Profile from "components/Profile/Profile";
-import axios from "axios";
+//providers
+import { useCategories } from "Provider/CategoriesProvider";
 
 interface NavItem {
   label: string;
@@ -50,32 +49,13 @@ interface NavItem {
   href?: string;
 }
 
-const NAV_ITEMS: Array<NavItem> = [
-  {
-    label: "Servicios",
-    children: [
-      {
-        label: "Albañil",
-        subLabel: "A",
-        href: "/",
-      },
-    ],
-  },
-  {
-    label: "Buscar Servicios",
-    href: "/findServices",
-  },
-  {
-    label: "Ofrece tus Servicios",
-    href: "offerServices",
-  },
-  {
-    label: "Bolsa De Trabajo",
-    href: "/workbag",
-  },
-];
-
 const WithSubnavigation: React.FC = () => {
+  const toast = useToast();
+  const [isAuth, setIsAuth] = useState<boolean>();
+  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const [user, setUser] = useState<Session>();
+  const { pathname, query } = useRouter();
+  const { data: session, status } = useSession();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: isOpenProfile,
@@ -87,24 +67,20 @@ const WithSubnavigation: React.FC = () => {
     onOpen: onOpenDrawerOptions,
     onClose: onCloseDrawerOptions,
   } = useDisclosure();
-  const { data: session, status } = useSession();
-  const { pathname } = useRouter();
-  const [isAuth, setIsAuth] = useState<boolean>();
-  const [isLogin, setIsLogin] = useState<boolean>(true);
-  const [user, setUser] = useState<Session>();
-
-  const [categories, setCategories] = useState<any>();
-
-  const toast = useToast();
+  const { categories } = useCategories();
+  console.log(categories);
 
   useEffect(() => {
-    //solo para la demo
-    const fillCategories = async () => {
-      const { data } = await axios.get("/api/categories");
-      setCategories(data.categories);
-    };
-    fillCategories();
-    /* ------ */
+    if (query.login === "true") {
+      if (!session && status === "unauthenticated") {
+        setIsAuth(true);
+        setIsLogin(true);
+        onOpen();
+      } else {
+        Router.push("/");
+      }
+    }
+
     if (session && status === "authenticated") {
       setUser(session);
       onClose();
@@ -122,20 +98,21 @@ const WithSubnavigation: React.FC = () => {
       } else {
         toast.close("verify-account");
       }
-    }
-    if (Router.query) {
-      const { authenticated } = Router.query;
-      if (authenticated === "false") {
-        toast({
-          title: "¡Hubo un problema!",
-          description:
-            "¡Debes Registrarte o Iniciar Sesión para poder acceder a un perfil!",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-        });
+    } else {
+      if (query.error) {
+        if (!toast.isActive("error-signin")) {
+          toast({
+            title: "¡Error al iniciar sesión!",
+            description: "¡El usuario o contraseña son erroneos!",
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+            id: "error-signin",
+          });
+        }
       }
     }
+
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session, session?.isAuthenticated, status]);
 
@@ -188,10 +165,7 @@ const WithSubnavigation: React.FC = () => {
             </Text>
           </Link>
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
-            {/*solo para la demo*/}
             <DesktopNav />
-            {/* ------- */}
-            {/* <DesktopNav NAV_ITEMS={NAV_ITEMS} /> */}
           </Flex>
         </Flex>
 
@@ -202,13 +176,15 @@ const WithSubnavigation: React.FC = () => {
           spacing={6}
           alignItems={"center"}
         >
-          <DarkModeSwitch />
+          <Box d={{ base: "none", md: "inline" }}>
+            <DarkModeSwitch />
+          </Box>
           {!session &&
           (status === "loading" || status === "unauthenticated") ? (
             <Button
               id='signInButton'
               display={{ base: "inline-flex", md: "inline-flex" }}
-              fontSize={"sm"}
+              fontSize={{ base: "xs", md: "sm" }}
               fontWeight={600}
               color={"white"}
               bg={"#2EB67D"}

@@ -4,14 +4,19 @@ import { SessionProvider } from "next-auth/react";
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "../styles/theme";
 import Fonts from "styles/Fonts";
+//contexts
+import { CategoriesProvider } from "Provider/CategoriesProvider";
 
 function MyApp({ Component, pageProps }: AppProps) {
+  
   return (
     <SessionProvider session={pageProps.session}>
-      <ChakraProvider resetCSS theme={theme}>
-        <Fonts />
-        <Component {...pageProps} />
-      </ChakraProvider>
+      <CategoriesProvider>
+        <ChakraProvider resetCSS theme={theme}>
+          <Fonts />
+          <Component {...pageProps} />
+        </ChakraProvider>
+      </CategoriesProvider>
     </SessionProvider>
   );
 }

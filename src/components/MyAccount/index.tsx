@@ -96,7 +96,7 @@ const Index: React.FC<{ isLogged: Session }> = ({ isLogged }) => {
   return (
     <Flex
       justifyContent={{ base: "center" }}
-      h={"100vh"}
+      minH={"100vh"}
       position={"relative"}
       mb={14}
     >

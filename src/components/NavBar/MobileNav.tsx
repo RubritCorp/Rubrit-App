@@ -19,17 +19,19 @@ import {
   useTheme,
 } from "@chakra-ui/react";
 import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons";
+//from modules
 import { useRouter } from "next/router";
 import Link from "next/link";
+//components
+import DarkModeSwitch from "components/DarkModeSwitch";
+import { useCategories } from "Provider/CategoriesProvider";
 
 const MobileNav = () => {
   const { pathname } = useRouter();
-  const theme = useTheme();
+  const { categories } = useCategories();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isOpenServices, onToggle: onToggleServices } =
     useDisclosure();
-
-  const children = ["Albañil", "Plomero"];
 
   return (
     <Stack
@@ -48,9 +50,14 @@ const MobileNav = () => {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader color={theme.colors.medium_green}>Menu</DrawerHeader>
+          <DrawerHeader color={"medium_green"}>
+            Menu
+            <Box d={{ base: "inline", md: "none" }}>
+              <DarkModeSwitch />
+            </Box>
+          </DrawerHeader>
           <DrawerBody>
-            <Stack spacing={4} onClick={children && onToggleServices}>
+            <Stack spacing={4} onClick={categories && onToggleServices}>
               <Flex
                 py={2}
                 justify={"space-between"}
@@ -89,10 +96,10 @@ const MobileNav = () => {
                   borderColor={useColorModeValue("gray.200", "gray.700")}
                   align={"start"}
                 >
-                  {children &&
-                    children.map((child, i) => (
-                      <Link key={i} href={"#"}>
-                        {child}
+                  {categories &&
+                    categories.map((child, i) => (
+                      <Link key={i} href={`/services?service=${child.name}`}>
+                        {child.name}
                       </Link>
                     ))}
                 </Stack>
@@ -113,7 +120,7 @@ const MobileNav = () => {
 
             {pathname === "/myAccount" && (
               <Box marginTop={7} fontSize={"xl"} fontWeight={700}>
-                <Text color={theme.colors.medium_green}>Panel</Text>
+                <Text color={"medium_green"}>Panel</Text>
                 <Stack
                   spacing={4}
                   fontWeight={600}

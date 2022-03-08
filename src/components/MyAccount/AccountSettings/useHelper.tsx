@@ -7,10 +7,11 @@ import { useState } from "react";
 import { Session } from "next-auth/core/types";
 import { signOut } from "next-auth/react";
 
-const useHelper = (session: Session) => {
+const useHelper = (session: Session, isAuthenticated: string, code: string) => {
   const toast = useToast();
   const [show, setShow] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingResend, setLoadingResend] = useState<boolean>(false);
 
   interface DataInitialValues {
     password: string;
@@ -19,7 +20,7 @@ const useHelper = (session: Session) => {
   }
 
   interface DataChangePassword {
-    password: string;
+    passwordChange: string;
     newPassword: string;
     confirmNewPassword: string;
   }
@@ -31,13 +32,13 @@ const useHelper = (session: Session) => {
   };
 
   const initialValuesChangePassword: DataChangePassword = {
-    password: "",
+    passwordChange: isAuthenticated === "true" ? code : "",
     newPassword: "",
     confirmNewPassword: "",
   };
 
   const validationSchemaChangePassword = Yup.object({
-    password: Yup.string().required("La contraseña es requerida."),
+    passwordChange: Yup.string().required("La contraseña es requerida."),
     newPassword: Yup.string()
       .required("La contraseña es requerida.")
       .min(8, "Contraseña demasiado corta.")
@@ -50,7 +51,7 @@ const useHelper = (session: Session) => {
       .when("newPassword", {
         is: (val: string) => (val && val.length > 0 ? true : false),
         then: Yup.string().oneOf(
-          [Yup.ref("password")],
+          [Yup.ref("newPassword")],
           "Las contraseñas deben coincidir"
         ),
       }),
@@ -108,8 +109,64 @@ const useHelper = (session: Session) => {
     }
   };
 
-  const onSubmitChangePassword = (values: DataChangePassword) => {
+  const resend = async () => {
+    try {
+      setLoadingResend(true);
+      await axios.put("/api/user/updatePassword?isAuthenticated=true", {
+        email: session.email,
+      });
+      setLoadingResend(false);
+      toast({
+        title: "¡El correo fue enviado!",
+        description: "Revise su casilla de correo",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+    } catch (err) {
+      setLoadingResend(false);
+      toast({
+        title: "¡Hubo un error al reenviar el correo!",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+  };
+
+  const onSubmitChangePassword = async (values: DataChangePassword) => {
     setLoading(true);
+    try {
+      await axios.post("/api/user/updatePassword", {
+        [isAuthenticated === "true" ? "code" : "password"]:
+          values.passwordChange,
+        email: session.email,
+        newPassword: values.newPassword,
+      });
+      setLoading(false);
+      toast({
+        title: "¡Su contraseña fue modificada!",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      values.confirmNewPassword = "";
+      values.newPassword = "";
+      values.passwordChange = "";
+    } catch (err) {
+      setLoading(false);
+      toast({
+        title:
+          "¡Comprueba las contraseñas, si el error persiste no dude en contactarnos!",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
   };
 
   return {
@@ -120,6 +177,8 @@ const useHelper = (session: Session) => {
     validationSchema,
     initialValuesChangePassword,
     validationSchemaChangePassword,
+    loadingResend,
+    resend,
     setShow,
     setLoading,
     onSubmit,

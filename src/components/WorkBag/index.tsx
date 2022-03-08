@@ -25,9 +25,9 @@ import {
   InputLeftElement,
   Textarea,
 } from "@chakra-ui/react";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 
-import { CurrencyDollarSimple, Envelope, Phone } from "phosphor-react";
+import { Cards, CurrencyDollarSimple, Envelope, Phone } from "phosphor-react";
 
 const Testimonial = ({ children }: { children: ReactNode }) => {
   return <Box>{children}</Box>;
@@ -90,6 +90,7 @@ const TestimonialContent = ({ children }: { children: ReactNode }) => {
 const TestimonialHeading = ({ children }: { children: ReactNode }) => {
   return (
     <Heading as={"h3"} fontSize={"xl"}>
+
       {children}
     </Heading>
   );
@@ -111,47 +112,47 @@ const workBag = [
   {
     name: "Juan Casares",
     title: "Mar del Plata - Buenos Aires",
-    testimonialHeading: "Pintar Cuarto",
+    testimonialHeading: "Pintar Cama",
     testimonialWork:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud ",
     src: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
   },
   {
-    name: "Juan Casares",
+    name: "Pedro Casares",
     title: "Mar del Plata - Buenos Aires",
-    testimonialHeading: "Pintar Cuarto",
+    testimonialHeading: "Pintar Hall",
     testimonialWork:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud ",
     src: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
   },
   {
-    name: "Juan Casares",
+    name: "Roberto Casares",
     title: "Mar del Plata - Buenos Aires",
-    testimonialHeading: "Pintar Cuarto",
+    testimonialHeading: "Pintar Patio",
     testimonialWork:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud ",
     src: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
   },
   {
-    name: "Juan Casares",
+    name: "tomas Casares",
     title: "Mar del Plata - Buenos Aires",
-    testimonialHeading: "Pintar Cuarto",
+    testimonialHeading: "Pintar Baño",
     testimonialWork:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud ",
     src: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
   },
   {
-    name: "Juan Casares",
+    name: "Bernardo Casares",
     title: "Mar del Plata - Buenos Aires",
-    testimonialHeading: "Pintar Cuarto",
+    testimonialHeading: "Pintar Living",
     testimonialWork:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud ",
     src: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
   },
   {
-    name: "Juan Casares",
+    name: "Ramon Casares",
     title: "Mar del Plata - Buenos Aires",
-    testimonialHeading: "Pintar Cuarto",
+    testimonialHeading: "Pintar Rama",
     testimonialWork:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud ",
     src: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
@@ -159,6 +160,7 @@ const workBag = [
 ];
 
 const WorkBag: React.FC = () => {
+  const [card, setCard] = useState([{}]);
   const [value, setValue] = React.useState("");
   const handleChange = (event: any) => setValue(event.target.value);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -169,6 +171,34 @@ const WorkBag: React.FC = () => {
     let inputValue = e.target.value;
     setText(inputValue);
   };
+
+  useEffect(() => {
+    const cardworker = workBag?.map((item: any) => {
+      return ({
+        name: item.name,
+        title: item.title,
+        testimonialHeading: item.testimonialHeading,
+        testimonialWork: item.testimonialWork,
+        src: item.src,
+      }
+      );
+    });
+    setCard(cardworker);
+  }, []);
+
+  console.log(card);
+
+  const handleOnCloseCard = (name: any) => {
+    console.log(name)
+    const newCard = card.filter((item: any) => item.name !== name);
+    setCard(newCard);
+  };
+
+
+
+
+
+
 
   return (
     <Layout>
@@ -186,12 +216,18 @@ const WorkBag: React.FC = () => {
             spacing={{ base: 10, md: 4, lg: 10 }}
           >
             <SimpleGrid columns={[1, null, 3]} spacing="40px">
-              {workBag.map((item, index) => (
+              {card?.map((item: any, index: number) => (
+
                 <Testimonial key={index}>
                   <TestimonialContent>
+
+                    <Box marginTop={"-6"} marginRight={"-5"} alignSelf={"end"}>
+                      <Button w={"5px"} size={"xs"} variant='outline' onClick={() => handleOnCloseCard(item.name)}>x</Button>
+                    </Box>
                     <TestimonialHeading>
                       {item.testimonialHeading}
                     </TestimonialHeading>
+
                     <TestimonialText>{item.testimonialWork}</TestimonialText>
                     <Stack p={3} align={"center"}>
                       <Button
