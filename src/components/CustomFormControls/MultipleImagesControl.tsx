@@ -36,7 +36,7 @@ export const MultipleImagesControl: React.FC<FieldHookConfig<string> & CustomFie
       <FormLabel>
         {label}
       </FormLabel>
-      <input name='images' type='file' multiple onChange={(event) => handleFileUpload(event)} />
+      <input name='images' type='file' multiple onChange={(event) => handleFileUpload(event)} style={{ width: '100%'}} />
       {meta.touched && meta.error ? (
          <FormErrorMessage>{meta.error}</FormErrorMessage>
        ) : null}

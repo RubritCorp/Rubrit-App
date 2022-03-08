@@ -35,8 +35,8 @@ interface ICredentials {
 }
 
 const Login: React.FC<{
-  setIsLogin(value: boolean): void;
-}> = ({ setIsLogin }) => {
+  setIsLogin(value: boolean): void; onClose(): void; status: string;
+}> = ({ setIsLogin, onClose, status }) => {
   const theme = useTheme();
   const toast = useToast();
   const [show, setShow] = useState<boolean>(false);
@@ -62,11 +62,15 @@ const Login: React.FC<{
   };
 
   const handleSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    setLoading(true);
     try {
       signIn("credentials", {
+        redirect: false,
         email: credentials.email,
         password: credentials.password,
       });
+      setLoading(false);
     } catch (err) {
       setLoading(false);
       toast({
