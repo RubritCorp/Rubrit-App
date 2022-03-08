@@ -14,6 +14,7 @@ import {
   Text,
   Box,
   useToast,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useTheme } from "@chakra-ui/react";
 
@@ -25,7 +26,8 @@ import { signIn } from "next-auth/react";
 import facebook from "assets/facebook.png";
 import google from "assets/google.png";
 import Image from "next/image";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { EmailIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import ForgotPassword from "./ForgotPassword";
 
 interface ICredentials {
   email: string;
@@ -36,13 +38,21 @@ const Login: React.FC<{
   setIsLogin(value: boolean): void;
 }> = ({ setIsLogin }) => {
   const theme = useTheme();
+  const toast = useToast();
   const [show, setShow] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const [credentials, setCredentails] = useState<ICredentials>({
     email: "",
     password: "",
   });
-  const [loading, setLoading] = useState<boolean>(false);
-  const toast = useToast();
+
+  const {
+    isOpen: isOpenForgotPassword,
+    onOpen: onOpenForgotPassword,
+    onClose: onCloseForgotPassword,
+  } = useDisclosure();
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
     setCredentails({
@@ -52,14 +62,11 @@ const Login: React.FC<{
   };
 
   const handleSubmit = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    setLoading(true);
     try {
       signIn("credentials", {
         email: credentials.email,
         password: credentials.password,
       });
-      setLoading(false);
     } catch (err) {
       setLoading(false);
       toast({
@@ -133,11 +140,13 @@ const Login: React.FC<{
             Registrarse Gratis
           </Text>
         </ModalBody>
-        <ModalFooter justifyContent={"center"}>
+        <ModalFooter justifyContent={"center"} flexDirection={"column"}>
           <Button
             colorScheme="blue"
             w={"90%"}
-            onClick={handleSubmit}
+            onClick={(e) => {
+              handleSubmit(e), setLoading(true);
+            }}
             disabled={
               !credentials.email.length || !credentials.password.length
                 ? true
@@ -147,6 +156,20 @@ const Login: React.FC<{
           >
             Iniciar Sesión
           </Button>
+          <Text mt={4}>¿Olvidaste tu constraseña?</Text>
+          <Button
+            fontSize={{ base: "sm", md: "l", lg: "l" }}
+            leftIcon={<EmailIcon />}
+            colorScheme="blue"
+            variant="ghost"
+            mt={2}
+            onClick={onOpenForgotPassword}
+          >
+            Restablecer por correo
+          </Button>
+          <ForgotPassword
+            {...{ isOpenForgotPassword, onCloseForgotPassword }}
+          />
         </ModalFooter>
         <Box d={"flex"} alignItems={"center"} flexDirection={"column"}>
           <Text>O</Text>

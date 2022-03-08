@@ -14,10 +14,8 @@ import {
   Button,
   AccordionIcon,
   AccordionPanel,
-  Stack,
   useDisclosure,
   useTheme,
-  Input,
   FormLabel,
   InputGroup,
   InputRightElement,
@@ -31,6 +29,8 @@ import DeleteUser from "components/Profile/DeleteUser";
 import { InputControl, ResetButton, SubmitButton } from "formik-chakra-ui";
 import { Formik } from "formik";
 import useHelper from "./useHelper";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const AccountSettings: React.FC<{ session: Session }> = ({ session }) => {
   return (
@@ -104,13 +104,24 @@ const AccountSettings: React.FC<{ session: Session }> = ({ session }) => {
 
 export default AccountSettings;
 
-const Settings: React.FC<{ session: Session }> = ({ session }) => {
+const Settings: React.FC<{
+  session: Session;
+}> = ({ session }) => {
+  const theme = useTheme();
+  const router = useRouter();
   const {
     isOpen: isOpenDeleteUser,
     onOpen: onOpenDeleteUser,
     onClose: onCloseDeleteUser,
   } = useDisclosure();
-  const theme = useTheme();
+  const { isAuthenticated, code, email } = router.query;
+  const [changeCode, setChangeCode] = useState<string>("");
+
+  useEffect(() => {
+    if (isAuthenticated && typeof code === "string") {
+      setChangeCode(code);
+    }
+  }, [code, isAuthenticated]);
 
   const {
     toast,
@@ -120,14 +131,20 @@ const Settings: React.FC<{ session: Session }> = ({ session }) => {
     validationSchema,
     initialValuesChangePassword,
     validationSchemaChangePassword,
+    loadingResend,
+    resend,
     setShow,
     setLoading,
     onSubmit,
     onSubmitChangePassword,
-  } = useHelper(session);
+  } = useHelper(session, `${isAuthenticated}`, `${code}`);
 
   return (
-    <Accordion allowToggle borderTop={"transparent"}>
+    <Accordion
+      allowToggle
+      borderTop={"transparent"}
+      defaultIndex={isAuthenticated === "true" ? 0 : 99}
+    >
       <AccordionItem borderBottom={"2px solid gray"} pt={4} pb={4}>
         <h2>
           <AccordionButton
@@ -152,14 +169,24 @@ const Settings: React.FC<{ session: Session }> = ({ session }) => {
               {({ handleSubmit, values, errors, handleBlur }) => (
                 <Box as="form" onSubmit={handleSubmit as any}>
                   <InputControl
-                    name="password"
-                    label="Contraseña Actual"
+                    name="passwordChange"
+                    label={
+                      isAuthenticated === "true"
+                        ? "Codigo de verificación"
+                        : "Contraseña Actual"
+                    }
                     inputProps={{
                       placeholder: "Contraseña",
                       type: "password",
                       autoComplete: "off",
                     }}
                   />
+                  {isAuthenticated === "true" && (
+                    <Text mt={2}>
+                      No elimine el Codigo de verificación de usuario. Una vez
+                      haya cambiado la constraseña, este quedara invalido.
+                    </Text>
+                  )}
                   <FormLabel mt={4}>Contraseña</FormLabel>
                   <InputGroup>
                     <InputControl
@@ -257,6 +284,8 @@ const Settings: React.FC<{ session: Session }> = ({ session }) => {
               colorScheme="blue"
               variant="outline"
               mt={2}
+              onClick={resend}
+              isLoading={loadingResend}
             >
               Restablecer por correo
             </Button>
