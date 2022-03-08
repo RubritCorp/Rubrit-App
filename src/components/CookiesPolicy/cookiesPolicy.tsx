@@ -15,13 +15,13 @@ const CookiePolicy: React.FC = () => {
     return (
         <Layout>
             <Box
-                bg={useColorModeValue("medium_grey", "dark_green")}
+                bg={useColorModeValue("#BBE1C3", "dark_green")}
                 color={useColorModeValue("dark_green", "medium_grey")}
             >
                 <Flex justifyContent="center" p={"2.5em"}>
                     <Text
-                        fontSize={{ base: "1.5rem", md: "1rem", lg: "2.5rem" }}
-                        fontWeight={400}
+                        fontSize={{ base: "0.5rem", md: "0.5rem", lg: "2rem" }}
+                        fontWeight={300}
                     >
                         POLITICA DE COOKIES
                         <chakra.span fontWeight={"bold"}>
