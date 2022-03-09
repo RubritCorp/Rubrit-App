@@ -106,7 +106,7 @@ export default NextAuth({
           withProvider: userSession.withProvider,
           isAuthenticated: userSession.isAuthenticated,
           isWorker: userSession.isWorker,
-          hideAddress: userSession.hideAddress,
+          preferences: userSession.preferences,
           items: userSession.items,
           offers: userSession.offers,
         };
