@@ -42,7 +42,10 @@ export default function DesktopNav() {
 
   return (
     <Stack direction={"row"} spacing={4}>
-      <Box>
+      <Box
+        borderBottom={"2px solid transparent"}
+        _hover={{ borderBottom: "2px solid #2EB67D" }}
+      >
         <Popover trigger="hover" placement={"bottom-start"}>
           <PopoverTrigger>
             <Text
@@ -95,7 +98,10 @@ export default function DesktopNav() {
           </PopoverContent>
         </Popover>
       </Box>
-      <Box>
+      <Box
+        borderBottom={"2px solid transparent"}
+        _hover={{ borderBottom: "2px solid #2EB67D" }}
+      >
         <Popover trigger="hover" placement={"bottom-start"}>
           <Link href={"/findServices"} passHref>
             <Text
@@ -114,7 +120,10 @@ export default function DesktopNav() {
           </Link>
         </Popover>
       </Box>
-      <Box>
+      <Box
+        borderBottom={"2px solid transparent"}
+        _hover={{ borderBottom: "2px solid #2EB67D" }}
+      >
         <Popover trigger="hover" placement={"bottom-start"}>
           <Link href={"/offerServices"} passHref>
             <Text
@@ -133,7 +142,10 @@ export default function DesktopNav() {
           </Link>
         </Popover>
       </Box>
-      <Box>
+      <Box
+        borderBottom={"2px solid transparent"}
+        _hover={{ borderBottom: "2px solid #2EB67D" }}
+      >
         <Popover trigger="hover" placement={"bottom-start"}>
           <Link href={"/workbag"} passHref>
             <Text
