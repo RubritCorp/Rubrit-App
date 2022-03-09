@@ -151,7 +151,12 @@ const MiPerfil: React.FC<{
                 {...{ user, isOpenPreferences, onClosePreferences }}
               />
               {/* */}
-              <MenuItem>Ver Tus Archivos</MenuItem>
+              <Link
+                href={{ pathname: "myAccount", query: { site: "myfiles" } }}
+                passHref
+              >
+                <MenuItem>Ver Tus Archivos</MenuItem>
+              </Link>
             </MenuList>
           </Menu>
 

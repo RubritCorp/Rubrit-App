@@ -91,7 +91,7 @@ const useHelper = ({ user, onClosePreferences }: Props) => {
     }
   };
 
-  return { loading, initialValues, onChange, handleSubmit };
+  return { loading, initialValues, setInitialValues, onChange, handleSubmit };
 };
 
 export default useHelper;
