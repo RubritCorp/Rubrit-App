@@ -30,23 +30,22 @@ export const handleSubmit = async (values: DataInitialValues) => {
   formData.append('path', 'test');
   formData.append('title', title);
   // Append files individually since FormData does not support FileList
-  if (images) {
+  if (images && images.length > 0) {
     for (let i = 0 ; i < images.length ; i++) {
       formData.append('files', images[i] as any);
     }
   }
   
   try {
+    let serviceRequest = { title, description, location, images: null };
     // API request for file upload
-    const { data } = await axios.post(`${envConfig?.apiUrl}/aws/upload-files`, formData, { headers: { 'content-type': 'multipart/form-data' } });
-    const serviceRequest = {
-      title,
-      description,
-      location,
-      images: data.urls
-    };
-    const apiResponse = await axios.post("/api/serviceRequest/new", serviceRequest);
+    if (images && images?.length > 0) {
+      const { data } = await axios.post(`${envConfig?.apiUrl}/aws/upload-files`, formData, { headers: { 'content-type': 'multipart/form-data' } });
+      serviceRequest.images = data.urls;
+    }
+    const apiResponse = await axios.post('/api/serviceRequest/new', serviceRequest);
+    return { success: true, data: apiResponse.data}
   } catch (err) {
-    console.log(err);
+    return { success: false, data: err}
   }
 };

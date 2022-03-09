@@ -116,7 +116,7 @@ const PrivateRequest: React.FC = () => {
       >
         <Heading alignSelf='center'>Tu profesional</Heading>
         <Flex gap='20px' alignItems='center'>
-          <Image src={user.picture} borderRadius='full' w='40px' h='40px' />
+          <Image src={user.picture} borderRadius='full' w='40px' h='40px' alt='profile-picture' />
           <Stack>
             <Heading as='h3' size='md'>{user.name}</Heading>
             <Text fontSize='xs' margin='0 !important'>{`${user.city}, ${user.country}`}</Text>
