@@ -107,13 +107,13 @@ const MobileNav = () => {
             </Stack>
 
             <Stack spacing={4} fontWeight={600} fontSize={"md"} marginTop={2}>
-              <Link href="findServices" passHref>
+              <Link href="/findServices" passHref>
                 <Text cursor={"pointer"}>Buscar Servicios</Text>
               </Link>
-              <Link href="offerServices" passHref>
+              <Link href="/offerServices" passHref>
                 <Text cursor={"pointer"}>Ofrecer tus Servicios</Text>
               </Link>
-              <Link href="workBag" passHref>
+              <Link href="/workbag" passHref>
                 <Text cursor={"pointer"}>Bolsa de Trabajo</Text>
               </Link>
             </Stack>

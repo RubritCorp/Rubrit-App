@@ -27,6 +27,7 @@ import { Session } from "next-auth";
 //components
 import EditProfile from "./EditProfile";
 import UpdateDescription from "./UpdateDescription";
+import Preferences from "./Preferences";
 //from modules
 import Link from "next/link";
 
@@ -43,6 +44,12 @@ const MiPerfil: React.FC<{
     isOpen: isOpenEditProfile,
     onOpen: onOpenEditProfile,
     onClose: onCloseEditProfile,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenPreferences,
+    onOpen: onOpenPreferences,
+    onClose: onClosePreferences,
   } = useDisclosure();
 
   return (
@@ -137,8 +144,13 @@ const MiPerfil: React.FC<{
                 </MenuItem>
               </Link>
               <MenuDivider />
-              <MenuItem>Preferencias</MenuItem>
+              <MenuItem onClick={onOpenPreferences}>Preferencias</MenuItem>
               <MenuDivider />
+              {/* */}
+              <Preferences
+                {...{ user, isOpenPreferences, onClosePreferences }}
+              />
+              {/* */}
               <MenuItem>Ver Tus Archivos</MenuItem>
             </MenuList>
           </Menu>
@@ -184,7 +196,7 @@ const MiPerfil: React.FC<{
         </Text>
       </Box>
 
-      {(!user.address || !user.phone) && (
+      {(!user.address.name || !user.phone.number) && (
         <Alert status="warning" flexDirection={"column"} borderRadius={10}>
           <Flex>
             <AlertIcon />

@@ -86,17 +86,9 @@ const WithSubnavigation: React.FC = () => {
       } else {
         toast.close("verify-account");
       }
+    } else {
+      toast.close("verify-account");
     }
-    /* if (!toast.isActive("error-signin")) {
-        toast({
-          title: "¡Error al iniciar sesión!",
-          description: "¡El usuario o contraseña son erroneos!",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-          id: "error-signin",
-        });
-      } */
 
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session, session?.isAuthenticated, status]);
