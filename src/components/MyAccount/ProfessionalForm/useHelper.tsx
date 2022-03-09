@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import * as Yup from "yup";
-const useHelper = () => {
-  const toast = useToast();
 
+export const useHelper = () => {
+  const toast = useToast();
   interface DataInitialValues {
     companyName: string;
     description: string;
@@ -33,7 +33,8 @@ const useHelper = () => {
   });
 
   const onSubmit = async (values: DataInitialValues) => {
-    console.log(values);
+    console.log("eeee", values);
+
     const {
       companyName,
       description,

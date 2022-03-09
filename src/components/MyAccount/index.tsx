@@ -22,6 +22,8 @@ import { Session } from "next-auth/core/types";
 import Layout from "components/layout";
 import Loading from "components/Loading";
 
+import ProfessionalForm from "./ProfessionalForm/";
+
 interface ICases {
   accountSettings(session: Session): ReactElement;
   myfiles(session: Session): ReactElement;
@@ -64,7 +66,7 @@ const Index: React.FC = () => {
       return <>My Request</>;
     },
     offerServices: (session) => {
-      return <>offer Services</>;
+      return <ProfessionalForm />;
     },
     becomePremium: (session) => {
       return <>Become premium</>;
