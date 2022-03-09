@@ -67,7 +67,20 @@ export default function DesktopNav() {
             boxShadow={"xl"}
             p={4}
             w={"20rem"}
-            rounded={"xl"}
+            maxH={"400px"}
+            overflowY="auto"
+            css={{
+              '&::-webkit-scrollbar': {
+                width: '7px',
+              },
+              '&::-webkit-scrollbar-track': {
+                width: '15px',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                background: "#38a169",
+                borderRadius: '24px',
+              },
+            }}
           >
             {categories.map((m: any, i: number) => (
               <Box key={i}>
