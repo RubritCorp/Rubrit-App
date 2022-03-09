@@ -46,14 +46,13 @@ const Faqs: React.FC = () => {
           Soy Usuario
         </Heading>
       </Center>
-      <Container maxW="container.xl" p={"2em 6em 5em 5em"}>
+      <Container maxW="container.xl" p={"2em 2em "}>
         <Accordion allowToggle>
           <AccordionItem>
             <h2>
               <AccordionButton
                 _expanded={{
-                  bg: "#48d197",
-                  color: "white",
+                  color: "medium_green",
                   textDecoration: "none",
                 }}
               >
@@ -72,7 +71,7 @@ const Faqs: React.FC = () => {
           <AccordionItem>
             <h2>
               <AccordionButton
-                _expanded={{ bg: "#48d197", color: "white" }}
+                _expanded={{ color: "medium_green" }}
               >
                 <Box flex="1" textAlign="left">
                   ¿Como me Registro?
@@ -90,7 +89,7 @@ const Faqs: React.FC = () => {
           <AccordionItem>
             <h2>
               <AccordionButton
-                _expanded={{ bg: "#48d197", color: "white" }}
+                _expanded={{  color: "medium_green" }}
               >
                 <Box flex="1" textAlign="left">
                   ¿Como veo mis datos?
@@ -107,7 +106,7 @@ const Faqs: React.FC = () => {
           <AccordionItem>
             <h2>
               <AccordionButton
-                _expanded={{ bg: "#48d197", color: "white" }}
+                _expanded={{  color: "medium_green" }}
               >
                 <Box flex="1" textAlign="left">
                   ¿Puedo editar mi informacion de perfil?
@@ -123,7 +122,7 @@ const Faqs: React.FC = () => {
           <AccordionItem>
             <h2>
               <AccordionButton
-                _expanded={{ bg: "#48d197", color: "white" }}
+                _expanded={{ color: "medium_green" }}
               >
                 <Box flex="1" textAlign="left">
                   ¿Cómo cambio mi email?
@@ -139,7 +138,7 @@ const Faqs: React.FC = () => {
           <AccordionItem>
             <h2>
               <AccordionButton
-                _expanded={{ bg: "#48d197", color: "white" }}
+                _expanded={{ color: "medium_green" }}
               >
                 <Box flex="1" textAlign="left">
                   ¿Cuánto cuesta hacer una solicitud de presupuesto?
@@ -156,7 +155,7 @@ const Faqs: React.FC = () => {
           <AccordionItem>
             <h2>
               <AccordionButton
-                _expanded={{ bg: "#48d197", color: "white" }}
+                _expanded={{ color: "medium_green" }}
               >
                 <Box flex="1" textAlign="left">
                   Cómo hacer una solicitud
@@ -177,7 +176,7 @@ const Faqs: React.FC = () => {
           <AccordionItem>
             <h2>
               <AccordionButton
-                _expanded={{ bg: "#48d197", color: "white" }}
+                _expanded={{ color: "medium_green" }}
               >
                 <Box flex="1" textAlign="left">
                   ¿Qué información tengo que añadir en mi solicitud?
@@ -200,7 +199,7 @@ const Faqs: React.FC = () => {
           <AccordionItem>
             <h2>
               <AccordionButton
-                _expanded={{ bg: "#48d197", color: "white" }}
+                _expanded={{  color: "medium_green" }}
               >
                 <Box flex="1" textAlign="left">
                   ¿Cuántas cuentas puedo tener en Rubrit?
@@ -221,7 +220,7 @@ const Faqs: React.FC = () => {
           <AccordionItem>
             <h2>
               <AccordionButton
-                _expanded={{ bg: "#48d197", color: "white" }}
+                _expanded={{color: "medium_green" }}
               >
                 <Box flex="1" textAlign="left">
                   Quiero darme de baja
@@ -248,14 +247,13 @@ const Faqs: React.FC = () => {
           Soy Profesional
         </Heading>
       </Center>
-      <Container maxW="container.xl" p={"2em 6em 5em 5em"}>
+      <Container maxW="container.xl" p={"2em 2em "}>
         <Accordion allowToggle>
           <AccordionItem>
             <h2>
               <AccordionButton
                 _expanded={{
-                  bg: "#48d197",
-                  color: "white",
+                  color: "medium_green",
                   outline: "none",
                 }}
               >
@@ -274,7 +272,7 @@ const Faqs: React.FC = () => {
           <AccordionItem>
             <h2>
               <AccordionButton
-                _expanded={{ bg: "#48d197", color: "white" }}
+                _expanded={{  color: "medium_green" }}
               >
                 <Box flex="1" textAlign="left">
                   ¿En cuántas categorías me puedo inscribir?
@@ -293,7 +291,7 @@ const Faqs: React.FC = () => {
           <AccordionItem>
             <h2>
               <AccordionButton
-                _expanded={{ bg: "#48d197", color: "white" }}
+                _expanded={{ color: "medium_green" }}
               >
                 <Box flex="1" textAlign="left">
                   ¿Cómo cambio mi email?
@@ -309,7 +307,7 @@ const Faqs: React.FC = () => {
           <AccordionItem>
             <h2>
               <AccordionButton
-                _expanded={{ bg: "#48d197", color: "white" }}
+                _expanded={{ color: "medium_green" }}
               >
                 <Box flex="1" textAlign="left">
                   ¿Puedo cambiar mi ubicación?
@@ -324,7 +322,7 @@ const Faqs: React.FC = () => {
           <AccordionItem>
             <h2>
               <AccordionButton
-                _expanded={{ bg: "#48d197", color: "white" }}
+                _expanded={{  color: "medium_green" }}
               >
                 <Box flex="1" textAlign="left">
                   ¿Cuántas imágenes de mis trabajos puedo añadir a mi perfil?
@@ -346,7 +344,7 @@ const Faqs: React.FC = () => {
           <AccordionItem>
             <h2>
               <AccordionButton
-                _expanded={{ bg: "#48d197", color: "white" }}
+                _expanded={{  color: "medium_green" }}
               >
                 <Box flex="1" textAlign="left">
                   ¿Cómo selecciono mis categorías de trabajo?
@@ -365,7 +363,7 @@ const Faqs: React.FC = () => {
           <AccordionItem>
             <h2>
               <AccordionButton
-                _expanded={{ bg: "#48d197", color: "white" }}
+                _expanded={{ color: "medium_green" }}
               >
                 <Box flex="1" textAlign="left">
                   No existe una categoría para los servicios que ofrezco, ¿qué
@@ -384,10 +382,10 @@ const Faqs: React.FC = () => {
           <AccordionItem>
             <h2>
               <AccordionButton
-                _expanded={{ bg: "#48d197", color: "white" }}
+                _expanded={{  color: "medium_green" }}
               >
                 <Box flex="1" textAlign="left">
-                  ¿Qué es ser profesional certificado en timbrit?
+                  ¿Qué es ser profesional certificado en Rubrit?
                 </Box>
                 <AccordionIcon />
               </AccordionButton>
@@ -404,7 +402,7 @@ const Faqs: React.FC = () => {
           <AccordionItem>
             <h2>
               <AccordionButton
-                _expanded={{ bg: "#48d197", color: "white" }}
+                _expanded={{  color: "medium_green" }}
               >
                 <Box flex="1" textAlign="left">
                   ¿Cómo encuentro clientes?
@@ -427,7 +425,7 @@ const Faqs: React.FC = () => {
           <AccordionItem>
             <h2>
               <AccordionButton
-                _expanded={{ bg: "#48d197", color: "white" }}
+                _expanded={{  color: "medium_green" }}
               >
                 <Box flex="1" textAlign="left">
                   Cómo denunciar a un usuario
