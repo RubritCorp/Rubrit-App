@@ -29,6 +29,7 @@ const cases: ICases = {
     if (!name || !email || !password || !phone) {
       res.status(422).json({ message: "Invalid Data" });
     }
+
     try {
       const validate = await User.findOne({ email: email });
 
@@ -50,7 +51,10 @@ const cases: ICases = {
         name,
         email,
         password: await hashPassword(password),
-        phone,
+        phone: {
+          diallingCode: phone.diallingCode,
+          number: phone.number,
+        },
         authCode: await hashCode(code),
         isAuthenticated: false,
         withProvider,

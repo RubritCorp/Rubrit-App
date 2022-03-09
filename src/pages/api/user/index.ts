@@ -57,7 +57,8 @@ const cases: ICases = {
     }
   },
   PUT: async (req, res) => {
-    const { email, image } = req.body;
+    const { email, name, address, phone, image } = req.body;
+
     if (!email) return res.status(404).json({ message: "Email is required" });
 
     try {
@@ -65,9 +66,17 @@ const cases: ICases = {
 
       if (!user) return res.status(404).json({ message: "User not found" });
 
-      user.profilePic = image;
-      user.save();
-      res.status(200).json({ message: "Photo was modified", user });
+      if (image) {
+        user.profilePic = image;
+        user.save();
+        res.status(200).json({ message: "Photo was modified", user });
+      } else {
+        user.name = name;
+        user.address = address;
+        user.phone = phone;
+        user.save();
+        res.status(200).json({ message: "User was modified", user });
+      }
     } catch (err) {
       res.status(404).json({ message: "Error was ocurred" });
     }

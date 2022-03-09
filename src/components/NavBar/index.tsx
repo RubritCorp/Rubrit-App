@@ -54,7 +54,7 @@ const WithSubnavigation: React.FC = () => {
   const [isAuth, setIsAuth] = useState<boolean>();
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [user, setUser] = useState<Session>();
-  const { pathname, query } = useRouter();
+  const { pathname } = useRouter();
   const { data: session, status } = useSession();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -67,20 +67,8 @@ const WithSubnavigation: React.FC = () => {
     onOpen: onOpenDrawerOptions,
     onClose: onCloseDrawerOptions,
   } = useDisclosure();
-  const { categories } = useCategories();
-  console.log(categories);
 
   useEffect(() => {
-    if (query.login === "true") {
-      if (!session && status === "unauthenticated") {
-        setIsAuth(true);
-        setIsLogin(true);
-        onOpen();
-      } else {
-        Router.push("/");
-      }
-    }
-
     if (session && status === "authenticated") {
       setUser(session);
       onClose();
@@ -98,20 +86,17 @@ const WithSubnavigation: React.FC = () => {
       } else {
         toast.close("verify-account");
       }
-    } else {
-      if (query.error) {
-        if (!toast.isActive("error-signin")) {
-          toast({
-            title: "¡Error al iniciar sesión!",
-            description: "¡El usuario o contraseña son erroneos!",
-            status: "error",
-            duration: 5000,
-            isClosable: true,
-            id: "error-signin",
-          });
-        }
-      }
     }
+    /* if (!toast.isActive("error-signin")) {
+        toast({
+          title: "¡Error al iniciar sesión!",
+          description: "¡El usuario o contraseña son erroneos!",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          id: "error-signin",
+        });
+      } */
 
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session, session?.isAuthenticated, status]);
@@ -182,7 +167,7 @@ const WithSubnavigation: React.FC = () => {
           {!session &&
           (status === "loading" || status === "unauthenticated") ? (
             <Button
-              id='signInButton'
+              id="signInButton"
               display={{ base: "inline-flex", md: "inline-flex" }}
               fontSize={{ base: "xs", md: "sm" }}
               fontWeight={600}
@@ -241,7 +226,7 @@ const WithSubnavigation: React.FC = () => {
                   <MenuDivider d={{ base: "", md: "none" }} />
                   <MenuItem
                     onClick={() => {
-                      signOut({redirect: false});
+                      signOut({ redirect: false });
                     }}
                   >
                     Cerrar Sesion
@@ -262,7 +247,7 @@ const WithSubnavigation: React.FC = () => {
             >
               <ModalOverlay />
               {isLogin ? (
-                <Login {...{ setIsLogin }} onClose={onClose} status={status}  />
+                <Login {...{ setIsLogin }} onClose={onClose} status={status} />
               ) : (
                 <Register {...{ setIsAuth, setIsLogin }} />
               )}

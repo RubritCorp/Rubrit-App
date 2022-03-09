@@ -47,7 +47,7 @@ export const useHelper = ({ setIsLogin }: props) => {
       .min(8, "Contraseña demasiado corta.")
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-        "Mínimo 8 caracteres, una letra mayúscula, una minúscula y al menos un número."
+        "Mínimo 8 caracteres, una letra mayúscula, una minúscula y al menos un número. No se aceptan caracteres especiales."
       ),
     confirmPassword: Yup.string()
       .required("Debe confirmar la contraseña")
@@ -65,7 +65,10 @@ export const useHelper = ({ setIsLogin }: props) => {
       name: values.firstName + " " + values.lastName,
       email: values.email,
       password: values.password,
-      phone: countryCode + values.phone,
+      phone: {
+        diallingCode: countryCode,
+        number: values.phone,
+      },
       withProvider: false,
     };
     try {
@@ -78,6 +81,7 @@ export const useHelper = ({ setIsLogin }: props) => {
         duration: 5000,
         isClosable: true,
       });
+
       setIsLogin(true);
     } catch (err) {
       toast({
