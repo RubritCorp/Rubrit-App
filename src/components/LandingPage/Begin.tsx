@@ -90,7 +90,7 @@ const Begin: React.FC = () => {
           status === "authenticated" ? (
             onOpenOne()
           ) : (
-            router.push('/?login=true')
+            document.getElementById('signInButton')?.click()
           )
         }}
       >
