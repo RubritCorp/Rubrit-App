@@ -25,7 +25,7 @@ export const MultipleImagesControl: React.FC<FieldHookConfig<string> & CustomFie
 
       return (
         <Flex>
-          { newFiles.map((image, index) => <Image key={index} src={image} h='100px' />)}
+          { newFiles.map((image, index) => <Image key={index} src={image} h='100px' alt={`image${index}`} />)}
         </Flex>
       );
     }

@@ -43,18 +43,12 @@ export const handleSubmit = async (values: DataInitialValues) => {
   }
   
   try {
-    let serviceRequest = {
-      title,
-      description,
-      location,
-      images: null
-    };
+    let serviceRequest = { title, description, location, images: null };
     // API request for file upload
     if (images && images?.length > 0) {
       const { data } = await axios.post(`${envConfig?.apiUrl}/aws/upload-files`, formData, { headers: { 'content-type': 'multipart/form-data' } });
       serviceRequest.images = data.urls;
     }
-    
     const apiResponse = await axios.post('/api/serviceRequest/new', serviceRequest);
     return { success: true, data: apiResponse.data}
   } catch (err) {

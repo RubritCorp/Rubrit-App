@@ -34,12 +34,15 @@ const PublicRequestMain: React.FC = () => {
   const [ isRequestSuccessful, setIsRequestSuccessful ] = useState<null | boolean>(null)
   const { isOpen, onToggle } = useDisclosure();
   const { data: session, status } = useSession();
+  const [ loading, setLoading ] = useState<boolean>(false);
 
   async function preSubmit(event: any, values: any) {
     event.preventDefault();
     if (session && status === "authenticated") {  
+      setLoading(true);
       const { success } = await handleSubmit(values);
       setIsRequestSuccessful(success);
+      setLoading(false);
     } else {
       document.getElementById('signInButton')?.click();
     } 
@@ -77,7 +80,7 @@ const PublicRequestMain: React.FC = () => {
             { !isOpen ? 'Siguiente' : 'Atrás' }
           </Button>
           <SubmitButton
-            isLoading={isSubmitting}
+            isLoading={loading}
             color='white'
             alignSelf='center'
             bg='green.500'
@@ -88,7 +91,7 @@ const PublicRequestMain: React.FC = () => {
             }}
             display={ !isOpen ? 'none' : 'inherit'}
             disabled={
-              Object.keys(errors).length > 0 || isSubmitting
+              Object.keys(errors).length > 0 || isSubmitting || loading
             }
             >
             Enviar solicitud
