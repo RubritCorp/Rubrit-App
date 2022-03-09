@@ -22,7 +22,13 @@ declare module "next-auth" {
     isAuthenticated: boolean;
     withProvider: boolean;
     isWorker: boolean;
-    hideAddress: boolean;
+    preferences: {
+      notificationsMessages: boolean;
+      notificationsNewOffer: boolean;
+      showAllChats: boolean;
+      language: string;
+      hideAddress: boolean;
+    };
     items: any;
     offers: any;
   }

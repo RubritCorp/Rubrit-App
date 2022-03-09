@@ -15,13 +15,13 @@ const PrivacyPolicy: React.FC = () => {
     return (
         <Layout>
             <Box
-                bg={useColorModeValue("medium_grey", "dark_green")}
+                bg={useColorModeValue("#BBE1C3", "dark_green")}
                 color={useColorModeValue("dark_green", "medium_grey")}
             >
                 <Flex justifyContent="center" p={"2.5em"}>
                     <Text
                         fontSize={{ base: "1.5rem", md: "1rem", lg: "2.5rem" }}
-                        fontWeight={400}
+                        fontWeight={300}
                     >
                         POLITICA DE PRIVACIDAD
                         <chakra.span fontWeight={"bold"}>
@@ -30,9 +30,9 @@ const PrivacyPolicy: React.FC = () => {
                     </Text>
                 </Flex>
             </Box>
-            <Container maxW="container.xl" p={"2em 0"}>
-                <Box p={"1em 3em 0 3em"} w="100%" justifyContent="center">
-                    <Text as='i' fontSize='lg'>
+            <Container maxW="container.xl" centerContent p={"2em 0"}>
+                <Box p={"1em 3em 0"} w="100%" justifyContent="center">
+                    <Text as='i' fontSize='lg' textAlign='justify'>
                         <chakra.p
                             fontFamily={"Poppins"}
                             fontWeight={"lighter"}

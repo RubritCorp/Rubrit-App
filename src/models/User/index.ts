@@ -1,5 +1,6 @@
 //from modules
 import mongoose, { model, models, Schema, Types } from "mongoose";
+import { boolean } from "yup";
 import { number } from "yup/lib/locale";
 //interfaces
 import { IUser } from "./IUser";
@@ -75,6 +76,24 @@ const userSchema = new Schema(
       },
     },
     preferences: {
+      notificationsMessages: {
+        type: Boolean,
+        default: true,
+      },
+
+      notificationsNewOffer: {
+        type: Boolean,
+        default: true,
+      },
+      showAllChats: {
+        //it can be all chats or only non open
+        type: Boolean,
+        //default true for show all chats
+        default: true,
+      },
+      language: {
+        type: String,
+      },
       hideAddress: {
         type: Boolean,
         default: false,
