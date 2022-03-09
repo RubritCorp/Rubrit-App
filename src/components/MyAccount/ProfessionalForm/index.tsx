@@ -115,22 +115,6 @@ const ProfessionalForm: React.FC = () => {
               isRequired
             />
             <MultipleImagesControl label="images" name="images" />
-            <div className="heading">React Multiple Images Preview</div>
-            {/* <Box maxW="300px">
-                  <input
-                    name="images[]"
-                    type="file"
-                    accept="image/png, image/jpeg"
-                    onChange={handleOnChangeUpload}
-                    ref={inputFileRef}
-                    multiple
-                  ></input>
-
-                  <Flex flexDirection={"row"}>
-                    {renderPhotos(selectedFiles)}
-                  </Flex>
-                </Box> */}
-
             <FormLabel>Seleccionar categorias</FormLabel>
             <Box>
               <Button colorScheme="teal" onClick={onOpen}>
