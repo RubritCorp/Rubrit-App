@@ -7,29 +7,21 @@ import {
   DrawerHeader,
   DrawerBody,
   Button,
-  useTheme,
 } from "@chakra-ui/react";
 //from modules
 import { useEffect, useState } from "react";
 import { getSession, useSession } from "next-auth/react";
-import { Session } from "next-auth/core/types";
 import Router from "next/router";
 //components
-import Loading from "components/Loading";
 import { CloseIcon } from "@chakra-ui/icons";
 import MiPerfil from "./MiPerfil";
-//interfaces
-import { IUser } from "models/User/IUser";
 
 const Profile: React.FC<{ onCloseProfile(): void; isOpenProfile: boolean }> = ({
   onCloseProfile,
   isOpenProfile,
 }) => {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const [user, setUser] = useState<any>();
-  const [tab, setTab] = useState<string>("Mi Perfil");
-  const theme = useTheme();
-  const [size, setSize] = useState<string>("sm");
 
   useEffect(() => {
     const validateSession = async () => {
@@ -47,7 +39,7 @@ const Profile: React.FC<{ onCloseProfile(): void; isOpenProfile: boolean }> = ({
     <Drawer
       onClose={onCloseProfile}
       isOpen={isOpenProfile}
-      size={size}
+      size={"sm"}
       isFullHeight={false}
     >
       <DrawerOverlay />
@@ -59,11 +51,8 @@ const Profile: React.FC<{ onCloseProfile(): void; isOpenProfile: boolean }> = ({
           d={"flex"}
           alignItems={"center"}
         >
-          <Text
-            fontSize={{ base: "md", md: "lg" }}
-            color={theme.colors.medium_green}
-          >
-            {tab}
+          <Text fontSize={{ base: "md", md: "lg" }} color={"medium_green"}>
+            Mi Perfil
           </Text>
           <Button
             leftIcon={<CloseIcon />}
@@ -75,43 +64,7 @@ const Profile: React.FC<{ onCloseProfile(): void; isOpenProfile: boolean }> = ({
           />
         </DrawerHeader>
         <DrawerBody display={"flex"}>
-          {/* <Tabs orientation={"vertical"}>
-              <TabList h={"100%"}>
-                <Tab h={"20%"} onClick={() => setTab("Mi Perfil")}>
-                  <Box
-                    d={"flex"}
-                    flexDirection={"column"}
-                    alignItems={"center"}
-                  >
-                    <Avatar
-                      src={user?.image}
-                      name={user?.name}
-                      marginBottom={2}
-                      outline={"3px solid green"}
-                    />
-                    Mi Perfil
-                  </Box>
-                </Tab>
-
-                <Tab h={"20%"} onClick={() => setTab("Solicita Cotizacion")}>
-                  Solicita Cotización
-                </Tab>
-                <Tab h={"20%"} onClick={() => setTab("Ofrece Tus Servicios")}>
-                  Ofrece tus Servicios
-                </Tab>
-                <Tab h={"20%"} onClick={() => setTab("Bolsa de Trabajo")}>
-                  Solicitudes
-                </Tab>
-                <Tab h={"20%"} onClick={() => setTab("Solicita Cotizacion")}>
-                  Hacerse Premium
-                </Tab>
-              </TabList>
-            </Tabs> */}
-          <MiPerfil
-            {...{ user }}
-            greenColor={theme.colors.medium_green}
-            warningColor={theme.colors.warning_red}
-          />
+          <MiPerfil {...{ user }} />
         </DrawerBody>
       </DrawerContent>
     </Drawer>

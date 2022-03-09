@@ -170,19 +170,18 @@ const useHelper = (session: Session, isAuthenticated: string, code: string) => {
   };
 
   return {
-    toast,
     show,
     loading,
     initialValues,
+    loadingResend,
     validationSchema,
     initialValuesChangePassword,
     validationSchemaChangePassword,
-    loadingResend,
-    resend,
-    setShow,
+    onSubmitChangePassword,
     setLoading,
     onSubmit,
-    onSubmitChangePassword,
+    setShow,
+    resend,
   };
 };
 
