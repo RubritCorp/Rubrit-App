@@ -1,3 +1,4 @@
+//from chakra
 import {
   Flex,
   useColorModeValue,
@@ -21,22 +22,25 @@ import {
   InputRightElement,
   ButtonGroup,
 } from "@chakra-ui/react";
-import Image from "next/image";
-import User from "assets/user.png";
-import { Session } from "next-auth/core/types";
 import { DeleteIcon, EmailIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import DeleteUser from "components/Profile/DeleteUser";
-import { InputControl, ResetButton, SubmitButton } from "formik-chakra-ui";
-import { Formik } from "formik";
-import useHelper from "./useHelper";
+//from modules
+import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { Session } from "next-auth/core/types";
+import { Formik } from "formik";
+import { InputControl, ResetButton, SubmitButton } from "formik-chakra-ui";
+//components
+import DeleteUser from "components/MyAccount/AccountSettings/DeleteUser";
+//assets
+import User from "assets/user.png";
+//helper
+import useHelper from "./useHelper";
 
 const AccountSettings: React.FC<{ session: Session }> = ({ session }) => {
   return (
     <Tabs
       w={"100%"}
-      h={"94%"}
+      minH={"94%"}
       variant={"enclosed"}
       defaultIndex={0}
       position={"relative"}
@@ -114,29 +118,21 @@ const Settings: React.FC<{
     onOpen: onOpenDeleteUser,
     onClose: onCloseDeleteUser,
   } = useDisclosure();
-  const { isAuthenticated, code, email } = router.query;
-  const [changeCode, setChangeCode] = useState<string>("");
-
-  useEffect(() => {
-    if (isAuthenticated && typeof code === "string") {
-      setChangeCode(code);
-    }
-  }, [code, isAuthenticated]);
+  const { isAuthenticated, code } = router.query;
 
   const {
-    toast,
     show,
     loading,
     initialValues,
+    loadingResend,
     validationSchema,
     initialValuesChangePassword,
     validationSchemaChangePassword,
-    loadingResend,
-    resend,
-    setShow,
+    onSubmitChangePassword,
     setLoading,
     onSubmit,
-    onSubmitChangePassword,
+    setShow,
+    resend,
   } = useHelper(session, `${isAuthenticated}`, `${code}`);
 
   return (

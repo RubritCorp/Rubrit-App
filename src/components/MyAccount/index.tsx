@@ -30,7 +30,7 @@ interface ICases {
   becomePremium(session: Session): ReactElement;
 }
 
-const Index: React.FC<{ isLogged: Session }> = ({ isLogged }) => {
+const Index: React.FC = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const { site } = router.query;
@@ -96,7 +96,7 @@ const Index: React.FC<{ isLogged: Session }> = ({ isLogged }) => {
   return (
     <Flex
       justifyContent={{ base: "center" }}
-      h={"100vh"}
+      minH={"100vh"}
       position={"relative"}
       mb={14}
     >

@@ -12,7 +12,6 @@ import {
   useDisclosure,
   Text,
   Box,
-  useTheme,
   Popover,
   PopoverTrigger,
   PopoverContent,
@@ -21,11 +20,11 @@ import {
   PopoverHeader,
   PopoverBody,
   InputLeftAddon,
-  Select,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
+  Avatar,
 } from "@chakra-ui/react";
 import { InputControl, ResetButton, SubmitButton } from "formik-chakra-ui";
 import {
@@ -39,6 +38,7 @@ import {
 import { useState } from "react";
 import { Formik } from "formik";
 import ReCAPTCHA from "react-google-recaptcha";
+import Image from "next/image";
 //helper
 import { useHelper } from "./useHelper";
 //assets
@@ -56,7 +56,7 @@ const Register: React.FC<{
     setCountryCode,
     onSubmit,
   } = useHelper({ setIsLogin });
-  const theme = useTheme();
+
   const { onClose } = useDisclosure();
   const [mailProfile, setMailProfile] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
@@ -78,7 +78,7 @@ const Register: React.FC<{
           />
         ))}
 
-      <ModalHeader textAlign={"center"} color={theme.colors.medium_green}>
+      <ModalHeader textAlign={"center"} color={"medium_green"}>
         Registrate
       </ModalHeader>
       <ModalCloseButton onClick={() => setCountryCode("País")} />
@@ -86,7 +86,7 @@ const Register: React.FC<{
         {!mailProfile && (
           <SocialButtons
             {...{ setIsLogin, setMailProfile }}
-            color={theme.colors.medium_green}
+            color={"medium_green"}
           />
         )}
         {mailProfile && (
@@ -133,17 +133,17 @@ const Register: React.FC<{
                         </MenuButton>
                         <MenuList>
                           {countries.map((m, i: number) => (
-                            <MenuItem key={i}>
-                              <Button
-                                leftIcon={m.img}
-                                value={m.code}
+                            <MenuItem key={i} value={m.code}>
+                              {m.img}
+                              <Text
+                                ml={3}
                                 fontWeight={400}
                                 variant={"ghost"}
                                 onClick={() => setCountryCode(m.code)}
                                 _hover={{ bg: "transparent" }}
                               >
                                 {m.name} {m.code}
-                              </Button>
+                              </Text>
                             </MenuItem>
                           ))}
                         </MenuList>
@@ -160,9 +160,9 @@ const Register: React.FC<{
                       <Popover>
                         <PopoverTrigger>
                           <Button
-                            bg={theme.colors.medium_green}
+                            bg={"medium_green"}
                             _hover={{
-                              bg: theme.colors.light_green_sub[700],
+                              bg: "light_green_sub.700",
                             }}
                           >
                             <InfoIcon color={"#fafafa"} />
@@ -193,20 +193,20 @@ const Register: React.FC<{
                       }}
                       name="password"
                     />
-                    <InputRightElement>
-                      <Button
-                        bg={theme.colors.medium_green}
-                        _hover={{
-                          bg: theme.colors.light_green_sub[700],
-                        }}
-                        onClick={() => setShow(!show)}
-                      >
-                        {show ? (
-                          <ViewOffIcon color={"#fafafa"} />
-                        ) : (
-                          <ViewIcon color={"#fafafa"} />
-                        )}
-                      </Button>
+                    <InputRightElement
+                      bg={"medium_green"}
+                      _hover={{
+                        bg: "light_green_sub.700",
+                      }}
+                      onClick={() => setShow(!show)}
+                      borderRadius={6}
+                      cursor={"pointer"}
+                    >
+                      {show ? (
+                        <ViewOffIcon color={"#fafafa"} />
+                      ) : (
+                        <ViewIcon color={"#fafafa"} />
+                      )}
                     </InputRightElement>
                   </InputGroup>
 
@@ -221,20 +221,20 @@ const Register: React.FC<{
                         autoComplete: "off",
                       }}
                     />
-                    <InputRightElement>
-                      <Button
-                        bg={theme.colors.medium_green}
-                        _hover={{
-                          bg: theme.colors.light_green_sub[700],
-                        }}
-                        onClick={() => setShow(!show)}
-                      >
-                        {show ? (
-                          <ViewOffIcon color={"#fafafa"} />
-                        ) : (
-                          <ViewIcon color={"#fafafa"} />
-                        )}
-                      </Button>
+                    <InputRightElement
+                      bg={"medium_green"}
+                      _hover={{
+                        bg: "light_green_sub.700",
+                      }}
+                      onClick={() => setShow(!show)}
+                      borderRadius={6}
+                      cursor={"pointer"}
+                    >
+                      {show ? (
+                        <ViewOffIcon color={"#fafafa"} />
+                      ) : (
+                        <ViewIcon color={"#fafafa"} />
+                      )}
                     </InputRightElement>
                   </InputGroup>
 
@@ -243,7 +243,7 @@ const Register: React.FC<{
                   </Text>
                   <Text
                     display={"inline"}
-                    color={theme.colors.medium_green}
+                    color={"medium_green"}
                     cursor={"pointer"}
                     onClick={() => setIsLogin(true)}
                   >

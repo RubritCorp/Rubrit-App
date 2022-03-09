@@ -18,7 +18,12 @@ const userSchema = new Schema(
       required: true,
     },
     phone: {
-      type: String,
+      diallingCode: {
+        type: String,
+      },
+      number: {
+        type: String,
+      },
     },
     password: {
       type: String,
@@ -48,18 +53,34 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    isPremium: {
+      type: Boolean,
+      default: false,
+    },
+    payerId: {
+      type: String,
+    },
     address: {
+      name: {
+        type: String,
+      },
       lat: {
         type: Number,
       },
       lng: {
         type: Number,
       },
+      timeZone: {
+        type: String,
+      },
     },
-    hideAddress: {
-      type: Boolean,
-      default: false,
+    preferences: {
+      hideAddress: {
+        type: Boolean,
+        default: false,
+      },
     },
+
     rating: {
       description: {
         type: String,

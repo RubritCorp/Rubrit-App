@@ -8,11 +8,16 @@ declare module "next-auth" {
     name: string;
     email: string;
     image: string;
-    phone: string;
+    phone: {
+      diallingCode: string;
+      number: string;
+    };
     description: string;
-    adress: {
+    address: {
+      name: string;
       lat: number;
       lng: number;
+      timeZone: string;
     };
     isAuthenticated: boolean;
     withProvider: boolean;

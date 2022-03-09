@@ -20,7 +20,7 @@ import { useTheme } from "@chakra-ui/react";
 
 //from modules
 import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, SignInResponse } from "next-auth/react";
 
 //assets
 import facebook from "assets/facebook.png";
@@ -36,7 +36,9 @@ interface ICredentials {
 
 const Login: React.FC<{
   setIsLogin(value: boolean): void;
-}> = ({ setIsLogin }) => {
+  onClose(): void;
+  status: string;
+}> = ({ setIsLogin, onClose, status }) => {
   const theme = useTheme();
   const toast = useToast();
   const [show, setShow] = useState<boolean>(false);
@@ -61,22 +63,38 @@ const Login: React.FC<{
     });
   };
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
-    try {
-      signIn("credentials", {
-        email: credentials.email,
-        password: credentials.password,
-      });
-    } catch (err) {
-      setLoading(false);
-      toast({
-        title: "Error al iniciar sesión.",
-        description: "El correo o la contraseña son incorrectos.",
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
+  const handleSubmit = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    interface DataResponse {
+      error: string;
+      status: number;
+      ok: boolean;
+      url: null;
     }
+
+    const status: any = await signIn("credentials", {
+      redirect: false,
+      email: credentials.email,
+      password: credentials.password,
+    });
+
+    if (status && !status.ok) {
+      setLoading(false);
+      if (!toast.isActive("signIn-error-credentials")) {
+        toast({
+          title: "Error al iniciar sesión.",
+          description: "El correo o la contraseña son incorrectos.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          id: "signIn-error-credentials",
+        });
+      }
+    }
+
+    setLoading(false);
   };
 
   return (

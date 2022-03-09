@@ -9,15 +9,6 @@ import {
   Alert,
   AlertIcon,
   useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  Textarea,
-  useToast,
   Menu,
   MenuButton,
   IconButton,
@@ -28,7 +19,6 @@ import {
 import {
   EditIcon,
   DragHandleIcon,
-  DeleteIcon,
   StarIcon,
   ExternalLinkIcon,
 } from "@chakra-ui/icons";
@@ -36,16 +26,13 @@ import {
 import { Session } from "next-auth";
 //components
 import EditProfile from "./EditProfile";
+import UpdateDescription from "./UpdateDescription";
 //from modules
-import { useState } from "react";
-import axios from "axios";
 import Link from "next/link";
 
 const MiPerfil: React.FC<{
   user: Session;
-  greenColor: string;
-  warningColor: string;
-}> = ({ user, greenColor, warningColor }) => {
+}> = ({ user }) => {
   const {
     isOpen: isOpenUpdateDescription,
     onOpen: onOpenUpdateDescription,
@@ -62,8 +49,7 @@ const MiPerfil: React.FC<{
     <Flex
       alignItems={"center"}
       flexDirection={"column"}
-      position={"relative"}
-      h={"100%"}
+      h={"max-content"}
       w={"40rem"}
     >
       <Avatar
@@ -128,8 +114,6 @@ const MiPerfil: React.FC<{
               user,
               isOpenEditProfile,
               onCloseEditProfile,
-              greenColor,
-              warningColor,
             }}
           />
         </Box>
@@ -177,7 +161,9 @@ const MiPerfil: React.FC<{
         <Text color="gray" marginTop={5} fontSize={{ base: "sm", lg: "md" }}>
           Número De Teléfono
         </Text>
-        <Text>{user.phone ? user.phone : "-"}</Text>
+        <Text>
+          {user.phone ? `${user.phone.diallingCode} ${user.phone.number}` : "-"}
+        </Text>
         <Text color="gray" marginTop={5} fontSize={{ base: "sm", lg: "md" }}>
           Tipo De Usuario
         </Text>
@@ -185,24 +171,21 @@ const MiPerfil: React.FC<{
         <Text color="gray" fontSize={{ base: "sm", lg: "md" }} marginTop={5}>
           Zona Horaria
         </Text>
-        <Text>-</Text>
+        <Text>{user.address.timeZone ? user.address.timeZone : "-"}</Text>
         <Text color="gray" fontSize={{ base: "sm", lg: "md" }} marginTop={5}>
           Dirección
         </Text>
-        <Text>-</Text>
-        <Text marginTop={5} color={user.isAuthenticated ? greenColor : "red"}>
+        <Text>{user.address.name ? user.address.name : "-"}</Text>
+        <Text
+          marginTop={5}
+          color={user.isAuthenticated ? "medium_green" : "warning_red"}
+        >
           {user.isAuthenticated ? "Cuenta Verificada" : "Cuenta Sin Verificar"}
         </Text>
       </Box>
 
-      {(!user.adress || !user.phone) && (
-        <Alert
-          status="warning"
-          position={"absolute"}
-          bottom={0}
-          flexDirection={"column"}
-          borderRadius={10}
-        >
+      {(!user.address || !user.phone) && (
+        <Alert status="warning" flexDirection={"column"} borderRadius={10}>
           <Flex>
             <AlertIcon />
             Recordá que debes completar tu perfil antes de poder disfrutar todo
@@ -223,87 +206,3 @@ const MiPerfil: React.FC<{
 };
 
 export default MiPerfil;
-
-const UpdateDescription: React.FC<{
-  user: Session;
-  isOpenUpdateDescription: boolean;
-  onCloseUpdateDescription(): void;
-}> = ({ user, isOpenUpdateDescription, onCloseUpdateDescription }) => {
-  const toast = useToast();
-  const [description, setDescription] = useState<string>(user.description);
-  const [loading, setLoading] = useState<boolean>(false);
-
-  const reloadSession = () => {
-    const event = new Event("visibilitychange");
-    document.dispatchEvent(event);
-  };
-
-  const changeDescription = async () => {
-    setLoading(true);
-    try {
-      await axios.put("/api/user/updateDescription", {
-        email: user.email,
-        description,
-      });
-      reloadSession();
-      toast({
-        title: "La descripción fue modificada.",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
-      setLoading(false);
-      onCloseUpdateDescription();
-    } catch (err) {
-      setLoading(false);
-
-      toast({
-        title: "Error al modificar la descripción.",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
-    }
-    onCloseUpdateDescription();
-  };
-
-  return (
-    <Modal isOpen={isOpenUpdateDescription} onClose={onCloseUpdateDescription}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>
-          Establecer Descripción
-          <ModalCloseButton />
-        </ModalHeader>
-        <ModalBody>
-          <Text>Descripción Máximo 290 caracteres</Text>
-          <Textarea
-            height={"10rem"}
-            maxLength={290}
-            marginTop={3}
-            placeholder="Me especializo en . . ."
-            size="sm"
-            resize={"none"}
-            name={"description"}
-            onChange={(e) => setDescription(e.target.value)}
-            value={description}
-          />
-          <Text marginTop={3} fontSize={{ base: "sm", lg: "md" }}>
-            Consejo: Este apartado te servira como carta de presentación hacia
-            los demas usuarios, una buena descripción atraera a mas ofertas!
-          </Text>
-        </ModalBody>
-        <ModalFooter>
-          <ButtonGroup>
-            <Button onClick={onCloseUpdateDescription} colorScheme={"blue"}>
-              Cancelar
-            </Button>
-            <Button onClick={changeDescription} isLoading={loading}>
-              Confirmar
-            </Button>
-          </ButtonGroup>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
-  );
-};

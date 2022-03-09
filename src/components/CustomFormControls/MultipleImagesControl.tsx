@@ -25,7 +25,7 @@ export const MultipleImagesControl: React.FC<FieldHookConfig<string> & CustomFie
 
       return (
         <Flex>
-          { newFiles.map((image, index) => <Image key={index} src={image} h='100px' />)}
+          { newFiles.map((image, index) => <Image key={index} src={image} h='100px' alt={`image${index}`} />)}
         </Flex>
       );
     }
@@ -36,7 +36,7 @@ export const MultipleImagesControl: React.FC<FieldHookConfig<string> & CustomFie
       <FormLabel>
         {label}
       </FormLabel>
-      <input name='images' type='file' multiple onChange={(event) => handleFileUpload(event)} />
+      <input name='images' type='file' multiple onChange={(event) => handleFileUpload(event)} style={{ width: '100%'}} />
       {meta.touched && meta.error ? (
          <FormErrorMessage>{meta.error}</FormErrorMessage>
        ) : null}

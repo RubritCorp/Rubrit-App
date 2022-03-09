@@ -25,7 +25,7 @@ import {
   ButtonGroup,
 } from "@chakra-ui/react";
 import { EmailIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 const Password: React.FC = () => {
   const toast = useToast();
@@ -35,7 +35,7 @@ const Password: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
   const { code, email } = router.query;
-  const { data: session, status } = useSession();
+  const { status } = useSession();
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -43,11 +43,6 @@ const Password: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
-
-  const reloadSession = () => {
-    const event = new Event("visibilitychange");
-    document.dispatchEvent(event);
-  };
 
   interface DataValues {
     password: string;
@@ -95,10 +90,13 @@ const Password: React.FC = () => {
         isClosable: true,
         position: "top-left",
       });
-      reloadSession();
-      router.push("/?login=true");
+      signIn("credentials", {
+        email: email,
+        password: values.password,
+      });
+      //router.push("/?login=true");
     } catch (err) {
-      setIsLoading(false);
+      setLoading(false);
       toast({
         title: "¡Hubo un error al reemplazar la contraseña!",
         status: "error",
