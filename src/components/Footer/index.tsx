@@ -10,6 +10,7 @@ import {
   VisuallyHidden,
   chakra,
   useColorModeValue,
+  Link as ChakraLink,
 } from "@chakra-ui/react";
 //assets
 import { TwitterLogo, YoutubeLogo, InstagramLogo } from "phosphor-react";
@@ -28,11 +29,11 @@ const ListHeader = ({ children }: { children: ReactNode }) => {
 const SocialButton = ({
   children,
   label,
-  href,
+
 }: {
   children: ReactNode;
   label: string;
-  href: string;
+  
 }) => {
   return (
     <chakra.button
@@ -42,7 +43,7 @@ const SocialButton = ({
       h={8}
       cursor={"pointer"}
       as={"a"}
-      href={href}
+     
       display={"inline-flex"}
       alignItems={"center"}
       justifyContent={"center"}
@@ -109,15 +110,21 @@ const Footer: React.FC = () => {
         >
           <Text>© 2022 Rubrit. All rights reserved</Text>
           <Stack direction={"row"} spacing={6}>
-            <SocialButton label={"Twitter"} href={"#"}>
+          <ChakraLink href="https://twitter.com/rubritapp" isExternal={true}>
+            <SocialButton  label={"Twitter"}  >
               <TwitterLogo size={32} color="#2EB67D" weight="fill" />
             </SocialButton>
-            <SocialButton label={"YouTube"} href={"#"}>
+            </ChakraLink>
+            <ChakraLink href="https://www.youtube.com/channel/UCD_bGN2BCe0UCpqFQXt68xA" isExternal={true}>
+            <SocialButton label={"YouTube"} >
               <YoutubeLogo size={32} color="#2EB67D" weight="fill" />
             </SocialButton>
-            <SocialButton label={"Instagram"} href={"#"}>
+            </ChakraLink>
+            <ChakraLink href="https://www.instagram.com/rubritapp/" isExternal={true}>
+            <SocialButton label={"Instagram"}>
               <InstagramLogo size={32} color="#2EB67D" weight="fill" />
             </SocialButton>
+            </ChakraLink>
           </Stack>
         </Container>
       </Box>
