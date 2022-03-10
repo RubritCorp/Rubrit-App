@@ -21,6 +21,10 @@ import { getSession, useSession } from "next-auth/react";
 import { Session } from "next-auth/core/types";
 import Layout from "components/layout";
 import Loading from "components/Loading";
+import BecomePremium from "./BecomePremium";
+import PremiumDetails from "./PremiumDetails";
+import Script from "next/script";
+import { NextPage } from "next";
 
 interface ICases {
   accountSettings(session: Session): ReactElement;
@@ -28,9 +32,10 @@ interface ICases {
   myRequest(session: Session): ReactElement;
   offerServices(session: Session): ReactElement;
   becomePremium(session: Session): ReactElement;
+  premiumDetails(session: Session): ReactElement;
 }
 
-const Index: React.FC<{ isLogged: Session }> = ({ isLogged }) => {
+const Index: NextPage = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const { site } = router.query;
@@ -66,8 +71,11 @@ const Index: React.FC<{ isLogged: Session }> = ({ isLogged }) => {
     offerServices: (session) => {
       return <>offer Services</>;
     },
+    premiumDetails: (session) => {
+      return <PremiumDetails />;
+    },
     becomePremium: (session) => {
-      return <>Become premium</>;
+      return <BecomePremium />;
     },
   };
 
@@ -77,7 +85,8 @@ const Index: React.FC<{ isLogged: Session }> = ({ isLogged }) => {
       route !== "myfiles" &&
       route !== "myRequest" &&
       route !== "offerServices" &&
-      route !== "becomePremium")
+      route !== "becomePremium" &&
+      route !== "premiumDetails")
   ) {
     return (
       <Flex
@@ -107,7 +116,11 @@ const Index: React.FC<{ isLogged: Session }> = ({ isLogged }) => {
         position={"absolute"}
         left={0}
       >
-        {<Content />}
+        {
+          <Content
+            payerId={session && session.payerId ? session.payerId : ""}
+          />
+        }
       </Flex>
       <Flex
         w={{ base: "90%", xl: "70%" }}
@@ -142,10 +155,11 @@ export async function getServerSideProps(context: any) {
 
 export default Index;
 
-export const DrawerOptions: React.FC<{ isOpen: boolean; onClose(): void }> = ({
-  isOpen,
-  onClose,
-}) => {
+export const DrawerOptions: React.FC<{
+  isOpen: boolean;
+  onClose(): void;
+  payerId: string;
+}> = ({ isOpen, onClose, payerId }) => {
   const theme = useTheme();
   return (
     <Drawer {...{ isOpen, onClose }} placement={"left"}>
@@ -155,14 +169,14 @@ export const DrawerOptions: React.FC<{ isOpen: boolean; onClose(): void }> = ({
         <DrawerHeader>
           <Text color={theme.colors.medium_green}>Panel</Text>
         </DrawerHeader>
-        <DrawerBody>{<Content />}</DrawerBody>
+        <DrawerBody>{<Content payerId={payerId} />}</DrawerBody>
         <DrawerFooter>Footer</DrawerFooter>
       </DrawerContent>
     </Drawer>
   );
 };
 
-const Content: React.FC = () => {
+const Content: React.FC<{ payerId: string }> = ({ payerId }) => {
   return (
     <Box marginTop={3} fontSize={"xl"} fontWeight={700}>
       <Stack spacing={4} fontWeight={600} fontSize={"md"} marginTop={6}>
@@ -180,9 +194,15 @@ const Content: React.FC = () => {
         </Link>
 
         <Text>Notificaciones</Text>
-        <Link href="myAccount?site=becomePremium" passHref>
-          <Text cursor={"pointer"}>Hacerse Premium</Text>
-        </Link>
+        {payerId.length === 0 ? (
+          <Link href="myAccount?site=becomePremium" passHref>
+            <Text cursor={"pointer"}>Hacerse Premium</Text>
+          </Link>
+        ) : (
+          <Link href="myAccount?site=premiumDetails" passHref>
+            <Text cursor={"pointer"}>Detalles Premium</Text>
+          </Link>
+        )}
       </Stack>
     </Box>
   );

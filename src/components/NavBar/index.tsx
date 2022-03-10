@@ -68,7 +68,6 @@ const WithSubnavigation: React.FC = () => {
     onClose: onCloseDrawerOptions,
   } = useDisclosure();
   const { categories } = useCategories();
-  console.log(categories);
 
   useEffect(() => {
     if (query.login === "true") {
@@ -133,7 +132,11 @@ const WithSubnavigation: React.FC = () => {
           ml={{ base: -2 }}
           display={{ base: "flex", md: "none" }}
         >
-          <MobileNav />
+          <MobileNav
+            payerId={
+              typeof session?.payerId === "string" ? session.payerId : ""
+            }
+          />
         </Flex>
         <Flex
           flex={{ base: 1 }}
@@ -152,6 +155,7 @@ const WithSubnavigation: React.FC = () => {
               <DrawerOptions
                 isOpen={isOpenDrawerOptions}
                 onClose={onCloseDrawerOptions}
+                payerId={session && session.payerId ? session.payerId : ""}
               />
             </Box>
           )}

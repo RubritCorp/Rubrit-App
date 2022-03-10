@@ -20,5 +20,6 @@ declare module "next-auth" {
     hideAddress: boolean;
     items: any;
     offers: any;
+    payerId: string;
   }
 }

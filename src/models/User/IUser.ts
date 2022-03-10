@@ -16,6 +16,7 @@ export interface IUser {
   authCode: string;
   profilePic: string;
   isWorker: boolean;
+  payerId: string;
   address: string;
   hideAddress: boolean;
   rating: {

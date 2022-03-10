@@ -48,6 +48,10 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    payerId: {
+      type: String,
+      default: "",
+    },
     address: {
       lat: {
         type: Number,
