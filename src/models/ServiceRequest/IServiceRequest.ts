@@ -5,5 +5,7 @@ export default interface IServiceRequest {
   location: string;
   images: string[];
   userId: Types.ObjectId;
-  professionalId: string;
+  professionalId: string; // Pending: change to ObjectId
+  category: string; // Pending: change to ObjectId
+  subcategory: string; // Pending: change to ObjectId
 }
