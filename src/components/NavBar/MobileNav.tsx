@@ -16,12 +16,17 @@ import {
   DrawerFooter,
   Button,
   Box,
-  useTheme,
+  Divider,
 } from "@chakra-ui/react";
-import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons";
+import {
+  ChevronDownIcon,
+  ChevronRightIcon,
+  HamburgerIcon,
+} from "@chakra-ui/icons";
 //from modules
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Image from "next/image";
 //components
 import DarkModeSwitch from "components/DarkModeSwitch";
 import { useCategories } from "Provider/CategoriesProvider";
@@ -56,7 +61,20 @@ const MobileNav = () => {
               <DarkModeSwitch />
             </Box>
           </DrawerHeader>
-          <DrawerBody>
+          <DrawerBody
+            css={{
+              "&::-webkit-scrollbar": {
+                width: "7px",
+              },
+              "&::-webkit-scrollbar-track": {
+                width: "15px",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                background: "#38a169",
+                borderRadius: "24px",
+              },
+            }}
+          >
             <Stack spacing={4} onClick={categories && onToggleServices}>
               <Flex
                 py={2}
@@ -98,8 +116,39 @@ const MobileNav = () => {
                 >
                   {categories &&
                     categories.map((child, i) => (
-                      <Link key={i} href={`/services?service=${child.name}`}>
-                        {child.name}
+                      <Link
+                        key={i}
+                        href={`/services?service=${child.name}`}
+                        passHref
+                      >
+                        <>
+                          <Flex
+                            w={"100%"}
+                            borderRadius={5}
+                            p={1}
+                            h={10}
+                            alignItems={"center"}
+                            justifyContent={"space-between"}
+                            cursor={"pointer"}
+                            _hover={{
+                              textDecoration: "none",
+                              color: "green.400",
+                              bg: "#1e242e",
+                            }}
+                          >
+                            <Flex>
+                              <Image
+                                src={child.icon}
+                                alt={`${child.name}-icon`}
+                                width={"25px"}
+                                height={"25px"}
+                              />
+                              <Text ml={3}>{child.name}</Text>
+                            </Flex>
+                            <ChevronRightIcon />
+                          </Flex>
+                          <Divider />
+                        </>
                       </Link>
                     ))}
                 </Stack>
@@ -148,7 +197,7 @@ const MobileNav = () => {
               </Box>
             )}
           </DrawerBody>
-          <DrawerFooter>Footer</DrawerFooter>
+          <DrawerFooter />
         </DrawerContent>
       </Drawer>
     </Stack>

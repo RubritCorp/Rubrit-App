@@ -24,11 +24,11 @@ import UpdatePassword from "./UpdatePassword";
 import UpdateEmail from "./UpdateEmail";
 import Address from "./Address";
 import DeleteUser from "./DeleteUser";
-import { useState } from "react";
 
 const AccountSettings: React.FC<{ session: Session }> = ({ session }) => {
   return (
     <Tabs
+      mt={16}
       w={"100%"}
       minH={"94%"}
       variant={"enclosed"}
