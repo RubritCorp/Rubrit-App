@@ -23,13 +23,14 @@ interface ICases {
 
 const cases: ICases = {
   POST: async (req, res) => {
-    const { category, subcategory, title, description, location, images, userId, professionalId } = req.body;
+    const { category, subcategory, title, description, location, lat, lng, images, userId, professionalId } = req.body;
 
     if (!title || !description || !location) return res.status(422).json({ message: 'Invalid Data' });
 
     try {
       let data;
-      professionalId ? data = { title, description, location, images, userId, professionalId } : data = { category, subcategory, title, description, location, images, userId, professionalId }
+      let locationObject = { formattedAddress: location, lat, lng };
+      professionalId ? data = { title, description, location: locationObject, images, userId, professionalId } : data = { category, subcategory, title, description, location: locationObject, images, userId, professionalId }
       const serviceRequest = await ServiceRequest.create(data);
 
       // const client: any = new SMTPClient({

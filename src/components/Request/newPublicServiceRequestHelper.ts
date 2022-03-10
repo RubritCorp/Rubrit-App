@@ -9,6 +9,8 @@ interface DataInitialValues {
   title: string;
   description: string;
   location: string;
+  lat: string;
+  lng: string;
   images: FileList | null;
 }
 
@@ -18,6 +20,8 @@ export const initialValues: DataInitialValues = {
   title: '',
   description: '',
   location: '',
+  lat: '',
+  lng: '',
   images: null
 };
 
@@ -30,7 +34,7 @@ export const validationSchema = Yup.object({
 });
 
 export const handleSubmit = async (values: DataInitialValues) => {
-  const { category, subcategory, title, description, location } = values;
+  const { category, subcategory, title, description, location, lat, lng } = values;
   const images: FileList | null = values.images;
   // Upload images to AWS via backend
   const formData = new FormData();
@@ -46,7 +50,7 @@ export const handleSubmit = async (values: DataInitialValues) => {
   try {
     const session = await getSession();
     if (!session) throw new Error('No session');
-    let serviceRequest = { category, subcategory, title, description, location, images: null, userId: session._id };
+    let serviceRequest = { category, subcategory, title, description, location, lat, lng, images: null, userId: session._id };
     // API request for file upload
     if (images && images?.length > 0) {
       const { data } = await axios.post(`${envConfig?.apiUrl}/aws/upload-files`, formData, { headers: { 'content-type': 'multipart/form-data' } });
