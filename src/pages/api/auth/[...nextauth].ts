@@ -98,13 +98,15 @@ export default NextAuth({
           email: userSession.email,
           name: userSession.name,
           image: userSession.profilePic,
-          phone: userSession.phone ? userSession.phone : "",
+          phone: userSession.phone
+            ? userSession.phone
+            : { dialingCode: "", number: "" },
           description: userSession.description,
-          adress: userSession.adress,
+          address: userSession.address,
           withProvider: userSession.withProvider,
           isAuthenticated: userSession.isAuthenticated,
           isWorker: userSession.isWorker,
-          hideAddress: userSession.hideAddress,
+          preferences: userSession.preferences,
           items: userSession.items,
           offers: userSession.offers,
           payerId: userSession.payerId,

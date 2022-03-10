@@ -10,14 +10,22 @@ interface HItems {
 export interface IUser {
   email: string;
   name: string;
-  phone: string;
+  phone: {
+    diallingCode: string;
+    number: string;
+  };
   password: string;
   isAuthenticated: boolean;
   authCode: string;
   profilePic: string;
   isWorker: boolean;
   payerId: string;
-  address: string;
+  address: {
+    name: string;
+    lat: number;
+    lng: number;
+    timeZone: string;
+  };
   hideAddress: boolean;
   rating: {
     description: string;

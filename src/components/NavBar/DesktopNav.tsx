@@ -42,7 +42,10 @@ export default function DesktopNav() {
 
   return (
     <Stack direction={"row"} spacing={4}>
-      <Box>
+      <Box
+        borderBottom={"2px solid transparent"}
+        _hover={{ borderBottom: "2px solid #2EB67D" }}
+      >
         <Popover trigger="hover" placement={"bottom-start"}>
           <PopoverTrigger>
             <Text
@@ -64,7 +67,20 @@ export default function DesktopNav() {
             boxShadow={"xl"}
             p={4}
             w={"20rem"}
-            rounded={"xl"}
+            maxH={"400px"}
+            overflowY="auto"
+            css={{
+              '&::-webkit-scrollbar': {
+                width: '7px',
+              },
+              '&::-webkit-scrollbar-track': {
+                width: '15px',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                background: "#38a169",
+                borderRadius: '24px',
+              },
+            }}
           >
             {categories.map((m: any, i: number) => (
               <Box key={i}>
@@ -95,7 +111,10 @@ export default function DesktopNav() {
           </PopoverContent>
         </Popover>
       </Box>
-      <Box>
+      <Box
+        borderBottom={"2px solid transparent"}
+        _hover={{ borderBottom: "2px solid #2EB67D" }}
+      >
         <Popover trigger="hover" placement={"bottom-start"}>
           <Link href={"/findServices"} passHref>
             <Text
@@ -114,7 +133,10 @@ export default function DesktopNav() {
           </Link>
         </Popover>
       </Box>
-      <Box>
+      <Box
+        borderBottom={"2px solid transparent"}
+        _hover={{ borderBottom: "2px solid #2EB67D" }}
+      >
         <Popover trigger="hover" placement={"bottom-start"}>
           <Link href={"/offerServices"} passHref>
             <Text
@@ -133,7 +155,10 @@ export default function DesktopNav() {
           </Link>
         </Popover>
       </Box>
-      <Box>
+      <Box
+        borderBottom={"2px solid transparent"}
+        _hover={{ borderBottom: "2px solid #2EB67D" }}
+      >
         <Popover trigger="hover" placement={"bottom-start"}>
           <Link href={"/workbag"} passHref>
             <Text

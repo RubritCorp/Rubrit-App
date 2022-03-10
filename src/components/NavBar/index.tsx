@@ -54,7 +54,7 @@ const WithSubnavigation: React.FC = () => {
   const [isAuth, setIsAuth] = useState<boolean>();
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [user, setUser] = useState<Session>();
-  const { pathname, query } = useRouter();
+  const { pathname } = useRouter();
   const { data: session, status } = useSession();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -67,21 +67,11 @@ const WithSubnavigation: React.FC = () => {
     onOpen: onOpenDrawerOptions,
     onClose: onCloseDrawerOptions,
   } = useDisclosure();
-  const { categories } = useCategories();
 
   useEffect(() => {
-    if (query.login === "true") {
-      if (!session && status === "unauthenticated") {
-        setIsAuth(true);
-        setIsLogin(true);
-        onOpen();
-      } else {
-        Router.push("/");
-      }
-    }
-
     if (session && status === "authenticated") {
       setUser(session);
+      onClose();
 
       if (!toast.isActive("verify-account")) {
         if (!session.isAuthenticated) {
@@ -97,18 +87,7 @@ const WithSubnavigation: React.FC = () => {
         toast.close("verify-account");
       }
     } else {
-      if (query.error) {
-        if (!toast.isActive("error-signin")) {
-          toast({
-            title: "¡Error al iniciar sesión!",
-            description: "¡El usuario o contraseña son erroneos!",
-            status: "error",
-            duration: 5000,
-            isClosable: true,
-            id: "error-signin",
-          });
-        }
-      }
+      toast.close("verify-account");
     }
 
     //eslint-disable-next-line react-hooks/exhaustive-deps
@@ -185,6 +164,7 @@ const WithSubnavigation: React.FC = () => {
           {!session &&
           (status === "loading" || status === "unauthenticated") ? (
             <Button
+              id="signInButton"
               display={{ base: "inline-flex", md: "inline-flex" }}
               fontSize={{ base: "xs", md: "sm" }}
               fontWeight={600}
@@ -225,17 +205,44 @@ const WithSubnavigation: React.FC = () => {
                 <MenuList>
                   <MenuItem onClick={() => onOpenProfile()}>Mi Perfil</MenuItem>
                   <MenuDivider />
-                  <Link href={"myAccount"} passHref>
+                  <Link
+                    href={{
+                      pathname: "myAccount",
+                      query: { site: "accountSettings" },
+                    }}
+                    passHref
+                  >
                     <MenuItem icon={<ExternalLinkIcon />}>
                       Ajustes De Cuenta
                     </MenuItem>
                   </Link>
                   <MenuDivider />
-                  <MenuItem>Solicitudes</MenuItem>
+                  <Link
+                    href={{
+                      pathname: "myAccount",
+                      query: { site: "myRequest" },
+                    }}
+                    passHref
+                  >
+                    <MenuItem>Solicitudes</MenuItem>
+                  </Link>
                   <MenuDivider />
-                  <MenuItem>Solicita Cotización</MenuItem>
+                  <Link
+                    href={{ pathname: "myAccount", query: { site: "" } }}
+                    passHref
+                  >
+                    <MenuItem>Solicita Cotización</MenuItem>
+                  </Link>
                   <MenuDivider />
-                  <MenuItem>Ofrecé tus Servicios</MenuItem>
+                  <Link
+                    href={{
+                      pathname: "myAccount",
+                      query: { site: "offerServices" },
+                    }}
+                    passHref
+                  >
+                    <MenuItem>Ofrecé tus Servicios</MenuItem>
+                  </Link>
                   <MenuDivider />
                   <MenuItem d={{ base: "inline", md: "none" }}>
                     Notificaciones
@@ -243,7 +250,7 @@ const WithSubnavigation: React.FC = () => {
                   <MenuDivider d={{ base: "", md: "none" }} />
                   <MenuItem
                     onClick={() => {
-                      signOut();
+                      signOut({ redirect: false });
                     }}
                   >
                     Cerrar Sesion
@@ -264,7 +271,7 @@ const WithSubnavigation: React.FC = () => {
             >
               <ModalOverlay />
               {isLogin ? (
-                <Login {...{ setIsLogin }} />
+                <Login {...{ setIsLogin }} onClose={onClose} status={status} />
               ) : (
                 <Register {...{ setIsAuth, setIsLogin }} />
               )}

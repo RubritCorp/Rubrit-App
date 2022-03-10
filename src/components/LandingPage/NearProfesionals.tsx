@@ -130,6 +130,15 @@ const settings = {
   slidesToScroll: 1,
   responsive: [
     {
+      breakpoint: 1360,
+      settings: {
+        centerMode: true,
+        centerPadding: "10px",
+        slidesToShow: 4,
+        dots: true,
+      },
+    },
+    {
       breakpoint: 1150,
       settings: {
         centerMode: true,

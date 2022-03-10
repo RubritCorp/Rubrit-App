@@ -12,7 +12,7 @@ const NewRequestContainer: React.FC = () => {
       title="Todos los servicios en un solo lugar"
       description="Encuentra servicios brindados por profesionales de confianza."
     >
-      <NewRequest user={user} />
+      <NewRequest />
     </Layout>
   );
 };
