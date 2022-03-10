@@ -15,8 +15,9 @@ const serviceRequestSchema = new Schema(
       required: true
     },
     location: {
-      type: String,
-      required: true
+      formattedAddress: { type: String, required: true },
+      lat: { type: Number, required: true },
+      lng: { type: Number, required: true }
     },
     images: Array,
     userId: {
