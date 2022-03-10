@@ -31,5 +31,6 @@ declare module "next-auth" {
     };
     items: any;
     offers: any;
+    payerId: string;
   }
 }
