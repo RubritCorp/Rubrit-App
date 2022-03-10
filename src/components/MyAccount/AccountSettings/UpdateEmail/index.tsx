@@ -39,13 +39,13 @@ const UpdateEmail = ({ session }: Props) => {
             <Text fontSize={{ base: "md", md: "lg" }} fontWeight={500}>
               Dirección De Correo
             </Text>
-            <Text d={"inline"} fontSize={{ base: "xs", md: "lg" }}>
+            <Text d={"inline"} fontSize={{ base: "xs", md: "md" }}>
               Tu dirección de correo actual es{" "}
             </Text>
             <Text
               d={"inline"}
               fontWeight={600}
-              fontSize={{ base: "xs", md: "lg" }}
+              fontSize={{ base: "xs", md: "md" }}
             >
               {session?.email}
             </Text>

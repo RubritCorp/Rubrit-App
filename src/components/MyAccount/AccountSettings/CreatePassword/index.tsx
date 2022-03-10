@@ -11,6 +11,7 @@ import {
   InputGroup,
   InputRightElement,
   ButtonGroup,
+  Flex,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 //from modules
@@ -44,7 +45,7 @@ const CreatePassword = ({ session }: Props) => {
             <Text fontSize={{ base: "md", md: "lg" }} fontWeight={500}>
               Crear Contraseña
             </Text>
-            <Text d={"inline"} fontSize={{ base: "xs", md: "lg" }}>
+            <Text d={"inline"} fontSize={{ base: "xs", md: "md" }}>
               Solo funcionará en caso de que haya registrado su cuenta con algun
               servicio externo a Rubrit App.
             </Text>
@@ -61,60 +62,65 @@ const CreatePassword = ({ session }: Props) => {
           >
             {({ handleSubmit, values, errors, handleBlur }) => (
               <Box as="form" onSubmit={handleSubmit as any}>
-                <FormLabel mt={4}>Contraseña</FormLabel>
-                <InputGroup>
-                  <InputControl
-                    inputProps={{
-                      placeholder: "Nueva Contraseña",
-                      type: show ? "text" : "password",
-                      autoComplete: "off",
-                    }}
-                    name="createPassword"
-                  />
-                  <InputRightElement>
-                    <Button
-                      bg={"medium_green"}
-                      _hover={{
-                        bg: "light_green_sub.700",
-                      }}
-                      onClick={() => setShow(!show)}
-                    >
-                      {show ? (
-                        <ViewOffIcon color={"#fafafa"} />
-                      ) : (
-                        <ViewIcon color={"#fafafa"} />
-                      )}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-
-                <FormLabel mt={4}>Repetir Contraseña</FormLabel>
-                <InputGroup>
-                  <InputControl
-                    name="confirmCreatePassword"
-                    onBlur={handleBlur}
-                    inputProps={{
-                      placeholder: "Contraseña",
-                      type: show ? "text" : "password",
-                      autoComplete: "off",
-                    }}
-                  />
-                  <InputRightElement>
-                    <Button
-                      bg={"medium_green"}
-                      _hover={{
-                        bg: "light_green_sub.700",
-                      }}
-                      onClick={() => setShow(!show)}
-                    >
-                      {show ? (
-                        <ViewOffIcon color={"#fafafa"} />
-                      ) : (
-                        <ViewIcon color={"#fafafa"} />
-                      )}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
+                <Flex>
+                  <Flex flexDirection={"column"} mr={10}>
+                    <FormLabel mt={4}>Contraseña</FormLabel>
+                    <InputGroup>
+                      <InputControl
+                        inputProps={{
+                          placeholder: "Nueva Contraseña",
+                          type: show ? "text" : "password",
+                          autoComplete: "off",
+                        }}
+                        name="createPassword"
+                      />
+                      <InputRightElement>
+                        <Button
+                          bg={"medium_green"}
+                          _hover={{
+                            bg: "light_green_sub.700",
+                          }}
+                          onClick={() => setShow(!show)}
+                        >
+                          {show ? (
+                            <ViewOffIcon color={"#fafafa"} />
+                          ) : (
+                            <ViewIcon color={"#fafafa"} />
+                          )}
+                        </Button>
+                      </InputRightElement>
+                    </InputGroup>
+                  </Flex>
+                  <Flex flexDirection={"column"}>
+                    <FormLabel mt={4}>Repetir Contraseña</FormLabel>
+                    <InputGroup>
+                      <InputControl
+                        name="confirmCreatePassword"
+                        onBlur={handleBlur}
+                        inputProps={{
+                          placeholder: "Contraseña",
+                          type: show ? "text" : "password",
+                          autoComplete: "off",
+                        }}
+                      />
+                      <InputRightElement>
+                        <Button
+                          bg={"medium_green"}
+                          _hover={{
+                            bg: "light_green_sub.700",
+                          }}
+                          onClick={() => setShow(!show)}
+                        >
+                          {show ? (
+                            <ViewOffIcon color={"#fafafa"} />
+                          ) : (
+                            <ViewIcon color={"#fafafa"} />
+                          )}
+                        </Button>
+                      </InputRightElement>
+                    </InputGroup>
+                  </Flex>
+                </Flex>
                 <ButtonGroup
                   mt={6}
                   flexDirection={{ base: "column", md: "row" }}
