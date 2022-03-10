@@ -5,6 +5,7 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 import { FieldHookConfig, useField } from "formik";
+import { useEffect } from "react";
 import { usePlacesWidget } from "react-google-autocomplete";
 import envConfig from "../../../next-env-config";
 import type CustomFieldProps from "./ICustomFieldProps";
@@ -25,8 +26,10 @@ export const LocationControl: React.FC<
   });
 
   //this allow to show pacContainer in every case
-  let pacContainer: any = document.querySelector(".pac-container");
-  if (pacContainer) pacContainer.style.zIndex = "99999999";
+  useEffect(() => {
+    let pacContainer: any = document.querySelector(".pac-container");
+    if (pacContainer) pacContainer.style.zIndex = "99999999";
+  },[])
 
   return (
     <FormControl isInvalid={meta.touched && !!meta.error}>

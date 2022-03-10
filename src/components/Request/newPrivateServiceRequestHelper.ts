@@ -1,29 +1,34 @@
-import axios from "axios";
-import * as Yup from "yup";
-import envConfig from "../../../next-env-config";
+import axios from 'axios';
+import * as Yup from 'yup';
+import { getSession } from 'next-auth/react';
+import envConfig from '../../../next-env-config';
 
 interface DataInitialValues {
   title: string;
   description: string;
   location: string;
   images: FileList | null;
+  userId: string;
+  professionalId: string;
 }
 
 export const initialValues: DataInitialValues = {
-  title: "",
-  description: "",
-  location: "",
-  images: null
+  title: '',
+  description: '',
+  location: '',
+  images: null,
+  userId: '',
+  professionalId: ''
 };
 
 export const validationSchema = Yup.object({
-  title: Yup.string().required("El título es requerido"),
-  description: Yup.string().required("La descripción es requerida"),
-  location: Yup.string().required("La ubicación es requerida")
+  title: Yup.string().required('El título es requerido'),
+  description: Yup.string().required('La descripción es requerida'),
+  location: Yup.string().required('La ubicación es requerida')
 });
 
 export const handleSubmit = async (values: DataInitialValues) => {
-  const { title, description, location } = values;
+  const { title, description, location, professionalId } = values;
   const images: FileList | null = values.images;
   // Upload images to AWS via backend
   const formData = new FormData();
@@ -37,7 +42,9 @@ export const handleSubmit = async (values: DataInitialValues) => {
   }
   
   try {
-    let serviceRequest = { title, description, location, images: null };
+    const session = await getSession();
+    if (!session) throw new Error('No session');
+    let serviceRequest = { title, description, location, images: null, userId: session._id, professionalId };
     // API request for file upload
     if (images && images?.length > 0) {
       const { data } = await axios.post(`${envConfig?.apiUrl}/aws/upload-files`, formData, { headers: { 'content-type': 'multipart/form-data' } });
