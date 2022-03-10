@@ -7,9 +7,6 @@ export const useHelper = () => {
   interface DataInitialValues {
     companyName: string;
     description: string;
-    location: string;
-    category: string[];
-    subcategories: string[];
     rangeCoverage: number;
     images?: string[];
   }
@@ -17,41 +14,27 @@ export const useHelper = () => {
   const initialValues: DataInitialValues = {
     companyName: "",
     description: "",
-    location: "",
     rangeCoverage: 0,
-    category: [],
-    subcategories: [],
     images: [],
   };
 
   const validationSchema = Yup.object({
     companyName: Yup.string().required("El nombre es requerido"),
     description: Yup.string().required("Una descripcion es requerida"),
-    location: Yup.string().required("Tu ubicacion es requerida"),
+
     rangeCoverage: Yup.number().required("El rango de cobertura es requerido"),
-    // items: Yup.boolean().required(""),
+    images: Yup.array().required(""),
   });
 
   const onSubmit = async (values: DataInitialValues) => {
     console.log("eeee", values);
 
-    const {
-      companyName,
-      description,
-      location,
-      rangeCoverage,
-      category,
-      subcategories,
-      images,
-    } = values;
+    const { companyName, description, rangeCoverage, images } = values;
 
     const userProfessional = {
       companyName,
       description,
-      location,
       rangeCoverage,
-      category,
-      subcategories,
       images,
     };
     try {

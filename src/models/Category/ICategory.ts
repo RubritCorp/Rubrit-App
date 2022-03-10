@@ -6,5 +6,6 @@ export interface ICategory {
   picture: string;
   icon: string;
   description: string;
+  _id: string;
   subcategories: Types.ObjectId[]
 }
