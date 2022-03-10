@@ -20,7 +20,7 @@ const serviceRequestSchema = new Schema(
     },
     images: Array,
     userId: {
-      type: String,
+      type: Types.ObjectId,
       required: true
     },
     professionalId: String

@@ -95,6 +95,7 @@ export default NextAuth({
         });
         const newSession = {
           expires: session.expires,
+          _id: userSession._id,
           email: userSession.email,
           name: userSession.name,
           image: userSession.profilePic,

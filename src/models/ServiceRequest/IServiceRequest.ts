@@ -4,6 +4,6 @@ export default interface IServiceRequest {
   description: string;
   location: string;
   images: string[];
-  userId: string;
+  userId: Types.ObjectId;
   professionalId: string;
 }

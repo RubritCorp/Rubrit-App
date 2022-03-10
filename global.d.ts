@@ -1,10 +1,12 @@
 //from modules
 import NextAuth from "next-auth";
+import { Types } from "mongoose";
 
 declare var mongoose;
 declare module "next-auth" {
   interface Session {
     expires: string;
+    _id: Types.ObjectId;
     name: string;
     email: string;
     image: string;
