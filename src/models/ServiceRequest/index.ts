@@ -1,5 +1,5 @@
 //from modules
-import { model, models, Schema } from "mongoose";
+import { model, models, Schema, Types } from "mongoose";
 //interfaces
 import type IServiceRequest from "./IServiceRequest";
 
@@ -18,7 +18,12 @@ const serviceRequestSchema = new Schema(
       type: String,
       required: true
     },
-    images: Array
+    images: Array,
+    userId: {
+      type: String,
+      required: true
+    },
+    professionalId: String
   },
   {
     timestamps: true,
