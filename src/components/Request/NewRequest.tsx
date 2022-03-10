@@ -10,7 +10,7 @@ const NewRequest: React.FC = () => {
 
   return (
     <Container maxW={"container.xl"} py={12}>
-        { !id ? <PublicRequest /> : <PrivateRequest />}
+        { !id ? <PublicRequest /> : <PrivateRequest professionalId={id.toString()} />}
     </Container>
   );
 }
