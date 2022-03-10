@@ -45,7 +45,6 @@ export const handleSubmit = async (values: DataInitialValues) => {
   
   try {
     const session = await getSession();
-    console.log(session);
     if (!session) throw new Error('No session');
     let serviceRequest = { category, subcategory, title, description, location, images: null, userId: session._id };
     // API request for file upload
