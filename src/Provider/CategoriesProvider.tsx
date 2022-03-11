@@ -8,8 +8,10 @@ import {
   useState,
   useEffect,
 } from "react";
+import { boolean } from "yup";
 
 interface ICategories {
+  _id: ICategory["_id"];
   name: ICategory["name"];
   picture: ICategory["picture"];
   icon: ICategory["icon"];
@@ -19,10 +21,12 @@ interface ICategories {
 
 type categoriesContextType = {
   categories: ICategories[];
+  loading: boolean;
 };
 
 const categoriesContextDefaultValues: categoriesContextType = {
   categories: [],
+  loading: false
 };
 
 const CategoriesContext = createContext<categoriesContextType>(
