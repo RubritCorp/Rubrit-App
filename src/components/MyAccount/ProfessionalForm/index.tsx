@@ -1,3 +1,5 @@
+import axios from "axios";
+import envConfig from "../../../../next-env-config";
 import Layout from "../../layout";
 import { useState } from "react";
 import {
@@ -41,7 +43,10 @@ import {
   SubmitButton,
   SliderControl,
   SwitchControl,
+  CheckboxContainer,
+  CheckboxControl,
 } from "formik-chakra-ui";
+import { useSession } from "next-auth/react";
 import { useCategories } from "../../../Provider/CategoriesProvider";
 import { MultipleImagesControl } from "../../CustomFormControls/MultipleImagesControl";
 import useHelper from "./useHelper";
@@ -50,24 +55,49 @@ const ProfessionalForm: React.FC = () => {
   const { initialValues, onSubmit, validationSchema } = useHelper();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { categories } = useCategories();
-
-  function CustomIcon(props: any) {
-    const { isIndeterminate, isChecked, ...rest } = props;
-
-    const d = isIndeterminate
-      ? "M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm0,19a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,12,19Zm1.6-6.08a1,1,0,0,0-.6.917,1,1,0,1,1-2,0,3,3,0,0,1,1.8-2.75A2,2,0,1,0,10,9.255a1,1,0,1,1-2,0,4,4,0,1,1,5.6,3.666Z"
-      : "M0,12a1.5,1.5,0,0,0,1.5,1.5h8.75a.25.25,0,0,1,.25.25V22.5a1.5,1.5,0,0,0,3,0V13.75a.25.25,0,0,1,.25-.25H22.5a1.5,1.5,0,0,0,0-3H13.75a.25.25,0,0,1-.25-.25V1.5a1.5,1.5,0,0,0-3,0v8.75a.25.25,0,0,1-.25.25H1.5A1.5,1.5,0,0,0,0,12Z";
-
-    return (
-      <Icon viewBox="0 0 24 24" {...rest}>
-        <path fill="currentColor" d={d} />
-      </Icon>
-    );
-  }
-
-  const handleOnSubmit2 = (event: any, values: any) => {
+  const { data: session } = useSession();
+  const handleOnSubmit2 = async (event: any, values: any) => {
     event.preventDefault();
-    onSubmit(values);
+    let categoriesArray: any[] = [];
+
+    for (let val in values) {
+      if (Array.isArray(values[val]) && val !== "images") {
+        let obj = { name: val, subcategories: values[val] };
+        if (obj.subcategories.length > 0) {
+          categoriesArray.push({ name: val, subcategories: values[val] });
+        }
+      }
+    }
+
+    let finalValues = {
+      companyName: values.companyName,
+      description: values.description,
+      rangeCoverage: values.rangeCoverage,
+      images: values.images,
+      categories: categoriesArray,
+    };
+
+    const formData = new FormData();
+    formData.append("path", "user/userid/files/img/form");
+    formData.append("title", "imagenes-form");
+
+    if (finalValues.images) {
+      for (let i = 0; i < finalValues.images.length; i++) {
+        formData.append("files", finalValues.images[i] as any);
+      }
+    }
+
+    if (finalValues.categories.length > 3) {
+      alert("Solo puedes seleccionar 3 categorias");
+    }
+    //console.log(envConfig.apiUrl);
+
+    const { data } = await axios.post(
+      `${envConfig?.apiUrl}/aws/upload-files`,
+      formData
+    );
+    onSubmit(finalValues);
+    //console.log(data.urls);
   };
 
   return (
@@ -78,9 +108,7 @@ const ProfessionalForm: React.FC = () => {
       minH={"100%"}
       padding={"1rem"}
     >
-      <Box>
-        <Image></Image>
-        <Text>Hello "PROFILE NAME"</Text>
+      <Box padding={"0.5rem 0"}>
         <Text>Necesitamos una descripcion de lo que haces</Text>
       </Box>
 
@@ -104,6 +132,7 @@ const ProfessionalForm: React.FC = () => {
                 autoComplete: "off",
               }}
               isRequired
+              padding={"0.5rem 0"}
             />
             <InputControl
               name="description"
@@ -113,10 +142,13 @@ const ProfessionalForm: React.FC = () => {
                 autoComplete: "off",
               }}
               isRequired
+              padding={"0.5rem 0"}
             />
-            <MultipleImagesControl label="images" name="images" />
+            <Box padding={"0.5rem 0"}>
+              <MultipleImagesControl label="images" name="images" />
+            </Box>
             <FormLabel>Seleccionar categorias</FormLabel>
-            <Box>
+            <Box padding={"0.5rem 0"}>
               <Button colorScheme="teal" onClick={onOpen}>
                 Categorias
               </Button>
@@ -149,29 +181,21 @@ const ProfessionalForm: React.FC = () => {
                               </AccordionButton>
                             </h2>
                             <AccordionPanel pb={4}>
-                              {cat.subcategories?.map((sub, index: number) => (
-                                <Flex key={index}>
-                                  {/* <SwitchControl
-                                        justifyContent={"space-between"}
-                                        label={sub.name}
-                                        name={sub.name}
-                                        switchProps={{
-                                          size: "sm",
-                                          colorScheme: "medium_green_sub",
-                                        }}
-                                      />
-                                       */}
-
-                                  <Stack mt={1} spacing={1}>
-                                    <Checkbox
-                                      icon={<CustomIcon />}
-                                      colorScheme={"light_green_sub"}
-                                    >
-                                      {sub.name}
-                                    </Checkbox>
-                                  </Stack>
-                                </Flex>
-                              ))}
+                              <CheckboxContainer name={cat.name}>
+                                {cat.subcategories?.map(
+                                  (sub, index: number) => (
+                                    <Flex key={index}>
+                                      <CheckboxControl
+                                        name={cat.name}
+                                        value={sub._id.toString()}
+                                        id={sub._id.toString()}
+                                      >
+                                        {sub.name}
+                                      </CheckboxControl>
+                                    </Flex>
+                                  )
+                                )}
+                              </CheckboxContainer>
                             </AccordionPanel>
                           </AccordionItem>
                         );

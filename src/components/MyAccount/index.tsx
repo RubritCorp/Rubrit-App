@@ -25,13 +25,16 @@ import { Session } from "next-auth/core/types";
 //components
 import AccountSettings from "./AccountSettings";
 import Loading from "components/Loading";
-//asssets
 import User from "assets/user.png";
 import Folder from "assets/folder.png";
 import File from "assets/file.png";
 import Worker from "assets/worker.png";
 import Premium from "assets/premium.png";
 import GoBack from "assets/goBack.png";
+//Subs
+import BecomePremium from "./BecomePremium";
+import PremiumDetails from "./PremiumDetails";
+
 
 import ProfessionalForm from "./ProfessionalForm/";
 
@@ -41,7 +44,9 @@ interface ICases {
   myRequest(session: Session): ReactElement;
   offerServices(session: Session): ReactElement;
   becomePremium(session: Session): ReactElement;
+  premiumDetails(session: Session): ReactElement;
 }
+
 
 const Index: React.FC = () => {
   const router = useRouter();
@@ -79,8 +84,11 @@ const Index: React.FC = () => {
     offerServices: (session) => {
       return <ProfessionalForm />;
     },
+    premiumDetails: (session) => {
+      return <PremiumDetails />;
+    },
     becomePremium: (session) => {
-      return <>Become premium</>;
+      return <BecomePremium />;
     },
   };
 
@@ -90,7 +98,8 @@ const Index: React.FC = () => {
       route !== "myfiles" &&
       route !== "myRequest" &&
       route !== "offerServices" &&
-      route !== "becomePremium")
+      route !== "becomePremium" &&
+      route !== "premiumDetails")
   ) {
     return (
       <Flex
@@ -122,7 +131,11 @@ const Index: React.FC = () => {
         left={0}
         top={15}
       >
-        {<Content />}
+        {
+          <Content
+            payerId={session && session.payerId ? session.payerId : ""}
+          />
+        }
       </Flex>
       <Flex
         w={{ base: "90%", xl: "70%" }}
@@ -158,10 +171,12 @@ export async function getServerSideProps(context: any) {
 
 export default Index;
 
-export const DrawerOptions: React.FC<{ isOpen: boolean; onClose(): void }> = ({
-  isOpen,
-  onClose,
-}) => {
+export const DrawerOptions: React.FC<{
+  isOpen: boolean;
+  onClose(): void;
+  payerId: string;
+}> = ({ isOpen, onClose, payerId }) => {
+
   return (
     <Drawer {...{ isOpen, onClose }} placement={"left"} size={"md"}>
       <DrawerOverlay />
@@ -170,14 +185,14 @@ export const DrawerOptions: React.FC<{ isOpen: boolean; onClose(): void }> = ({
         <DrawerHeader>
           <Text color={"medium_green"}>Panel</Text>
         </DrawerHeader>
-        <DrawerBody>{<Content />}</DrawerBody>
+        <DrawerBody>{<Content payerId={payerId} />}</DrawerBody>
         <DrawerFooter />
       </DrawerContent>
     </Drawer>
   );
 };
 
-const Content: React.FC = () => {
+const Content: React.FC<{ payerId: string }> = ({ payerId }) => {
   return (
     <Box
       marginTop={3}
@@ -325,6 +340,7 @@ const Content: React.FC = () => {
           </Flex>
         </Link>
 
+        {payerId.length === 0 ? (
         <Link href="myAccount?site=becomePremium" passHref>
           <Flex alignItems={"center"} flexDirection={"column"}>
             <Flex
@@ -356,6 +372,11 @@ const Content: React.FC = () => {
             <Divider w={"90%"} />
           </Flex>
         </Link>
+            ) : (
+            <Link href="myAccount?site=premiumDetails" passHref>
+            <Text cursor={"pointer"}>Detalles Premium</Text>
+          </Link>
+        )}
         <Link href="/" passHref>
           <Flex alignItems={"center"} flexDirection={"column"}>
             <Flex

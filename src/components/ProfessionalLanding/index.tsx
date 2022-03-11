@@ -83,7 +83,7 @@ const ProfessionalLanding: React.FC = () => {
                   Jose Cito
                 </Heading>
 
-                <Text color={theme.colors.medium_green}>Plomero</Text>
+                <Text color={"medium_green"}>Plomero</Text>
                 <Text>Buenos Aires</Text>
 
                 <Flex flexDirection={"column"}>
@@ -118,13 +118,13 @@ const ProfessionalLanding: React.FC = () => {
                 </Flex>
               </Flex>
               <Flex flexDirection={"column"} alignItems={"center"}>
-                <Link href="/request/new" passHref>
+                <Link href={{ pathname: '/request/new', query: { id: '123' } }} passHref>
                   <Box
                     as={"button"}
                     width={"15rem"}
                     height={"3rem"}
                     borderRadius={"10px"}
-                    bg={theme.colors.medium_green}
+                    bg={"medium_green"}
                     color={"white"}
                     fontSize={"1.3rem"}
                   >
@@ -175,7 +175,7 @@ const ProfessionalLanding: React.FC = () => {
                 <Box>
                   <Heading
                     fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
-                    color={theme.colors.light_grey_sub[500]}
+                    color={"light_grey_sub"}
                   >
                     DESCRIPCION
                   </Heading>
@@ -191,7 +191,7 @@ const ProfessionalLanding: React.FC = () => {
                       md: "1.2rem",
                       lg: "1.5rem",
                     }}
-                    color={theme.colors.light_grey_sub[500]}
+                    color={"light_grey_sub"}
                   >
                     TRABAJOS REALIZADOS
                   </Heading>
@@ -237,7 +237,7 @@ const ProfessionalLanding: React.FC = () => {
                       md: "1.2rem",
                       lg: "1.5rem",
                     }}
-                    color={theme.colors.light_grey_sub[500]}
+                    color={"light_grey_sub"}
                   >
                     DOCUMENTACION
                   </Heading>
@@ -263,7 +263,7 @@ const ProfessionalLanding: React.FC = () => {
               <Box margin={"1rem"}>
                 <Heading
                   fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
-                  color={theme.colors.light_grey_sub[500]}
+                  color={"light_grey_sub"}
                 >
                   UBICACION
                 </Heading>
@@ -299,7 +299,7 @@ const ProfessionalLanding: React.FC = () => {
                             md: "1.2rem",
                             lg: "1.5rem",
                           }}
-                          color={theme.colors.light_grey_sub[500]}
+                          color={"light_grey_sub"}
                           key={cat.name}
                         >
                           {cat.name}

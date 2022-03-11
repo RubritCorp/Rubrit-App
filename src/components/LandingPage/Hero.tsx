@@ -9,6 +9,7 @@ import {
   InputRightElement,
   InputGroup,
 } from '@chakra-ui/react';
+import Link from 'next/link';
 
 const Hero: React.FC = () => {
   return (
@@ -69,18 +70,18 @@ const Hero: React.FC = () => {
             </InputRightElement>
           </InputGroup>
           <Text>ó</Text>
-          <Button
-            as='a'
-            href='/request/new'
-            alignSelf='center'
-            size='md'
-            bg='medium_green'
-            _hover={{
-              bg: 'green.500',
-            }}
-          >
-            Presupuesto gratis
-          </Button>
+          <Link href={{ pathname: '/request/new' }} passHref>
+            <Button
+              alignSelf='center'
+              size='md'
+              bg='medium_green'
+              _hover={{
+                bg: 'green.500',
+              }}
+            >
+              Presupuesto gratis
+            </Button>
+          </Link>
         </Stack>
       </Stack>
     </Flex>

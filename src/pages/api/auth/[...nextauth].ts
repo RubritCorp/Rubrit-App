@@ -95,6 +95,7 @@ export default NextAuth({
         });
         const newSession = {
           expires: session.expires,
+          _id: userSession._id,
           email: userSession.email,
           name: userSession.name,
           image: userSession.profilePic,
@@ -109,6 +110,7 @@ export default NextAuth({
           preferences: userSession.preferences,
           items: userSession.items,
           offers: userSession.offers,
+          payerId: userSession.payerId,
         };
         return newSession;
       }
@@ -128,5 +130,4 @@ export default NextAuth({
     newUser: "http://localhost:3000/COMPLETARPERFIL",
     error: "http://localhost:3000/",
   },
-  debug: true,
 });

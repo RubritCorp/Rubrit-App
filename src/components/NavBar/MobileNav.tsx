@@ -31,7 +31,7 @@ import Image from "next/image";
 import DarkModeSwitch from "components/DarkModeSwitch";
 import { useCategories } from "Provider/CategoriesProvider";
 
-const MobileNav = () => {
+const MobileNav: React.FC<{ payerId: string }> = ({ payerId }) => {
   const { pathname } = useRouter();
   const { categories } = useCategories();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -190,9 +190,15 @@ const MobileNav = () => {
                   </Link>
 
                   <Text>Notificaciones</Text>
-                  <Link href="myAccount?site=becomePremium" passHref>
-                    <Text cursor={"pointer"}>Hacerse Premium</Text>
-                  </Link>
+                  {payerId.length === 0 ? (
+                    <Link href="myAccount?site=becomePremium" passHref>
+                      <Text cursor={"pointer"}>Hacerse Premium</Text>
+                    </Link>
+                  ) : (
+                    <Link href="myAccount?site=premiumDetails" passHref>
+                      <Text cursor={"pointer"}>Detalles Premium</Text>
+                    </Link>
+                  )}
                 </Stack>
               </Box>
             )}

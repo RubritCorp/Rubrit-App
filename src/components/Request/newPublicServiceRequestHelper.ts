@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as Yup from 'yup';
+import { getSession } from 'next-auth/react';
 import envConfig from '../../../next-env-config';
 
 interface DataInitialValues {
@@ -8,6 +9,8 @@ interface DataInitialValues {
   title: string;
   description: string;
   location: string;
+  lat: string;
+  lng: string;
   images: FileList | null;
 }
 
@@ -17,6 +20,8 @@ export const initialValues: DataInitialValues = {
   title: '',
   description: '',
   location: '',
+  lat: '',
+  lng: '',
   images: null
 };
 
@@ -29,21 +34,23 @@ export const validationSchema = Yup.object({
 });
 
 export const handleSubmit = async (values: DataInitialValues) => {
-  const { title, description, location } = values;
+  const { category, subcategory, title, description, location, lat, lng } = values;
   const images: FileList | null = values.images;
   // Upload images to AWS via backend
   const formData = new FormData();
   formData.append('path', 'test');
   formData.append('title', title);
   // Append files individually since FormData does not support FileList
-  if (images) {
+  if (images && images.length > 0) {
     for (let i = 0 ; i < images.length ; i++) {
       formData.append('files', images[i] as any);
     }
   }
   
   try {
-    let serviceRequest = { title, description, location, images: null };
+    const session = await getSession();
+    if (!session) throw new Error('No session');
+    let serviceRequest = { category, subcategory, title, description, location, lat, lng, images: null, userId: session._id };
     // API request for file upload
     if (images && images?.length > 0) {
       const { data } = await axios.post(`${envConfig?.apiUrl}/aws/upload-files`, formData, { headers: { 'content-type': 'multipart/form-data' } });
