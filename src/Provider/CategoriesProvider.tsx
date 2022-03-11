@@ -16,6 +16,7 @@ interface ICategories {
   picture: ICategory["picture"];
   icon: ICategory["icon"];
   description: ICategory["description"];
+  _id: ICategory["_id"];
   subcategories: ISubcategory[];
 }
 
