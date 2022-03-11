@@ -14,31 +14,12 @@ import { ChevronRightIcon } from "@chakra-ui/icons";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
-interface NavItem {
-  label: string;
-  subLabel?: string;
-  children?: Array<NavItem>;
-  href?: string;
-}
+import { useCategories } from "Provider/CategoriesProvider";
 
 export default function DesktopNav() {
   const linkColor = useColorModeValue("gray.600", "gray.200");
   const linkHoverColor = useColorModeValue("gray.800", "white");
-
-  const [categories, setCategories] = useState<any>([]);
-
-  useEffect(() => {
-    //solo para la demo
-    const fillCategories = async () => {
-      const { data } = await axios.get("/api/categories");
-      if (categories.length < 1) {
-        setCategories(data.categories);
-      }
-    };
-    fillCategories();
-    /* ------ */
-  }, [categories]);
+  const { categories } = useCategories();
 
   return (
     <Stack direction={"row"} spacing={4}>
@@ -70,15 +51,15 @@ export default function DesktopNav() {
             maxH={"400px"}
             overflowY="auto"
             css={{
-              '&::-webkit-scrollbar': {
-                width: '7px',
+              "&::-webkit-scrollbar": {
+                width: "7px",
               },
-              '&::-webkit-scrollbar-track': {
-                width: '15px',
+              "&::-webkit-scrollbar-track": {
+                width: "15px",
               },
-              '&::-webkit-scrollbar-thumb': {
+              "&::-webkit-scrollbar-thumb": {
                 background: "#38a169",
-                borderRadius: '24px',
+                borderRadius: "24px",
               },
             }}
           >

@@ -30,7 +30,7 @@ type categoriesContextType = {
 
 const categoriesContextDefaultValues: categoriesContextType = {
   categories: [],
-  loading: false
+  loading: false,
 };
 
 const CategoriesContext = createContext<categoriesContextType>(
@@ -52,7 +52,7 @@ export function CategoriesProvider({ children }: Props) {
   const fillData = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get("/api/categories");
+      const { data } = await axios.get("/api/public/categories");
       setCategories(data.categories);
       setLoading(false);
     } catch (err) {
