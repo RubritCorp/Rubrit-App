@@ -35,8 +35,9 @@ import GoBack from "assets/goBack.png";
 import BecomePremium from "./BecomePremium";
 import PremiumDetails from "./PremiumDetails";
 
-
 import ProfessionalForm from "./ProfessionalForm/";
+//next
+import { NextPage } from "next";
 
 interface ICases {
   accountSettings(session: Session): ReactElement;
@@ -47,8 +48,7 @@ interface ICases {
   premiumDetails(session: Session): ReactElement;
 }
 
-
-const Index: React.FC = () => {
+const Index: NextPage = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const { site } = router.query;
@@ -176,7 +176,6 @@ export const DrawerOptions: React.FC<{
   onClose(): void;
   payerId: string;
 }> = ({ isOpen, onClose, payerId }) => {
-
   return (
     <Drawer {...{ isOpen, onClose }} placement={"left"} size={"md"}>
       <DrawerOverlay />
@@ -340,8 +339,12 @@ const Content: React.FC<{ payerId: string }> = ({ payerId }) => {
           </Flex>
         </Link>
 
-        {payerId.length === 0 ? (
-        <Link href="myAccount?site=becomePremium" passHref>
+        <Link
+          href={`myAccount?site=${
+            payerId.length === 0 ? "becomePremium" : "premiumDetails"
+          }`}
+          passHref
+        >
           <Flex alignItems={"center"} flexDirection={"column"}>
             <Flex
               h={10}
@@ -364,7 +367,9 @@ const Content: React.FC<{ payerId: string }> = ({ payerId }) => {
                   height={"30px"}
                 />
                 <Text cursor={"pointer"} ml={3}>
-                  Hacerse Premium
+                  {payerId.length === 0
+                    ? "Hacerse Premium"
+                    : "Detalles del Premium"}
                 </Text>
               </Flex>
               <ChevronRightIcon />
@@ -372,11 +377,6 @@ const Content: React.FC<{ payerId: string }> = ({ payerId }) => {
             <Divider w={"90%"} />
           </Flex>
         </Link>
-            ) : (
-            <Link href="myAccount?site=premiumDetails" passHref>
-            <Text cursor={"pointer"}>Detalles Premium</Text>
-          </Link>
-        )}
         <Link href="/" passHref>
           <Flex alignItems={"center"} flexDirection={"column"}>
             <Flex
