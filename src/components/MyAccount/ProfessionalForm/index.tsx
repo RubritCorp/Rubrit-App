@@ -187,8 +187,8 @@ const ProfessionalForm: React.FC = () => {
                                     <Flex key={index}>
                                       <CheckboxControl
                                         name={cat.name}
-                                        value={sub._id}
-                                        id={sub._id}
+                                        value={sub._id.toString()}
+                                        id={sub._id.toString()}
                                       >
                                         {sub.name}
                                       </CheckboxControl>
