@@ -70,7 +70,7 @@ const Hero: React.FC = () => {
             </InputRightElement>
           </InputGroup>
           <Text>ó</Text>
-          <Link href={{ pathname: '/request/new' }} as='nueva-solicitud' passHref>
+          <Link href={{ pathname: '/request/new' }} passHref>
             <Button
               alignSelf='center'
               size='md'
