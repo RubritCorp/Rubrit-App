@@ -173,7 +173,7 @@ const Modalcomp: React.FC<{ onCloseOne(): void, isOpenOne: boolean }> = ({ onClo
                       color={'white'}
                       bg={'green.500'}
                       _hover={{ bg: "green.400" }}
-                      onClick={() => router.push('/offerServices')}
+                      onClick={() => router.push('/workbag')}
                       rightIcon={<Wrench size={32} color="white" />} 
                     >
                       Ofrecer Servicios
