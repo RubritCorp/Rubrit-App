@@ -1,13 +1,26 @@
 import { InputControl, SelectControl, TextareaControl } from "formik-chakra-ui";
+import React, { useState } from "react";
 import { LocationControl } from "components/CustomFormControls/LocationControl";
 import { MultipleImagesControl } from "components/CustomFormControls/MultipleImagesControl";
+import { useCategories } from "Provider/CategoriesProvider";
+import type { ISubcategory } from "models/Subcategory/ISubcategory";
 
 export const StepOneFields: React.FC = () => {
+  const [ subcategories, setSubcategories ] = useState<ISubcategory[]>([]);
+  const { categories, loading } = useCategories();
+
+  function handleSelect(event: React.ChangeEvent<HTMLSelectElement>) {
+    let category = categories.find(cat => cat._id.toString() === event.target.value.toString()) 
+    if (category) setSubcategories(category.subcategories);
+  }
+
   return (
     <>
+      { console.log(categories) }
       <SelectControl
         name='category'
         label='Categoría'
+        onChange={(e: any) => handleSelect(e)}
         labelProps={{
           margin: '0 0 8px 0'
         }}
@@ -15,8 +28,7 @@ export const StepOneFields: React.FC = () => {
           placeholder: 'Ver categorías'
         }}
       >
-        <option value='hoal'>Plomería</option>
-        <option value='hoaj'>Electricidad</option>
+        { loading ? null : categories?.map(category => <option key={category._id.toString()} value={category._id.toString()}>{category.name}</option>) }
       </SelectControl>
       <SelectControl
         name='subcategory'
@@ -28,8 +40,7 @@ export const StepOneFields: React.FC = () => {
           placeholder: 'Ver subcategorías'
         }}
       >
-        <option value='hoal'>General</option>
-        <option value='hoaj'>Específico</option>
+        { subcategories?.map(subcategory => <option key={subcategory._id.toString()} value={subcategory._id.toString()}>{subcategory.name}</option>) }
       </SelectControl>
     </>
   );
