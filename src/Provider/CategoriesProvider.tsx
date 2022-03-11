@@ -10,6 +10,7 @@ import {
 } from "react";
 
 interface ICategories {
+  picture_small: string;
   name: ICategory["name"];
   picture: ICategory["picture"];
   icon: ICategory["icon"];
