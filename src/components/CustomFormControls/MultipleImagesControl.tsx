@@ -104,7 +104,7 @@ export const MultipleImagesControl: React.FC<
 
   return (
     <FormControl isInvalid={meta.touched && !!meta.error}>
-      <FormLabel>{label}</FormLabel>
+      <FormLabel>Trabajos realizados</FormLabel>
       <Button onClick={handleClick} backgroundColor={"warning_red"}>
         Subir Imagenes
       </Button>

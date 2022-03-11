@@ -1,3 +1,5 @@
+import axios from "axios";
+import envConfig from "../../../../next-env-config";
 import Layout from "../../layout";
 import { useState } from "react";
 import {
@@ -44,6 +46,7 @@ import {
   CheckboxContainer,
   CheckboxControl,
 } from "formik-chakra-ui";
+import { useSession } from "next-auth/react";
 import { useCategories } from "../../../Provider/CategoriesProvider";
 import { MultipleImagesControl } from "../../CustomFormControls/MultipleImagesControl";
 import useHelper from "./useHelper";
@@ -52,10 +55,9 @@ const ProfessionalForm: React.FC = () => {
   const { initialValues, onSubmit, validationSchema } = useHelper();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { categories } = useCategories();
-
-  const handleOnSubmit2 = (event: any, values: any) => {
+  const { data: session } = useSession();
+  const handleOnSubmit2 = async (event: any, values: any) => {
     event.preventDefault();
-
     let categoriesArray: any[] = [];
 
     for (let val in values) {
@@ -75,10 +77,27 @@ const ProfessionalForm: React.FC = () => {
       categories: categoriesArray,
     };
 
+    const formData = new FormData();
+    formData.append("path", "user/userid/files/img/form");
+    formData.append("title", "imagenes-form");
+
+    if (finalValues.images) {
+      for (let i = 0; i < finalValues.images.length; i++) {
+        formData.append("files", finalValues.images[i] as any);
+      }
+    }
+
     if (finalValues.categories.length > 3) {
       alert("Solo puedes seleccionar 3 categorias");
     }
+    //console.log(envConfig.apiUrl);
+
+    const { data } = await axios.post(
+      `${envConfig?.apiUrl}/aws/upload-files`,
+      formData
+    );
     onSubmit(finalValues);
+    //console.log(data.urls);
   };
 
   return (
