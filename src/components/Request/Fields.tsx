@@ -1,14 +1,14 @@
 import { InputControl, SelectControl, TextareaControl } from "formik-chakra-ui";
+import React, { useState } from "react";
 import { LocationControl } from "components/CustomFormControls/LocationControl";
 import { MultipleImagesControl } from "components/CustomFormControls/MultipleImagesControl";
 import { useCategories } from "Provider/CategoriesProvider";
-import React, { useState } from "react";
 
 export const StepOneFields: React.FC = () => {
   const [ subcategories, setSubcategories ] = useState<any[]>([]);
   const { categories, loading } = useCategories();
 
-  function handleSelect(event: any) {
+  function handleSelect(event: React.ChangeEvent<HTMLSelectElement>) {
     let category = categories.find(cat => cat._id.toString() === event.target.value.toString()) 
     if (category) setSubcategories(category.subcategories);
   }
@@ -18,7 +18,7 @@ export const StepOneFields: React.FC = () => {
       <SelectControl
         name='category'
         label='Categoría'
-        onChange={(e: React.SyntheticEvent) => handleSelect(e)}
+        onChange={(e: any) => handleSelect(e)}
         labelProps={{
           margin: '0 0 8px 0'
         }}
