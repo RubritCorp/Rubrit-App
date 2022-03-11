@@ -3,9 +3,10 @@ import React, { useState } from "react";
 import { LocationControl } from "components/CustomFormControls/LocationControl";
 import { MultipleImagesControl } from "components/CustomFormControls/MultipleImagesControl";
 import { useCategories } from "Provider/CategoriesProvider";
+import type { ISubcategory } from "models/Subcategory/ISubcategory";
 
 export const StepOneFields: React.FC = () => {
-  const [ subcategories, setSubcategories ] = useState<any[]>([]);
+  const [ subcategories, setSubcategories ] = useState<ISubcategory[]>([]);
   const { categories, loading } = useCategories();
 
   function handleSelect(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -15,6 +16,7 @@ export const StepOneFields: React.FC = () => {
 
   return (
     <>
+      { console.log(categories) }
       <SelectControl
         name='category'
         label='Categoría'
