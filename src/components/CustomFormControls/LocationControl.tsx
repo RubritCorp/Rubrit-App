@@ -34,10 +34,10 @@ export const LocationControl: React.FC<
   });
 
   // Bug fix: always show pacContainer
-  useEffect(() => {
+  if (typeof window !== 'undefined') {
     let pacContainer: any = document.querySelector(".pac-container");
     if (pacContainer) pacContainer.style.zIndex = "99999999";
-  },[])
+  }
 
   // Check if user tries to change address after onPlaceSelected
   useEffect(() => {
