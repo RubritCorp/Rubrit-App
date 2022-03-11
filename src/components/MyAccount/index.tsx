@@ -35,7 +35,6 @@ import GoBack from "assets/goBack.png";
 import BecomePremium from "./BecomePremium";
 import PremiumDetails from "./PremiumDetails";
 
-
 import ProfessionalForm from "./ProfessionalForm/";
 
 interface ICases {
@@ -46,7 +45,6 @@ interface ICases {
   becomePremium(session: Session): ReactElement;
   premiumDetails(session: Session): ReactElement;
 }
-
 
 const Index: React.FC = () => {
   const router = useRouter();
@@ -122,15 +120,7 @@ const Index: React.FC = () => {
       position={"relative"}
       mb={14}
     >
-      <Flex
-        d={{ base: "none", xl: "flex" }}
-        h={"90%"}
-        mr={10}
-        ml={10}
-        position={"absolute"}
-        left={0}
-        top={15}
-      >
+      <Flex d={{ base: "none", xl: "flex" }} h={"90%"} mr={10} ml={10}>
         {
           <Content
             payerId={session && session.payerId ? session.payerId : ""}
@@ -139,10 +129,9 @@ const Index: React.FC = () => {
       </Flex>
       <Flex
         w={{ base: "90%", xl: "70%" }}
-        maxW={"1200px"}
+        maxW={"1000px"}
         justifyContent={"center"}
         alignItems={"flex-end"}
-        ml={{ base: 0, xl: "60" }}
       >
         {cases[route](session)}
       </Flex>
@@ -176,7 +165,6 @@ export const DrawerOptions: React.FC<{
   onClose(): void;
   payerId: string;
 }> = ({ isOpen, onClose, payerId }) => {
-
   return (
     <Drawer {...{ isOpen, onClose }} placement={"left"} size={"md"}>
       <DrawerOverlay />
@@ -196,9 +184,9 @@ const Content: React.FC<{ payerId: string }> = ({ payerId }) => {
   return (
     <Box
       marginTop={3}
-      fontSize={"xl"}
+      fontSize={{ base: "md", xl: "xl" }}
       fontWeight={700}
-      h={"95%"}
+      h={{ base: "40vh", xl: "90vh" }}
       bg={{
         base: "transparent",
         xl: useColorModeValue("#fafafa", "#1A202C"),
@@ -210,7 +198,8 @@ const Content: React.FC<{ payerId: string }> = ({ payerId }) => {
         color={"medium_green"}
         pt={5}
         pl={5}
-        d={{ base: "none", xl: "block" }}
+        d={{ base: "block", md: "none", xl: "block" }}
+        fontSize={{ base: "lg" }}
       >
         Panel
       </Text>
@@ -341,39 +330,40 @@ const Content: React.FC<{ payerId: string }> = ({ payerId }) => {
         </Link>
 
         {payerId.length === 0 ? (
-        <Link href="myAccount?site=becomePremium" passHref>
-          <Flex alignItems={"center"} flexDirection={"column"}>
-            <Flex
-              h={10}
-              w={"100%"}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-              p={3}
-              mb={3}
-              _hover={{
-                textDecoration: "none",
-                color: "green.400",
-                bg: useColorModeValue("#ebe8e8", "#1e242e"),
-              }}
-            >
-              <Flex alignItems={"center"}>
-                <Image
-                  src={Premium}
-                  alt="user-image"
-                  width={"30px"}
-                  height={"30px"}
-                />
-                <Text cursor={"pointer"} ml={3}>
-                  Hacerse Premium
-                </Text>
+          <Link href="myAccount?site=becomePremium" passHref>
+            <Flex alignItems={"center"} flexDirection={"column"}>
+              <Flex
+                h={10}
+                w={"100%"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                p={3}
+                mb={3}
+                _hover={{
+                  textDecoration: "none",
+                  color: "green.400",
+                  // eslint-disable-next-line react-hooks/rules-of-hooks
+                  bg: useColorModeValue("#ebe8e8", "#1e242e"),
+                }}
+              >
+                <Flex alignItems={"center"}>
+                  <Image
+                    src={Premium}
+                    alt="user-image"
+                    width={"30px"}
+                    height={"30px"}
+                  />
+                  <Text cursor={"pointer"} ml={3}>
+                    Hacerse Premium
+                  </Text>
+                </Flex>
+                <ChevronRightIcon />
               </Flex>
-              <ChevronRightIcon />
+              <Divider w={"90%"} />
             </Flex>
-            <Divider w={"90%"} />
-          </Flex>
-        </Link>
-            ) : (
-            <Link href="myAccount?site=premiumDetails" passHref>
+          </Link>
+        ) : (
+          <Link href="myAccount?site=premiumDetails" passHref>
             <Text cursor={"pointer"}>Detalles Premium</Text>
           </Link>
         )}

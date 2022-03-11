@@ -6,6 +6,7 @@ import RubritPros from "./RubritPros";
 import Begin from "./Begin";
 import Services from "./Services";
 import { Box, useColorModeValue } from "@chakra-ui/react";
+import OurCategories from "./OurCategories";
 const LandingPage: React.FC = () => {
   return (
     <Box>
@@ -13,6 +14,7 @@ const LandingPage: React.FC = () => {
       <CategoryCarousel />
       <RubritPros />
       <NearProfesionals />
+      <OurCategories />
       <Begin /> 
     </Box>
   );

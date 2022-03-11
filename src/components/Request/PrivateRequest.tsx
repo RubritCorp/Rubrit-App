@@ -78,7 +78,7 @@ const PrivateRequestMain: React.FC<({professionalId: string})> = ({professionalI
             bg: 'green.600',
           }}
           disabled={
-            Object.keys(errors).length > 0 || isSubmitting || loading
+            values.title.length === 0 || Object.keys(errors).length > 0 || isSubmitting || loading
           }
         >
           Enviar solicitud

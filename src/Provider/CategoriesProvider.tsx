@@ -11,7 +11,11 @@ import {
 import { boolean } from "yup";
 
 interface ICategories {
+
+  picture_small: string;
+
   _id: ICategory["_id"];
+
   name: ICategory["name"];
   picture: ICategory["picture"];
   icon: ICategory["icon"];
@@ -26,7 +30,7 @@ type categoriesContextType = {
 
 const categoriesContextDefaultValues: categoriesContextType = {
   categories: [],
-  loading: false
+  loading: false,
 };
 
 const CategoriesContext = createContext<categoriesContextType>(
@@ -48,7 +52,7 @@ export function CategoriesProvider({ children }: Props) {
   const fillData = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get("/api/categories");
+      const { data } = await axios.get("/api/public/categories");
       setCategories(data.categories);
       setLoading(false);
     } catch (err) {
