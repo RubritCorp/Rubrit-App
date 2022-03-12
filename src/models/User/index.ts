@@ -130,6 +130,14 @@ const userSchema = new Schema(
         ],
       },
     ],
+    contracts: [
+      {
+        contract: {
+          type: Types.ObjectId,
+          ref: "Contract",
+        },
+      },
+    ],
     offers: [
       {
         title: {
@@ -142,6 +150,8 @@ const userSchema = new Schema(
       },
     ],
   },
+
+
   {
     timestamps: true,
     versionKey: false,

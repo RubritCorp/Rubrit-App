@@ -132,6 +132,7 @@ const cases: ICases = {
       console.log("Error ocurred in DELETE USER");
     }
   },
+  
   ERROR: (_, res) => {
     res.status(400).json({ message: "Error, method is invalid!" });
   },

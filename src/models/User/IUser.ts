@@ -7,6 +7,10 @@ interface HItems {
   certification: string[];
 }
 
+interface CItems {
+  contract: Types.ObjectId;
+}
+
 export interface IUser {
   email: string;
   name: string;
@@ -31,6 +35,7 @@ export interface IUser {
     score: string;
   };
   items: HItems[];
+  contracts: CItems[];
   offers: {
     title: string;
     description: string;

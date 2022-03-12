@@ -1,3 +1,3 @@
-import WorkBag from "../components/WorkBag"
+import WorkBag from "../components/WorkBag/index";
 
 export default WorkBag 
