@@ -24,7 +24,9 @@ import Layout from "../layout";
 import Comments from "../Comments";
 //assets
 import Map from "/src/assets/mapa.jpg";
+import axios from "axios";
 
+import { useEffect } from "react";
 const categories = [
   {
     name: "Electricista",
@@ -51,9 +53,28 @@ const categories = [
     ],
   },
 ];
-const ProfessionalLanding: React.FC = () => {
+
+interface User {
+  user: string;
+}
+const ProfessionalLanding: React.FC<User> = ({ user }) => {
   const theme = useTheme();
 
+  //console.log(user);
+  async function fetchUser() {
+    try {
+      const data = await axios.get(
+        `http://localhost:3000/api/public/users/${user}`
+      );
+      console.log("data", data);
+    } catch (err) {
+      console.log("error", err);
+    }
+  }
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
   return (
     <Layout>
       <Container maxW={"container.xl"}>
@@ -118,14 +139,11 @@ const ProfessionalLanding: React.FC = () => {
                 </Flex>
               </Flex>
               <Flex flexDirection={"column"} alignItems={"center"}>
-
                 <Link
                   href={{ pathname: "/request/new", query: { id: "123" } }}
                   as="nueva-solicitud"
                   passHref
                 >
-
-                
                   <Box
                     as={"button"}
                     width={"15rem"}

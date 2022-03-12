@@ -1,21 +1,39 @@
-import { Flex, chakra, useColorModeValue, Box, SimpleGrid, Avatar, WrapItem } from "@chakra-ui/react";
+import {
+  Flex,
+  chakra,
+  useColorModeValue,
+  Box,
+  SimpleGrid,
+  Avatar,
+  WrapItem,
+} from "@chakra-ui/react";
 
 import { useCategories } from "Provider/CategoriesProvider";
 import { ReactChild, ReactFragment, ReactPortal } from "react";
 
-
-
 const OurCategories: React.FC = () => {
-
   const { categories } = useCategories();
-  console.log(categories);
 
-  const Feature = (props:{ src: string; color: any; title: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; children: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; }) => {
+  const Feature = (props: {
+    src: string;
+    color: any;
+    title:
+      | boolean
+      | ReactChild
+      | ReactFragment
+      | ReactPortal
+      | null
+      | undefined;
+    children:
+      | boolean
+      | ReactChild
+      | ReactFragment
+      | ReactPortal
+      | null
+      | undefined;
+  }) => {
     return (
-      <Box
-     
-
-      >
+      <Box>
         <Flex
           alignItems="center"
           justifyContent="center"
@@ -26,13 +44,13 @@ const OurCategories: React.FC = () => {
           color={useColorModeValue(`${props.color}.600`, `${props.color}.100`)}
           bg={useColorModeValue(`${props.color}.100`, `${props.color}.600`)}
         >
-        <WrapItem> 
-          <Avatar
-            boxSize={"90%"}
-            bg={useColorModeValue(`${props.color}.600`, `${props.color}.100`)}
-            src={props.src}
-          />
-          </WrapItem>  
+          <WrapItem>
+            <Avatar
+              boxSize={"90%"}
+              bg={useColorModeValue(`${props.color}.600`, `${props.color}.100`)}
+              src={props.src}
+            />
+          </WrapItem>
         </Flex>
         <chakra.h3
           mb={2}
@@ -48,15 +66,15 @@ const OurCategories: React.FC = () => {
           fontSize="sm"
           color={useColorModeValue("gray.500", "gray.400")}
           css={{
-            '&::-webkit-scrollbar': {
-              width: '0px',
+            "&::-webkit-scrollbar": {
+              width: "0px",
             },
-            '&::-webkit-scrollbar-track': {
-              width: '10px',
+            "&::-webkit-scrollbar-track": {
+              width: "10px",
             },
-            '&::-webkit-scrollbar-thumb': {
+            "&::-webkit-scrollbar-thumb": {
               background: "#38a169",
-              borderRadius: '24px',
+              borderRadius: "24px",
             },
           }}
         >
@@ -66,34 +84,25 @@ const OurCategories: React.FC = () => {
     );
   };
   return (
-    <Flex
-      
-      p={10}
-      w="auto"
-      justifyContent="center"
-      alignItems="center"
-    >
+    <Flex p={10} w="auto" justifyContent="center" alignItems="center">
       <Box
-       maxW={"container.xl"}
-      maxH={"700px"}
-      overflow={"auto"}
-      css={{
-        '&::-webkit-scrollbar': {
-          width: '0px',
-        },
-        '&::-webkit-scrollbar-track': {
-          width: '15px',
-        },
-        '&::-webkit-scrollbar-thumb': {
-          background: "#38a169",
-          borderRadius: '24px',
-        },
-      }}
-        
+        maxW={"container.xl"}
+        maxH={"700px"}
+        overflow={"auto"}
+        css={{
+          "&::-webkit-scrollbar": {
+            width: "0px",
+          },
+          "&::-webkit-scrollbar-track": {
+            width: "15px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            background: "#38a169",
+            borderRadius: "24px",
+          },
+        }}
         py={20}
         mx="auto"
-    
-       
       >
         <Box textAlign={{ lg: "center" }}>
           <chakra.p
@@ -113,7 +122,8 @@ const OurCategories: React.FC = () => {
             mx={{ lg: "auto" }}
             color={useColorModeValue("gray.500", "gray.400")}
           >
-            Podes elegir entre mas de 35 categorias para encontrar el trabajo que mas se ajusta a tus necesidades.
+            Podes elegir entre mas de 35 categorias para encontrar el trabajo
+            que mas se ajusta a tus necesidades.
           </chakra.p>
         </Box>
         <SimpleGrid
@@ -122,9 +132,7 @@ const OurCategories: React.FC = () => {
           spacingY={20}
           mt={6}
         >
-
           {categories.map((category, index) => (
-
             <Feature
               key={index}
               color="grey"
@@ -133,18 +141,11 @@ const OurCategories: React.FC = () => {
             >
               {category.description}
             </Feature>
-          )
-          )
-          }
-
-
-
-
+          ))}
         </SimpleGrid>
       </Box>
     </Flex>
   );
-}
-
+};
 
 export default OurCategories;

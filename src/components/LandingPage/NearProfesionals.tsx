@@ -148,51 +148,49 @@ const CardFindProfesional: React.FC<CardFindProfesionalProps> = ({
               objectFit={"cover"}
               alt="bg"
             />
-            <Link href={`/nameProfessional?name=${_id}`} passHref>
-              <>
-                <Flex justify={"center"} mt={-12}>
-                  <Avatar
-                    size={"xl"}
-                    src={avatar}
-                    css={{
-                      border: "2px solid white",
-                    }}
-                  />
-                </Flex>
-
-                <Box p={6}>
-                  <Stack spacing={0} align={"center"} mb={5}>
-                    <Heading
-                      fontSize={"2xl"}
-                      fontWeight={500}
-                      fontFamily={"body"}
+            <>
+              <Flex justify={"center"} mt={-12}>
+                <Avatar
+                  size={"xl"}
+                  src={avatar}
+                  css={{
+                    border: "2px solid white",
+                  }}
+                />
+              </Flex>
+              <Box p={6}>
+                <Stack spacing={0} align={"center"} mb={5}>
+                  <Heading
+                    fontSize={"2xl"}
+                    fontWeight={500}
+                    fontFamily={"body"}
+                  >
+                    {name}
+                  </Heading>
+                  <Text color={"gray.500"} fontSize={"small"}>
+                    {city}
+                  </Text>
+                </Stack>
+                <Stack direction={"row"} justify={"center"} spacing={6}>
+                  <Stack spacing={0} align={"center"}>
+                    <Text
+                      align={"center"}
+                      fontSize={{ base: "xs", md: "sm" }}
+                      color={"green.500"}
+                      w={"296px"}
+                      h={"40px"}
+                      overflow="hidden"
+                      css={{
+                        display: "-webkit-box",
+                        ["WebkitBoxOrient"]: "vertical",
+                        ["WebkitLineClamp"]: "2",
+                      }}
                     >
-                      {name}
-                    </Heading>
-                    <Text color={"gray.500"} fontSize={"small"}>
-                      {city}
+                      {description}
                     </Text>
                   </Stack>
-                  <Stack direction={"row"} justify={"center"} spacing={6}>
-                    <Stack spacing={0} align={"center"}>
-                      <Text
-                        align={"center"}
-                        fontSize={{ base: "xs", md: "sm" }}
-                        color={"green.500"}
-                        w={"296px"}
-                        h={"40px"}
-                        overflow="hidden"
-                        css={{
-                          display: "-webkit-box",
-                          ["-webkit-box-orient"]: "vertical",
-                          ["-webkit-line-clamp"]: "2",
-                        }}
-                      >
-                        {description}
-                      </Text>
-                    </Stack>
-                  </Stack>
-
+                </Stack>
+                <Link href={`/professional/${_id}`} passHref>
                   <Button
                     w={"full"}
                     mt={8}
@@ -206,9 +204,9 @@ const CardFindProfesional: React.FC<CardFindProfesionalProps> = ({
                   >
                     Contactar
                   </Button>
-                </Box>
-              </>
-            </Link>
+                </Link>
+              </Box>
+            </>
           </Box>
         </Center>
       </Flex>

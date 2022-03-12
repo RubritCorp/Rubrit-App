@@ -2,9 +2,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 //models
-import User from "models/User";
+import User from "../../../../models/User";
 //interface
-import { IUser } from "models/User/IUser";
+import { IUser } from "../../../../models/User/IUser";
 //db
 import "utils/db";
 
@@ -35,10 +35,10 @@ interface ICases {
 const cases: ICases = {
   GET: async (req, res) => {
     const { userId } = req.query;
-    console.log(userId)
+   
     const user = await User.findOne({ _id: userId });
 
-    console.log("user", user)
+    
     if (!user) return res.status(404).json({ message: "User not found" });
     
 
