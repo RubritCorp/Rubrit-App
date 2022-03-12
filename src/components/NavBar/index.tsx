@@ -111,7 +111,11 @@ const WithSubnavigation: React.FC = () => {
           ml={{ base: -2 }}
           display={{ base: "flex", md: "none" }}
         >
-          <MobileNav />
+          <MobileNav
+            payerId={
+              typeof session?.payerId === "string" ? session.payerId : ""
+            }
+          />
         </Flex>
         <Flex
           flex={{ base: 1 }}
@@ -130,6 +134,7 @@ const WithSubnavigation: React.FC = () => {
               <DrawerOptions
                 isOpen={isOpenDrawerOptions}
                 onClose={onCloseDrawerOptions}
+                payerId={session && session.payerId ? session.payerId : ""}
               />
             </Box>
           )}
@@ -200,17 +205,44 @@ const WithSubnavigation: React.FC = () => {
                 <MenuList>
                   <MenuItem onClick={() => onOpenProfile()}>Mi Perfil</MenuItem>
                   <MenuDivider />
-                  <Link href={"myAccount"} passHref>
+                  <Link
+                    href={{
+                      pathname: "myAccount",
+                      query: { site: "accountSettings" },
+                    }}
+                    passHref
+                  >
                     <MenuItem icon={<ExternalLinkIcon />}>
                       Ajustes De Cuenta
                     </MenuItem>
                   </Link>
                   <MenuDivider />
-                  <MenuItem>Solicitudes</MenuItem>
+                  <Link
+                    href={{
+                      pathname: "myAccount",
+                      query: { site: "myRequest" },
+                    }}
+                    passHref
+                  >
+                    <MenuItem>Solicitudes</MenuItem>
+                  </Link>
                   <MenuDivider />
-                  <MenuItem>Solicita Cotización</MenuItem>
+                  <Link
+                    href={{ pathname: "myAccount", query: { site: "" } }}
+                    passHref
+                  >
+                    <MenuItem>Solicita Cotización</MenuItem>
+                  </Link>
                   <MenuDivider />
-                  <MenuItem>Ofrecé tus Servicios</MenuItem>
+                  <Link
+                    href={{
+                      pathname: "myAccount",
+                      query: { site: "offerServices" },
+                    }}
+                    passHref
+                  >
+                    <MenuItem>Ofrecé tus Servicios</MenuItem>
+                  </Link>
                   <MenuDivider />
                   <MenuItem d={{ base: "inline", md: "none" }}>
                     Notificaciones

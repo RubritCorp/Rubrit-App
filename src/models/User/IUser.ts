@@ -19,6 +19,7 @@ export interface IUser {
   authCode: string;
   profilePic: string;
   isWorker: boolean;
+  payerId: string;
   address: {
     name: string;
     lat: number;

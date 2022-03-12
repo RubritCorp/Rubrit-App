@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ICategory } from "models/Category/ICategory";
+import { ISubcategory } from "models/Subcategory/ISubcategory";
 import {
   useContext,
   createContext,
@@ -7,13 +8,29 @@ import {
   useState,
   useEffect,
 } from "react";
+import { boolean } from "yup";
+
+interface ICategories {
+
+  picture_small: string;
+
+  _id: ICategory["_id"];
+
+  name: ICategory["name"];
+  picture: ICategory["picture"];
+  icon: ICategory["icon"];
+  description: ICategory["description"];
+  subcategories: ISubcategory[];
+}
 
 type categoriesContextType = {
-  categories: ICategory[];
+  categories: ICategories[];
+  loading: boolean;
 };
 
 const categoriesContextDefaultValues: categoriesContextType = {
   categories: [],
+  loading: false,
 };
 
 const CategoriesContext = createContext<categoriesContextType>(
@@ -30,12 +47,12 @@ type Props = {
 
 export function CategoriesProvider({ children }: Props) {
   const [loading, setLoading] = useState<boolean>(false);
-  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [categories, setCategories] = useState<ICategories[]>([]);
 
   const fillData = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get("/api/categories");
+      const { data } = await axios.get("/api/public/categories");
       setCategories(data.categories);
       setLoading(false);
     } catch (err) {

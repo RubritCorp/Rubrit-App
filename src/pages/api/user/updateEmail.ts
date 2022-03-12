@@ -32,6 +32,12 @@ const cases: ICases = {
   PUT: async (req, res) => {
     const { email, newEmail, password } = req.body;
 
+    if (email === newEmail)
+      return res.status(200).json({
+        message:
+          "¡La nueva dirección de correo no puede ser igual a la anterior!",
+      });
+
     try {
       const user = await User.findOne({ email: email });
 

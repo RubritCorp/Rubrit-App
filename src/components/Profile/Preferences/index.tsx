@@ -35,13 +35,26 @@ const Preferences = ({
   isOpenPreferences,
   onClosePreferences,
 }: Props) => {
-  const { loading, initialValues, onChange, handleSubmit } = useHelper({
-    user,
-    onClosePreferences,
-  });
+  const { loading, initialValues, setInitialValues, onChange, handleSubmit } =
+    useHelper({
+      user,
+      onClosePreferences,
+    });
 
   return (
-    <Modal isOpen={isOpenPreferences} onClose={onClosePreferences}>
+    <Modal
+      isOpen={isOpenPreferences}
+      onClose={() => {
+        onClosePreferences();
+        setInitialValues({
+          notificationsMessages: user.preferences.notificationsMessages,
+          notificationsNewOffer: user.preferences.notificationsNewOffer,
+          hideAddress: user.preferences.hideAddress,
+          showAllChats: user.preferences.showAllChats,
+          language: user.preferences.language,
+        });
+      }}
+    >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
@@ -152,7 +165,21 @@ const Preferences = ({
         </ModalBody>
         <ModalFooter>
           <ButtonGroup>
-            <Button colorScheme={"blue"}>Cancelar</Button>
+            <Button
+              colorScheme={"blue"}
+              onClick={() => {
+                onClosePreferences();
+                setInitialValues({
+                  notificationsMessages: user.preferences.notificationsMessages,
+                  notificationsNewOffer: user.preferences.notificationsNewOffer,
+                  hideAddress: user.preferences.hideAddress,
+                  showAllChats: user.preferences.showAllChats,
+                  language: user.preferences.language,
+                });
+              }}
+            >
+              Cancelar
+            </Button>
             <Button
               colorScheme={"green"}
               isLoading={loading}

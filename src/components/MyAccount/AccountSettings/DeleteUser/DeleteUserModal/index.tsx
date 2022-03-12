@@ -17,126 +17,45 @@ import {
   ButtonGroup,
   FormLabel,
   Input,
-  useToast,
 } from "@chakra-ui/react";
-//from modules
-import axios from "axios";
-import { useState } from "react";
-import { signOut } from "next-auth/react";
 //types
 import { Session } from "next-auth/core/types";
 import { DeleteIcon } from "@chakra-ui/icons";
+import useHelper from "./useHelper";
 
-const DeleteUser: React.FC<{
-  isOpenDeleteUser: boolean;
-  onCloseDeleteUser(): void;
-  warningColor: string;
-  user: Session;
-}> = ({ isOpenDeleteUser, onCloseDeleteUser, warningColor, user }) => {
-  const toast = useToast();
-  const [next, setNext] = useState<boolean>(false);
-  const [agree, setAgree] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [password, setPassword] = useState<string>("");
-  const [reasons, setReasons] = useState<Array<string>>([]);
-  const [other, setOther] = useState<{
-    isActive: boolean;
-    description: string;
-  }>({
-    isActive: false,
-    description: "",
-  });
-
-  const deleteUser = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axios.delete(
-        `/api/user?reasons=${JSON.stringify([
-          ...reasons,
-          other.description,
-        ])}&email=${user.email}&password=${password}`
-      );
-      if (data) {
-        toast({
-          title: "La cuenta fue eliminada exitosamente.",
-          description: "Esperamos verlo pronto!.",
-          status: "success",
-          duration: 6000,
-          isClosable: true,
-        });
-        setLoading(false);
-        return signOut();
-      }
-    } catch (err) {
-      setLoading(false);
-      toast({
-        title: "Hubo un error al eliminar la cuenta.",
-        description:
-          "Comprueba si la contraseña es correcta, si el problema persiste reemplaza la contraseña o contactanos!.",
-        status: "error",
-        duration: 6000,
-        isClosable: true,
-      });
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = e.target;
-
-    if (reasons.includes(value)) {
-      setReasons(reasons.filter((f: string) => f !== value));
-    } else if (name === "isActive") {
-      setOther({
-        ...other,
-        isActive: e.target.checked,
-      });
-    } else if (name === "description") {
-      setOther({
-        ...other,
-        description: value,
-      });
-    } else {
-      setReasons([...reasons, value]);
-    }
-  };
-
-  const handleOtherReasons = (e: any) => {
-    const { value, name } = e.target;
-
-    if (name === "isActive") {
-      setOther({
-        ...other,
-        isActive: e.target.checked,
-      });
-    }
-    if (name === "description") {
-      setOther({
-        ...other,
-        description: value,
-      });
-    }
-  };
-
-  const refresh = () => {
-    setNext(false);
-    setReasons([]);
-    setOther({
-      isActive: false,
-      description: "",
-    });
-    setPassword("");
-  };
+const DeleteUserModal: React.FC<{
+  isOpenDeleteUserModal: boolean;
+  onCloseDeleteUserModal(): void;
+  session: Session;
+}> = ({ isOpenDeleteUserModal, onCloseDeleteUserModal, session }) => {
+  const {
+    next,
+    agree,
+    other,
+    reasons,
+    loading,
+    password,
+    handleOtherReasons,
+    handleChange,
+    setPassword,
+    setReasons,
+    deleteUser,
+    setAgree,
+    setOther,
+    setNext,
+    refresh,
+  } = useHelper({ session });
 
   return (
     <Modal
-      isOpen={isOpenDeleteUser}
-      onClose={onCloseDeleteUser}
+      isOpen={isOpenDeleteUserModal}
+      onClose={onCloseDeleteUserModal}
       blockScrollOnMount
       preserveScrollBarGap
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader color={warningColor}>
+        <ModalHeader color={"warning_red"}>
           {!next ? "Borrar Cuenta" : "Confirmar Eliminación"}
         </ModalHeader>
         <ModalCloseButton onClick={refresh} />
@@ -245,6 +164,22 @@ const DeleteUser: React.FC<{
                 <Text marginTop={3} fontSize={{ base: "sm", md: "md" }}>
                   Esta es la contraseña que se usó cuando configuraste Rubrit,
                   si te registraste con un servicio externo no posees una.
+                </Text>
+                <Text
+                  fontSize={{ base: "sm", md: "md" }}
+                  textAlign={"center"}
+                  color={"teal.500"}
+                  cursor={"pointer"}
+                  _hover={{
+                    textDecoration: "underline",
+                  }}
+                  onClick={() => {
+                    setReasons([]);
+                    setOther({ isActive: false, description: "" });
+                    setNext(false);
+                    onCloseDeleteUserModal();
+                  }}
+                >
                   ¿Tienes que crear o restablecer tu contraseña de Rubrit?
                 </Text>
               </>
@@ -285,4 +220,4 @@ const DeleteUser: React.FC<{
   );
 };
 
-export default DeleteUser;
+export default DeleteUserModal;

@@ -60,6 +60,7 @@ const userSchema = new Schema(
     },
     payerId: {
       type: String,
+      default: "",
     },
     address: {
       name: {

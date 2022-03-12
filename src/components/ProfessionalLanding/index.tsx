@@ -24,7 +24,9 @@ import Layout from "../layout";
 import Comments from "../Comments";
 //assets
 import Map from "/src/assets/mapa.jpg";
+import axios from "axios";
 
+import { useEffect } from "react";
 const categories = [
   {
     name: "Electricista",
@@ -51,9 +53,28 @@ const categories = [
     ],
   },
 ];
-const ProfessionalLanding: React.FC = () => {
+
+interface User {
+  user: string;
+}
+const ProfessionalLanding: React.FC<User> = ({ user }) => {
   const theme = useTheme();
 
+  //console.log(user);
+  async function fetchUser() {
+    try {
+      const data = await axios.get(
+        `http://localhost:3000/api/public/users/${user}`
+      );
+      console.log("data", data);
+    } catch (err) {
+      console.log("error", err);
+    }
+  }
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
   return (
     <Layout>
       <Container maxW={"container.xl"}>
@@ -83,7 +104,7 @@ const ProfessionalLanding: React.FC = () => {
                   Jose Cito
                 </Heading>
 
-                <Text color={theme.colors.medium_green}>Plomero</Text>
+                <Text color={"medium_green"}>Plomero</Text>
                 <Text>Buenos Aires</Text>
 
                 <Flex flexDirection={"column"}>
@@ -118,13 +139,17 @@ const ProfessionalLanding: React.FC = () => {
                 </Flex>
               </Flex>
               <Flex flexDirection={"column"} alignItems={"center"}>
-                <Link href="/request/new" passHref>
+                <Link
+                  href={{ pathname: "/request/new", query: { id: "123" } }}
+                  as="nueva-solicitud"
+                  passHref
+                >
                   <Box
                     as={"button"}
                     width={"15rem"}
                     height={"3rem"}
                     borderRadius={"10px"}
-                    bg={theme.colors.medium_green}
+                    bg={"medium_green"}
                     color={"white"}
                     fontSize={"1.3rem"}
                   >
@@ -175,7 +200,7 @@ const ProfessionalLanding: React.FC = () => {
                 <Box>
                   <Heading
                     fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
-                    color={theme.colors.light_grey_sub[500]}
+                    color={"light_grey_sub"}
                   >
                     DESCRIPCION
                   </Heading>
@@ -191,7 +216,7 @@ const ProfessionalLanding: React.FC = () => {
                       md: "1.2rem",
                       lg: "1.5rem",
                     }}
-                    color={theme.colors.light_grey_sub[500]}
+                    color={"light_grey_sub"}
                   >
                     TRABAJOS REALIZADOS
                   </Heading>
@@ -237,7 +262,7 @@ const ProfessionalLanding: React.FC = () => {
                       md: "1.2rem",
                       lg: "1.5rem",
                     }}
-                    color={theme.colors.light_grey_sub[500]}
+                    color={"light_grey_sub"}
                   >
                     DOCUMENTACION
                   </Heading>
@@ -263,7 +288,7 @@ const ProfessionalLanding: React.FC = () => {
               <Box margin={"1rem"}>
                 <Heading
                   fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
-                  color={theme.colors.light_grey_sub[500]}
+                  color={"light_grey_sub"}
                 >
                   UBICACION
                 </Heading>
@@ -299,7 +324,7 @@ const ProfessionalLanding: React.FC = () => {
                             md: "1.2rem",
                             lg: "1.5rem",
                           }}
-                          color={theme.colors.light_grey_sub[500]}
+                          color={"light_grey_sub"}
                           key={cat.name}
                         >
                           {cat.name}
