@@ -139,11 +139,7 @@ const ProfessionalLanding: React.FC<User> = ({ user }) => {
                 </Flex>
               </Flex>
               <Flex flexDirection={"column"} alignItems={"center"}>
-                <Link
-                  href={{ pathname: "/request/new", query: { id: "123" } }}
-                  as="nueva-solicitud"
-                  passHref
-                >
+                <Link href={{ pathname: "/request/new", query: { id: user } }} passHref>
                   <Box
                     as={"button"}
                     width={"15rem"}
