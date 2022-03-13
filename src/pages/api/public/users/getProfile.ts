@@ -32,16 +32,47 @@ interface ICases {
 
 
 
+export async function getUser(userId: any) {
+      
+  const populateQuery = [
+    {
+      path: "items.category",
+      model: "Category",
+      select: "_id name ",
+    },
+    {
+      path: "items.subcategories",
+      model: "Subcategory",
+      select: "_id name",
+    },
+  ];
+      const user = await User.findOne({ _id: userId }).populate(populateQuery)
+     
+    return user
+}
+
+
 const cases: ICases = {
   GET: async (req, res) => {
-    const { userId } = req.query;
-   
-    const user = await User.findOne({ _id: userId });
+    const { userId } = req.query
+    
+    const populateQuery = [
+      {
+        path: "items.category",
+        model: "Category",
+        select: "_id name ",
+      },
+      {
+        path: "items.subcategories",
+        model: "Subcategory",
+        select: "_id name",
+      },
+    ];
+    const user = await User.findOne({ _id: userId }).populate(populateQuery)
 
     
+
     if (!user) return res.status(404).json({ message: "User not found" });
-    
-
     
     res.status(200).json({ message: "User data", user });
   },
@@ -54,14 +85,12 @@ export default async function index(
   req: NextApiRequest,
   res: NextApiResponse<DataAccesDenied>
 ) {
-  const session = await getSession({ req });
-  if (session) {
+ 
     const { method } = req;
     if (method && method === "GET") {
       return cases[method](req, res);
+    } else {
+      return cases["ERROR"](req, res);
     }
-    return cases["ERROR"](req, res);
-  } else {
-    res.status(500).json({ message: "Acces Denied" });
-  }
+  
 }
