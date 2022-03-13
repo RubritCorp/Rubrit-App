@@ -22,11 +22,13 @@ import Link from "next/link";
 //components
 import Layout from "../layout";
 import Comments from "../Comments";
+import Loading from "../Loading";
 //assets
-import Map from "/src/assets/mapa.jpg";
-import axios from "axios";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { NextPage } from "next/types";
+import Map from "../Maps/Map";
+import LocatorButton from "../Maps/LocatorButton";
 const categories = [
   {
     name: "Electricista",
@@ -55,26 +57,19 @@ const categories = [
 ];
 
 interface User {
-  user: string;
+  userId: string;
 }
-const ProfessionalLanding: React.FC<User> = ({ user }) => {
+
+const ProfessionalLanding: React.FC<any> = (props) => {
   const theme = useTheme();
+  const [dataUser, setDataUser] = useState<any>({});
+  const [mapObject, setMapObject] = useState(null);
+  const user = JSON.parse(props.user);
 
-  //console.log(user);
-  async function fetchUser() {
-    try {
-      const data = await axios.get(
-        `http://localhost:3000/api/public/users/${user}`
-      );
-      console.log("data", data);
-    } catch (err) {
-      console.log("error", err);
-    }
-  }
+  useEffect(() => {}, [user]);
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
+  if (!user) return <Loading />;
+
   return (
     <Layout>
       <Container maxW={"container.xl"}>
@@ -86,10 +81,12 @@ const ProfessionalLanding: React.FC<User> = ({ user }) => {
         >
           <Box margin={"1rem"}>
             <Image
-              src="https://bit.ly/dan-abramov"
+              src={user.profilePic}
               borderRadius="full"
+              boxSize={{ base: "150px", md: "200px", lg: "250px" }}
               margin={{ base: "0rem", md: "1rem", lg: "1rem" }}
-              alt={"Dan Abramov"}
+              alt={user.name}
+              objectFit={"cover"}
             ></Image>
           </Box>
           <Flex flexDirection={"column"}>
@@ -101,11 +98,11 @@ const ProfessionalLanding: React.FC<User> = ({ user }) => {
             >
               <Flex padding={"1rem"} flexDirection={"column"}>
                 <Heading fontSize={{ base: "1rem", md: "1.2rem", lg: "2rem" }}>
-                  Jose Cito
+                  {user.name}
                 </Heading>
 
                 <Text color={"medium_green"}>Plomero</Text>
-                <Text>Buenos Aires</Text>
+                <Text>{user.address.name}</Text>
 
                 <Flex flexDirection={"column"}>
                   <Flex flexDirection={"row"}>
@@ -114,9 +111,7 @@ const ProfessionalLanding: React.FC<User> = ({ user }) => {
                     <Text
                       ml={"0.5rem"}
                       fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
-                    >
-                      90% de satisfaccion
-                    </Text>
+                    ></Text>
                   </Flex>
                   <Flex flexDirection={"row"}>
                     <Check size={20} weight="fill" />
@@ -146,12 +141,12 @@ const ProfessionalLanding: React.FC<User> = ({ user }) => {
                 >
                   <Box
                     as={"button"}
-                    width={"15rem"}
-                    height={"3rem"}
+                    width={{ base: "150px", md: "200px", lg: "250px" }}
+                    height={{ base: "30px", md: "35px", lg: "40px" }}
                     borderRadius={"10px"}
                     bg={"medium_green"}
                     color={"white"}
-                    fontSize={"1.3rem"}
+                    fontSize={{ base: "1rem", md: "1.2rem", lg: "1.4rem" }}
                   >
                     Pedir Cotizacion
                   </Box>
@@ -178,12 +173,9 @@ const ProfessionalLanding: React.FC<User> = ({ user }) => {
         <Container maxW={"container.lg"} p={"0 "} margin={"0 1em"}>
           <Flex margin={"1rem"} flexDirection={"column"} textAlign={"start"}>
             <Heading fontSize={"1.5rem"} margin={"1rem"}>
-              Soy el indicado para trabajar:
+              {user.description}
             </Heading>
-            <Text fontSize={"1rem"} margin={"0.5rem"}>
-              Soy plomero hace muchos años y nunca mostre la raja, soy ideal
-              para el empleo y para bailar en tu despedida de soltero porque...
-            </Text>
+            <Text fontSize={"1rem"} margin={"0.5rem"}></Text>
           </Flex>
           <Divider margin={"1em 0"}></Divider>
         </Container>
@@ -292,13 +284,7 @@ const ProfessionalLanding: React.FC<User> = ({ user }) => {
                 >
                   UBICACION
                 </Heading>
-                <Image
-                  src="https://s03.s3c.es/imag/_v0/770x420/6/4/2/Google-maps-nueva-york.jpg"
-                  maxW={"250px"}
-                  borderRadius="1rem"
-                  margin={"1em 0"}
-                  alt="Dan Abramov"
-                ></Image>
+                <Map setMapObject={setMapObject}></Map>
               </Box>
             </Flex>
             <Flex flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}>
