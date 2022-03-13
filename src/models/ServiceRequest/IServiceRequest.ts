@@ -12,4 +12,5 @@ export default interface IServiceRequest {
   professionalId: Types.ObjectId;
   category: Types.ObjectId;
   subcategory: Types.ObjectId;
+  isActive: boolean;
 }
