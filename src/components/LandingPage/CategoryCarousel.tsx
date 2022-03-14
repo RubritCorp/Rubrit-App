@@ -8,6 +8,7 @@ import {
   Container,
   Stack,
   Text,
+  Center,
 } from "@chakra-ui/react";
 import { ArrowLeft, ArrowRight } from "phosphor-react";
 import Slider from "react-slick";
@@ -71,71 +72,50 @@ const CategoryCarousel: React.FC = () => {
         </IconButton>
         <Slider {...settings} ref={(slider: any) => setSlider(slider)}>
           {categories.map((category, index) => (
-            <CategoryCard
-              key={index}
-              title={category?.name}
-              image={category?.picture_small}
-            />
+            <CategoryCard key={index} title={category?.name} image={category?.picture_small} />
           ))}
         </Slider>
+
       </Box>
     </Flex>
   );
 };
 
+
+
+
 const CategoryCard: React.FC<CategoryCardProps> = ({ title, image }) => {
+  console.log(image)
+
+
   return (
+    
     <Box
       position={"relative"}
+    
       w="276px"
       h="377px"
       margin="10px 10px"
       borderWidth="1px"
       rounded="lg"
-      shadow="lg"
-    >
-      <Image src={image} quality={50} objectFit={"cover"} layout={"fill"} />
-      {/*  <Text
+      shadow="lg">
+
+      <Image src={image}  quality={50} width={"100%"} height={"100%"} objectFit={"cover"} layout={"fill"}  />
+      <Center>
+      <Heading
         position={"absolute"}
+        top={"45%"}
+        textAlign={"center"}
         zIndex={1}
-        color={"black"}
+        color={"white"}
         as="h3"
         size="lg"
       >
         {title}
-      </Text> */}
+      </Heading> 
+      </Center>
     </Box>
 
-    /*    <Flex
-       flexDirection={"column"}
-         w="276px"
-         h="377px"
-         margin="10px 10px"
-         borderWidth="1px"
-         rounded="lg"
-         shadow="lg"
-       > 
-   
-         <Box
-        position={"relative"}
-        top={"50%"}
-        left={"38%"}
-       
-        zIndex={1}
-         >
-   
-           <Text
-             as="h3"
-             size="lg"
-             color="white"
-           >
-             {title}
-           </Text>
-   
-         </Box>
-           <Image src={image} quality={50} width={"276px"} height={"377px"} />
-   
-       </Flex> */
   );
 };
 
@@ -156,12 +136,6 @@ interface CategoryCardProps {
 }
 
 export default CategoryCarousel;
-function translate(
-  arg0: string,
-  arg1: string
-):
-  | import("csstype").Property.Transform
-  | import("csstype").Property.Transform[]
-  | undefined {
+function translate(arg0: string, arg1: string): import("csstype").Property.Transform | import("csstype").Property.Transform[] | undefined {
   throw new Error("Function not implemented.");
 }
