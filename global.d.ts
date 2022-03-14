@@ -19,6 +19,7 @@ declare module "next-auth" {
       name: string;
       lat: number;
       lng: number;
+      searchRange: number;
       timeZone: string;
     };
     isAuthenticated: boolean;

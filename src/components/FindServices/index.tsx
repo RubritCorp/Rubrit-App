@@ -16,12 +16,10 @@ import {
 import {
   CalendarCheck,
   MagnifyingGlass,
-  Calendar,
   CheckCircle,
   NumberCircleOne,
   NumberCircleTwo,
   NumberCircleThree,
-  NumberCircleFour,
 } from "phosphor-react";
 
 //native libraries

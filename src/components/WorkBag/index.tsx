@@ -90,7 +90,6 @@ const TestimonialContent = ({ children }: { children: ReactNode }) => {
 const TestimonialHeading = ({ children }: { children: ReactNode }) => {
   return (
     <Heading as={"h3"} fontSize={"xl"}>
-
       {children}
     </Heading>
   );
@@ -174,14 +173,13 @@ const WorkBag: React.FC = () => {
 
   useEffect(() => {
     const cardworker = workBag?.map((item: any) => {
-      return ({
+      return {
         name: item.name,
         title: item.title,
         testimonialHeading: item.testimonialHeading,
         testimonialWork: item.testimonialWork,
         src: item.src,
-      }
-      );
+      };
     });
     setCard(cardworker);
   }, []);
@@ -189,16 +187,10 @@ const WorkBag: React.FC = () => {
   console.log(card);
 
   const handleOnCloseCard = (name: any) => {
-    console.log(name)
+    console.log(name);
     const newCard = card.filter((item: any) => item.name !== name);
     setCard(newCard);
   };
-
-
-
-
-
-
 
   return (
     <Layout>
@@ -217,12 +209,17 @@ const WorkBag: React.FC = () => {
           >
             <SimpleGrid columns={[1, null, 3]} spacing="40px">
               {card?.map((item: any, index: number) => (
-
                 <Testimonial key={index}>
                   <TestimonialContent>
-
                     <Box marginTop={"-6"} marginRight={"-5"} alignSelf={"end"}>
-                      <Button w={"5px"} size={"xs"} variant='outline' onClick={() => handleOnCloseCard(item.name)}>x</Button>
+                      <Button
+                        w={"5px"}
+                        size={"xs"}
+                        variant="outline"
+                        onClick={() => handleOnCloseCard(item.name)}
+                      >
+                        x
+                      </Button>
                     </Box>
                     <TestimonialHeading>
                       {item.testimonialHeading}
@@ -232,12 +229,10 @@ const WorkBag: React.FC = () => {
                     <Stack p={3} align={"center"}>
                       <Button
                         onClick={onOpen}
-                        bg={useColorModeValue("green.500", "green.500")}
+                        bg={"green.500"}
                         _hover={{ bg: "green.400" }}
                       >
-                        <Text color={useColorModeValue("white", "white")}>
-                          Enviar Presupuesto
-                        </Text>
+                        <Text color={"white"}>Enviar Presupuesto</Text>
                       </Button>
                     </Stack>
                   </TestimonialContent>
@@ -261,19 +256,15 @@ const WorkBag: React.FC = () => {
           <DrawerBody>
             <Stack spacing={4}>
               <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<Phone size={30} color="#6bdaae" weight="light" />}
-                />
+                <InputLeftElement pointerEvents="none">
+                  <Phone size={30} color="#6bdaae" weight="light" />
+                </InputLeftElement>
                 <Input type="tel" placeholder="Phone number" />
               </InputGroup>
               <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={
-                    <Envelope size={30} color="#6bdaae" weight="light" />
-                  }
-                />
+                <InputLeftElement pointerEvents="none">
+                  <Envelope size={30} color="#6bdaae" weight="light" />
+                </InputLeftElement>
                 <Input type="email" placeholder="Email" />
               </InputGroup>
               <Text color="#6bdaae" mb="8px">
@@ -292,14 +283,13 @@ const WorkBag: React.FC = () => {
                   pointerEvents="none"
                   color="gray.300"
                   fontSize="1.2em"
-                  children={
-                    <CurrencyDollarSimple
-                      size={30}
-                      color="#6bdaae"
-                      weight="light"
-                    />
-                  }
-                />
+                >
+                  <CurrencyDollarSimple
+                    size={30}
+                    color="#6bdaae"
+                    weight="light"
+                  />
+                </InputLeftElement>
                 <Input placeholder="Enter amount" />
               </InputGroup>
             </Stack>

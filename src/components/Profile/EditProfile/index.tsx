@@ -45,7 +45,7 @@ import {
 import { Session } from "next-auth/core/types";
 //from modules
 import { Formik } from "formik";
-import { InputControl, SubmitButton } from "formik-chakra-ui";
+import { InputControl, SliderControl, SubmitButton } from "formik-chakra-ui";
 //components
 import DeleteImage from "../DeleteImage";
 import { LocationControl } from "components/CustomFormControls/LocationControl";
@@ -212,6 +212,15 @@ const EditProfile: React.FC<{
                   <Box mt={3}>
                     <LocationControl label="Ciudad" name="address" />
                   </Box>
+
+                  <Flex mt={2} justifyContent={"space-between"}>
+                    <FormLabel>Rango de Busqueda</FormLabel>
+                    <Text>{values.searchRange} km</Text>
+                  </Flex>
+                  <SliderControl
+                    name="searchRange"
+                    sliderProps={{ max: 140, min: 2 }}
+                  />
 
                   <FormLabel mt={3}>Zona Horaria</FormLabel>
 
