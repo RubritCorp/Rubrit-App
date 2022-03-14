@@ -10,7 +10,9 @@ import {
 } from "react";
 import { boolean } from "yup";
 
+
 export interface ICategories {
+  picture_small: string;
   _id: ICategory["_id"];
   name: ICategory["name"];
   picture: ICategory["picture"];

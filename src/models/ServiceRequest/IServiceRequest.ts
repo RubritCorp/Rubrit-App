@@ -9,7 +9,8 @@ export default interface IServiceRequest {
   }
   images: string[];
   userId: Types.ObjectId;
-  professionalId: string; // Pending: change to ObjectId
+  professionalId: Types.ObjectId;
   category: Types.ObjectId;
   subcategory: Types.ObjectId;
+  isActive: boolean;
 }

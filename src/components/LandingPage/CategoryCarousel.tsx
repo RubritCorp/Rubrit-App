@@ -6,25 +6,20 @@ import {
   IconButton,
   useColorModeValue,
   Container,
+  Stack,
+  Text,
+  Center,
 } from "@chakra-ui/react";
 import { ArrowLeft, ArrowRight } from "phosphor-react";
 import Slider from "react-slick";
 // Import native libraries
 import { useState } from "react";
+import { useCategories } from "Provider/CategoriesProvider";
+import Image from "next/image";
 
 const CategoryCarousel: React.FC = () => {
   const [slider, setSlider] = useState<Slider | null>(null);
-  let categories = [
-    "Hogar",
-    "Oficina",
-    "Comercio",
-    "Construcción",
-    "Profesores",
-    "Software",
-    "Agro",
-    "Belleza",
-    "Comida",
-  ];
+  const { categories } = useCategories();
   return (
     <Flex
       direction="column"
@@ -33,7 +28,7 @@ const CategoryCarousel: React.FC = () => {
       gap="50px"
       bg={useColorModeValue("light_grey", "dark_green")}
     >
-      <Box  textAlign="center">
+      <Box textAlign="center">
         <Heading size="lg">Servicios profesionales populares</Heading>
         <Heading size="md">
           Encuentra todos los profesionales que necesitas para tu hogar
@@ -77,35 +72,50 @@ const CategoryCarousel: React.FC = () => {
         </IconButton>
         <Slider {...settings} ref={(slider: any) => setSlider(slider)}>
           {categories.map((category, index) => (
-            <CategoryCard key={index} title={category} />
+            <CategoryCard key={index} title={category?.name} image={category?.picture_small} />
           ))}
         </Slider>
+
       </Box>
     </Flex>
   );
 };
 
-const CategoryCard: React.FC<CategoryCardProps> = ({ title }) => {
+
+
+
+const CategoryCard: React.FC<CategoryCardProps> = ({ title, image }) => {
+  console.log(image)
+
+
   return (
-    <Flex
+    
+    <Box
+      position={"relative"}
+    
       w="276px"
       h="377px"
-      margin="0px 10px"
-      justifyContent="center"
-      alignItems="center"
-      padding="10px"
+      margin="10px 10px"
       borderWidth="1px"
       rounded="lg"
-      shadow="lg"
-      position="relative"
-      backgroundImage={`linear-gradient(rgba(0, 0, 0, 0.527),rgba(0, 0, 0, 0.5)), url(banner-image-1.jpg)`}
-      backgroundSize={"cover"}
-      backgroundPosition={"center center"}
-    >
-      <Heading as="h3" size="lg" color="white">
+      shadow="lg">
+
+      <Image src={image}  quality={50} width={"100%"} height={"100%"} objectFit={"cover"} layout={"fill"}  />
+      <Center>
+      <Heading
+        position={"absolute"}
+        top={"45%"}
+        textAlign={"center"}
+        zIndex={1}
+        color={"white"}
+        as="h3"
+        size="lg"
+      >
         {title}
-      </Heading>
-    </Flex>
+      </Heading> 
+      </Center>
+    </Box>
+
   );
 };
 
@@ -122,6 +132,10 @@ const settings = {
 
 interface CategoryCardProps {
   title: string;
+  image: string;
 }
 
 export default CategoryCarousel;
+function translate(arg0: string, arg1: string): import("csstype").Property.Transform | import("csstype").Property.Transform[] | undefined {
+  throw new Error("Function not implemented.");
+}
