@@ -11,7 +11,7 @@ import {
 import CardProfesional from "components/CardProfesional";
 //native libraries
 import Link from "next/link";
-import { IUser } from "Provider/UsersProvider";
+import { IUser, useUsers } from "Provider/UsersProvider";
 import { useEffect, useState } from "react";
 //componentes
 import Layout from "components/layout";
@@ -20,12 +20,23 @@ import { GetServerSideProps, NextPage } from "next";
 import getCategoryByName from "pages/api/public/categories/getCategoryByName";
 import { useSession } from "next-auth/react";
 import Loading from "components/Loading";
-import useHelper from "./useHelper";
 
 //styles
 
 const Services: NextPage<{ category: any }> = ({ category }) => {
-  const { cat, users, Session, filteredUsers } = useHelper(category);
+  const { users } = useUsers();
+  const { data: Session } = useSession();
+  const [filteredUsers, setFilteredUsers] = useState<IUser[]>([]);
+  const [cat, setCat] = useState<any>();
+
+  useEffect(() => {
+    if (users.length && Object.keys(category).length > 0) {
+      var info = JSON.parse(category);
+      setCat(info.category[0]);
+      setFilteredUsers(users);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [category, users]);
 
   if (!cat || Object.keys(users).length < 1)
     return (

@@ -108,6 +108,7 @@ const Map: React.FC<{ location: any; coverage?: number }> = ({
       }
       //marker
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (mapObject) {
@@ -158,6 +159,7 @@ const Map: React.FC<{ location: any; coverage?: number }> = ({
 
       rangeCircle.current.setMap(mapObject);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapObject]);
   return <div ref={googlemap} id="map" className={styles.map} />;
 };
