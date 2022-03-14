@@ -63,8 +63,6 @@ const cases: ICases = {
       return res.status(404).json({ message: "Data is required" });
 
     try {
-      const cityMatch = `${city}`.split(",");
-
       const populateQuery = [
         {
           path: "items.category",

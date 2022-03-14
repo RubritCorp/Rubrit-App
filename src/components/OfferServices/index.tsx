@@ -40,6 +40,7 @@ import {
   ArrowLeft,
   ArrowRight,
 } from "phosphor-react";
+import Link from "next/link";
 
 const whatTheySay = [
   {
@@ -97,6 +98,7 @@ const whatTheySay = [
 
 const Offerservices: React.FC = () => {
   const [slider, setSlider] = useState<Slider | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   return (
     <Layout>
       <Container maxW={"container.xl"} py={12}>
@@ -160,17 +162,21 @@ const Offerservices: React.FC = () => {
           maxW={"container.xl"}
           centerContent
         >
-          <Button
-            colorScheme={"green"}
-            bg={"green.400"}
-            rounded={"md"}
-            px={20}
-            _hover={{
-              bg: "green.500",
-            }}
-          >
-            EMPECEMOS
-          </Button>
+          <Link href={"/workbag"} passHref>
+            <Button
+              colorScheme={"green"}
+              bg={"green.400"}
+              rounded={"md"}
+              px={20}
+              _hover={{
+                bg: "green.500",
+              }}
+              onClick={() => setLoading(true)}
+              isLoading={loading}
+            >
+              EMPECEMOS
+            </Button>
+          </Link>
         </Container>
         <Container paddingBottom={8} maxW={"container.xl"} centerContent>
           <Stack

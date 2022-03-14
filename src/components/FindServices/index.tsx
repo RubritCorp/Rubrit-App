@@ -29,9 +29,14 @@ import Layout from "../layout";
 import Comments from "../Comments";
 //styles
 import styles from "./FindServices.module.css";
+import { boolean } from "yup";
+import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 const FindServices: React.FC = () => {
   const theme = useTheme();
+  const [loading, setLoading] = useState<boolean>(false);
+  const { status } = useSession();
 
   return (
     <Layout>
@@ -180,26 +185,40 @@ const FindServices: React.FC = () => {
           </Text>
           <Flex justifyContent="center" padding={5}>
             <Flex flexDirection="column">
-              <Link href="/" passHref>
-                <Box
-                  as="button"
+              <Link href="/request/new" passHref>
+                <Button
                   width="18rem"
                   height="3rem"
                   borderRadius="10px"
-                  bg={theme.colors.medium_green}
+                  bg={"medium_green"}
+                  _hover={{
+                    bg: "medium_green_sub.700",
+                  }}
                   color="white"
                   fontSize="1.8rem"
+                  onClick={() => setLoading(true)}
+                  isLoading={loading}
                 >
                   COMENZAR
-                </Box>
+                </Button>
               </Link>
               <Flex flexDirection="row" justifyContent="center" padding={2}>
-                <Text marginRight={4}>YA TENES UNA CUENTA?</Text>
-                <Link href="/" passHref>
-                  <Text color={theme.colors.medium_green}>
-                    <span className={styles.link}>LOG IN</span>
-                  </Text>
-                </Link>
+                {status === "unauthenticated" && (
+                  <>
+                    <Text marginRight={4}>YA TENES UNA CUENTA?</Text>
+
+                    <Text color={theme.colors.medium_green}>
+                      <span
+                        className={styles.link}
+                        onClick={() =>
+                          document.getElementById("signInButton")?.click()
+                        }
+                      >
+                        LOG IN
+                      </span>
+                    </Text>
+                  </>
+                )}
               </Flex>
             </Flex>
           </Flex>

@@ -13,6 +13,7 @@ import {
   Divider,
 } from "@chakra-ui/react";
 import Link from "next/link";
+import { useState } from "react";
 
 interface CardFindProfesionalProps {
   img: string;
@@ -33,9 +34,10 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
   description,
   categories,
 }) => {
+  const [loading, setLoading] = useState<boolean>(false);
   return (
     <Container maxW={"container.xl"} centerContent py={10}>
-      <Flex cursor={"pointer"}>
+      <Flex>
         <Center py={6}>
           <Box
             key={name}
@@ -53,110 +55,112 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
               objectFit={"cover"}
               alt="bg"
             />
-            <Link href={`/nameProfessional?name=${_id}`} passHref>
-              <>
-                <Flex justify={"center"} mt={-12}>
-                  <Avatar
-                    size={"xl"}
-                    src={avatar}
-                    css={{
-                      border: "2px solid white",
-                    }}
-                  />
-                </Flex>
 
-                <Box p={6}>
-                  <Stack spacing={0} align={"center"} mb={5}>
-                    <Heading
-                      fontSize={{ base: "sm", md: "2xl" }}
-                      fontWeight={500}
-                      fontFamily={"body"}
-                      textAlign={"center"}
-                      overflow="hidden"
-                      css={{
-                        display: "-webkit-box",
-                        ["WebkitBoxOrient"]: "vertical",
-                        ["WebkitLineClamp"]: "1",
-                      }}
-                    >
-                      {name}
-                    </Heading>
+            <>
+              <Flex justify={"center"} mt={-12}>
+                <Avatar
+                  size={"xl"}
+                  src={avatar}
+                  css={{
+                    border: "2px solid white",
+                  }}
+                />
+              </Flex>
+
+              <Box p={6}>
+                <Stack spacing={0} align={"center"} mb={5}>
+                  <Heading
+                    fontSize={{ base: "sm", md: "2xl" }}
+                    fontWeight={500}
+                    fontFamily={"body"}
+                    textAlign={"center"}
+                    overflow="hidden"
+                    css={{
+                      display: "-webkit-box",
+                      ["WebkitBoxOrient"]: "vertical",
+                      ["WebkitLineClamp"]: "1",
+                    }}
+                  >
+                    {name}
+                  </Heading>
+                  <Text
+                    color={"gray.500"}
+                    fontSize={"small"}
+                    textAlign={"center"}
+                    overflow="hidden"
+                    css={{
+                      display: "-webkit-box",
+                      ["WebkitBoxOrient"]: "vertical",
+                      ["WebkitLineClamp"]: "1",
+                    }}
+                  >
+                    {city}
+                  </Text>
+                </Stack>
+                <Stack direction={"row"} justify={"center"} spacing={6}>
+                  <Stack spacing={0} align={"center"}>
                     <Text
-                      color={"gray.500"}
-                      fontSize={"small"}
-                      textAlign={"center"}
+                      align={"center"}
+                      fontSize={{ base: "xs", md: "md" }}
+                      pl={5}
+                      pr={5}
+                      color={"green.500"}
+                      w={"296px"}
+                      h={"55px"}
                       overflow="hidden"
                       css={{
                         display: "-webkit-box",
                         ["WebkitBoxOrient"]: "vertical",
-                        ["WebkitLineClamp"]: "1",
+                        ["WebkitLineClamp"]: "2",
                       }}
                     >
-                      {city}
+                      {description}
                     </Text>
                   </Stack>
-                  <Stack direction={"row"} justify={"center"} spacing={6}>
-                    <Stack spacing={0} align={"center"}>
-                      <Text
-                        align={"center"}
-                        fontSize={{ base: "xs", md: "md" }}
-                        pl={5}
-                        pr={5}
-                        color={"green.500"}
-                        w={"296px"}
-                        h={"55px"}
-                        overflow="hidden"
-                        css={{
-                          display: "-webkit-box",
-                          ["WebkitBoxOrient"]: "vertical",
-                          ["WebkitLineClamp"]: "2",
+                </Stack>
+                {categories && (
+                  <>
+                    <Divider mt={3} />
+                    <Text textAlign={"center"} mt={1}>
+                      Rubros
+                    </Text>
+
+                    {categories.map((m: string, i: number) => (
+                      <Box
+                        key={i}
+                        bg={"green.100"}
+                        borderRadius={5}
+                        _hover={{
+                          textDecoration: "none",
+                          color: "green.400",
                         }}
                       >
-                        {description}
-                      </Text>
-                    </Stack>
-                  </Stack>
-                  {categories && (
-                    <>
-                      <Divider mt={3} />
-                      <Text textAlign={"center"} mt={1}>
-                        Rubros
-                      </Text>
-
-                      {categories.map((m: string, i: number) => (
-                        <Box
-                          key={i}
-                          bg={"green.100"}
-                          borderRadius={5}
-                          _hover={{
-                            textDecoration: "none",
-                            color: "green.400",
-                          }}
-                        >
-                          <Text textAlign={"center"} mt={1}>
-                            {m}
-                          </Text>
-                        </Box>
-                      ))}
-                    </>
-                  )}
-
+                        <Text textAlign={"center"} mt={1}>
+                          {m}
+                        </Text>
+                      </Box>
+                    ))}
+                  </>
+                )}
+                <Link href={`/professional/${_id}`} passHref>
                   <Button
                     w={"full"}
                     mt={8}
-                    bg={useColorModeValue("green.500", "green.500")}
+                    bg="green.500"
                     color={"white"}
                     rounded={"md"}
                     _hover={{
                       transform: "translateY(-2px)",
                       boxShadow: "lg",
                     }}
+                    onClick={() => setLoading(true)}
+                    isLoading={loading}
                   >
                     Contactar
                   </Button>
-                </Box>
-              </>
-            </Link>
+                </Link>
+              </Box>
+            </>
           </Box>
         </Center>
       </Flex>

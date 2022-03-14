@@ -92,7 +92,7 @@ export function UsersProvider({ children }: Props) {
   };
 
   useEffect(() => {
-    if (Session && auth === "authenticated") {
+    if (Session && auth === "authenticated" && Session.address.lat) {
       fillData(
         `/api/public/users?city=${Session.address.name}&lat=${Session.address.lat}&lng=${Session.address.lng}&searchRange=${Session.address.searchRange}`
       );

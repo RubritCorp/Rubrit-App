@@ -210,7 +210,7 @@ const EditProfile: React.FC<{
                   </InputGroup>
 
                   <Box mt={3}>
-                    <LocationControl label="Ciudad" name="address" />
+                    <LocationControl label="Dirección" name="address" />
                   </Box>
 
                   <Flex mt={2} justifyContent={"space-between"}>

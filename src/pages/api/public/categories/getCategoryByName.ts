@@ -5,8 +5,6 @@ import Category from "models/Category";
 import "utils/db";
 
 export default async function getCategoryByName(name: string) {
-  console.log(name);
-
   if (!name) return { message: "Name is required" };
   try {
     const category = await Category.find({ name: name });

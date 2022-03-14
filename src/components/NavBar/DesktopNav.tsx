@@ -1,10 +1,8 @@
 //from chakra
 import {
   Box,
-  Flex,
   Text,
   Stack,
-  Icon,
   Popover,
   PopoverTrigger,
   PopoverContent,
@@ -12,14 +10,31 @@ import {
 } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import axios from "axios";
 import { ICategories, useCategories } from "Provider/CategoriesProvider";
+import { useRouter } from "next/router";
 
 export default function DesktopNav() {
   const linkColor = useColorModeValue("gray.600", "gray.200");
   const linkHoverColor = useColorModeValue("gray.800", "white");
   const { categories } = useCategories();
+  const { pathname } = useRouter();
+
+  const selectedPath = (path: string) => {
+    const cases = {
+      ["/services"]: "Servicios",
+      ["/findServices"]: "Buscar Servicios",
+      ["/offerServices"]: "Ofrece tus Servicios",
+      ["/workbag"]: "Bolsa de Trabajo",
+    };
+    if (
+      (path && path === "/services") ||
+      path === "/findServices" ||
+      path === "/offerServices" ||
+      path === "/workbag"
+    ) {
+      return cases[path];
+    }
+  };
 
   return (
     <Stack direction={"row"} spacing={4}>
@@ -93,7 +108,11 @@ export default function DesktopNav() {
         </Popover>
       </Box>
       <Box
-        borderBottom={"2px solid transparent"}
+        borderBottom={
+          selectedPath(`${pathname}`) === "Buscar Servicios"
+            ? "2px solid #2EB67D"
+            : "2px solid transparent"
+        }
         _hover={{ borderBottom: "2px solid #2EB67D" }}
       >
         <Popover trigger="hover" placement={"bottom-start"}>
@@ -115,7 +134,11 @@ export default function DesktopNav() {
         </Popover>
       </Box>
       <Box
-        borderBottom={"2px solid transparent"}
+        borderBottom={
+          selectedPath(`${pathname}`) === "Ofrece tus Servicios"
+            ? "2px solid #2EB67D"
+            : "2px solid transparent"
+        }
         _hover={{ borderBottom: "2px solid #2EB67D" }}
       >
         <Popover trigger="hover" placement={"bottom-start"}>
@@ -137,7 +160,11 @@ export default function DesktopNav() {
         </Popover>
       </Box>
       <Box
-        borderBottom={"2px solid transparent"}
+        borderBottom={
+          selectedPath(`${pathname}`) === "Bolsa de Trabajo"
+            ? "2px solid #2EB67D"
+            : "2px solid transparent"
+        }
         _hover={{ borderBottom: "2px solid #2EB67D" }}
       >
         <Popover trigger="hover" placement={"bottom-start"}>
