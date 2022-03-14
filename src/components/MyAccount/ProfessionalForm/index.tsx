@@ -86,18 +86,22 @@ const ProfessionalForm: React.FC = () => {
         formData.append("files", finalValues.images[i] as any);
       }
     }
-
     if (finalValues.categories.length > 3) {
       alert("Solo puedes seleccionar 3 categorias");
-    }
-    //console.log(envConfig.apiUrl);
+    } else {
+      const {
+        data: { urls },
+      } = await axios.post(`${envConfig?.apiUrl}/aws/upload-files`, formData);
 
-    const { data } = await axios.post(
-      `${envConfig?.apiUrl}/aws/upload-files`,
-      formData
-    );
-    onSubmit(finalValues);
-    //console.log(data.urls);
+      const data = await axios.put("/api/user/updateToProfessional", {
+        email: session!.email,
+        categories: finalValues.categories,
+        images: urls,
+        rangeCoverage: finalValues.rangeCoverage,
+      });
+      //console.log(data);
+      //onSubmit(finalValues);
+    }
   };
 
   return (

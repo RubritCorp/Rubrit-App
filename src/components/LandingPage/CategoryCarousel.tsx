@@ -116,39 +116,6 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ title, image }) => {
       </Center>
     </Box>
 
-
-    /*    <Flex
-       flexDirection={"column"}
-         w="276px"
-         h="377px"
-         margin="10px 10px"
-         borderWidth="1px"
-         rounded="lg"
-         shadow="lg"
-       > 
-   
-         <Box
-        position={"relative"}
-        top={"50%"}
-        left={"38%"}
-       
-        zIndex={1}
-         >
-   
-           <Text
-             as="h3"
-             size="lg"
-             color="white"
-           >
-             {title}
-           </Text>
-   
-         </Box>
-           <Image src={image} quality={50} width={"276px"} height={"377px"} />
-   
-       </Flex> */
-
-
   );
 };
 
@@ -172,4 +139,3 @@ export default CategoryCarousel;
 function translate(arg0: string, arg1: string): import("csstype").Property.Transform | import("csstype").Property.Transform[] | undefined {
   throw new Error("Function not implemented.");
 }
-
