@@ -7,6 +7,13 @@ interface HItems {
   certification: string[];
 }
 
+interface IWorkerData {
+  companyName: string;
+  description:string;
+  images: string[];
+  rangeCoverage: number;
+
+}
 export interface IUser {
   email: string;
   name: string;
@@ -43,6 +50,7 @@ export interface IUser {
     description: string;
     score: string;
   };
+  workerData: IWorkerData;
   items: HItems[];
   offers: Types.ObjectId[];
 }
