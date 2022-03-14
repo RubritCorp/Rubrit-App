@@ -14,7 +14,7 @@ type Props = {
 
 const WorkbagPage: NextPage<Props> = ({ userOffers }) => {
   const [nearOffers] = useState(JSON.parse(userOffers));
-  const { data: Session, status } = useSession();
+  console.log(nearOffers);
 
   return <WorkBag {...{ nearOffers }} />;
 };
@@ -26,7 +26,7 @@ export async function getServerSideProps(context: any) {
 
   if (session) {
     const workBag = await getNearServices({
-      categories: session.items.map((m: any) => m.name),
+      categories: session.items.map((m: any) => m.category),
       lat: session.address.lat,
       lng: session.address.lng,
       RangeCoverage: 100,

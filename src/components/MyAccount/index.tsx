@@ -139,25 +139,6 @@ const Index: React.FC = () => {
   );
 };
 
-export async function getServerSideProps(context: any) {
-  const session = await getSession(context);
-
-  if (session) {
-    return {
-      props: {
-        session,
-      },
-    };
-  } else {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-}
-
 export default Index;
 
 export const DrawerOptions: React.FC<{

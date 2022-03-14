@@ -160,8 +160,11 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
     setCard(newCard);
   };
 
+  if (nearOffers.lengt < 1) return <Text>No Hay Ofertas en Tu Zona</Text>;
+
   return (
     <Layout>
+      {/* eslint-disable-next-line react-hooks/rules-of-hooks*/}
       <Box bg={useColorModeValue("gray.100", "gray.700")}>
         <Container maxW={"container.xl"} py={16} as={Stack} spacing={12}>
           <Stack spacing={5} align={"center"}>
