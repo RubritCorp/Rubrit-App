@@ -5,6 +5,7 @@ import { SMTPClient } from "emailjs";
 import { hashCode, verifyCode } from "utils/verifyPassword";
 //models
 import User from "models/User";
+import envConfig from "../../../../next-env-config";
 
 interface ICases {
   GET(req: NextApiRequest, res: NextApiResponse<DataEmailVerification>): void;
@@ -105,7 +106,7 @@ const cases: ICases = {
             {
               data: `<h1>Confirmacion de Email</h1><h2>Hola ${user.name}</h2>         
               <p>¡Gracias por registrarse en Rubrit App!. Porfavor confirma tu email clickeando en el siguiente link!</p>         
-              <a href=${process.env.CALLBACK_REDIRECT_EMAIL_AUTH}code=${code}&email=${email}> Click aquí</a></div>`,
+              <a href=${envConfig?.redirectEmailAuth}code=${code}&email=${email}> Click aquí</a></div>`,
               alternative: true,
             },
           ],

@@ -242,7 +242,7 @@ const PrivateRequestSide: React.FC = () => {
           </Text>
         </Flex>
         <Text mt={2}>Serivicos Ofrecidos :</Text>
-        {user.items.map((m: any, i: number) => (
+        {user?.items?.map((m: any, i: number) => (
           <Flex key={i} alignItems={"center"}>
             <CheckIcon color={"medium_green"} />
             <Text ml={2}>{m.category.name}</Text>

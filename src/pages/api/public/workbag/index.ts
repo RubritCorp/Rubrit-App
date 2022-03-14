@@ -77,16 +77,24 @@ export default async function getNearServices({
       },
     ];
 
-    const categoriesMatch = await Promise.all(
-      categories.map(
-        async (m: string) =>
-          await ServiceRequest.findOne({ category: m }).populate(populateQuery)
-      )
-    );
+    let services: any = [];
 
-    const services = categoriesMatch.filter((f) => f !== null);
+    if (categories.length) {
+      const categoriesMatch = await Promise.all(
+        categories.map(
+          async (m: string) =>
+            await ServiceRequest.findOne({ category: m }).populate(
+              populateQuery
+            )
+        )
+      );
 
-    if (services.length < 1) return [];
+      services = categoriesMatch.filter((f) => f !== null);
+
+      if (services.length < 1) return [];
+    } else {
+      services = await ServiceRequest.find().populate(populateQuery);
+    }
 
     const nearServices = services.filter(
       (offer: any) =>
@@ -98,7 +106,6 @@ export default async function getNearServices({
           unit: "k",
         }) < Number(options.RangeCoverage)
     );
-    console.log(nearServices);
 
     return nearServices;
   } catch (err) {
