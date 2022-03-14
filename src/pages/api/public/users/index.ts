@@ -6,6 +6,7 @@ import User from "models/User";
 //db
 import "utils/db";
 import Category from "models/Category";
+import Subcategory from "models/Subcategory";
 
 interface ICases {
   GET(req: NextApiRequest, res: NextApiResponse<DataUsers>): void;
@@ -14,7 +15,7 @@ interface ICases {
 
 type DataUsers = {
   message: string;
-  users?: IUser[];
+  users?: any;
 };
 
 type DataError = {
@@ -65,6 +66,7 @@ const cases: ICases = {
 
     try {
       await Category.find();
+      await Subcategory.find();
       const populateQuery = [
         {
           path: "items.category",

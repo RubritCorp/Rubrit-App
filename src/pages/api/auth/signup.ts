@@ -8,6 +8,7 @@ import User from "models/User";
 //utils
 import { hashPassword, hashCode } from "utils/verifyPassword";
 import "utils/db";
+import envConfig from "../../../../next-env-config";
 
 interface DataSignUp {
   message: string;
@@ -77,7 +78,7 @@ const cases: ICases = {
             {
               data: `<h1>Confirmacion de Email</h1><h2>Hola ${name}</h2>         
               <p>¡Gracias por registrarse en Rubrit App!. Porfavor confirma tu email clickeando en el siguiente link!</p>         
-              <a href=${process.env.CALLBACK_REDIRECT_EMAIL_AUTH}code=${code}&email=${email}> Click aquí</a></div>`,
+              <a href=${envConfig?.redirectEmailAuth}code=${code}&email=${email}> Click aquí</a></div>`,
               alternative: true,
             },
           ],

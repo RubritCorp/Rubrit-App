@@ -10,7 +10,7 @@ import Subcategory from "models/Subcategory";
 
 type DataCategories = {
   message: string;
-  categories?: ICategory[];
+  categories?: any;
 };
 
 type DataError = {
