@@ -35,6 +35,8 @@ interface ICases {
 
 
 export async function getUser(userId: any) {
+  await Category.find();
+  await Subcategory.find();
   
   const populateQuery = [
     {
