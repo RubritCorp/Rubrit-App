@@ -61,7 +61,7 @@ export const useHelper = () => {
     }
   };
 
-  return { initialValues, onSubmit, validationSchema };
+  return { initialValues, toast, onSubmit, validationSchema };
 };
 
 export default useHelper;
