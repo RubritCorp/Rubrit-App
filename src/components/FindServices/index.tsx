@@ -11,16 +11,15 @@ import {
   Button,
   useTheme,
   SimpleGrid,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import {
   CalendarCheck,
   MagnifyingGlass,
-  Calendar,
   CheckCircle,
   NumberCircleOne,
   NumberCircleTwo,
   NumberCircleThree,
-  NumberCircleFour,
 } from "phosphor-react";
 
 //native libraries
@@ -191,7 +190,7 @@ const FindServices: React.FC = () => {
                   color="white"
                   fontSize="1.8rem"
                 >
-                  COMENZARR
+                  COMENZAR
                 </Box>
               </Link>
               <Flex flexDirection="row" justifyContent="center" padding={2}>

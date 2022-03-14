@@ -30,7 +30,10 @@ export default NextAuth({
         if (!user) {
           return null;
         }
-        const isValid = verifyPassword(credentials?.password, user.password);
+        const isValid = await verifyPassword(
+          credentials?.password,
+          user.password
+        );
 
         if (!isValid) {
           return null;
@@ -63,6 +66,57 @@ export default NextAuth({
       "Recuperación de sesión exitoso";
     },
   },
+  callbacks: {
+    async signIn({ user, credentials }) {
+      try {
+        const userSession = await User.findOne({
+          email: user.email,
+        });
+
+        if (userSession) {
+          return userSession;
+        }
+        const newUser = User.create({
+          email: user.email,
+          name: user.name,
+          profilePic: user.image,
+        });
+
+        return newUser;
+      } catch (err) {
+        console.log(err);
+        throw new Error();
+      }
+    },
+    async session({ session }) {
+      if (session) {
+        const userSession = await User.findOne({
+          email: session.user?.email,
+        });
+        const newSession = {
+          expires: session.expires,
+          _id: userSession._id,
+          email: userSession.email,
+          name: userSession.name,
+          image: userSession.profilePic,
+          phone: userSession.phone
+            ? userSession.phone
+            : { dialingCode: "", number: "" },
+          description: userSession.description,
+          address: userSession.address,
+          withProvider: userSession.withProvider,
+          isAuthenticated: userSession.isAuthenticated,
+          isWorker: userSession.isWorker,
+          preferences: userSession.preferences,
+          items: userSession.items,
+          offers: userSession.offers,
+          payerId: userSession.payerId,
+        };
+        return newSession;
+      }
+      return session;
+    },
+  },
   theme: {
     colorScheme: "dark",
     /*
@@ -76,5 +130,4 @@ export default NextAuth({
     newUser: "http://localhost:3000/COMPLETARPERFIL",
     error: "http://localhost:3000/",
   },
-  debug: false,
 });

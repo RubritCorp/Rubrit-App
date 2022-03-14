@@ -1,6 +1,6 @@
 //from modules
-import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
 import Router from "next/router";
 //components
@@ -9,6 +9,7 @@ import Layout from "components/layout";
 //from chakra
 import { Button, Flex, Text, useToast } from "@chakra-ui/react";
 import { CheckCircleIcon, EmailIcon } from "@chakra-ui/icons";
+import { useSession } from "next-auth/react";
 
 const Code: React.FC = () => {
   const toast = useToast();
@@ -17,23 +18,35 @@ const Code: React.FC = () => {
   const [status, setStatus] = useState<string>("empty");
   const [isAlreadyValid, setIsAlreadyValid] = useState<boolean>(true);
   const { code, email } = router.query;
+  const { data: session } = useSession();
 
   useEffect(() => {
-    const session = async () => {
-      const storage = await JSON.parse(localStorage.getItem("user") || "");
-      if (storage.user && storage.user.isAuthenticated === true) {
+    const sessionCheck = async () => {
+      if (!router.isReady) return;
+      if (session && session.isAuthenticated === true) {
         Router.push("http://localhost:3000/");
       } else {
         setIsAlreadyValid(false);
       }
     };
-    session();
-  }, []);
+    sessionCheck();
+  }, [router, session]);
+
+  const resend = async () => {
+    await axios.post("/api/auth/emailVerification", { email });
+  };
+
+  const reloadSession = () => {
+    const event = new Event("visibilitychange");
+    document.dispatchEvent(event);
+  };
 
   const validate = async () => {
     setIsLoading(true);
     try {
-      await axios.get(`api/auth/emailVerification?code=${code}&email=${email}`);
+      await axios.get(
+        `/api/auth/emailVerification?code=${code}&email=${email}`
+      );
       toast({
         title: "¡La cuenta ha sido verificada!",
         status: "success",
@@ -43,6 +56,7 @@ const Code: React.FC = () => {
       });
       setIsLoading(false);
       setStatus("resolved");
+      reloadSession();
     } catch (err) {
       console.log("Error ocurred in EMAIL_CODE VERIFICATION");
       toast({
@@ -122,6 +136,7 @@ const Code: React.FC = () => {
                   colorScheme="green"
                   variant="solid"
                   marginTop={"2rem"}
+                  onClick={resend}
                 >
                   Reenviar Email
                 </Button>

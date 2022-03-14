@@ -29,11 +29,12 @@ const cases: ICases = {
     if (!name || !email || !password || !phone) {
       res.status(422).json({ message: "Invalid Data" });
     }
+
     try {
       const validate = await User.findOne({ email: email });
 
       if (validate) {
-        res.status(422).json({ message: "User already exists" });
+        return res.status(422).json({ message: "User already exists" });
       }
 
       const createCode = () => {
@@ -50,7 +51,10 @@ const cases: ICases = {
         name,
         email,
         password: await hashPassword(password),
-        phone,
+        phone: {
+          diallingCode: phone.diallingCode,
+          number: phone.number,
+        },
         authCode: await hashCode(code),
         isAuthenticated: false,
         withProvider,
@@ -79,7 +83,7 @@ const cases: ICases = {
           ],
         },
         (err: any, message: any) => {
-          res.status(404).json({ message: "Error sending email" });
+          return res.status(404).json({ message: "Error sending email" });
         }
       );
 

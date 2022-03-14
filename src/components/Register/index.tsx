@@ -12,7 +12,6 @@ import {
   useDisclosure,
   Text,
   Box,
-  useTheme,
   Popover,
   PopoverTrigger,
   PopoverContent,
@@ -21,9 +20,15 @@ import {
   PopoverHeader,
   PopoverBody,
   InputLeftAddon,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Avatar,
 } from "@chakra-ui/react";
 import { InputControl, ResetButton, SubmitButton } from "formik-chakra-ui";
 import {
+  ChevronDownIcon,
   ChevronLeftIcon,
   InfoIcon,
   ViewIcon,
@@ -33,21 +38,30 @@ import {
 import { useState } from "react";
 import { Formik } from "formik";
 import ReCAPTCHA from "react-google-recaptcha";
+import Image from "next/image";
 //helper
 import { useHelper } from "./useHelper";
+//assets
 import SocialButtons from "./SocialButtons";
 
 const Register: React.FC<{
   setIsAuth(value: boolean): void;
   setIsLogin(value: boolean): void;
 }> = ({ setIsAuth, setIsLogin }) => {
-  const { initialValues, validationSchema, onSubmit } = useHelper();
-  const theme = useTheme();
+  const {
+    initialValues,
+    validationSchema,
+    countries,
+    countryCode,
+    setCountryCode,
+    onSubmit,
+  } = useHelper({ setIsLogin });
+
   const { onClose } = useDisclosure();
   const [mailProfile, setMailProfile] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
-  const [step, setStep] = useState<number>(1);
   const [verified, setVerified] = useState<boolean>(false);
+  const [step, setStep] = useState<number>(1);
 
   return (
     <ModalContent position={"relative"}>
@@ -64,15 +78,15 @@ const Register: React.FC<{
           />
         ))}
 
-      <ModalHeader textAlign={"center"} color={theme.colors.medium_green}>
+      <ModalHeader textAlign={"center"} color={"medium_green"}>
         Registrate
       </ModalHeader>
-      <ModalCloseButton />
+      <ModalCloseButton onClick={() => setCountryCode("País")} />
       <ModalBody pb={6}>
         {!mailProfile && (
           <SocialButtons
             {...{ setIsLogin, setMailProfile }}
-            color={theme.colors.medium_green}
+            color={"medium_green"}
           />
         )}
         {mailProfile && (
@@ -110,8 +124,31 @@ const Register: React.FC<{
                   />
 
                   <FormLabel>Numero de Teléfono</FormLabel>
+
                   <InputGroup>
-                    <InputLeftAddon>+54</InputLeftAddon>
+                    <InputLeftAddon p={0}>
+                      <Menu>
+                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                          {countryCode}
+                        </MenuButton>
+                        <MenuList>
+                          {countries.map((m, i: number) => (
+                            <MenuItem key={i} value={m.code}>
+                              {m.img}
+                              <Text
+                                ml={3}
+                                fontWeight={400}
+                                variant={"ghost"}
+                                onClick={() => setCountryCode(m.code)}
+                                _hover={{ bg: "transparent" }}
+                              >
+                                {m.name} {m.code}
+                              </Text>
+                            </MenuItem>
+                          ))}
+                        </MenuList>
+                      </Menu>
+                    </InputLeftAddon>
                     <InputControl
                       name="phone"
                       inputProps={{
@@ -123,9 +160,9 @@ const Register: React.FC<{
                       <Popover>
                         <PopoverTrigger>
                           <Button
-                            bg={theme.colors.medium_green}
+                            bg={"medium_green"}
                             _hover={{
-                              bg: theme.colors.light_green_sub[700],
+                              bg: "light_green_sub.700",
                             }}
                           >
                             <InfoIcon color={"#fafafa"} />
@@ -156,20 +193,20 @@ const Register: React.FC<{
                       }}
                       name="password"
                     />
-                    <InputRightElement>
-                      <Button
-                        bg={theme.colors.medium_green}
-                        _hover={{
-                          bg: theme.colors.light_green_sub[700],
-                        }}
-                        onClick={() => setShow(!show)}
-                      >
-                        {show ? (
-                          <ViewOffIcon color={"#fafafa"} />
-                        ) : (
-                          <ViewIcon color={"#fafafa"} />
-                        )}
-                      </Button>
+                    <InputRightElement
+                      bg={"medium_green"}
+                      _hover={{
+                        bg: "light_green_sub.700",
+                      }}
+                      onClick={() => setShow(!show)}
+                      borderRadius={6}
+                      cursor={"pointer"}
+                    >
+                      {show ? (
+                        <ViewOffIcon color={"#fafafa"} />
+                      ) : (
+                        <ViewIcon color={"#fafafa"} />
+                      )}
                     </InputRightElement>
                   </InputGroup>
 
@@ -184,20 +221,20 @@ const Register: React.FC<{
                         autoComplete: "off",
                       }}
                     />
-                    <InputRightElement>
-                      <Button
-                        bg={theme.colors.medium_green}
-                        _hover={{
-                          bg: theme.colors.light_green_sub[700],
-                        }}
-                        onClick={() => setShow(!show)}
-                      >
-                        {show ? (
-                          <ViewOffIcon color={"#fafafa"} />
-                        ) : (
-                          <ViewIcon color={"#fafafa"} />
-                        )}
-                      </Button>
+                    <InputRightElement
+                      bg={"medium_green"}
+                      _hover={{
+                        bg: "light_green_sub.700",
+                      }}
+                      onClick={() => setShow(!show)}
+                      borderRadius={6}
+                      cursor={"pointer"}
+                    >
+                      {show ? (
+                        <ViewOffIcon color={"#fafafa"} />
+                      ) : (
+                        <ViewIcon color={"#fafafa"} />
+                      )}
                     </InputRightElement>
                   </InputGroup>
 
@@ -206,7 +243,7 @@ const Register: React.FC<{
                   </Text>
                   <Text
                     display={"inline"}
-                    color={theme.colors.medium_green}
+                    color={"medium_green"}
                     cursor={"pointer"}
                     onClick={() => setIsLogin(true)}
                   >
@@ -222,29 +259,8 @@ const Register: React.FC<{
                     />
                   </Box>
                   <ModalFooter p={"40px 0px 0px 0px"}>
-                    <SubmitButton
-                      colorScheme="blue"
-                      mr={3}
-                      fontSize={{ base: "xs", md: "l", lg: "l" }}
-                      disabled={
-                        Object.keys(errors).length > 0 ||
-                        !Object.values(values)[0].length ||
-                        !verified
-                          ? true
-                          : false
-                      }
-                    >
-                      Registrarse
-                    </SubmitButton>
-
-                    <ResetButton
-                      colorScheme={"green"}
-                      mr={3}
-                      fontSize={{ base: "xs", md: "l", lg: "l" }}
-                    >
-                      Reiniciar
-                    </ResetButton>
                     <Button
+                      mr={3}
                       fontSize={{ base: "xs", md: "l", lg: "l" }}
                       onClick={() => {
                         onClose(), setIsAuth(false), setIsLogin(true);
@@ -252,6 +268,28 @@ const Register: React.FC<{
                     >
                       Cancelar
                     </Button>
+                    <ResetButton
+                      colorScheme={"green"}
+                      mr={3}
+                      fontSize={{ base: "xs", md: "l", lg: "l" }}
+                    >
+                      Reiniciar
+                    </ResetButton>
+
+                    <SubmitButton
+                      colorScheme="blue"
+                      fontSize={{ base: "xs", md: "l", lg: "l" }}
+                      disabled={
+                        Object.keys(errors).length > 0 ||
+                        !Object.values(values)[0].length ||
+                        countryCode === "País" ||
+                        !verified
+                          ? true
+                          : false
+                      }
+                    >
+                      Registrarse
+                    </SubmitButton>
                   </ModalFooter>
                 </>
               </Box>

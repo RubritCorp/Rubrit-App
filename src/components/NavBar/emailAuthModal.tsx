@@ -1,10 +1,26 @@
 import { InfoIcon, EmailIcon } from "@chakra-ui/icons";
-import { Box, Text, Flex, Button } from "@chakra-ui/react";
+import { Box, Text, Flex, Button, useToast } from "@chakra-ui/react";
 import axios from "axios";
+import { useState } from "react";
 
-const EmailAuthModal: React.FC<{ email: string }> = ({ email }) => {
+const EmailAuthModal: React.FC<{ email: any }> = ({ email }) => {
+  const toast = useToast();
+  const [loading, setLoading] = useState<boolean>(false);
   const resend = async () => {
-    await axios.post("api/auth/emailVerification", { email });
+    try {
+      setLoading(true);
+      await axios.post("/api/auth/emailVerification", { email });
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      toast({
+        title: "¡Hubo un error al reenviar el correo!",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top-left",
+      });
+    }
   };
 
   return (
@@ -36,6 +52,7 @@ const EmailAuthModal: React.FC<{ email: string }> = ({ email }) => {
             color: "white",
           }}
           onClick={resend}
+          isLoading={loading}
         >
           Reenviar Email
         </Button>

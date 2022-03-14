@@ -13,18 +13,21 @@ import {
   Button,
   Text,
   Box,
+  useToast,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useTheme } from "@chakra-ui/react";
 
 //from modules
 import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, SignInResponse } from "next-auth/react";
 
 //assets
 import facebook from "assets/facebook.png";
 import google from "assets/google.png";
 import Image from "next/image";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { EmailIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import ForgotPassword from "./ForgotPassword";
 
 interface ICredentials {
   email: string;
@@ -33,13 +36,24 @@ interface ICredentials {
 
 const Login: React.FC<{
   setIsLogin(value: boolean): void;
-}> = ({ setIsLogin }) => {
+  onClose(): void;
+  status: string;
+}> = ({ setIsLogin, onClose, status }) => {
   const theme = useTheme();
+  const toast = useToast();
   const [show, setShow] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const [credentials, setCredentails] = useState<ICredentials>({
     email: "",
     password: "",
   });
+
+  const {
+    isOpen: isOpenForgotPassword,
+    onOpen: onOpenForgotPassword,
+    onClose: onCloseForgotPassword,
+  } = useDisclosure();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
@@ -49,13 +63,38 @@ const Login: React.FC<{
     });
   };
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log(credentials);
-    signIn("credentials", {
+    setLoading(true);
+
+    interface DataResponse {
+      error: string;
+      status: number;
+      ok: boolean;
+      url: null;
+    }
+
+    const status: any = await signIn("credentials", {
+      redirect: false,
       email: credentials.email,
       password: credentials.password,
     });
+
+    if (status && !status.ok) {
+      setLoading(false);
+      if (!toast.isActive("signIn-error-credentials")) {
+        toast({
+          title: "Error al iniciar sesión.",
+          description: "El correo o la contraseña son incorrectos.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          id: "signIn-error-credentials",
+        });
+      }
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -119,19 +158,36 @@ const Login: React.FC<{
             Registrarse Gratis
           </Text>
         </ModalBody>
-        <ModalFooter justifyContent={"center"}>
+        <ModalFooter justifyContent={"center"} flexDirection={"column"}>
           <Button
             colorScheme="blue"
             w={"90%"}
-            onClick={handleSubmit}
+            onClick={(e) => {
+              handleSubmit(e), setLoading(true);
+            }}
             disabled={
               !credentials.email.length || !credentials.password.length
                 ? true
                 : false
             }
+            isLoading={loading}
           >
             Iniciar Sesión
           </Button>
+          <Text mt={4}>¿Olvidaste tu constraseña?</Text>
+          <Button
+            fontSize={{ base: "sm", md: "l", lg: "l" }}
+            leftIcon={<EmailIcon />}
+            colorScheme="blue"
+            variant="ghost"
+            mt={2}
+            onClick={onOpenForgotPassword}
+          >
+            Restablecer por correo
+          </Button>
+          <ForgotPassword
+            {...{ isOpenForgotPassword, onCloseForgotPassword }}
+          />
         </ModalFooter>
         <Box d={"flex"} alignItems={"center"} flexDirection={"column"}>
           <Text>O</Text>

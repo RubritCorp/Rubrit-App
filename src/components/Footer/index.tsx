@@ -10,13 +10,13 @@ import {
   VisuallyHidden,
   chakra,
   useColorModeValue,
+  Link as ChakraLink,
 } from "@chakra-ui/react";
 //assets
 import { TwitterLogo, YoutubeLogo, InstagramLogo } from "phosphor-react";
 
 import DarkModeSwitch from "components/DarkModeSwitch";
 import Link from "next/link";
-
 
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
@@ -29,11 +29,9 @@ const ListHeader = ({ children }: { children: ReactNode }) => {
 const SocialButton = ({
   children,
   label,
-  href,
 }: {
   children: ReactNode;
   label: string;
-  href: string;
 }) => {
   return (
     <chakra.button
@@ -42,8 +40,6 @@ const SocialButton = ({
       w={8}
       h={8}
       cursor={"pointer"}
-      as={"a"}
-      href={href}
       display={"inline-flex"}
       alignItems={"center"}
       justifyContent={"center"}
@@ -71,22 +67,23 @@ const Footer: React.FC = () => {
           <Stack align={"flex-start"}>
             <ListHeader>Rubrit</ListHeader>
             <Link href={"#"}>Inicio</Link>
-            <Link href={"#"}>Como Funciona</Link>
-            <Link href={"#"}>Sobre Nosotros</Link>
+            <Link href={"/findServices"}>Como Buscar Servicios</Link>
+            <Link href={"/offerServices"}>Como Ofrecer Servicios</Link>
+            <Link href={"/aboutUs"}>Sobre Nosotros</Link>
             <Link href={"#"}>Registrate como Profesional</Link>
           </Stack>
 
           <Stack align={"flex-start"}>
             <ListHeader>Soporte</ListHeader>
-            <Link href={"#"}>FAQs</Link>
-            <Link href={"#"}>Principios de la Comunidad</Link>
+            <Link href={"/faqs"}>FAQs</Link>
+            <Link href={"/comunityPrinciply"}>Principios de la Comunidad</Link>
           </Stack>
 
           <Stack align={"flex-start"}>
             <ListHeader>Legales</ListHeader>
-            <Link href={"#"}>Politica de Cookies</Link>
-            <Link href={"#"}>Politicas de Privacidad</Link>
-            <Link href={"/termService"}><a>Terminos del Servicio</a></Link>
+            <Link href={"/cookiesPolicy"}>Politica de Cookies</Link>
+            <Link href={"/privacyPolicy"}>Politicas de Privacidad</Link>
+            <Link href={"/termService"}>Terminos del Servicio</Link>
           </Stack>
         </SimpleGrid>
       </Container>
@@ -107,15 +104,27 @@ const Footer: React.FC = () => {
         >
           <Text>© 2022 Rubrit. All rights reserved</Text>
           <Stack direction={"row"} spacing={6}>
-            <SocialButton label={"Twitter"} href={"#"}>
-              <TwitterLogo size={32} color="#2EB67D" weight="fill" />
-            </SocialButton>
-            <SocialButton label={"YouTube"} href={"#"}>
-              <YoutubeLogo size={32} color="#2EB67D" weight="fill" />
-            </SocialButton>
-            <SocialButton label={"Instagram"} href={"#"}>
-              <InstagramLogo size={32} color="#2EB67D" weight="fill" />
-            </SocialButton>
+            <ChakraLink href="https://twitter.com/rubritapp" isExternal={true}>
+              <SocialButton label={"Twitter"}>
+                <TwitterLogo size={32} color="#2EB67D" weight="fill" />
+              </SocialButton>
+            </ChakraLink>
+            <ChakraLink
+              href="https://www.youtube.com/channel/UCD_bGN2BCe0UCpqFQXt68xA"
+              isExternal={true}
+            >
+              <SocialButton label={"YouTube"}>
+                <YoutubeLogo size={32} color="#2EB67D" weight="fill" />
+              </SocialButton>
+            </ChakraLink>
+            <ChakraLink
+              href="https://www.instagram.com/rubritapp/"
+              isExternal={true}
+            >
+              <SocialButton label={"Instagram"}>
+                <InstagramLogo size={32} color="#2EB67D" weight="fill" />
+              </SocialButton>
+            </ChakraLink>
           </Stack>
         </Container>
       </Box>

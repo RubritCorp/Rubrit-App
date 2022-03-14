@@ -24,6 +24,8 @@ const cases: ICases = {
   GET: async (req, res) => {
     const { code, email } = req.query;
 
+    console.log(code, email);
+
     if (!code) {
       res
         .status(400)
@@ -60,6 +62,8 @@ const cases: ICases = {
       user.save();
       res.status(200).json({ message: "Account is verified" });
     } catch (err) {
+      console.log(err);
+
       res.status(404).json({ message: "Error ocurred in POST CODE" });
     }
   },
@@ -84,13 +88,13 @@ const cases: ICases = {
         }
       );
 
+      res.status(200).json({ message: "Email was resended" });
       const client: any = new SMTPClient({
         user: process.env.EMAIL_SENDER,
         password: process.env.EMAIL_PASSWORD,
         host: "smtp.gmail.com",
         ssl: true,
       });
-
       client.send(
         {
           text: "¡Gracias por registrarse en Rubrit App!",
@@ -112,6 +116,7 @@ const cases: ICases = {
       );
     } catch (err) {
       console.log("Error ocurred in RESEND EMAIL");
+      res.status(404).json({ message: '"Error ocurred in RESEND EMAIL"' });
       //console.log(err);
     }
   },

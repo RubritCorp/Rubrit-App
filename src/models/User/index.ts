@@ -1,5 +1,6 @@
 //from modules
 import mongoose, { model, models, Schema, Types } from "mongoose";
+import { boolean } from "yup";
 import { number } from "yup/lib/locale";
 //interfaces
 import { IUser } from "./IUser";
@@ -18,10 +19,20 @@ const userSchema = new Schema(
       required: true,
     },
     phone: {
-      type: String,
+      diallingCode: {
+        type: String,
+      },
+      number: {
+        type: String,
+      },
     },
     password: {
       type: String,
+    },
+    description: {
+      type: String,
+      max: 290,
+      default: "",
     },
     authCode: {
       type: String,
@@ -43,26 +54,70 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    isPremium: {
+      type: Boolean,
+      default: false,
+    },
+    payerId: {
+      type: String,
+      default: "",
+    },
     address: {
+      name: {
+        type: String,
+      },
       lat: {
         type: Number,
       },
       lng: {
         type: Number,
       },
-    },
-    hideAddress: {
-      type: Boolean,
-      default: false,
-    },
-    rating: {
-      description: {
-        type: String,
+      searchRange: {
+        type: Number,
+        default: 10,
       },
-      score: {
+      timeZone: {
         type: String,
       },
     },
+    preferences: {
+      notificationsMessages: {
+        type: Boolean,
+        default: true,
+      },
+
+      notificationsNewOffer: {
+        type: Boolean,
+        default: true,
+      },
+      showAllChats: {
+        //it can be all chats or only non open
+        type: Boolean,
+        //default true for show all chats
+        default: true,
+      },
+      language: {
+        type: String,
+      },
+      hideAddress: {
+        type: Boolean,
+        default: false,
+      },
+    },
+    rating: [
+      {
+        userComment: {
+          type: Types.ObjectId,
+          ref: "User",
+        },
+        description: {
+          type: String,
+        },
+        score: {
+          type: String,
+        },
+      },
+    ],
     items: [
       {
         category: {
@@ -85,17 +140,7 @@ const userSchema = new Schema(
         ],
       },
     ],
-    offers: [
-      {
-        title: {
-          type: String,
-        },
-        description: {
-          type: String,
-        },
-        photos: [{ type: String }],
-      },
-    ],
+    offers: [{ type: Types.ObjectId, ref: "ServiceRequest" }],
   },
   {
     timestamps: true,

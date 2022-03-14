@@ -1,18 +1,24 @@
 // import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { getSession, SessionProvider, useSession } from "next-auth/react";
+import { SessionProvider } from "next-auth/react";
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "../styles/theme";
 import Fonts from "styles/Fonts";
-import { useEffect } from "react";
+//contexts
+import { CategoriesProvider } from "Provider/CategoriesProvider";
+import { UsersProvider } from "Provider/UsersProvider";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <SessionProvider session={pageProps.session}>
-      <ChakraProvider resetCSS theme={theme}>
-        <Fonts />
-        <Component {...pageProps} />
-      </ChakraProvider>
+      <UsersProvider>
+        <CategoriesProvider>
+          <ChakraProvider resetCSS theme={theme}>
+            <Fonts />
+            <Component {...pageProps} />
+          </ChakraProvider>
+        </CategoriesProvider>
+      </UsersProvider>
     </SessionProvider>
   );
 }
