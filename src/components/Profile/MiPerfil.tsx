@@ -75,7 +75,11 @@ const MiPerfil: React.FC<{
       >
         {user.name}
       </Text>
-      <Text marginTop={5} fontSize={{ base: "md", md: "lg" }}>
+      <Text
+        textAlign={"center"}
+        marginTop={5}
+        fontSize={{ base: "md", md: "lg" }}
+      >
         {user.description ? user.description : " "}
       </Text>
       <ButtonGroup marginTop={10}>

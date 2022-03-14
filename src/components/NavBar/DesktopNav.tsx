@@ -14,7 +14,7 @@ import { ChevronRightIcon } from "@chakra-ui/icons";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useCategories } from "Provider/CategoriesProvider";
+import { ICategories, useCategories } from "Provider/CategoriesProvider";
 
 export default function DesktopNav() {
   const linkColor = useColorModeValue("gray.600", "gray.200");
@@ -63,10 +63,10 @@ export default function DesktopNav() {
               },
             }}
           >
-            {categories.map((m: any, i: number) => (
+            {categories.map((m: ICategories, i: number) => (
               <Box key={i}>
                 <Popover trigger={"hover"} placement={"bottom-start"}>
-                  <Link passHref href={`/services?service=${m.name}`}>
+                  <Link passHref href={{ pathname: `/services/${m.name}` }}>
                     <Text
                       d={"flex"}
                       justifyContent={"space-between"}

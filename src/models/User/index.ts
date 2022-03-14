@@ -72,6 +72,10 @@ const userSchema = new Schema(
       lng: {
         type: Number,
       },
+      searchRange: {
+        type: Number,
+        default: 10,
+      },
       timeZone: {
         type: String,
       },
@@ -100,15 +104,20 @@ const userSchema = new Schema(
         default: false,
       },
     },
-
-    rating: {
-      description: {
-        type: String,
+    rating: [
+      {
+        userComment: {
+          type: Types.ObjectId,
+          ref: "User",
+        },
+        description: {
+          type: String,
+        },
+        score: {
+          type: String,
+        },
       },
-      score: {
-        type: String,
-      },
-    },
+    ],
     items: [
       {
         category: {
@@ -131,17 +140,7 @@ const userSchema = new Schema(
         ],
       },
     ],
-    offers: [
-      {
-        title: {
-          type: String,
-        },
-        description: {
-          type: String,
-        },
-        photos: [{ type: String }],
-      },
-    ],
+    offers: [{ type: Types.ObjectId, ref: "ServiceRequest" }],
   },
   {
     timestamps: true,

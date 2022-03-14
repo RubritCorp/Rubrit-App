@@ -10,7 +10,7 @@ import {
 } from "react";
 import { boolean } from "yup";
 
-interface ICategories {
+export interface ICategories {
   _id: ICategory["_id"];
   name: ICategory["name"];
   picture: ICategory["picture"];

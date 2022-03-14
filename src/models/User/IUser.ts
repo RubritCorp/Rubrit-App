@@ -15,26 +15,34 @@ export interface IUser {
     number: string;
   };
   password: string;
-  isAuthenticated: boolean;
+  description: string;
   authCode: string;
+  withProvider: boolean;
+  isAuthenticated: boolean;
   profilePic: string;
   isWorker: boolean;
+  isPremium: boolean;
   payerId: string;
   address: {
     name: string;
     lat: number;
     lng: number;
+    searchRange: number;
     timeZone: string;
   };
-  hideAddress: boolean;
+  preferences: {
+    notificationsMessages: boolean;
+
+    notificationsNewOffer: boolean;
+    showAllChats: boolean;
+    language: string;
+    hideAddress: boolean;
+  };
   rating: {
+    userComment: Types.ObjectId;
     description: string;
     score: string;
   };
   items: HItems[];
-  offers: {
-    title: string;
-    description: string;
-    photos: string[];
-  };
+  offers: Types.ObjectId[];
 }
