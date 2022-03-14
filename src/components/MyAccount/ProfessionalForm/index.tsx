@@ -35,7 +35,6 @@ import {
   Stack,
   Icon,
   Heading,
-  ñ,
 } from "@chakra-ui/react";
 import { Formik } from "formik";
 
@@ -54,7 +53,7 @@ import { MultipleImagesControl } from "../../CustomFormControls/MultipleImagesCo
 import useHelper from "./useHelper";
 
 const ProfessionalForm: React.FC = () => {
-  const { initialValues, onSubmit, validationSchema } = useHelper();
+  const { initialValues, toast, onSubmit, validationSchema } = useHelper();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { categories } = useCategories();
   const { data: session } = useSession();
@@ -102,17 +101,33 @@ const ProfessionalForm: React.FC = () => {
         data: { urls },
       } = await axios.post(`${envConfig?.apiUrl}/aws/upload-files`, formData);
 
-      const data = await axios.put("/api/user/updateToProfessional", {
-        id: session!._id,
-        categories: finalValues.categories,
-        images: urls,
-        description: finalValues.description,
-        companyName: finalValues.companyName,
-        rangeCoverage: finalValues.rangeCoverage,
-      });
-
-      onSubmit(finalValues);
-      setValues({ ...finalValues, images: urls });
+      try {
+        const data = await axios.put("/api/user/updateToProfessional", {
+          id: session!._id,
+          categories: finalValues.categories,
+          images: urls,
+          description: finalValues.description,
+          companyName: finalValues.companyName,
+          rangeCoverage: finalValues.rangeCoverage,
+        });
+        setValues({ ...finalValues, images: urls });
+        //onSubmit(finalValues);
+        toast({
+          title: `¡Felicidades!`,
+          description: "Tu perfil como profesional fue creado con exito.",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+      } catch (err) {
+        toast({
+          title: "¡Lo Sentimos!.",
+          description: "Hubo un error en configurar la cuenta.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
     }
   };
 
@@ -270,13 +285,13 @@ const ProfessionalForm: React.FC = () => {
                 <Image src={values.images[0]} boxSize="100px" alt="alt" />
               </Box>
               <Heading size="sm">Categorias</Heading>
-              {console.log(values.categories)}
+
               {values.categories.map((cat: any) => (
                 <>
                   <Text>{cat.name}</Text>
                   <Box>
-                    {cat.subcategories.map((sub: any) => (
-                      <Text>{sub.name}</Text>
+                    {cat.subcategories.map((sub: any, i: number) => (
+                      <Text key={i}>{sub.name}</Text>
                     ))}
                   </Box>
                 </>

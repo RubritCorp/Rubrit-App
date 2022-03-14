@@ -77,10 +77,16 @@ export default async function getNearServices({
       },
     ];
 
-    const services = categories.map(
-      async (m: string) =>
-        await ServiceRequest.find({ name: m }).populate(populateQuery)
+    const categoriesMatch = await Promise.all(
+      categories.map(
+        async (m: string) =>
+          await ServiceRequest.findOne({ category: m }).populate(populateQuery)
+      )
     );
+
+    const services = categoriesMatch.filter((f) => f !== null);
+
+    if (services.length < 1) return [];
 
     const nearServices = services.filter(
       (offer: any) =>
@@ -92,6 +98,7 @@ export default async function getNearServices({
           unit: "k",
         }) < Number(options.RangeCoverage)
     );
+    console.log(nearServices);
 
     return nearServices;
   } catch (err) {
