@@ -34,7 +34,7 @@ import {
   Checkbox,
   Stack,
   Icon,
-  Heading,
+  Heading
 } from "@chakra-ui/react";
 import { Formik } from "formik";
 
