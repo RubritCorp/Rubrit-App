@@ -34,8 +34,7 @@ import {
   Checkbox,
   Stack,
   Icon,
-  Heading,
-  ñ,
+  Heading
 } from "@chakra-ui/react";
 import { Formik } from "formik";
 
@@ -276,7 +275,7 @@ const ProfessionalForm: React.FC = () => {
                   <Text>{cat.name}</Text>
                   <Box>
                     {cat.subcategories.map((sub: any) => (
-                      <Text>{sub.name}</Text>
+                      <Text key={sub.id}>{sub.name}</Text>
                     ))}
                   </Box>
                 </>
