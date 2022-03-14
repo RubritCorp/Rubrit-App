@@ -8,6 +8,7 @@ import {
   Container,
   Stack,
   Text,
+  Center,
 } from "@chakra-ui/react";
 import { ArrowLeft, ArrowRight } from "phosphor-react";
 import Slider from "react-slick";
@@ -88,9 +89,10 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ title, image }) => {
 
 
   return (
+    
     <Box
       position={"relative"}
-
+    
       w="276px"
       h="377px"
       margin="10px 10px"
@@ -98,16 +100,20 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ title, image }) => {
       rounded="lg"
       shadow="lg">
 
-      <Image src={image} quality={50} width={"100%"} height={"100%"} objectFit={"cover"} layout={"fill"}  />
-     {/*  <Text
+      <Image src={image}  quality={50} width={"100%"} height={"100%"} objectFit={"cover"} layout={"fill"}  />
+      <Center>
+      <Heading
         position={"absolute"}
+        top={"45%"}
+        textAlign={"center"}
         zIndex={1}
-        color={"black"}
+        color={"white"}
         as="h3"
         size="lg"
       >
         {title}
-      </Text> */}
+      </Heading> 
+      </Center>
     </Box>
 
 
