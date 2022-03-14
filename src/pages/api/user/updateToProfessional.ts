@@ -33,6 +33,8 @@ const cases: ICases = {
 
     console.log("user", user)
     if (!user) return res.status(404).json({ message: "User not found" });
+    user.isWorker = true;
+    user.items = categories
     
 
     user.save();

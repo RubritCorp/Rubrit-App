@@ -3,7 +3,6 @@ import ProfessionalLanding from "../../components/ProfessionalLanding";
 import { useRouter } from "next/router";
 import { GetServerSideProps, NextPage } from "next/types";
 import { ParsedUrlQuery } from "querystring";
-import axios from "axios";
 import { getUser } from "pages/api/public/users/getProfile";
 
 const UserLanding: NextPage<any> = ({ user }) => {

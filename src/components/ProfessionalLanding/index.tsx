@@ -23,50 +23,17 @@ import Link from "next/link";
 import Layout from "../layout";
 import Comments from "../Comments";
 import Loading from "../Loading";
-//assets
 
-import { useEffect, useState } from "react";
 import { NextPage } from "next/types";
 import Map from "../Maps/Map";
-import LocatorButton from "../Maps/LocatorButton";
-const categories = [
-  {
-    name: "Electricista",
-    subcategories: ["Instalaciones", "Iluminacion", "Electricidad general"],
-  },
-  {
-    name: "Plomero",
-    subcategories: [
-      "Sanitarios",
-      "Griferia",
-      "Filtraciones",
-      "Calderas",
-      "Bombas de agua",
-      "Pozos septicos",
-      "Tanques de agua",
-    ],
-  },
-  {
-    name: "Gasista",
-    subcategories: [
-      "Artefactos a gas",
-      "Instalacion de calderas",
-      "Reparacion de calderas",
-    ],
-  },
-];
-
-interface User {
-  userId: string;
-}
 
 const ProfessionalLanding: React.FC<any> = (props) => {
   const theme = useTheme();
-  const [dataUser, setDataUser] = useState<any>({});
-  const [mapObject, setMapObject] = useState(null);
-  const user = JSON.parse(props.user);
 
-  useEffect(() => {}, [user]);
+  const user = JSON.parse(props.user);
+  const { items } = user;
+
+  console.log(user);
 
   if (!user) return <Loading />;
 
@@ -111,7 +78,9 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                     <Text
                       ml={"0.5rem"}
                       fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
-                    ></Text>
+                    >
+                      {/* {user.rating} */}
+                    </Text>
                   </Flex>
                   <Flex flexDirection={"row"}>
                     <Check size={20} weight="fill" />
@@ -134,7 +103,10 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 </Flex>
               </Flex>
               <Flex flexDirection={"column"} alignItems={"center"}>
-                <Link href={{ pathname: "/request/new", query: { id: user } }} passHref>
+                <Link
+                  href={{ pathname: "/request/new", query: { id: user._id } }}
+                  passHref
+                >
                   <Box
                     as={"button"}
                     width={{ base: "150px", md: "200px", lg: "250px" }}
@@ -192,9 +164,13 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   >
                     DESCRIPCION
                   </Heading>
-                  <Text margin={"1em"}>
-                    Me gusta la cumbia y coleccionar cupones de descuentos.
-                  </Text>
+                  <Box>
+                    {items?.map((e: any, index: number) => (
+                      <Text key={index} margin={"1em"}>
+                        {e.description}
+                      </Text>
+                    ))}
+                  </Box>
                 </Box>
                 <Divider></Divider>
                 <Box margin={"1em 0"}>
@@ -280,7 +256,10 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 >
                   UBICACION
                 </Heading>
-                <Map setMapObject={setMapObject}></Map>
+                <Map
+                  location={user.address}
+                  coverage={user.address.searchRange}
+                ></Map>
               </Box>
             </Flex>
             <Flex flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}>
@@ -297,9 +276,10 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   boxShadow={"lg"}
                   overflowY={"auto"}
                 >
-                  {categories?.map((cat, index) => {
+                  {items?.map((cat: any, index: number) => {
+                    console.log(cat);
                     return (
-                      <Flex flexDirection={"column"} key={cat.name}>
+                      <Flex flexDirection={"column"} key={cat.category.name}>
                         <Heading
                           fontSize={{
                             base: "1rem",
@@ -307,13 +287,13 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                             lg: "1.5rem",
                           }}
                           color={"light_grey_sub"}
-                          key={cat.name}
+                          key={cat.category.name}
                         >
-                          {cat.name}
+                          {cat.category.name}
                         </Heading>
                         <Box>
-                          {cat.subcategories.map((sub, index) => (
-                            <Text key={index}>{sub}</Text>
+                          {cat.subcategories?.map((sub: any, index: number) => (
+                            <Text key={index}>{sub.name}</Text>
                           ))}
                         </Box>
                       </Flex>
