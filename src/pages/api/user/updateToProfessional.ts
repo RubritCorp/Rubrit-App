@@ -6,6 +6,7 @@ import User from "models/User";
 import { IUser } from "models/User/IUser";
 //db
 import "utils/db";
+import Category from "models/Category";
 
 interface ICases {
   PUT(req: NextApiRequest, res: NextApiResponse<DataUpdate>): void;
@@ -27,13 +28,29 @@ interface DataAccesDenied {
 
 const cases: ICases = {
   PUT: async (req, res) => {
-    const { email , categories, images, rangeCoverage} = req.body;
-    console.log(email, categories,images, rangeCoverage)
-    const user = await User.findOne({ email: email });
+    const { id, categories, images, rangeCoverage, description, companyName } =
+      req.body;
 
-    console.log("user", user)
+    const user = await User.findOne({ _id: id });
+
     if (!user) return res.status(404).json({ message: "User not found" });
-    
+    user.isWorker = true;
+    let items = categories.map(async (m: any) => {
+      let category = await Category.findOne({ name: m.name }).select("_id");
+      return {
+        category: category._id,
+        subcategories: [...m.subcategories],
+      };
+    });
+
+    user.items = await Promise.all(items);
+
+    user.workerData = {
+      rangeCoverage: rangeCoverage,
+      description: description,
+      companyName: companyName,
+      images: images,
+    };
 
     user.save();
     res.status(200).json({ message: "Profile was modified", user });

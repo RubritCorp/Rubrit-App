@@ -24,9 +24,13 @@ const serviceRequestSchema = new Schema(
       type: Types.ObjectId,
       required: true
     },
-    professionalId: String,
+    professionalId: Types.ObjectId,
     category: Types.ObjectId,
-    subcategory: Types.ObjectId
+    subcategory: Types.ObjectId,
+    isActive: {
+      type: Boolean,
+      required: true
+    }
   },
   {
     timestamps: true,

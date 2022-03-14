@@ -1,7 +1,7 @@
 //from modules
 import mongoose, { model, models, Schema, Types } from "mongoose";
 import { boolean } from "yup";
-import { number } from "yup/lib/locale";
+//import { number } from "yup/lib/locale";
 //interfaces
 import { IUser } from "./IUser";
 
@@ -72,6 +72,10 @@ const userSchema = new Schema(
       lng: {
         type: Number,
       },
+      searchRange: {
+        type: Number,
+        default: 10,
+      },
       timeZone: {
         type: String,
       },
@@ -100,15 +104,34 @@ const userSchema = new Schema(
         default: false,
       },
     },
-
-    rating: {
+    rating: [
+      {
+        userComment: {
+          type: Types.ObjectId,
+          ref: "User",
+        },
+        description: {
+          type: String,
+        },
+        score: {
+          type: String,
+        },
+      },
+    ],
+    workerData: {
+      companyName: {
+        type: String,
+      },
       description: {
         type: String,
       },
-      score: {
+      images: [{
         type: String,
+      }],
+      rangeCoverage: {
+        type: Number,
       },
-    },
+  },
     items: [
       {
         category: {
@@ -131,17 +154,7 @@ const userSchema = new Schema(
         ],
       },
     ],
-    offers: [
-      {
-        title: {
-          type: String,
-        },
-        description: {
-          type: String,
-        },
-        photos: [{ type: String }],
-      },
-    ],
+    offers: [{ type: Types.ObjectId, ref: "ServiceRequest" }],
   },
   {
     timestamps: true,

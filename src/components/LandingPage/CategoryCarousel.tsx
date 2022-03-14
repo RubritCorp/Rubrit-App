@@ -8,6 +8,7 @@ import {
   Container,
   Stack,
   Text,
+  Center,
 } from "@chakra-ui/react";
 import { ArrowLeft, ArrowRight } from "phosphor-react";
 import Slider from "react-slick";
@@ -15,6 +16,7 @@ import Slider from "react-slick";
 import { useState } from "react";
 import { useCategories } from "Provider/CategoriesProvider";
 import Image from "next/image";
+import Link from "next/link";
 
 const CategoryCarousel: React.FC = () => {
   const [slider, setSlider] = useState<Slider | null>(null);
@@ -93,49 +95,37 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ title, image }) => {
       borderWidth="1px"
       rounded="lg"
       shadow="lg"
+      cursor={"pointer"}
+      _hover={{
+        transform: "scale(1.03)",
+        transition: "0.5s",
+      }}
     >
-      <Image src={image} quality={50} objectFit={"cover"} layout={"fill"} />
-      {/*  <Text
-        position={"absolute"}
-        zIndex={1}
-        color={"black"}
-        as="h3"
-        size="lg"
-      >
-        {title}
-      </Text> */}
+      <Link href={`/services/${title}`} passHref>
+        <Image
+          src={image}
+          quality={50}
+          objectFit={"cover"}
+          layout={"fill"}
+          alt="cat-image"
+        />
+      </Link>
+      <Link href={`/services/${title}`} passHref>
+        <Center>
+          <Heading
+            position={"absolute"}
+            top={"45%"}
+            textAlign={"center"}
+            zIndex={1}
+            color={"white"}
+            as="h3"
+            size="lg"
+          >
+            {title}
+          </Heading>
+        </Center>
+      </Link>
     </Box>
-
-    /*    <Flex
-       flexDirection={"column"}
-         w="276px"
-         h="377px"
-         margin="10px 10px"
-         borderWidth="1px"
-         rounded="lg"
-         shadow="lg"
-       > 
-   
-         <Box
-        position={"relative"}
-        top={"50%"}
-        left={"38%"}
-       
-        zIndex={1}
-         >
-   
-           <Text
-             as="h3"
-             size="lg"
-             color="white"
-           >
-             {title}
-           </Text>
-   
-         </Box>
-           <Image src={image} quality={50} width={"276px"} height={"377px"} />
-   
-       </Flex> */
   );
 };
 

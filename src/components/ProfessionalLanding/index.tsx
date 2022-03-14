@@ -22,59 +22,22 @@ import Link from "next/link";
 //components
 import Layout from "../layout";
 import Comments from "../Comments";
-//assets
-import Map from "/src/assets/mapa.jpg";
-import axios from "axios";
+import Loading from "../Loading";
 
-import { useEffect } from "react";
-const categories = [
-  {
-    name: "Electricista",
-    subcategories: ["Instalaciones", "Iluminacion", "Electricidad general"],
-  },
-  {
-    name: "Plomero",
-    subcategories: [
-      "Sanitarios",
-      "Griferia",
-      "Filtraciones",
-      "Calderas",
-      "Bombas de agua",
-      "Pozos septicos",
-      "Tanques de agua",
-    ],
-  },
-  {
-    name: "Gasista",
-    subcategories: [
-      "Artefactos a gas",
-      "Instalacion de calderas",
-      "Reparacion de calderas",
-    ],
-  },
-];
+import { NextPage } from "next/types";
+import Map from "../Maps/Map";
+import { useState } from "react";
 
-interface User {
-  user: string;
-}
-const ProfessionalLanding: React.FC<User> = ({ user }) => {
+const ProfessionalLanding: React.FC<any> = (props) => {
   const theme = useTheme();
+  const [loading, setLoading] = useState<boolean>(false);
+  const user = JSON.parse(props.user);
+  const { items } = user;
 
-  //console.log(user);
-  async function fetchUser() {
-    try {
-      const data = await axios.get(
-        `http://localhost:3000/api/public/users/${user}`
-      );
-      console.log("data", data);
-    } catch (err) {
-      console.log("error", err);
-    }
-  }
+  console.log(user);
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
+  if (!user) return <Loading />;
+
   return (
     <Layout>
       <Container maxW={"container.xl"}>
@@ -86,10 +49,12 @@ const ProfessionalLanding: React.FC<User> = ({ user }) => {
         >
           <Box margin={"1rem"}>
             <Image
-              src="https://bit.ly/dan-abramov"
+              src={user.profilePic}
               borderRadius="full"
+              boxSize={{ base: "150px", md: "200px", lg: "250px" }}
               margin={{ base: "0rem", md: "1rem", lg: "1rem" }}
-              alt={"Dan Abramov"}
+              alt={user.name}
+              objectFit={"cover"}
             ></Image>
           </Box>
           <Flex flexDirection={"column"}>
@@ -101,11 +66,11 @@ const ProfessionalLanding: React.FC<User> = ({ user }) => {
             >
               <Flex padding={"1rem"} flexDirection={"column"}>
                 <Heading fontSize={{ base: "1rem", md: "1.2rem", lg: "2rem" }}>
-                  Jose Cito
+                  {user.name}
                 </Heading>
 
                 <Text color={"medium_green"}>Plomero</Text>
-                <Text>Buenos Aires</Text>
+                <Text>{user.address.name}</Text>
 
                 <Flex flexDirection={"column"}>
                   <Flex flexDirection={"row"}>
@@ -115,7 +80,7 @@ const ProfessionalLanding: React.FC<User> = ({ user }) => {
                       ml={"0.5rem"}
                       fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
                     >
-                      90% de satisfaccion
+                      {/* {user.rating} */}
                     </Text>
                   </Flex>
                   <Flex flexDirection={"row"}>
@@ -140,21 +105,26 @@ const ProfessionalLanding: React.FC<User> = ({ user }) => {
               </Flex>
               <Flex flexDirection={"column"} alignItems={"center"}>
                 <Link
-                  href={{ pathname: "/request/new", query: { id: "123" } }}
-                  as="nueva-solicitud"
+                  href={{ pathname: "/request/new", query: { id: user._id } }}
                   passHref
                 >
-                  <Box
+                  <Button
                     as={"button"}
-                    width={"15rem"}
-                    height={"3rem"}
+                    width={{ base: "150px", md: "200px", lg: "250px" }}
+                    height={{ base: "30px", md: "35px", lg: "40px" }}
                     borderRadius={"10px"}
                     bg={"medium_green"}
                     color={"white"}
-                    fontSize={"1.3rem"}
+                    fontSize={{ base: "1rem", md: "1.2rem", lg: "1.4rem" }}
+                    _hover={{
+                      transform: "translateY(-2px)",
+                      boxShadow: "lg",
+                    }}
+                    isLoading={loading}
+                    onClick={() => setLoading(true)}
                   >
                     Pedir Cotizacion
-                  </Box>
+                  </Button>
                 </Link>
                 <Flex
                   flexDirection={"row"}
@@ -178,12 +148,9 @@ const ProfessionalLanding: React.FC<User> = ({ user }) => {
         <Container maxW={"container.lg"} p={"0 "} margin={"0 1em"}>
           <Flex margin={"1rem"} flexDirection={"column"} textAlign={"start"}>
             <Heading fontSize={"1.5rem"} margin={"1rem"}>
-              Soy el indicado para trabajar:
+              {user.description}
             </Heading>
-            <Text fontSize={"1rem"} margin={"0.5rem"}>
-              Soy plomero hace muchos años y nunca mostre la raja, soy ideal
-              para el empleo y para bailar en tu despedida de soltero porque...
-            </Text>
+            <Text fontSize={"1rem"} margin={"0.5rem"}></Text>
           </Flex>
           <Divider margin={"1em 0"}></Divider>
         </Container>
@@ -204,9 +171,13 @@ const ProfessionalLanding: React.FC<User> = ({ user }) => {
                   >
                     DESCRIPCION
                   </Heading>
-                  <Text margin={"1em"}>
-                    Me gusta la cumbia y coleccionar cupones de descuentos.
-                  </Text>
+                  <Box>
+                    {items?.map((e: any, index: number) => (
+                      <Text key={index} margin={"1em"}>
+                        {e.description}
+                      </Text>
+                    ))}
+                  </Box>
                 </Box>
                 <Divider></Divider>
                 <Box margin={"1em 0"}>
@@ -292,13 +263,10 @@ const ProfessionalLanding: React.FC<User> = ({ user }) => {
                 >
                   UBICACION
                 </Heading>
-                <Image
-                  src="https://s03.s3c.es/imag/_v0/770x420/6/4/2/Google-maps-nueva-york.jpg"
-                  maxW={"250px"}
-                  borderRadius="1rem"
-                  margin={"1em 0"}
-                  alt="Dan Abramov"
-                ></Image>
+                <Map
+                  location={user.address}
+                  coverage={user.address.searchRange}
+                ></Map>
               </Box>
             </Flex>
             <Flex flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}>
@@ -315,9 +283,10 @@ const ProfessionalLanding: React.FC<User> = ({ user }) => {
                   boxShadow={"lg"}
                   overflowY={"auto"}
                 >
-                  {categories?.map((cat, index) => {
+                  {items?.map((cat: any, index: number) => {
+                    console.log(cat);
                     return (
-                      <Flex flexDirection={"column"} key={cat.name}>
+                      <Flex flexDirection={"column"} key={cat.category.name}>
                         <Heading
                           fontSize={{
                             base: "1rem",
@@ -325,13 +294,13 @@ const ProfessionalLanding: React.FC<User> = ({ user }) => {
                             lg: "1.5rem",
                           }}
                           color={"light_grey_sub"}
-                          key={cat.name}
+                          key={cat.category.name}
                         >
-                          {cat.name}
+                          {cat.category.name}
                         </Heading>
                         <Box>
-                          {cat.subcategories.map((sub, index) => (
-                            <Text key={index}>{sub}</Text>
+                          {cat.subcategories?.map((sub: any, index: number) => (
+                            <Text key={index}>{sub.name}</Text>
                           ))}
                         </Box>
                       </Flex>

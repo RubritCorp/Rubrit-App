@@ -30,7 +30,7 @@ const cases: ICases = {
     try {
       let data;
       let locationObject = { formattedAddress: location, lat, lng };
-      professionalId ? data = { title, description, location: locationObject, images, userId, professionalId } : data = { category, subcategory, title, description, location: locationObject, images, userId, professionalId }
+      professionalId ? data = { title, description, location: locationObject, images, userId, professionalId, isActive: true } : data = { category, subcategory, title, description, location: locationObject, images, userId, professionalId, isActive: true }
       const serviceRequest = await ServiceRequest.create(data);
 
       // const client: any = new SMTPClient({

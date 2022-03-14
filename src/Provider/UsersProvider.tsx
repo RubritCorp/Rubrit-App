@@ -26,7 +26,7 @@ type Items = {
   certification: string[];
 };
 
-interface IUser {
+export interface IUser {
   _id: string;
   name: string;
   email: string;
@@ -72,32 +72,36 @@ type Props = {
 
 export function UsersProvider({ children }: Props) {
   const [status, setStatus] = useState<string>("false");
-  const { data: Session } = useSession();
+  const { data: Session, status: auth } = useSession();
   const [users, setUsers] = useState<IUser[]>([]);
 
-  const fillData = async () => {
+  const fillData = async (route: string) => {
     try {
       setStatus("true");
 
-      const { data } = await axios.get(
-        Session?.address.name
-          ? `/api/public/users?city=${Session.address.name}`
-          : "/api/public/users"
-      );
+      const { data } = await axios.get(`${route}`);
+
       setUsers(data.users);
       setStatus("null");
     } catch (err) {
       setStatus("null");
+      console.log(err);
+
       throw new Error();
     }
   };
 
   useEffect(() => {
-    if (users.length < 1) {
-      fillData();
+    if (Session && auth === "authenticated" && Session.address.lat) {
+      fillData(
+        `/api/public/users?city=${Session.address.name}&lat=${Session.address.lat}&lng=${Session.address.lng}&searchRange=${Session.address.searchRange}`
+      );
+    } else {
+      fillData(
+        `/api/public/users?city=Cordoba Capital, Cordoba, Argentina&lat=-31.4198303&lng=-64.1903709&searchRange=100`
+      );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [Session, auth, users.length]);
 
   const value = {
     users,

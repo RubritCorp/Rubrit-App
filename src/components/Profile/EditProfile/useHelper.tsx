@@ -79,6 +79,9 @@ const useHelper = ({ user, onCloseEditProfile }: Props) => {
     name: string;
     phone: string;
     address: string;
+    lat: number;
+    lng: number;
+    searchRange: number;
     timeZone: string;
   }
 
@@ -115,6 +118,9 @@ const useHelper = ({ user, onCloseEditProfile }: Props) => {
     name: user.name,
     phone: user.phone.number,
     address: user.address.name ? user.address.name : "",
+    lat: user.address.lat ? user.address.lat : 0,
+    lng: user.address.lng ? user.address.lng : 0,
+    searchRange: user.address.searchRange ? user.address.searchRange : 10,
     timeZone: new Date().toTimeString().slice(9),
   };
 
@@ -125,6 +131,7 @@ const useHelper = ({ user, onCloseEditProfile }: Props) => {
       .matches(/^[0-9,+]*$/, "Este campo solo acepta números")
       .min(8, "Número de teléfono invalido."),
     address: Yup.string().required("La ciudad es requerida"),
+    searchRange: Yup.number(),
     timeZone: Yup.string().required("La Zona Horaria es Requerida"),
   });
 
@@ -135,10 +142,8 @@ const useHelper = ({ user, onCloseEditProfile }: Props) => {
 
   const onSubmit = async (values: DataInitialValues) => {
     setLoading(true);
+
     try {
-      const { data } = await axios.get(
-        `http://localhost:8080/maps/geocode?address=${values.address}`
-      );
       interface UpdateData {
         name: string;
         phone: {
@@ -149,6 +154,7 @@ const useHelper = ({ user, onCloseEditProfile }: Props) => {
           name: string;
           lat: number;
           lng: number;
+          searchRange: number;
           timeZone: string;
         };
       }
@@ -160,9 +166,10 @@ const useHelper = ({ user, onCloseEditProfile }: Props) => {
           number: values.phone,
         },
         address: {
-          name: data[0].formatted_address,
-          lat: data[0].geometry.location.lat,
-          lng: data[0].geometry.location.lng,
+          name: values.address,
+          lat: values.lat,
+          lng: values.lng,
+          searchRange: values.searchRange,
           timeZone: values.timeZone,
         },
       };
@@ -171,8 +178,8 @@ const useHelper = ({ user, onCloseEditProfile }: Props) => {
         email: user.email,
         ...newData,
       });
-      reloadSession();
       setLoading(false);
+      reloadSession();
       toast({
         title: "Su perfil fue modificado con exito.",
         status: "success",
