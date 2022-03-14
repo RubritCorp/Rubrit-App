@@ -7,7 +7,7 @@ import { ICategory } from "models/Category/ICategory";
 //db
 import "utils/db";
 import Subcategory from "models/Subcategory";
-//comment for deploy
+
 type DataCategories = {
   message: string;
   categories?: any;
