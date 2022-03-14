@@ -250,7 +250,7 @@ const ProfessionalForm: React.FC = () => {
           </Box>
         )}
       </Formik>
-      <Box margin={"0 50px"}>
+      <Box margin={"0 55px"}>
         {values.companyName.length > 0 && (
           <>
             <Text></Text>
