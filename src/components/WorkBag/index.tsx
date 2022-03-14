@@ -24,10 +24,18 @@ import {
   InputGroup,
   InputLeftElement,
   Textarea,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from "@chakra-ui/react";
+//from modules
 import React, { ReactNode, useEffect, useState } from "react";
-
-import { Cards, CurrencyDollarSimple, Envelope, Phone } from "phosphor-react";
+//icons
+import { CurrencyDollarSimple, Envelope, Phone } from "phosphor-react";
+import { useSession } from "next-auth/react";
 
 const Testimonial = ({ children }: { children: ReactNode }) => {
   return <Box>{children}</Box>;
@@ -36,19 +44,25 @@ const Testimonial = ({ children }: { children: ReactNode }) => {
 const TestimonialAvatar = ({
   src,
   name,
-  title,
+  location,
 }: {
   src: string;
   name: string;
-  title: string;
+  location: string;
 }) => {
   return (
     <Flex align={"center"} mt={8} direction={"column"}>
       <Avatar src={src} mb={2} />
       <Stack spacing={-1} align={"center"}>
-        <Text fontWeight={600}>{name}</Text>
-        <Text fontSize={"sm"} color={useColorModeValue("gray.600", "gray.400")}>
-          {title}
+        <Text fontWeight={600} mb={2}>
+          {name}
+        </Text>
+        <Text
+          fontSize={"sm"}
+          color={useColorModeValue("gray.600", "gray.400")}
+          textAlign={"center"}
+        >
+          {location}
         </Text>
       </Stack>
     </Flex>
@@ -60,11 +74,18 @@ const TestimonialContent = ({ children }: { children: ReactNode }) => {
     <Stack
       maxW={"lg"}
       bg={useColorModeValue("white", "gray.800")}
+      h={"300px"}
       boxShadow={"lg"}
       p={8}
       rounded={"xl"}
       align={"center"}
       pos={"relative"}
+      overflow="hidden"
+      css={{
+        display: "-webkit-box",
+        ["WebkitBoxOrient"]: "vertical",
+        ["WebkitLineClamp"]: "5",
+      }}
       _after={{
         content: `""`,
         w: 0,
@@ -87,83 +108,30 @@ const TestimonialContent = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const TestimonialHeading = ({ children }: { children: ReactNode }) => {
-  return (
-    <Heading as={"h3"} fontSize={"xl"}>
-      {children}
-    </Heading>
-  );
-};
-
 const TestimonialText = ({ children }: { children: ReactNode }) => {
   return (
     <Text
       textAlign={"center"}
       color={useColorModeValue("gray.600", "gray.400")}
       fontSize={"sm"}
+      overflow="hidden"
+      css={{
+        display: "-webkit-box",
+        ["WebkitBoxOrient"]: "vertical",
+        ["WebkitLineClamp"]: "3",
+      }}
     >
       {children}
     </Text>
   );
 };
 
-const workBag = [
-  {
-    name: "Juan Casares",
-    title: "Mar del Plata - Buenos Aires",
-    testimonialHeading: "Pintar Cama",
-    testimonialWork:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud ",
-    src: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-  },
-  {
-    name: "Pedro Casares",
-    title: "Mar del Plata - Buenos Aires",
-    testimonialHeading: "Pintar Hall",
-    testimonialWork:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud ",
-    src: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-  },
-  {
-    name: "Roberto Casares",
-    title: "Mar del Plata - Buenos Aires",
-    testimonialHeading: "Pintar Patio",
-    testimonialWork:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud ",
-    src: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-  },
-  {
-    name: "tomas Casares",
-    title: "Mar del Plata - Buenos Aires",
-    testimonialHeading: "Pintar Baño",
-    testimonialWork:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud ",
-    src: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-  },
-  {
-    name: "Bernardo Casares",
-    title: "Mar del Plata - Buenos Aires",
-    testimonialHeading: "Pintar Living",
-    testimonialWork:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud ",
-    src: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-  },
-  {
-    name: "Ramon Casares",
-    title: "Mar del Plata - Buenos Aires",
-    testimonialHeading: "Pintar Rama",
-    testimonialWork:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud ",
-    src: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-  },
-];
-
-const WorkBag: React.FC = () => {
+const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
   const [card, setCard] = useState([{}]);
   const [value, setValue] = React.useState("");
   const handleChange = (event: any) => setValue(event.target.value);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = React.useRef();
+  const { data: Session, status } = useSession();
   let [text, setText] = useState("");
 
   let handleInputChange = (e: any) => {
@@ -172,28 +140,31 @@ const WorkBag: React.FC = () => {
   };
 
   useEffect(() => {
-    const cardworker = workBag?.map((item: any) => {
-      return {
-        name: item.name,
-        title: item.title,
-        testimonialHeading: item.testimonialHeading,
-        testimonialWork: item.testimonialWork,
-        src: item.src,
-      };
-    });
-    setCard(cardworker);
-  }, []);
+    if (status === "authenticated" || status === "unauthenticated") {
+      const cardworker = nearOffers?.map((item: any) => {
+        return {
+          name: item.userId.name,
+          location: item.location.formattedAddress,
+          title: item.title,
+          testimonialWork: item.description,
+          src: item.userId.profilePic,
+          _id: item._id,
+        };
+      });
+      setCard(cardworker);
+    }
+  }, [nearOffers, Session, status]);
 
-  console.log(card);
-
-  const handleOnCloseCard = (name: any) => {
-    console.log(name);
-    const newCard = card.filter((item: any) => item.name !== name);
+  const handleOnCloseCard = (_id: string) => {
+    const newCard = card.filter((item: any) => item._id !== _id);
     setCard(newCard);
   };
 
+  if (nearOffers.lengt < 1) return <Text>No Hay Ofertas en Tu Zona</Text>;
+
   return (
     <Layout>
+      {/* eslint-disable-next-line react-hooks/rules-of-hooks*/}
       <Box bg={useColorModeValue("gray.100", "gray.700")}>
         <Container maxW={"container.xl"} py={16} as={Stack} spacing={12}>
           <Stack spacing={5} align={"center"}>
@@ -216,14 +187,25 @@ const WorkBag: React.FC = () => {
                         w={"5px"}
                         size={"xs"}
                         variant="outline"
-                        onClick={() => handleOnCloseCard(item.name)}
+                        onClick={() => handleOnCloseCard(item._id)}
                       >
                         x
                       </Button>
                     </Box>
-                    <TestimonialHeading>
-                      {item.testimonialHeading}
-                    </TestimonialHeading>
+                    {/* TESTIMONIAL HEADING */}
+                    <Heading
+                      as={"h3"}
+                      fontSize={"xl"}
+                      textAlign={"center"}
+                      overflow="hidden"
+                      css={{
+                        display: "-webkit-box",
+                        ["WebkitBoxOrient"]: "vertical",
+                        ["WebkitLineClamp"]: "2",
+                      }}
+                    >
+                      {item.title}
+                    </Heading>
 
                     <TestimonialText>{item.testimonialWork}</TestimonialText>
                     <Stack p={3} align={"center"}>
@@ -231,6 +213,8 @@ const WorkBag: React.FC = () => {
                         onClick={onOpen}
                         bg={"green.500"}
                         _hover={{ bg: "green.400" }}
+                        position={"absolute"}
+                        bottom={8}
                       >
                         <Text color={"white"}>Enviar Presupuesto</Text>
                       </Button>
@@ -239,7 +223,7 @@ const WorkBag: React.FC = () => {
                   <TestimonialAvatar
                     src={item.src}
                     name={item.name}
-                    title={item.title}
+                    location={item.location}
                   />
                 </Testimonial>
               ))}

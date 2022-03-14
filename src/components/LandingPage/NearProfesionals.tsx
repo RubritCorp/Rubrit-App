@@ -1,4 +1,4 @@
-import { Heading, Box } from "@chakra-ui/react";
+import { Heading, Box, Alert, AlertIcon, Text, Button } from "@chakra-ui/react";
 import CardProfesional from "components/CardProfesional";
 import Loading from "components/Loading";
 import { useSession } from "next-auth/react";
@@ -87,10 +87,31 @@ const NearProfesionals: React.FC = () => {
       />
       <Heading fontSize={{ base: "lg", md: "2rem" }} textAlign={"center"} p={4}>
         Profesionales cerca de{" "}
-        {Session && auth === "authenticated"
+        {Session?.address.name && auth === "authenticated"
           ? Session.address.name
           : "Cordoba Capital, Argentina"}
       </Heading>
+      {!Session ||
+        (!Session.address.lat && (
+          <Alert status="info" justifyContent={"center"}>
+            <AlertIcon />
+            Recuerde que para Obtener información personalizada debe registrarse
+            y completar la informacion de su perfil!
+            <Text
+              ml={2}
+              cursor="pointer"
+              textDecor={"underline"}
+              onClick={() =>
+                !Session
+                  ? document.getElementById("signInButton")?.click()
+                  : document.getElementById("profile")?.click()
+              }
+            >
+              ¡Vamos Allá!
+            </Text>
+          </Alert>
+        ))}
+
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
         {users.slice(0, 10).map((item, index: number) => (
@@ -108,6 +129,5 @@ const NearProfesionals: React.FC = () => {
     </Box>
   );
 };
-
 
 export default NearProfesionals;

@@ -16,6 +16,7 @@ import Slider from "react-slick";
 import { useState } from "react";
 import { useCategories } from "Provider/CategoriesProvider";
 import Image from "next/image";
+import Link from "next/link";
 
 const CategoryCarousel: React.FC = () => {
   const [slider, setSlider] = useState<Slider | null>(null);
@@ -85,8 +86,6 @@ const CategoryCarousel: React.FC = () => {
 };
 
 const CategoryCard: React.FC<CategoryCardProps> = ({ title, image }) => {
-  console.log(image);
-
   return (
     <Box
       position={"relative"}
@@ -96,29 +95,36 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ title, image }) => {
       borderWidth="1px"
       rounded="lg"
       shadow="lg"
+      cursor={"pointer"}
+      _hover={{
+        transform: "scale(1.03)",
+        transition: "0.5s",
+      }}
     >
-      <Image
-        src={image}
-        quality={50}
-        width={"100%"}
-        height={"100%"}
-        objectFit={"cover"}
-        layout={"fill"}
-        alt="cat-image"
-      />
-      <Center>
-        <Heading
-          position={"absolute"}
-          top={"45%"}
-          textAlign={"center"}
-          zIndex={1}
-          color={"white"}
-          as="h3"
-          size="lg"
-        >
-          {title}
-        </Heading>
-      </Center>
+      <Link href={`/services/${title}`} passHref>
+        <Image
+          src={image}
+          quality={50}
+          objectFit={"cover"}
+          layout={"fill"}
+          alt="cat-image"
+        />
+      </Link>
+      <Link href={`/services/${title}`} passHref>
+        <Center>
+          <Heading
+            position={"absolute"}
+            top={"45%"}
+            textAlign={"center"}
+            zIndex={1}
+            color={"white"}
+            as="h3"
+            size="lg"
+          >
+            {title}
+          </Heading>
+        </Center>
+      </Link>
     </Box>
   );
 };

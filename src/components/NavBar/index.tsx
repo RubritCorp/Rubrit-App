@@ -42,13 +42,6 @@ import Profile from "components/Profile/Profile";
 //providers
 import { useCategories } from "Provider/CategoriesProvider";
 
-interface NavItem {
-  label: string;
-  subLabel?: string;
-  children?: Array<NavItem>;
-  href?: string;
-}
-
 const WithSubnavigation: React.FC = () => {
   const toast = useToast();
   const [isAuth, setIsAuth] = useState<boolean>();
@@ -199,6 +192,7 @@ const WithSubnavigation: React.FC = () => {
                       name={user?.name}
                       cursor={"pointer"}
                       size={"sm"}
+                      id={"profile"}
                     />
                   )}
                 </MenuButton>

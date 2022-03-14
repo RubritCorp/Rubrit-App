@@ -20,23 +20,31 @@ import { GetServerSideProps, NextPage } from "next";
 import getCategoryByName from "pages/api/public/categories/getCategoryByName";
 import { useSession } from "next-auth/react";
 import Loading from "components/Loading";
+import { useRouter } from "next/router";
 
 //styles
 
-const Services: NextPage<{ category: any }> = ({ category }) => {
+const Services: NextPage<{ category: any; name: string }> = ({
+  category,
+  name,
+}) => {
   const { users } = useUsers();
   const { data: Session } = useSession();
   const [filteredUsers, setFilteredUsers] = useState<IUser[]>([]);
-  const [cat, setCat] = useState<any>();
+  const [cat, setCat] = useState<any>({});
 
   useEffect(() => {
     if (users.length && Object.keys(category).length > 0) {
       var info = JSON.parse(category);
       setCat(info.category[0]);
-      setFilteredUsers(users);
+
+      setFilteredUsers(
+        users.filter((f) =>
+          f.items.map((m) => m.category.name).includes(cat.name)
+        )
+      );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category, users]);
+  }, [cat.name, category, name, users]);
 
   if (!cat || Object.keys(users).length < 1)
     return (
@@ -54,6 +62,7 @@ const Services: NextPage<{ category: any }> = ({ category }) => {
         bgImage={cat?.picture_big}
         bgPosition={"center"}
         bgSize={"cover"}
+        bgRepeat={"no-repeat"}
         color={"#fafafa"}
       >
         <Container maxW={"container.xl"} py={10}>
@@ -113,7 +122,7 @@ const Services: NextPage<{ category: any }> = ({ category }) => {
         }}
         gap={6}
       >
-        {users?.map((m: IUser, i: number) => (
+        {filteredUsers?.map((m: IUser, i: number) => (
           <GridItem key={i} w={"100%"}>
             <CardProfesional
               _id={m._id}
@@ -135,16 +144,22 @@ export default Services;
 
 interface ServerSideProps extends ParsedUrlQuery {
   query: string;
+  params: string;
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const { name } = query as ServerSideProps;
+export const getServerSideProps: GetServerSideProps = async ({
+  query,
+  params,
+}) => {
+  /* const { name } = query as ServerSideProps; */
+  const { name } = params as ServerSideProps;
 
   const category = await getCategoryByName(`${name}`);
 
   return {
     props: {
       category: JSON.stringify(category),
+      name,
     },
   };
 };

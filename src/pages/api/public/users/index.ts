@@ -5,6 +5,7 @@ import { IUser } from "models/User/IUser";
 import User from "models/User";
 //db
 import "utils/db";
+import Category from "models/Category";
 
 interface ICases {
   GET(req: NextApiRequest, res: NextApiResponse<DataUsers>): void;
@@ -63,8 +64,7 @@ const cases: ICases = {
       return res.status(404).json({ message: "Data is required" });
 
     try {
-      const cityMatch = `${city}`.split(",");
-
+      await Category.find();
       const populateQuery = [
         {
           path: "items.category",
