@@ -1,14 +1,14 @@
 //from modules
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
+//db
+import "utils/db";
 //models
-import User from "../../../../models/User";
+import User from "models/User";
 import Category from "models/Category";
 import Subcategory from "models/Subcategory";
 //interface
-import { IUser } from "../../../../models/User/IUser";
-//db
-import "utils/db";
+import { IUser } from "models/User/IUser";
 
 type Data = {
   message: string;
