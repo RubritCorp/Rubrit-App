@@ -34,6 +34,8 @@ import {
   Checkbox,
   Stack,
   Icon,
+  Heading,
+  ñ,
 } from "@chakra-ui/react";
 import { Formik } from "formik";
 
@@ -56,6 +58,13 @@ const ProfessionalForm: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { categories } = useCategories();
   const { data: session } = useSession();
+  const [values, setValues] = useState<any>({
+    companyName: "",
+    description: "",
+    rangeCoverage: 0,
+    images: [],
+    categories: [],
+  });
   const handleOnSubmit2 = async (event: any, values: any) => {
     event.preventDefault();
     let categoriesArray: any[] = [];
@@ -103,21 +112,21 @@ const ProfessionalForm: React.FC = () => {
       });
 
       onSubmit(finalValues);
+      setValues({ ...finalValues, images: urls });
     }
   };
 
   return (
     <Flex
-      flexDirection={"column"}
+      flexDirection={"row"}
       alignItems={"flex-start"}
       width={"100%"}
       minH={"100%"}
       padding={"1rem"}
     >
-      <Box padding={"0.5rem 0"}>
+      {/* <Box padding={"0.5rem 0"}>
         <Text>Necesitamos una descripcion de lo que haces</Text>
-      </Box>
-
+      </Box> */}
       <Formik
         initialValues={initialValues}
         onSubmit={handleOnSubmit2}
@@ -241,6 +250,41 @@ const ProfessionalForm: React.FC = () => {
           </Box>
         )}
       </Formik>
+      <Box margin={"0 55px"}>
+        {values.companyName.length > 0 && (
+          <>
+            <Text></Text>
+            <Box>
+              <Heading size="md">Compañia</Heading>
+              <Text>{values?.companyName}</Text>
+            </Box>
+            <Box>
+              <Heading size="md">Descripcion</Heading>
+              <Text>{values?.description}</Text>
+            </Box>
+            <Box>
+              <Heading size="md">Rango de cobertura</Heading>
+              <Text>{values.rangeCoverage}</Text>
+              <Heading size="sm">Fotos de trabajos realizados</Heading>
+              <Box boxSize="sm" margin={"20px 0"}>
+                <Image src={values.images[0]} boxSize="100px" alt="alt" />
+              </Box>
+              <Heading size="sm">Categorias</Heading>
+              {console.log(values.categories)}
+              {values.categories.map((cat: any) => (
+                <>
+                  <Text>{cat.name}</Text>
+                  <Box>
+                    {cat.subcategories.map((sub: any) => (
+                      <Text>{sub.name}</Text>
+                    ))}
+                  </Box>
+                </>
+              ))}
+            </Box>
+          </>
+        )}
+      </Box>
     </Flex>
   );
 };
