@@ -253,6 +253,7 @@ const ProfessionalForm: React.FC = () => {
       <Box margin={"0 50px"}>
         {values.companyName.length > 0 && (
           <>
+            <Text></Text>
             <Box>
               <Heading size="md">Compañia</Heading>
               <Text>{values?.companyName}</Text>
