@@ -15,7 +15,7 @@ interface ICases {
 
 type DataUsers = {
   message: string;
-  users?: IUser[];
+  users?: any;
 };
 
 type DataError = {
