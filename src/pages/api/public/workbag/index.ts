@@ -95,7 +95,6 @@ export default async function getNearServices({
     } else {
       services = await ServiceRequest.find().populate(populateQuery);
     }
-    console.log(services);
 
     const nearServices = services.filter(
       (offer: any) =>
