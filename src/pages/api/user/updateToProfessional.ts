@@ -27,15 +27,21 @@ interface DataAccesDenied {
 
 const cases: ICases = {
   PUT: async (req, res) => {
-    const { email , categories, images, rangeCoverage} = req.body;
-    console.log(email, categories,images, rangeCoverage)
-    const user = await User.findOne({ email: email });
+    const { id , categories, images, rangeCoverage, description, companyName} = req.body;
+    
+    const user = await User.findOne({ _id: id });
 
-    console.log("user", user)
+    
     if (!user) return res.status(404).json({ message: "User not found" });
     user.isWorker = true;
-    user.items = categories
-    
+    user.items = categories;
+
+    user.workerData = {
+      rangeCoverage: rangeCoverage,
+      description: description,
+      companyName: companyName,
+      images: images
+    }
 
     user.save();
     res.status(200).json({ message: "Profile was modified", user });

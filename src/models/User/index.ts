@@ -1,7 +1,7 @@
 //from modules
 import mongoose, { model, models, Schema, Types } from "mongoose";
 import { boolean } from "yup";
-import { number } from "yup/lib/locale";
+//import { number } from "yup/lib/locale";
 //interfaces
 import { IUser } from "./IUser";
 
@@ -118,6 +118,20 @@ const userSchema = new Schema(
         },
       },
     ],
+    workerData: {
+      companyName: {
+        type: String,
+      },
+      description: {
+        type: String,
+      },
+      images: [{
+        type: String,
+      }],
+      rangeCoverage: {
+        type: Number,
+      },
+  },
     items: [
       {
         category: {

@@ -94,13 +94,15 @@ const ProfessionalForm: React.FC = () => {
       } = await axios.post(`${envConfig?.apiUrl}/aws/upload-files`, formData);
 
       const data = await axios.put("/api/user/updateToProfessional", {
-        email: session!.email,
+        id: session!._id,
         categories: finalValues.categories,
         images: urls,
+        description: finalValues.description,
+        companyName: finalValues.companyName,
         rangeCoverage: finalValues.rangeCoverage,
       });
-      //console.log(data);
-      //onSubmit(finalValues);
+
+      onSubmit(finalValues);
     }
   };
 
