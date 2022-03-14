@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 //models
 import User from "../../../../models/User";
+import Category from "models/Category";
 //interface
 import { IUser } from "../../../../models/User/IUser";
 //db
@@ -33,7 +34,8 @@ interface ICases {
 
 
 export async function getUser(userId: any) {
-      
+  await Category.find();
+  
   const populateQuery = [
     {
       path: "items.category",
