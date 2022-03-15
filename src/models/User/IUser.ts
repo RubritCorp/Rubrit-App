@@ -55,5 +55,5 @@ export interface IUser {
   items: HItems[];
   requests: {
     received: Types.ObjectId[];
-    send: Types.ObjectId[];
+    sent: Types.ObjectId[];
 }}
