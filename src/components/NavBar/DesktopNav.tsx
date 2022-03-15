@@ -41,6 +41,9 @@ export default function DesktopNav() {
       <Box
         borderBottom={"2px solid transparent"}
         _hover={{ borderBottom: "2px solid #2EB67D" }}
+        d={"flex"}
+        alignItems={"center"}
+        justifyContent={"center"}
       >
         <Popover trigger="hover" placement={"bottom-start"}>
           <PopoverTrigger>
@@ -54,6 +57,7 @@ export default function DesktopNav() {
                 color: linkHoverColor,
               }}
               cursor="pointer"
+              textAlign={"center"}
             >
               Servicios
             </Text>
@@ -127,6 +131,7 @@ export default function DesktopNav() {
                 color: linkHoverColor,
               }}
               cursor="pointer"
+              textAlign={"center"}
             >
               Buscar Servicios
             </Text>
@@ -153,6 +158,7 @@ export default function DesktopNav() {
                 color: linkHoverColor,
               }}
               cursor="pointer"
+              textAlign={"center"}
             >
               Ofrece tus Servicios
             </Text>
@@ -179,6 +185,7 @@ export default function DesktopNav() {
                 color: linkHoverColor,
               }}
               cursor="pointer"
+              textAlign={"center"}
             >
               Bolsa de Trabajo
             </Text>

@@ -69,12 +69,12 @@ const cases: ICases = {
       await Subcategory.find();
       const populateQuery = [
         {
-          path: "items.category",
+          path: "workerData.items.category",
           model: "Category",
           select: "_id name picture_small",
         },
         {
-          path: "items.subcategories",
+          path: "workerData.items.subcategories",
           model: "Subcategory",
           select: "_id name",
         },
