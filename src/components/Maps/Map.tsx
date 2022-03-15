@@ -2,6 +2,8 @@ import { useEffect, useRef, useLayoutEffect, useState } from "react";
 import { Loader } from "@googlemaps/js-api-loader";
 import styles from "./Map.module.css";
 
+type Props = {};
+
 const Map: React.FC<{ location: any; coverage?: number }> = ({
   location,
   coverage,

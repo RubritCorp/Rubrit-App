@@ -37,6 +37,10 @@ import PremiumDetails from "./PremiumDetails";
 
 import ProfessionalForm from "./ProfessionalForm/";
 import Requests from "./Requests";
+//next
+import { NextPage } from "next";
+
+
 
 interface ICases {
   accountSettings(session: Session): ReactElement;
@@ -47,7 +51,8 @@ interface ICases {
   premiumDetails(session: Session): ReactElement;
 }
 
-const Index: React.FC = () => {
+
+const Index: NextPage = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const { site } = router.query;
@@ -84,10 +89,10 @@ const Index: React.FC = () => {
       return <ProfessionalForm />;
     },
     premiumDetails: (session) => {
-      return <PremiumDetails />;
+      return <PremiumDetails payerId={session.payerId} email={session.email} />;
     },
     becomePremium: (session) => {
-      return <BecomePremium />;
+      return <BecomePremium email={session.email} />;
     },
   };
 
@@ -310,45 +315,44 @@ const Content: React.FC<{ payerId: string }> = ({ payerId }) => {
             <Divider w={"90%"} />
           </Flex>
         </Link>
-
-        {payerId.length === 0 ? (
-          <Link href="myAccount?site=becomePremium" passHref>
-            <Flex alignItems={"center"} flexDirection={"column"}>
-              <Flex
-                h={10}
-                w={"100%"}
-                justifyContent={"space-between"}
-                alignItems={"center"}
-                p={3}
-                mb={3}
-                _hover={{
-                  textDecoration: "none",
-                  color: "green.400",
-                  // eslint-disable-next-line react-hooks/rules-of-hooks
-                  bg: useColorModeValue("#ebe8e8", "#1e242e"),
-                }}
-              >
-                <Flex alignItems={"center"}>
-                  <Image
-                    src={Premium}
-                    alt="user-image"
-                    width={"30px"}
-                    height={"30px"}
-                  />
-                  <Text cursor={"pointer"} ml={3}>
-                    Hacerse Premium
-                  </Text>
-                </Flex>
-                <ChevronRightIcon />
+        <Link
+          href={`myAccount?site=${
+            payerId.length === 0 ? "becomePremium" : "premiumDetails"
+          }`}
+          passHref
+        >
+          <Flex alignItems={"center"} flexDirection={"column"}>
+            <Flex
+              h={10}
+              w={"100%"}
+              justifyContent={"space-between"}
+              alignItems={"center"}
+              p={3}
+              mb={3}
+              _hover={{
+                textDecoration: "none",
+                color: "green.400",
+                bg: useColorModeValue("#ebe8e8", "#1e242e"),
+              }}
+            >
+              <Flex alignItems={"center"}>
+                <Image
+                  src={Premium}
+                  alt="user-image"
+                  width={"30px"}
+                  height={"30px"}
+                />
+                <Text cursor={"pointer"} ml={3}>
+                  {payerId.length === 0
+                    ? "Hacerse Premium"
+                    : "Detalles del Premium"}
+                </Text>
               </Flex>
-              <Divider w={"90%"} />
+              <ChevronRightIcon />
             </Flex>
-          </Link>
-        ) : (
-          <Link href="myAccount?site=premiumDetails" passHref>
-            <Text cursor={"pointer"}>Detalles Premium</Text>
-          </Link>
-        )}
+            <Divider w={"90%"} />
+          </Flex>
+        </Link>
         <Link href="/" passHref>
           <Flex alignItems={"center"} flexDirection={"column"}>
             <Flex

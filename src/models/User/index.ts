@@ -155,7 +155,7 @@ const userSchema = new Schema(
 
     requests: {
       received: [{ type: Types.ObjectId, ref: "ServiceRequest" }],
-      send: [{ type: Types.ObjectId, ref: "ServiceRequest" }],
+      sent: [{ type: Types.ObjectId, ref: "ServiceRequest" }],
     },
   },
   {

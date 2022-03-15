@@ -40,7 +40,7 @@ const Services: NextPage<{ category: any; name: string }> = ({
 
       setFilteredUsers(
         users.filter((f) =>
-          f.items.map((m) => m.category.name).includes(cat.name)
+          f.workerData.items.map((m) => m.category.name).includes(cat.name)
         )
       );
     }
@@ -126,12 +126,12 @@ const Services: NextPage<{ category: any; name: string }> = ({
           <GridItem key={i} w={"100%"}>
             <CardProfesional
               _id={m._id}
-              img={m.items[0].category.picture_small}
+              img={m.workerData.items[0].category.picture_small}
               name={m.name}
               city={m.address.name}
               avatar={m.profilePic}
               description={m.description}
-              categories={m.items.map((m: any) => m.category.name)}
+              categories={m.workerData.items.map((m: any) => m.category.name)}
             />
           </GridItem>
         ))}
