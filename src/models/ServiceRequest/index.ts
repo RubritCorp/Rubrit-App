@@ -30,7 +30,8 @@ const serviceRequestSchema = new Schema(
     isActive: {
       type: Boolean,
       required: true
-    }
+    },
+    contractId: Types.ObjectId,
   },
   {
     timestamps: true,

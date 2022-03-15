@@ -13,4 +13,5 @@ export default interface IServiceRequest {
   category: Types.ObjectId;
   subcategory: Types.ObjectId;
   isActive: boolean;
+  contractID: Types.ObjectId;
 }

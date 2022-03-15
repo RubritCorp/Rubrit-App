@@ -109,8 +109,8 @@ export default NextAuth({
           isAuthenticated: userSession.isAuthenticated,
           isWorker: userSession.isWorker,
           preferences: userSession.preferences,
-          items: userSession.items,
-          offers: userSession.offers,
+          workerData: userSession.workerData,
+          requests: userSession.requests,
           payerId: userSession.payerId,
         };
         return newSession;
