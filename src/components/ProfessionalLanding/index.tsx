@@ -32,7 +32,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
   const theme = useTheme();
   const [loading, setLoading] = useState<boolean>(false);
   const user = JSON.parse(props.user);
-  const { items } = user;
+  const { workerData } = user;
 
   console.log(user);
 
@@ -57,6 +57,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
               objectFit={"cover"}
             ></Image>
           </Box>
+
           <Flex flexDirection={"column"}>
             <Flex
               flexDirection={"row"}
@@ -68,10 +69,18 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 <Heading fontSize={{ base: "1rem", md: "1.2rem", lg: "2rem" }}>
                   {user.name}
                 </Heading>
-
-                <Text color={"medium_green"}>Plomero</Text>
+                <Flex>
+                  {workerData.items?.map((cat: any, i: number) => {
+                    return (
+                      <Flex flexDirection={"column"}>
+                        <Text color={"medium_green"} key={i}>
+                          {cat.category.name}
+                        </Text>
+                      </Flex>
+                    );
+                  })}
+                </Flex>
                 <Text>{user.address.name}</Text>
-
                 <Flex flexDirection={"column"}>
                   <Flex flexDirection={"row"}>
                     <Star size={20} weight="fill" />
@@ -103,6 +112,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   </Flex>
                 </Flex>
               </Flex>
+
               <Flex flexDirection={"column"} alignItems={"center"}>
                 <Link
                   href={{ pathname: "/request/new", query: { id: user._id } }}
@@ -172,7 +182,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                     DESCRIPCION
                   </Heading>
                   <Box>
-                    {items?.map((e: any, index: number) => (
+                    {workerData.items?.map((e: any, index: number) => (
                       <Text key={index} margin={"1em"}>
                         {e.description}
                       </Text>
@@ -195,34 +205,20 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                     flexDirection={"row"}
                     flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}
                   >
-                    <Image
-                      maxW="100px"
-                      src="https://s03.s3c.es/imag/_v0/770x420/6/4/2/Google-maps-nueva-york.jpg"
-                      borderRadius={"0.3rem"}
-                      alt="Dan Abramov"
+                    
+          {workerData?.images.map((img: any, index: number) => (
+            <Image
+              key={index}
+              src={img.src}
+              alt={img.index}
+              maxW="100px"
+                borderRadius={"0.3rem"}
                       margin={"1rem"}
-                    ></Image>
-                    <Image
-                      maxW="100px"
-                      src="https://s03.s3c.es/imag/_v0/770x420/6/4/2/Google-maps-nueva-york.jpg"
-                      borderRadius={"0.3rem"}
-                      alt="Dan Abramov"
-                      margin={"1rem"}
-                    ></Image>
-                    <Image
-                      maxW="100px"
-                      src="https://s03.s3c.es/imag/_v0/770x420/6/4/2/Google-maps-nueva-york.jpg"
-                      borderRadius={"0.3rem"}
-                      alt="Dan Abramov"
-                      margin={"1rem"}
-                    ></Image>
-                    <Image
-                      maxW="100px"
-                      src="https://s03.s3c.es/imag/_v0/770x420/6/4/2/Google-maps-nueva-york.jpg"
-                      borderRadius={"0.3rem"}
-                      alt="Dan Abramov"
-                      margin={"1rem"}
-                    ></Image>
+              
+            />
+          ))}
+        
+                    
                   </Flex>
                   <Divider margin={"1em 0"}></Divider>
                 </Box>
@@ -283,7 +279,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   boxShadow={"lg"}
                   overflowY={"auto"}
                 >
-                  {items?.map((cat: any, index: number) => {
+                  {workerData.items?.map((cat: any, index: number) => {
                     console.log(cat);
                     return (
                       <Flex flexDirection={"column"} key={cat.category.name}>

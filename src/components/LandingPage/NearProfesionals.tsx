@@ -119,7 +119,7 @@ const NearProfesionals: React.FC = () => {
             key={index}
             _id={item._id}
             name={item.name}
-            img={item.items[0].category.picture_small}
+            img={item.workerData.items[0].category.picture_small}
             avatar={item.profilePic}
             city={item.address.name}
             description={item.description}

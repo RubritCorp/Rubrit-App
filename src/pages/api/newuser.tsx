@@ -22,7 +22,6 @@ import User from "models/User";
 import { IUser } from "models/User/IUser";
 //db
 import "utils/db";
-import { TrendUp } from "phosphor-react";
 import { hashPassword } from "utils/verifyPassword";
 
 interface ICases {
@@ -49,29 +48,29 @@ interface DataAccesDenied {
 const cases: ICases = {
   GET: async (req, res) => {
     const f = {
-      email: "workeraguscastro2014.ac@gmail.com",
-      name: "Agustin Castro Trabajador",
+      email: "elianasciclone@gmail.com",
+      name: "Eliana Sciclone",
       phone: {
         diallingCode: "+54",
-        number: "3541661045",
+        number: "1144362868",
       },
-      password: "43366441Ac",
+      password: "milanesaconpure27",
       description:
-        "Soy un profesional de la albañileria, sin embargo me dedico tambien a la reparación de aires acondicionados y a la tapiceria de muebles.",
+        "Arquitectura en general. Documentación y dirección de obras. Reformas.",
       authCode: "",
       withProvider: false,
       isAuthenticated: true,
       profilePic:
-        "https://rubrit-development.s3.sa-east-1.amazonaws.com/assets/profile-pics/hombre_16.jpg",
+        "https://ca.slack-edge.com/TPRS7H4PN-U01M0BP7CQJ-416c76e76358-512",
       isWorker: true,
       isPremium: true,
       payerId: "",
       address: {
-        name: "H. Yrigoyen, Bell Ville, Córdoba, Argentina",
-        city: "Córdoba",
+        name: "Arengreen 805, CABA, Argentina",
+        city: "CABA",
         country: "Argentina",
-        lat: -32.630832,
-        lng: -62.6888761,
+        lat: -34.6111947,
+        lng:-58.4461956,
         searchRange: 30,
         timeZone: "GTM 03",
       },
@@ -84,35 +83,28 @@ const cases: ICases = {
       },
       rating: [
         {
-          userComment: "6230b9925fbcf2faa5764432",
-          description: "Increible Resolución de problemas, un gran albañil.",
+          userComment: "6230c17a5fbcf2faa57644db",
+          description: "Remodeló mi baño y cocina. Me encantó el diseño y trabaja de manera muy profesional",
           score: "4",
         },
       ],
       workerData: {
-        images: [],
+        images: ["https://www.paperarquitectura.com.ar/wp-content/uploads/elementor/thumbs/DSC_0610-scaled-pd7py4uy3eqjm29qgbu45vpcu3oznbj0v4lpzgfp1k.jpg", "https://www.paperarquitectura.com.ar/wp-content/uploads/elementor/thumbs/IMG_20210817_173234_1-pd7s2j6pknbj93aqccohtlo2zj4z9otmp9gg735rbc.jpg"],
         certification: [],
         rangeCoverage: 50,
         items: [
           {
-            category: "622516a44f48774b0a18a864",
+            category: "622648aff10679f2a1cc6a39",
             subcategories: [
-              "62163c7d4e1f963fce2d7aff",
-              "62163c8b4e1f963fce2d7b01",
-              "62163c914e1f963fce2d7b03",
+              "62163cc34e1f963fce2d7b15",
+              "62163cc94e1f963fce2d7b17",
+              "62163ccd4e1f963fce2d7b19",
+              "62163cd14e1f963fce2d7b1b"
             ],
           },
           {
-            category: "622568214f48774b0a18a8ae",
-            subcategories: ["621640ca4e1f963fce2d7c03"],
-          },
-          {
-            category: "622648ac45463523440a7604",
-            subcategories: [
-              "62163c604e1f963fce2d7af9",
-              "62163c6a4e1f963fce2d7afb",
-              "62163c704e1f963fce2d7afd",
-            ],
+            category: "62256f724f48774b0a18a8bf",
+            subcategories: ["621640ca4e1f963fce2d7bfa", "621640ca4e1f963fce2d7bfb"],
           },
         ],
       },
