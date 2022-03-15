@@ -36,6 +36,7 @@ import BecomePremium from "./BecomePremium";
 import PremiumDetails from "./PremiumDetails";
 
 import ProfessionalForm from "./ProfessionalForm/";
+import Requests from "./Requests";
 
 interface ICases {
   accountSettings(session: Session): ReactElement;
@@ -77,7 +78,7 @@ const Index: React.FC = () => {
       return <>My Files</>;
     },
     myRequest: (session) => {
-      return <>My Request</>;
+      return <Requests />;
     },
     offerServices: (session) => {
       return <ProfessionalForm />;
@@ -131,7 +132,7 @@ const Index: React.FC = () => {
         w={{ base: "90%", xl: "70%" }}
         maxW={"1000px"}
         justifyContent={"center"}
-        alignItems={"flex-end"}
+        alignItems={"flex-start"}
       >
         {cases[route](session)}
       </Flex>
