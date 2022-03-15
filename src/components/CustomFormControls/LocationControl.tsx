@@ -17,38 +17,38 @@ export const LocationControl: React.FC<
   const [field, meta, helpers] = useField(props);
   const { setFieldValue } = useFormikContext();
   const { setValue } = helpers;
-  const [ userInput, setUserInput ] = useState<string>('');
+  const [userInput, setUserInput] = useState<string>("");
 
   // PlacesSearchBox documentation: https://developers.google.com/maps/documentation/javascript/places-autocomplete#typescript
   const { ref }: any = usePlacesWidget({
     apiKey: envConfig?.mapsKey, // To do: fix security issue (variable is exposed to browser)
     options: {
-      types: ['address']
+      types: ["address"],
     },
-    onPlaceSelected: (place) => {
+    onPlaceSelected: (place: any) => {
       setValue(place.formatted_address);
       setUserInput(place.formatted_address);
-      setFieldValue('lat', place.geometry.location.lat());
-      setFieldValue('lng', place.geometry.location.lng());
-    }
+      setFieldValue("lat", place.geometry.location.lat());
+      setFieldValue("lng", place.geometry.location.lng());
+    },
   });
 
   // Bug fix: always show pacContainer
-  useEffect(() => {
+  if (typeof window !== "undefined") {
     let pacContainer: any = document.querySelector(".pac-container");
     if (pacContainer) pacContainer.style.zIndex = "99999999";
-  },[])
+  }
 
   // Check if user tries to change address after onPlaceSelected
   useEffect(() => {
-    if (userInput !== '') {
+    if (userInput !== "") {
       if (field.value !== userInput) {
         // Reset values if user modifies location input
-        setValue('');
-        setUserInput('');
+        setValue("");
+        setUserInput("");
       }
     }
-  },[field.value, userInput, setValue])
+  }, [field.value, userInput, setValue]);
 
   return (
     <FormControl isInvalid={meta.touched && !!meta.error}>
@@ -59,8 +59,8 @@ export const LocationControl: React.FC<
         autoComplete="off"
         placeholder="Escribe una dirección"
       />
-      <Field type='hidden' name='lat' />
-      <Field type='hidden' name='lng' />
+      <Field type="hidden" name="lat" />
+      <Field type="hidden" name="lng" />
       {meta.touched && meta.error ? (
         <FormErrorMessage>{meta.error}</FormErrorMessage>
       ) : null}

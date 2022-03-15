@@ -10,7 +10,7 @@ import Subcategory from "models/Subcategory";
 
 type DataCategories = {
   message: string;
-  categories?: ICategory[];
+  categories?: any;
 };
 
 type DataError = {
@@ -32,7 +32,11 @@ const cases: ICases = {
           model: "Subcategory",
         },
       ];
-      const categories = await Category.find().populate(populateQuery);
+
+      const categories = await Category.find()
+        .populate(populateQuery)
+        .sort({ name: 1 });
+
       if (!categories) {
         res.status(404).json({ message: "Error fetching categories" });
       } else {

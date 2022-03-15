@@ -10,6 +10,7 @@ import "utils/db";
 import { verifyPassword } from "utils/verifyPassword";
 //models
 import User from "models/User";
+import envConfig from "../../../../next-env-config";
 
 export default NextAuth({
   session: {
@@ -108,8 +109,8 @@ export default NextAuth({
           isAuthenticated: userSession.isAuthenticated,
           isWorker: userSession.isWorker,
           preferences: userSession.preferences,
-          items: userSession.items,
-          offers: userSession.offers,
+          workerData: userSession.workerData,
+          requests: userSession.requests,
           payerId: userSession.payerId,
         };
         return newSession;
@@ -125,8 +126,8 @@ export default NextAuth({
     */
   },
   pages: {
-    signIn: "http://localhost:3000/",
-    signOut: "http://localhost:3000/",
+    signIn: envConfig?.signIn,
+    signOut: envConfig?.signOut,
     newUser: "http://localhost:3000/COMPLETARPERFIL",
     error: "http://localhost:3000/",
   },

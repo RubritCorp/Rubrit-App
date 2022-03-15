@@ -11,6 +11,7 @@ import {
   verifyPassword,
 } from "utils/verifyPassword";
 import { SMTPClient } from "emailjs";
+import envConfig from "../../../../next-env-config";
 
 interface ICases {
   PUT(req: NextApiRequest, res: NextApiResponse<DataUpdate>): void;
@@ -109,8 +110,8 @@ const cases: ICases = {
             <p>¡Hemos detectado que solicito un cambio de contraseña. Para realizar el cambio ingresa al siguiente enlace!</p>         
             <a href=${
               isAuthenticated
-                ? process.env.CALLBACK_REDIRECT_FORGOT_PASSWORD_IS_AUTHENTICATED
-                : process.env.CALLBACK_REDIRECT_FORGOT_PASSWORD
+                ? envConfig?.forgotPasswordAuthenticated
+                : envConfig?.redirectForgotPassword
             }code=${code}&email=${email}> Click aquí</a></div>`,
               alternative: true,
             },

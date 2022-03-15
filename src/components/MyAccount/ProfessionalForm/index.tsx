@@ -34,6 +34,7 @@ import {
   Checkbox,
   Stack,
   Icon,
+  Heading
 } from "@chakra-ui/react";
 import { Formik } from "formik";
 
@@ -52,10 +53,17 @@ import { MultipleImagesControl } from "../../CustomFormControls/MultipleImagesCo
 import useHelper from "./useHelper";
 
 const ProfessionalForm: React.FC = () => {
-  const { initialValues, onSubmit, validationSchema } = useHelper();
+  const { initialValues, toast, onSubmit, validationSchema } = useHelper();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { categories } = useCategories();
   const { data: session } = useSession();
+  const [values, setValues] = useState<any>({
+    companyName: "",
+    description: "",
+    rangeCoverage: 0,
+    images: [],
+    categories: [],
+  });
   const handleOnSubmit2 = async (event: any, values: any) => {
     event.preventDefault();
     let categoriesArray: any[] = [];
@@ -86,32 +94,54 @@ const ProfessionalForm: React.FC = () => {
         formData.append("files", finalValues.images[i] as any);
       }
     }
-
     if (finalValues.categories.length > 3) {
       alert("Solo puedes seleccionar 3 categorias");
-    }
-    //console.log(envConfig.apiUrl);
+    } else {
+      const {
+        data: { urls },
+      } = await axios.post(`${envConfig?.apiUrl}/aws/upload-files`, formData);
 
-    const { data } = await axios.post(
-      `${envConfig?.apiUrl}/aws/upload-files`,
-      formData
-    );
-    onSubmit(finalValues);
-    //console.log(data.urls);
+      try {
+        const data = await axios.put("/api/user/updateToProfessional", {
+          id: session!._id,
+          categories: finalValues.categories,
+          images: urls,
+          description: finalValues.description,
+          companyName: finalValues.companyName,
+          rangeCoverage: finalValues.rangeCoverage,
+        });
+        setValues({ ...finalValues, images: urls });
+        //onSubmit(finalValues);
+        toast({
+          title: `¡Felicidades!`,
+          description: "Tu perfil como profesional fue creado con exito.",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+      } catch (err) {
+        toast({
+          title: "¡Lo Sentimos!.",
+          description: "Hubo un error en configurar la cuenta.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+    }
   };
 
   return (
     <Flex
-      flexDirection={"column"}
+      flexDirection={"row"}
       alignItems={"flex-start"}
       width={"100%"}
       minH={"100%"}
       padding={"1rem"}
     >
-      <Box padding={"0.5rem 0"}>
+      {/* <Box padding={"0.5rem 0"}>
         <Text>Necesitamos una descripcion de lo que haces</Text>
-      </Box>
-
+      </Box> */}
       <Formik
         initialValues={initialValues}
         onSubmit={handleOnSubmit2}
@@ -187,8 +217,8 @@ const ProfessionalForm: React.FC = () => {
                                     <Flex key={index}>
                                       <CheckboxControl
                                         name={cat.name}
-                                        value={sub._id}
-                                        id={sub._id}
+                                        value={sub._id.toString()}
+                                        id={sub._id.toString()}
                                       >
                                         {sub.name}
                                       </CheckboxControl>
@@ -235,6 +265,41 @@ const ProfessionalForm: React.FC = () => {
           </Box>
         )}
       </Formik>
+      <Box margin={"0 55px"}>
+        {values.companyName.length > 0 && (
+          <>
+            <Text></Text>
+            <Box>
+              <Heading size="md">Compañia</Heading>
+              <Text>{values?.companyName}</Text>
+            </Box>
+            <Box>
+              <Heading size="md">Descripcion</Heading>
+              <Text>{values?.description}</Text>
+            </Box>
+            <Box>
+              <Heading size="md">Rango de cobertura</Heading>
+              <Text>{values.rangeCoverage}</Text>
+              <Heading size="sm">Fotos de trabajos realizados</Heading>
+              <Box boxSize="sm" margin={"20px 0"}>
+                <Image src={values.images[0]} boxSize="100px" alt="alt" />
+              </Box>
+              <Heading size="sm">Categorias</Heading>
+
+              {values.categories.map((cat: any) => (
+                <>
+                  <Text>{cat.name}</Text>
+                  <Box>
+                    {cat.subcategories.map((sub: any, i: number) => (
+                      <Text key={i}>{sub.name}</Text>
+                    ))}
+                  </Box>
+                </>
+              ))}
+            </Box>
+          </>
+        )}
+      </Box>
     </Flex>
   );
 };

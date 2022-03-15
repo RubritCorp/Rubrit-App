@@ -36,8 +36,11 @@ import BecomePremium from "./BecomePremium";
 import PremiumDetails from "./PremiumDetails";
 
 import ProfessionalForm from "./ProfessionalForm/";
+import Requests from "./Requests";
 //next
 import { NextPage } from "next";
+
+
 
 interface ICases {
   accountSettings(session: Session): ReactElement;
@@ -47,6 +50,7 @@ interface ICases {
   becomePremium(session: Session): ReactElement;
   premiumDetails(session: Session): ReactElement;
 }
+
 
 const Index: NextPage = () => {
   const router = useRouter();
@@ -79,7 +83,7 @@ const Index: NextPage = () => {
       return <>My Files</>;
     },
     myRequest: (session) => {
-      return <>My Request</>;
+      return <Requests />;
     },
     offerServices: (session) => {
       return <ProfessionalForm />;
@@ -122,15 +126,7 @@ const Index: NextPage = () => {
       position={"relative"}
       mb={14}
     >
-      <Flex
-        d={{ base: "none", xl: "flex" }}
-        h={"90%"}
-        mr={10}
-        ml={10}
-        position={"absolute"}
-        left={0}
-        top={15}
-      >
+      <Flex d={{ base: "none", xl: "flex" }} h={"90%"} mr={10} ml={10}>
         {
           <Content
             payerId={session && session.payerId ? session.payerId : ""}
@@ -139,35 +135,15 @@ const Index: NextPage = () => {
       </Flex>
       <Flex
         w={{ base: "90%", xl: "70%" }}
-        maxW={"1200px"}
+        maxW={"1000px"}
         justifyContent={"center"}
-        alignItems={"flex-end"}
-        ml={{ base: 0, xl: "60" }}
+        alignItems={"flex-start"}
       >
         {cases[route](session)}
       </Flex>
     </Flex>
   );
 };
-
-export async function getServerSideProps(context: any) {
-  const session = await getSession(context);
-
-  if (session) {
-    return {
-      props: {
-        session,
-      },
-    };
-  } else {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-}
 
 export default Index;
 
@@ -195,9 +171,9 @@ const Content: React.FC<{ payerId: string }> = ({ payerId }) => {
   return (
     <Box
       marginTop={3}
-      fontSize={"xl"}
+      fontSize={{ base: "md", xl: "xl" }}
       fontWeight={700}
-      h={"95%"}
+      h={{ base: "40vh", xl: "90vh" }}
       bg={{
         base: "transparent",
         xl: useColorModeValue("#fafafa", "#1A202C"),
@@ -209,7 +185,8 @@ const Content: React.FC<{ payerId: string }> = ({ payerId }) => {
         color={"medium_green"}
         pt={5}
         pl={5}
-        d={{ base: "none", xl: "block" }}
+        d={{ base: "block", md: "none", xl: "block" }}
+        fontSize={{ base: "lg" }}
       >
         Panel
       </Text>
@@ -338,7 +315,6 @@ const Content: React.FC<{ payerId: string }> = ({ payerId }) => {
             <Divider w={"90%"} />
           </Flex>
         </Link>
-
         <Link
           href={`myAccount?site=${
             payerId.length === 0 ? "becomePremium" : "premiumDetails"

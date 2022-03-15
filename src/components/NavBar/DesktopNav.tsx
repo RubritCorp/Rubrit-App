@@ -1,10 +1,8 @@
 //from chakra
 import {
   Box,
-  Flex,
   Text,
   Stack,
-  Icon,
   Popover,
   PopoverTrigger,
   PopoverContent,
@@ -12,39 +10,40 @@ import {
 } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import axios from "axios";
-
-interface NavItem {
-  label: string;
-  subLabel?: string;
-  children?: Array<NavItem>;
-  href?: string;
-}
+import { ICategories, useCategories } from "Provider/CategoriesProvider";
+import { useRouter } from "next/router";
 
 export default function DesktopNav() {
   const linkColor = useColorModeValue("gray.600", "gray.200");
   const linkHoverColor = useColorModeValue("gray.800", "white");
+  const { categories } = useCategories();
+  const { pathname } = useRouter();
 
-  const [categories, setCategories] = useState<any>([]);
-
-  useEffect(() => {
-    //solo para la demo
-    const fillCategories = async () => {
-      const { data } = await axios.get("/api/categories");
-      if (categories.length < 1) {
-        setCategories(data.categories);
-      }
+  const selectedPath = (path: string) => {
+    const cases = {
+      ["/services"]: "Servicios",
+      ["/findServices"]: "Buscar Servicios",
+      ["/offerServices"]: "Ofrece tus Servicios",
+      ["/workbag"]: "Bolsa de Trabajo",
     };
-    fillCategories();
-    /* ------ */
-  }, [categories]);
+    if (
+      (path && path === "/services") ||
+      path === "/findServices" ||
+      path === "/offerServices" ||
+      path === "/workbag"
+    ) {
+      return cases[path];
+    }
+  };
 
   return (
     <Stack direction={"row"} spacing={4}>
       <Box
         borderBottom={"2px solid transparent"}
         _hover={{ borderBottom: "2px solid #2EB67D" }}
+        d={"flex"}
+        alignItems={"center"}
+        justifyContent={"center"}
       >
         <Popover trigger="hover" placement={"bottom-start"}>
           <PopoverTrigger>
@@ -58,6 +57,7 @@ export default function DesktopNav() {
                 color: linkHoverColor,
               }}
               cursor="pointer"
+              textAlign={"center"}
             >
               Servicios
             </Text>
@@ -70,22 +70,22 @@ export default function DesktopNav() {
             maxH={"400px"}
             overflowY="auto"
             css={{
-              '&::-webkit-scrollbar': {
-                width: '7px',
+              "&::-webkit-scrollbar": {
+                width: "7px",
               },
-              '&::-webkit-scrollbar-track': {
-                width: '15px',
+              "&::-webkit-scrollbar-track": {
+                width: "15px",
               },
-              '&::-webkit-scrollbar-thumb': {
+              "&::-webkit-scrollbar-thumb": {
                 background: "#38a169",
-                borderRadius: '24px',
+                borderRadius: "24px",
               },
             }}
           >
-            {categories.map((m: any, i: number) => (
+            {categories.map((m: ICategories, i: number) => (
               <Box key={i}>
                 <Popover trigger={"hover"} placement={"bottom-start"}>
-                  <Link passHref href={`/services?service=${m.name}`}>
+                  <Link passHref href={{ pathname: `/services/${m.name}` }}>
                     <Text
                       d={"flex"}
                       justifyContent={"space-between"}
@@ -112,7 +112,11 @@ export default function DesktopNav() {
         </Popover>
       </Box>
       <Box
-        borderBottom={"2px solid transparent"}
+        borderBottom={
+          selectedPath(`${pathname}`) === "Buscar Servicios"
+            ? "2px solid #2EB67D"
+            : "2px solid transparent"
+        }
         _hover={{ borderBottom: "2px solid #2EB67D" }}
       >
         <Popover trigger="hover" placement={"bottom-start"}>
@@ -127,6 +131,7 @@ export default function DesktopNav() {
                 color: linkHoverColor,
               }}
               cursor="pointer"
+              textAlign={"center"}
             >
               Buscar Servicios
             </Text>
@@ -134,7 +139,11 @@ export default function DesktopNav() {
         </Popover>
       </Box>
       <Box
-        borderBottom={"2px solid transparent"}
+        borderBottom={
+          selectedPath(`${pathname}`) === "Ofrece tus Servicios"
+            ? "2px solid #2EB67D"
+            : "2px solid transparent"
+        }
         _hover={{ borderBottom: "2px solid #2EB67D" }}
       >
         <Popover trigger="hover" placement={"bottom-start"}>
@@ -149,6 +158,7 @@ export default function DesktopNav() {
                 color: linkHoverColor,
               }}
               cursor="pointer"
+              textAlign={"center"}
             >
               Ofrece tus Servicios
             </Text>
@@ -156,7 +166,11 @@ export default function DesktopNav() {
         </Popover>
       </Box>
       <Box
-        borderBottom={"2px solid transparent"}
+        borderBottom={
+          selectedPath(`${pathname}`) === "Bolsa de Trabajo"
+            ? "2px solid #2EB67D"
+            : "2px solid transparent"
+        }
         _hover={{ borderBottom: "2px solid #2EB67D" }}
       >
         <Popover trigger="hover" placement={"bottom-start"}>
@@ -171,6 +185,7 @@ export default function DesktopNav() {
                 color: linkHoverColor,
               }}
               cursor="pointer"
+              textAlign={"center"}
             >
               Bolsa de Trabajo
             </Text>

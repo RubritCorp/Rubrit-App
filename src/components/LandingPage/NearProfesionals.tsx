@@ -1,124 +1,10 @@
-import {
-  Heading,
-  Avatar,
-  Box,
-  Center,
-  Image,
-  Flex,
-  Text,
-  Stack,
-  Button,
-  useColorModeValue,
-  Container,
-  useBreakpointValue,
-} from "@chakra-ui/react";
-import Link from "next/link";
-import { useState } from "react";
+import { Heading, Box, Alert, AlertIcon, Text, Button } from "@chakra-ui/react";
+import CardProfesional from "components/CardProfesional";
+import Loading from "components/Loading";
+import { useSession } from "next-auth/react";
+import { useUsers } from "Provider/UsersProvider";
+import { useEffect, useState } from "react";
 import Slider from "react-slick";
-
-const whatTheySay = [
-  {
-    image: "https://bit.ly/dan-abramov",
-    name: "Jose Cito",
-    city: "Calamuchita",
-    province: "Cordoba",
-    opinion:
-      "RUBRIT ME PERMTIO EMPEZAR A TRABAJAR MAS ORDENADAMENTE GRACIAS A SU AGENDA",
-    avatar: "https://bit.ly/dan-abramov",
-    whoYouAre:
-      "Soy gasista de la cuna hasta al cajon. Gasista se nace, no se hace.",
-  },
-  {
-    image:
-      "https://cimacnoticias.com.mx/wp-content/uploads/2016/05/carpintera01citlallilopez.jpg",
-    name: "Gabriela Perez",
-    city: "Rosario",
-    province: "Santa Fe",
-    opinion:
-      "RUBRIT ME PERMITIO AUMENTAR MI CARTERA DE CLIENTES AL DOBLE DE LO QUE TENIA ANTES",
-    avatar:
-      "https://static.vecteezy.com/system/resources/previews/001/158/381/non_2x/portrait-of-a-focused-female-carpenter-hard-at-work-photo.jpg",
-    whoYouAre:
-      "Herede la pasion por el oficio de la carpinteria de mi papa desde muy chica",
-  },
-  {
-    image:
-      "https://www.avanzaentucarrera.com/orientacion/comp/uploads/2017/03/soldador.jpg",
-    name: "Roman Nuñez",
-    city: "Toay",
-    province: "La Pampa",
-    opinion:
-      "RUBRIT ME CAMBIO LA VIDA, EN MI ANTIGUO TRABAJO ME EXPLOTABAN, ESTOY FELIZ",
-    avatar:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStwpI95Iv1CZt28y1SXtMTWv5ky1IRTyG6hw&usqp=CAU",
-    whoYouAre:
-      "Soy soldador gracias a un amigo que me invito a tomar unos cursos de soldadura",
-  },
-  {
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbtI-Q1GY_zuR8rWplvkVW5xnxJN3TeMhIlQ&usqp=CAU",
-    name: "romina paez",
-    city: "Capital Federal",
-    province: "Buenos Aires",
-    opinion:
-      "A TRAVEZ DE MIS BUENAS CALIFICACIONES EN RUBRIT, ME HICE CONOCER A MUCHOS CLIENTES",
-    avatar:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA-Sj-ohJS3J6K-LeRdQ5Vp-TAZ9MDfReWxw&usqp=CAU",
-    whoYouAre:
-      "Tengo una gran pasion por los niños,a ellos les encanta pasar el tiempo con migo.",
-  },
-  {
-    image:
-      "https://homesolution.net/blog/wp-content/uploads/2019/02/gasista.jpg",
-    name: "Rodolfo Perez",
-    city: "Calamuchita",
-    province: "Cordoba",
-    opinion:
-      "RUBRIT ME PERMTIO EMPEZAR A TRABAJAR MAS ORDENADAMENTE GRACIAS A SU AGENDA",
-    avatar: "https://avatars0.githubusercontent.com/u/1164541?v=4",
-    whoYouAre:
-      "Soy gasista de la cuna hasta al cajon. Gasista se nace, no se hace.",
-  },
-  {
-    image:
-      "https://cimacnoticias.com.mx/wp-content/uploads/2016/05/carpintera01citlallilopez.jpg",
-    name: "Gabriela Perez",
-    city: "Rosario",
-    province: "Santa Fe",
-    opinion:
-      "RUBRIT ME PERMITIO AUMENTAR MI CARTERA DE CLIENTES AL DOBLE DE LO QUE TENIA ANTES",
-    avatar:
-      "https://static.vecteezy.com/system/resources/previews/001/158/381/non_2x/portrait-of-a-focused-female-carpenter-hard-at-work-photo.jpg",
-    whoYouAre:
-      "Herede la pasion por el oficio de la carpinteria de mi papa desde muy chica",
-  },
-  {
-    image:
-      "https://www.avanzaentucarrera.com/orientacion/comp/uploads/2017/03/soldador.jpg",
-    name: "Roman Nuñez",
-    city: "Toay",
-    province: "La Pampa",
-    opinion:
-      "RUBRIT ME CAMBIO LA VIDA, EN MI ANTIGUO TRABAJO ME EXPLOTABAN, ESTOY FELIZ",
-    avatar:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStwpI95Iv1CZt28y1SXtMTWv5ky1IRTyG6hw&usqp=CAU",
-    whoYouAre:
-      "Soy soldador gracias a un amigo que me invito a tomar unos cursos de soldadura",
-  },
-  {
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbtI-Q1GY_zuR8rWplvkVW5xnxJN3TeMhIlQ&usqp=CAU",
-    name: "romina paez",
-    city: "Capital Federal",
-    province: "Buenos Aires",
-    opinion:
-      "A TRAVEZ DE MIS BUENAS CALIFICACIONES EN RUBRIT, ME HICE CONOCER A MUCHOS CLIENTES",
-    avatar:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA-Sj-ohJS3J6K-LeRdQ5Vp-TAZ9MDfReWxw&usqp=CAU",
-    whoYouAre:
-      "Tengo una gran pasion por los niños,a ellos les encanta pasar el tiempo con migo.",
-  },
-];
 
 const settings = {
   dots: true,
@@ -130,7 +16,7 @@ const settings = {
   slidesToScroll: 1,
   responsive: [
     {
-      breakpoint: 1360,
+      breakpoint: 1950,
       settings: {
         centerMode: true,
         centerPadding: "10px",
@@ -139,11 +25,20 @@ const settings = {
       },
     },
     {
-      breakpoint: 1150,
+      breakpoint: 1640,
       settings: {
         centerMode: true,
         centerPadding: "10px",
         slidesToShow: 3,
+        dots: true,
+      },
+    },
+    {
+      breakpoint: 1150,
+      settings: {
+        centerMode: true,
+        centerPadding: "10px",
+        slidesToShow: 2,
         dots: true,
       },
     },
@@ -160,15 +55,23 @@ const settings = {
 };
 
 const NearProfesionals: React.FC = () => {
+  const { users, status } = useUsers();
+  const { data: Session, status: auth } = useSession();
   const [slider, setSlider] = useState<Slider | null>(null);
-  const top = useBreakpointValue({ base: "90%", md: "50%" });
-  const side = useBreakpointValue({ base: "30%", md: "40px" });
+
+  useEffect(() => {}, [Session]);
+
+  if (status === "true" || status === "false") {
+    return <Loading />;
+  }
+
   return (
     <Box
       position={"relative"}
-      height={"600px"}
+      height={"750px"}
       width={"full"}
       overflow={"hidden"}
+      mt={4}
     >
       {/* CSS files for react-slick */}
       <link
@@ -182,121 +85,48 @@ const NearProfesionals: React.FC = () => {
         type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
       />
+      <Heading fontSize={{ base: "lg", md: "2rem" }} textAlign={"center"} p={4}>
+        Profesionales cerca de{" "}
+        {Session?.address.name && auth === "authenticated"
+          ? Session.address.name
+          : "Cordoba Capital, Argentina"}
+      </Heading>
+      {!Session ||
+        (!Session.address.lat && (
+          <Alert status="info" justifyContent={"center"}>
+            <AlertIcon />
+            Recuerde que para Obtener información personalizada debe registrarse
+            y completar la informacion de su perfil!
+            <Text
+              ml={2}
+              cursor="pointer"
+              textDecor={"underline"}
+              onClick={() =>
+                !Session
+                  ? document.getElementById("signInButton")?.click()
+                  : document.getElementById("profile")?.click()
+              }
+            >
+              ¡Vamos Allá!
+            </Text>
+          </Alert>
+        ))}
+
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
-        {whatTheySay.map((item, index: number) => (
-          <CardFindProfesional
+        {users.slice(0, 10).map((item, index: number) => (
+          <CardProfesional
             key={index}
+            _id={item._id}
             name={item.name}
-            img={item.image}
-            avatar={item.avatar}
-            city={item.city}
-            province={item.province}
-            opinion={""}
-            whoYouAre={""}
+            img={item.workerData.items[0].category.picture_small}
+            avatar={item.profilePic}
+            city={item.address.name}
+            description={item.description}
           />
         ))}
       </Slider>
     </Box>
-  );
-};
-
-interface CardFindProfesionalProps {
-  img: string;
-  name: string;
-  city: string;
-  province: string;
-  opinion: string;
-  avatar: string;
-  whoYouAre: string;
-}
-
-const CardFindProfesional: React.FC<CardFindProfesionalProps> = ({
-  name,
-  img,
-  avatar,
-  city,
-  province,
-}) => {
-  return (
-    <Container maxW={"container.xl"} centerContent py={10}>
-      <Flex cursor={"pointer"}>
-        <Center py={6}>
-          <Box
-            key={name}
-            maxW={"350px"}
-            w={"full"}
-            bg={useColorModeValue("white", "gray.800")}
-            boxShadow={"2xl"}
-            rounded={"md"}
-            overflow={"hidden"}
-          >
-            <Image
-              h={"120px"}
-              w={"full"}
-              src={img}
-              objectFit={"cover"}
-              alt="bg"
-            />
-            <Flex justify={"center"} mt={-12}>
-              <Link href={`/nameProfessional?name=${name}`} passHref>
-                <Avatar
-                  size={"xl"}
-                  src={avatar}
-                  css={{
-                    border: "2px solid white",
-                  }}
-                />
-              </Link>
-            </Flex>
-
-            <Box p={6}>
-              <Stack spacing={0} align={"center"} mb={5}>
-                <Heading fontSize={"2xl"} fontWeight={500} fontFamily={"body"}>
-                  {name}
-                </Heading>
-                <Text color={"gray.500"} fontSize={"small"}>
-                  {city}-{province}
-                </Text>
-              </Stack>
-              <Stack direction={"row"} justify={"center"} spacing={6}>
-                <Stack spacing={0} align={"center"}>
-                  <Text
-                    align={"center"}
-                    fontSize={"medium"}
-                    color={"green.500"}
-                  >
-                    Precio por hora promedio
-                  </Text>
-                  <Text
-                    align={"center"}
-                    fontSize={"medium"}
-                    color={"green.500"}
-                  >
-                    $300 / $500
-                  </Text>
-                </Stack>
-              </Stack>
-              <Link href={`/nameProfessional`} passHref>
-                <Button
-                  w={"full"}
-                  mt={8}
-                  bg={useColorModeValue("green.500", "green.500")}
-                  color={"white"}
-                  rounded={"md"}
-                  _hover={{
-                    transform: "translateY(-2px)",
-                    boxShadow: "lg",
-                  }}
-                >
-                  Contactar
-                </Button>
-              </Link>
-            </Box>
-          </Box>
-        </Center>
-      </Flex>
-    </Container>
   );
 };
 

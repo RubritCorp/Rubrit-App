@@ -1,7 +1,7 @@
 //from modules
 import mongoose, { model, models, Schema, Types } from "mongoose";
 import { boolean } from "yup";
-import { number } from "yup/lib/locale";
+//import { number } from "yup/lib/locale";
 //interfaces
 import { IUser } from "./IUser";
 
@@ -66,11 +66,21 @@ const userSchema = new Schema(
       name: {
         type: String,
       },
+      city: {
+        type: String,
+      },
+      country: {
+        type: String,
+      },
       lat: {
         type: Number,
       },
       lng: {
         type: Number,
+      },
+      searchRange: {
+        type: Number,
+        default: 10,
       },
       timeZone: {
         type: String,
@@ -81,7 +91,6 @@ const userSchema = new Schema(
         type: Boolean,
         default: true,
       },
-
       notificationsNewOffer: {
         type: Boolean,
         default: true,
@@ -100,48 +109,54 @@ const userSchema = new Schema(
         default: false,
       },
     },
-
-    rating: {
-      description: {
-        type: String,
-      },
-      score: {
-        type: String,
-      },
-    },
-    items: [
+    rating: [
       {
-        category: {
+        userComment: {
           type: Types.ObjectId,
-          ref: "Category",
+          ref: "User",
         },
-        subcategories: [
-          {
+        description: {
+          type: String,
+        },
+        score: {
+          type: String,
+        },
+      },
+    ],
+    workerData: {
+      images: [
+        {
+          type: String,
+        },
+      ],
+      certification: [
+        {
+          type: String,
+        },
+      ],
+      rangeCoverage: {
+        type: Number,
+      },
+      items: [
+        {
+          category: {
             type: Types.ObjectId,
-            ref: "Subcategory",
+            ref: "Category",
           },
-        ],
-        description: {
-          type: String,
+          subcategories: [
+            {
+              type: Types.ObjectId,
+              ref: "Subcategory",
+            },
+          ],
         },
-        certification: [
-          {
-            type: String,
-          },
-        ],
-      },
-    ],
-    offers: [
-      {
-        title: {
-          type: String,
-        },
-        description: {
-          type: String,
-        },
-        photos: [{ type: String }],
-      },
-    ],
+      ],
+    },
+
+    requests: {
+      received: [{ type: Types.ObjectId, ref: "ServiceRequest" }],
+      send: [{ type: Types.ObjectId, ref: "ServiceRequest" }],
+    },
   },
   {
     timestamps: true,

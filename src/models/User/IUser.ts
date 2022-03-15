@@ -7,6 +7,13 @@ interface HItems {
   certification: string[];
 }
 
+interface IWorkerData {
+  companyName: string;
+  description:string;
+  images: string[];
+  rangeCoverage: number;
+
+}
 export interface IUser {
   email: string;
   name: string;
@@ -15,26 +22,38 @@ export interface IUser {
     number: string;
   };
   password: string;
-  isAuthenticated: boolean;
+  description: string;
   authCode: string;
+  withProvider: boolean;
+  isAuthenticated: boolean;
   profilePic: string;
   isWorker: boolean;
+  isPremium: boolean;
   payerId: string;
   address: {
     name: string;
+    city: string;
+    country: string;
     lat: number;
     lng: number;
+    searchRange: number;
     timeZone: string;
   };
-  hideAddress: boolean;
-  rating: {
+  preferences: {
+    notificationsMessages: boolean;
+    notificationsNewOffer: boolean;
+    showAllChats: boolean;
+    language: string;
+    hideAddress: boolean;
+  };
+  rating: [{
+    userComment: Types.ObjectId;
     description: string;
     score: string;
-  };
+  }];
+  workerData: IWorkerData;
   items: HItems[];
-  offers: {
-    title: string;
-    description: string;
-    photos: string[];
-  };
-}
+  requests: {
+    received: Types.ObjectId[];
+    send: Types.ObjectId[];
+}}
