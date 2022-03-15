@@ -36,6 +36,8 @@ export interface IUser {
   isPremiun: boolean;
   address: {
     name: string;
+    city: string;
+    country: string;
     lat: number;
     lng: number;
   };
@@ -46,8 +48,16 @@ export interface IUser {
     description: string;
     score: string;
   };
-  items: Items[];
-  offers: any;
+  workerData: {
+    images: string[];
+    certification: string[];
+    rangeCoverage: number;
+    items: Items[];
+  };
+  requests: {
+    recibed: string[];
+    send: string[];
+  };
 }
 
 type usersContextType = {
