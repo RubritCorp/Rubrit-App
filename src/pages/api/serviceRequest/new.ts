@@ -1,4 +1,3 @@
-import axios from 'axios';
 // import { SMTPClient } from 'emailjs';
 import { NextApiRequest, NextApiResponse } from 'next';
 import ServiceRequest from 'models/ServiceRequest';
