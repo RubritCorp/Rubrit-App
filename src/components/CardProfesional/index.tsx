@@ -143,21 +143,23 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                   </>
                 )}
                 <Link href={`/professional/${_id}`} passHref>
-                  <Button
-                    w={"full"}
-                    mt={8}
-                    bg="green.500"
-                    color={"white"}
-                    rounded={"md"}
-                    _hover={{
-                      transform: "translateY(-2px)",
-                      boxShadow: "lg",
-                    }}
-                    onClick={() => setLoading(true)}
-                    isLoading={loading}
-                  >
-                    Contactar
-                  </Button>
+                  <a>
+                    <Button
+                      w={"full"}
+                      mt={8}
+                      bg="green.500"
+                      color={"white"}
+                      rounded={"md"}
+                      _hover={{
+                        transform: "translateY(-2px)",
+                        boxShadow: "lg",
+                      }}
+                      onClick={() => setLoading(true)}
+                      isLoading={loading}
+                    >
+                      Contactar
+                    </Button>
+                  </a>
                 </Link>
               </Box>
             </>

@@ -40,8 +40,6 @@ import Requests from "./Requests";
 //next
 import { NextPage } from "next";
 
-
-
 interface ICases {
   accountSettings(session: Session): ReactElement;
   myfiles(session: Session): ReactElement;
@@ -50,7 +48,6 @@ interface ICases {
   becomePremium(session: Session): ReactElement;
   premiumDetails(session: Session): ReactElement;
 }
-
 
 const Index: NextPage = () => {
   const router = useRouter();
@@ -192,128 +189,136 @@ const Content: React.FC<{ payerId: string }> = ({ payerId }) => {
       </Text>
       <Stack spacing={4} fontWeight={600} fontSize={"md"} marginTop={6}>
         <Link href="myAccount?site=accountSettings" passHref>
-          <Flex alignItems={"center"} flexDirection={"column"}>
-            <Flex
-              justifyContent={"space-between"}
-              h={10}
-              alignItems={"center"}
-              p={3}
-              mb={3}
-              w={"100%"}
-              _hover={{
-                textDecoration: "none",
-                color: "green.400",
-                bg: useColorModeValue("#ebe8e8", "#1e242e"),
-              }}
-            >
-              <Flex alignItems={"center"}>
-                <Image
-                  src={User}
-                  alt="user-image"
-                  width={"30px"}
-                  height={"30px"}
-                />
-                <Text cursor={"pointer"} ml={3}>
-                  Ajustes De La Cuenta
-                </Text>
+          <a>
+            <Flex alignItems={"center"} flexDirection={"column"}>
+              <Flex
+                justifyContent={"space-between"}
+                h={10}
+                alignItems={"center"}
+                p={3}
+                mb={3}
+                w={"100%"}
+                _hover={{
+                  textDecoration: "none",
+                  color: "green.400",
+                  bg: useColorModeValue("#ebe8e8", "#1e242e"),
+                }}
+              >
+                <Flex alignItems={"center"}>
+                  <Image
+                    src={User}
+                    alt="user-image"
+                    width={"30px"}
+                    height={"30px"}
+                  />
+                  <Text cursor={"pointer"} ml={3}>
+                    Ajustes De La Cuenta
+                  </Text>
+                </Flex>
+                <ChevronRightIcon />
               </Flex>
-              <ChevronRightIcon />
+              <Divider w={"90%"} />
             </Flex>
-            <Divider w={"90%"} />
-          </Flex>
+          </a>
         </Link>
         <Link href="myAccount?site=myfiles" passHref>
-          <Flex alignItems={"center"} flexDirection={"column"}>
-            <Flex
-              h={10}
-              w={"100%"}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-              p={3}
-              mb={3}
-              _hover={{
-                textDecoration: "none",
-                color: "green.400",
-                bg: useColorModeValue("#ebe8e8", "#1e242e"),
-              }}
-            >
-              <Flex alignItems={"center"}>
-                <Image
-                  src={Folder}
-                  alt="user-image"
-                  width={"30px"}
-                  height={"30px"}
-                />
-                <Text cursor={"pointer"} ml={3}>
-                  Ver Tus Archivos
-                </Text>
+          <a>
+            <Flex alignItems={"center"} flexDirection={"column"}>
+              <Flex
+                h={10}
+                w={"100%"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                p={3}
+                mb={3}
+                _hover={{
+                  textDecoration: "none",
+                  color: "green.400",
+                  bg: useColorModeValue("#ebe8e8", "#1e242e"),
+                }}
+              >
+                <Flex alignItems={"center"}>
+                  <Image
+                    src={Folder}
+                    alt="user-image"
+                    width={"30px"}
+                    height={"30px"}
+                  />
+                  <Text cursor={"pointer"} ml={3}>
+                    Ver Tus Archivos
+                  </Text>
+                </Flex>
+                <ChevronRightIcon />
               </Flex>
-              <ChevronRightIcon />
+              <Divider w={"90%"} />
             </Flex>
-            <Divider w={"90%"} />
-          </Flex>
+          </a>
         </Link>
         <Link href="myAccount?site=myRequest" passHref>
-          <Flex alignItems={"center"} flexDirection={"column"}>
-            <Flex
-              h={10}
-              w={"100%"}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-              p={3}
-              mb={3}
-              _hover={{
-                textDecoration: "none",
-                color: "green.400",
-                bg: useColorModeValue("#ebe8e8", "#1e242e"),
-              }}
-            >
-              <Flex alignItems={"center"}>
-                <Image
-                  src={File}
-                  alt="user-image"
-                  width={"30px"}
-                  height={"30px"}
-                />
-                <Text cursor={"pointer"} ml={3}>
-                  Solicitudes
-                </Text>
+          <a>
+            <Flex alignItems={"center"} flexDirection={"column"}>
+              <Flex
+                h={10}
+                w={"100%"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                p={3}
+                mb={3}
+                _hover={{
+                  textDecoration: "none",
+                  color: "green.400",
+                  bg: useColorModeValue("#ebe8e8", "#1e242e"),
+                }}
+              >
+                <Flex alignItems={"center"}>
+                  <Image
+                    src={File}
+                    alt="user-image"
+                    width={"30px"}
+                    height={"30px"}
+                  />
+                  <Text cursor={"pointer"} ml={3}>
+                    Solicitudes
+                  </Text>
+                </Flex>
+                <ChevronRightIcon />
               </Flex>
-              <ChevronRightIcon />
+              <Divider w={"90%"} />
             </Flex>
-            <Divider w={"90%"} />
-          </Flex>
+          </a>
         </Link>
         <Link href="myAccount?site=offerServices" passHref>
-          <Flex alignItems={"center"} flexDirection={"column"}>
-            <Flex
-              h={10}
-              w={"100%"}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-              p={3}
-              mb={3}
-              _hover={{
-                textDecoration: "none",
-                color: "green.400",
-                bg: useColorModeValue("#ebe8e8", "#1e242e"),
-              }}
-            >
-              <Flex alignItems={"center"}>
-                <Image
-                  src={Worker}
-                  alt="user-image"
-                  width={"30px"}
-                  height={"30px"}
-                />
-                <Text cursor={"pointer"} ml={3}>
-                  Ofrece Tus Servicios
-                </Text>
+          <a>
+            <Flex alignItems={"center"} flexDirection={"column"}>
+              <Flex
+                h={10}
+                w={"100%"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                p={3}
+                mb={3}
+                _hover={{
+                  textDecoration: "none",
+                  color: "green.400",
+                  bg: useColorModeValue("#ebe8e8", "#1e242e"),
+                }}
+              >
+                <Flex alignItems={"center"}>
+                  <Image
+                    src={Worker}
+                    alt="user-image"
+                    width={"30px"}
+                    height={"30px"}
+                  />
+                  <Text cursor={"pointer"} ml={3}>
+                    Ofrece Tus Servicios
+                  </Text>
+                </Flex>
+                <ChevronRightIcon />
               </Flex>
-              <ChevronRightIcon />
+              <Divider w={"90%"} />
             </Flex>
-            <Divider w={"90%"} />
-          </Flex>
+          </a>
         </Link>
         <Link
           href={`myAccount?site=${
@@ -321,68 +326,72 @@ const Content: React.FC<{ payerId: string }> = ({ payerId }) => {
           }`}
           passHref
         >
-          <Flex alignItems={"center"} flexDirection={"column"}>
-            <Flex
-              h={10}
-              w={"100%"}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-              p={3}
-              mb={3}
-              _hover={{
-                textDecoration: "none",
-                color: "green.400",
-                bg: useColorModeValue("#ebe8e8", "#1e242e"),
-              }}
-            >
-              <Flex alignItems={"center"}>
-                <Image
-                  src={Premium}
-                  alt="user-image"
-                  width={"30px"}
-                  height={"30px"}
-                />
-                <Text cursor={"pointer"} ml={3}>
-                  {payerId.length === 0
-                    ? "Hacerse Premium"
-                    : "Detalles del Premium"}
-                </Text>
+          <a>
+            <Flex alignItems={"center"} flexDirection={"column"}>
+              <Flex
+                h={10}
+                w={"100%"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                p={3}
+                mb={3}
+                _hover={{
+                  textDecoration: "none",
+                  color: "green.400",
+                  bg: useColorModeValue("#ebe8e8", "#1e242e"),
+                }}
+              >
+                <Flex alignItems={"center"}>
+                  <Image
+                    src={Premium}
+                    alt="user-image"
+                    width={"30px"}
+                    height={"30px"}
+                  />
+                  <Text cursor={"pointer"} ml={3}>
+                    {payerId.length === 0
+                      ? "Hacerse Premium"
+                      : "Detalles del Premium"}
+                  </Text>
+                </Flex>
+                <ChevronRightIcon />
               </Flex>
-              <ChevronRightIcon />
+              <Divider w={"90%"} />
             </Flex>
-            <Divider w={"90%"} />
-          </Flex>
+          </a>
         </Link>
         <Link href="/" passHref>
-          <Flex alignItems={"center"} flexDirection={"column"}>
-            <Flex
-              h={10}
-              w={"100%"}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-              p={3}
-              mb={3}
-              _hover={{
-                textDecoration: "none",
-                color: "green.400",
-                bg: useColorModeValue("#ebe8e8", "#1e242e"),
-              }}
-            >
-              <Flex alignItems={"center"}>
-                <Image
-                  src={GoBack}
-                  alt="user-image"
-                  width={"30px"}
-                  height={"30px"}
-                />
-                <Text cursor={"pointer"} ml={3}>
-                  Volver a Rubrit
-                </Text>
+          <a>
+            <Flex alignItems={"center"} flexDirection={"column"}>
+              <Flex
+                h={10}
+                w={"100%"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                p={3}
+                mb={3}
+                _hover={{
+                  textDecoration: "none",
+                  color: "green.400",
+                  bg: useColorModeValue("#ebe8e8", "#1e242e"),
+                }}
+              >
+                <Flex alignItems={"center"}>
+                  <Image
+                    src={GoBack}
+                    alt="user-image"
+                    width={"30px"}
+                    height={"30px"}
+                  />
+                  <Text cursor={"pointer"} ml={3}>
+                    Volver a Rubrit
+                  </Text>
+                </Flex>
+                <ChevronRightIcon />
               </Flex>
-              <ChevronRightIcon />
+              <Divider w={"90%"} />
             </Flex>
-            <Divider w={"90%"} />
-          </Flex>
+          </a>
         </Link>
       </Stack>
     </Box>

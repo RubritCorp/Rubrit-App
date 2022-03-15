@@ -17,9 +17,11 @@ const Layout: React.FC<{
         <title>{`Rubrit | ${title}`}</title>
         <meta name="description" content={description} />
       </Head>
-      <Navbar />
-      <main>{children}</main>
-      <Footer />
+      <Box minH={"100vh"}>
+        <Navbar />
+        <main>{children}</main>
+        <Footer />
+      </Box>
     </Box>
   );
 };

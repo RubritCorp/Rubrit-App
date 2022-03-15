@@ -155,9 +155,11 @@ const MiPerfil: React.FC<{
             />
             <MenuList>
               <Link href={"myAccount"} passHref>
-                <MenuItem icon={<ExternalLinkIcon />}>
-                  Ajustes De La Cuenta
-                </MenuItem>
+                <a>
+                  <MenuItem icon={<ExternalLinkIcon />}>
+                    Ajustes De La Cuenta
+                  </MenuItem>
+                </a>
               </Link>
               <MenuDivider />
               {user.isPremium && (
@@ -187,7 +189,9 @@ const MiPerfil: React.FC<{
                 href={{ pathname: "myAccount", query: { site: "myfiles" } }}
                 passHref
               >
-                <MenuItem>Ver Tus Archivos</MenuItem>
+                <a>
+                  <MenuItem>Ver Tus Archivos</MenuItem>
+                </a>
               </Link>
             </MenuList>
           </Menu>
