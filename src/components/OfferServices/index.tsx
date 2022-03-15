@@ -163,19 +163,21 @@ const Offerservices: React.FC = () => {
           centerContent
         >
           <Link href={"/workbag"} passHref>
-            <Button
-              colorScheme={"green"}
-              bg={"green.400"}
-              rounded={"md"}
-              px={20}
-              _hover={{
-                bg: "green.500",
-              }}
-              onClick={() => setLoading(true)}
-              isLoading={loading}
-            >
-              EMPECEMOS
-            </Button>
+            <a>
+              <Button
+                colorScheme={"green"}
+                bg={"green.400"}
+                rounded={"md"}
+                px={20}
+                _hover={{
+                  bg: "green.500",
+                }}
+                onClick={() => setLoading(true)}
+                isLoading={loading}
+              >
+                EMPECEMOS
+              </Button>
+            </a>
           </Link>
         </Container>
         <Container paddingBottom={8} maxW={"container.xl"} centerContent>
