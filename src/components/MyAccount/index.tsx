@@ -85,10 +85,10 @@ const Index: NextPage = () => {
       return <ProfessionalForm />;
     },
     premiumDetails: (session) => {
-      return <PremiumDetails />;
+      return <PremiumDetails payerId={session.payerId} email={session.email} />;
     },
     becomePremium: (session) => {
-      return <BecomePremium />;
+      return <BecomePremium email={session.email} />;
     },
   };
 

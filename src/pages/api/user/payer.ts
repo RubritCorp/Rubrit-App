@@ -12,15 +12,15 @@ export default async function handler(
   res: NextApiResponse<DataUser>
 ) {
   const { method } = req;
-  const { email, payerId } = req.body;
+  const { email, payerId, isPremium } = req.body;
   switch (method) {
     case "PUT":
       try {
         const user = await User.findOne({ email: email });
         if (!user) return res.status(404).json({ message: "User not found" });
 
-        user.payerId = payerId;
-        user.isPremium = true;
+        if (payerId !== undefined) user.payerId = payerId;
+        if (isPremium !== undefined) user.isPremium = isPremium;
         user.save();
 
         res.status(200).json({ message: "User was modified", user });
