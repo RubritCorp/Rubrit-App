@@ -35,6 +35,7 @@ declare module "next-auth" {
       searchRange: number;
       timeZone: string;
     };
+    isPremium: boolean;
     isAuthenticated: boolean;
     withProvider: boolean;
     isWorker: boolean;
@@ -42,7 +43,14 @@ declare module "next-auth" {
       images: string[];
       certification: string[];
       rangeCoverage: number;
-      items: Iitems[];
+      items: {
+        category: {
+          _id: string;
+          name: string;
+          ["picture_small"]: string;
+        };
+        subcategories: { _id: string; name: string }[];
+      }[];
     };
     preferences: {
       notificationsMessages: boolean;

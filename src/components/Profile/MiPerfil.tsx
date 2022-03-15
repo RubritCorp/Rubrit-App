@@ -21,6 +21,7 @@ import {
   DragHandleIcon,
   StarIcon,
   ExternalLinkIcon,
+  CheckIcon,
 } from "@chakra-ui/icons";
 //interfaces
 import { Session } from "next-auth";
@@ -57,7 +58,7 @@ const MiPerfil: React.FC<{
       alignItems={"center"}
       flexDirection={"column"}
       h={"max-content"}
-      w={"40rem"}
+      w={"100%"}
     >
       <Avatar
         src={user.image}
@@ -67,14 +68,25 @@ const MiPerfil: React.FC<{
         h={180}
         marginTop={10}
       />
+
       <Text
         marginTop={5}
         fontWeight={700}
         fontSize={{ base: "md", md: "lg" }}
         textTransform={"capitalize"}
+        position={"relative"}
       >
         {user.name}
+        {user.isPremium && (
+          <CheckIcon
+            ml={2}
+            color={"medium_green"}
+            position={"absolute"}
+            top={1}
+          />
+        )}
       </Text>
+
       <Text
         textAlign={"center"}
         marginTop={5}
@@ -148,6 +160,22 @@ const MiPerfil: React.FC<{
                 </MenuItem>
               </Link>
               <MenuDivider />
+              {user.isPremium && (
+                <>
+                  <Link
+                    href={{
+                      pathname: "myAccount",
+                      query: { site: "becomePremium" },
+                    }}
+                    passHref
+                  >
+                    <MenuItem icon={<ExternalLinkIcon />}>
+                      Ver Estado De la Suscripción
+                    </MenuItem>
+                  </Link>
+                  <MenuDivider />
+                </>
+              )}
               <MenuItem onClick={onOpenPreferences}>Preferencias</MenuItem>
               <MenuDivider />
               {/* */}
@@ -188,11 +216,15 @@ const MiPerfil: React.FC<{
         <Text color="gray" marginTop={5} fontSize={{ base: "sm", lg: "md" }}>
           Tipo De Usuario
         </Text>
-        <Text>{user.isWorker ? "Profesional" : "Contratista"}</Text>
+        <Text>
+          {user.isWorker ? "Profesional" : "Contratista"}{" "}
+          {user.isPremium && "- Cuenta Premium"}
+        </Text>
         <Text color="gray" fontSize={{ base: "sm", lg: "md" }} marginTop={5}>
           Zona Horaria
         </Text>
         <Text>{user.address.timeZone ? user.address.timeZone : "-"}</Text>
+
         <Text color="gray" fontSize={{ base: "sm", lg: "md" }} marginTop={5}>
           Dirección
         </Text>

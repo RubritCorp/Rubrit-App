@@ -23,6 +23,7 @@ import { IUser } from "models/User/IUser";
 //db
 import "utils/db";
 import { TrendUp } from "phosphor-react";
+import { hashPassword } from "utils/verifyPassword";
 
 interface ICases {
   GET(req: NextApiRequest, res: NextApiResponse<DataUser>): void;
@@ -129,7 +130,7 @@ const cases: ICases = {
           diallingCode: f.phone.diallingCode,
           number: f.phone.number,
         },
-        password: f.password,
+        password: await hashPassword(f.password),
         description: f.description,
         authCode: f.authCode,
         withProvider: f.withProvider,
