@@ -7,6 +7,11 @@ import {
   DrawerHeader,
   DrawerBody,
   Button,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
 } from "@chakra-ui/react";
 //from modules
 import { useEffect, useState } from "react";
@@ -15,6 +20,7 @@ import Router from "next/router";
 //components
 import { CloseIcon } from "@chakra-ui/icons";
 import MiPerfil from "./MiPerfil";
+import PerfilProfesional from "./PerfilProfesional";
 
 const Profile: React.FC<{ onCloseProfile(): void; isOpenProfile: boolean }> = ({
   onCloseProfile,
@@ -44,28 +50,68 @@ const Profile: React.FC<{ onCloseProfile(): void; isOpenProfile: boolean }> = ({
     >
       <DrawerOverlay />
       <DrawerContent>
-        <DrawerHeader
-          borderBottom={"1px solid gray"}
-          minH={"64px"}
-          position={"relative"}
-          d={"flex"}
-          alignItems={"center"}
-        >
-          <Text fontSize={{ base: "md", md: "lg" }} color={"medium_green"}>
-            Mi Perfil
-          </Text>
-          <Button
-            leftIcon={<CloseIcon />}
-            position={"absolute"}
-            right={5}
-            iconSpacing={0}
-            bg={"transparent"}
-            onClick={onCloseProfile}
-          />
-        </DrawerHeader>
-        <DrawerBody display={"flex"}>
-          <MiPerfil {...{ user }} />
-        </DrawerBody>
+        <Tabs>
+          <DrawerHeader
+            minH={"78px"}
+            position={"relative"}
+            d={"flex"}
+            alignItems={"center"}
+          >
+            <TabList>
+              <Tab
+                _focus={{
+                  border: "transparent",
+                  borderBottom: "2px solid blue",
+                }}
+              >
+                <Text
+                  fontSize={{ base: "md", md: "lg" }}
+                  color={"medium_green"}
+                >
+                  Mi Perfil
+                </Text>
+              </Tab>
+              {user?.isWorker && (
+                <Tab
+                  _focus={{
+                    border: "transparent",
+                    borderBottom: "2px solid blue",
+                  }}
+                >
+                  <Text
+                    fontSize={{ base: "md", md: "lg" }}
+                    color={"medium_green"}
+                  >
+                    Perfil Profesional
+                  </Text>
+                </Tab>
+              )}
+            </TabList>
+
+            <Button
+              leftIcon={<CloseIcon />}
+              position={"absolute"}
+              right={5}
+              iconSpacing={0}
+              bg={"transparent"}
+              onClick={onCloseProfile}
+            />
+          </DrawerHeader>
+          <DrawerBody>
+            <TabPanels
+              display={"flex"}
+              alignItems={"center"}
+              flexDirection={"column"}
+            >
+              <TabPanel>
+                <MiPerfil {...{ user }} />
+              </TabPanel>
+              <TabPanel>
+                <PerfilProfesional {...{ user }} />
+              </TabPanel>
+            </TabPanels>
+          </DrawerBody>
+        </Tabs>
       </DrawerContent>
     </Drawer>
   );
