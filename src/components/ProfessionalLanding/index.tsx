@@ -32,7 +32,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
   const theme = useTheme();
   const [loading, setLoading] = useState<boolean>(false);
   const user = JSON.parse(props.user);
-  const { items, workerData } = user;
+  const { workerData } = user;
 
   console.log(user);
 
@@ -70,7 +70,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   {user.name}
                 </Heading>
                 <Flex>
-                  {items?.map((cat: any, i: number) => {
+                  {workerData.items?.map((cat: any, i: number) => {
                     return (
                       <Flex flexDirection={"column"}>
                         <Text color={"medium_green"} key={i}>
@@ -182,7 +182,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                     DESCRIPCION
                   </Heading>
                   <Box>
-                    {items?.map((e: any, index: number) => (
+                    {workerData.items?.map((e: any, index: number) => (
                       <Text key={index} margin={"1em"}>
                         {e.description}
                       </Text>
@@ -279,7 +279,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   boxShadow={"lg"}
                   overflowY={"auto"}
                 >
-                  {items?.map((cat: any, index: number) => {
+                  {workerData.items?.map((cat: any, index: number) => {
                     console.log(cat);
                     return (
                       <Flex flexDirection={"column"} key={cat.category.name}>

@@ -1,3 +1,18 @@
+/* import type { NextApiRequest, NextApiResponse } from "next";
+import "utils/db";
+
+type Data = {
+  message: string;
+};
+
+export default function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<Data>
+) {
+  res.status(200).json({ message: "Pong" });
+}
+ */
+
 //from modules
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -7,17 +22,19 @@ import User from "models/User";
 import { IUser } from "models/User/IUser";
 //db
 import "utils/db";
-import { TrendUp } from "phosphor-react";
-
+import { hashPassword } from "utils/verifyPassword";
 
 interface ICases {
   GET(req: NextApiRequest, res: NextApiResponse<DataUser>): void;
-  ERROR(req: NextApiRequest, res: NextApiResponse<DataError>): void;
 }
 
 interface DataUser {
   message: string;
   user?: IUser;
+}
+
+interface DataDeleteUser {
+  message: string;
 }
 
 interface DataError {
@@ -30,180 +47,103 @@ interface DataAccesDenied {
 
 const cases: ICases = {
   GET: async (req, res) => {
-    const user = [
-
-      {
-        email: "juanferreyra@gmail.com",
-        name: "Juan Antonio Ferreyra",
-        phone: {
-          diallingCode: "54011",
-          number: "34654890"
-        },
-        password: "frdgsgdvwd",
-        description: "Instalaciones sanitarias integrales",
-        authCode: "",
-        withProvider: true,
-        isAuthenticated: true,
-        profilePic: "https://rubrit-development.s3.sa-east-1.amazonaws.com/assets/profile-pics/hombre_3.jpg",
-        isWorker: true,
-        isPremium: true,
-        payerId: "",
-        address: {
-          name: "Avenida Vélez Sarsfield 2334",
-          city: "Córdoba",
-          country: "Argentina",
-          lat:-31.4198303,
-          lng:-64.1903709,
-          searchRange: 15,
-          timeZone: ""
-          },
-        preferences: {
-          notificationsMessages: true,
-          notificationsNewOffer: true,
-          showAllChats: true,
-          language: "",
-          hideAddress:false
-            },
-        rating: [
-          {
-            userComment: "6228a29573a25fac4658ef8e",
-            description: "Cambió los desagues del baño. Cumplidor y prolijo para trabajar",
-            score: "4",
-          },
-        ],
-        workerData: {
-          companyName: "Sani Tario",
-          description: "Soy el mejor instalando inodoros",
-          images: ["https://rubrit-development.s3.sa-east-1.amazonaws.com/assets/plomeria/plomeria_2.jpg"]
-        },
-        items: [
-          {
-            category: "62254be64f48774b0a18a88d",
-            subcategories: ["62163e5b4e1f963fce2d7b93", "62163e604e1f963fce2d7b95"],
-            description: "Instalaciones domicilarias y empresariales. Reparaciones e instalaciones en general. Cambio de desagues, cañerias de agua fría y caliente",
-            certification: [""],
-          }
-        ],
-        offers: ["622a9f3ed4d886b45ace0141"],
+    const f = {
+      email: "elianasciclone@gmail.com",
+      name: "Eliana Sciclone",
+      phone: {
+        diallingCode: "+54",
+        number: "1144362868",
       },
-      
-      {
-        email: "julian_melianz@gmail.com",
-        name: "Julian Melianza",
-        phone: {
-          diallingCode: "0342",
-          number: "45436790"
-        },
-        password: "soyelmejor45",
-        description: "Aire Acondicionado y Climatización",
-        authCode: "",
-        withProvider: true,
-        isAuthenticated: true,
-        profilePic: "https://rubrit-development.s3.sa-east-1.amazonaws.com/assets/profile-pics/hombre_1.jpg",
-        isWorker: true,
-        isPremium: true,
-        payerId: "",
-        address: {
-          name: "Avenida Vélez Sarsfield 2334",
-          city: "Córdoba",
-          country: "Argentina",
-          lat:-31.4198303,
-          lng:-64.1903709,
-        searchRange: 10,
-        timeZone: ""
-        },
-        preferences: {
+      password: "milanesaconpure27",
+      description:
+        "Arquitectura en general. Documentación y dirección de obras. Reformas.",
+      authCode: "",
+      withProvider: false,
+      isAuthenticated: true,
+      profilePic:
+        "https://ca.slack-edge.com/TPRS7H4PN-U01M0BP7CQJ-416c76e76358-512",
+      isWorker: true,
+      isPremium: true,
+      payerId: "",
+      address: {
+        name: "Arengreen 805, CABA, Argentina",
+        city: "CABA",
+        country: "Argentina",
+        lat: -34.6111947,
+        lng:-58.4461956,
+        searchRange: 30,
+        timeZone: "GTM 03",
+      },
+      preferences: {
         notificationsMessages: true,
         notificationsNewOffer: true,
         showAllChats: true,
-        language: "Ingles",
-        hideAddress:false
-          },
-          rating: [
-            {
-              userComment: "6228a29573a25fac4658ef8e",
-              description: "Instaló 2 split. Muy recomendable",
-              score: "",
-            },
-          ],
-          workerData: {
-            companyName: "Superair",
-            description: "Soy el mejor instalando splits",
-            images: ["https://quimservice.com/wp-content/uploads/2013/10/aire-acondicionado.jpg"]
-          },
+        language: "",
+        hideAddress: false,
+      },
+      rating: [
+        {
+          userComment: "6230c17a5fbcf2faa57644db",
+          description: "Remodeló mi baño y cocina. Me encantó el diseño y trabaja de manera muy profesional",
+          score: "4",
+        },
+      ],
+      workerData: {
+        images: ["https://www.paperarquitectura.com.ar/wp-content/uploads/elementor/thumbs/DSC_0610-scaled-pd7py4uy3eqjm29qgbu45vpcu3oznbj0v4lpzgfp1k.jpg", "https://www.paperarquitectura.com.ar/wp-content/uploads/elementor/thumbs/IMG_20210817_173234_1-pd7s2j6pknbj93aqccohtlo2zj4z9otmp9gg735rbc.jpg"],
+        certification: [],
+        rangeCoverage: 50,
         items: [
           {
-            category: "622648ac45463523440a7604", subcategories: ["62163c604e1f963fce2d7af9"],
-            description: "Sistemas de refrigeración y calefacción",
-            certification: [""]
-          }
-        ],
-        offers: ["622a9f3ed4d886b45ace0141"],
-  },
-    
-      {
-        email: "joaquin_romero@gmail.com",
-        name: "Joaquin Romero",
-        phone: {
-          diallingCode: "54011",
-          number: "23345502"
-        },
-        password: "joaco5467",
-        description: "Albañil de oficio, hago reparaciones y reformas",
-        authCode: "",
-        withProvider: true,
-        isAuthenticated: true,
-        profilePic: "https://rubrit-development.s3.sa-east-1.amazonaws.com/assets/profile-pics/hombre_9.jpg",
-        isWorker: true,
-        isPremium: true,
-        payerId: "",
-        address: {
-          name: "Avenida Vélez Sarsfield 2334",
-          city: "Córdoba",
-          country: "Argentina",
-          lat:-31.4198303,
-          lng:-64.1903709,
-        searchRange: 10,
-        timeZone: ""
-        },
-        preferences: {
-        notificationsMessages: true,
-        notificationsNewOffer: true,
-        showAllChats: true,
-        language: "Guarani",
-        hideAddress:false
+            category: "622648aff10679f2a1cc6a39",
+            subcategories: [
+              "62163cc34e1f963fce2d7b15",
+              "62163cc94e1f963fce2d7b17",
+              "62163ccd4e1f963fce2d7b19",
+              "62163cd14e1f963fce2d7b1b"
+            ],
           },
-          rating: [
-            {
-              userComment: "6228a29573a25fac4658ef8e",
-              description: "Demolió una pared y levantó 2 nuevas. Colocó una puerta. Hizo bien el trabajo aunque tardó mucho",
-              score: "",
-            },
-          ],
-          workerData: {
-            companyName: "",
-            description: "Soy el mejor demoliendo paredes",
-            images: ["http://www.sanjosedelvalle.es/wp-content/uploads/2018/06/Imagen-de-Albaniles-en-Sevilla-05-768x512.jpg"]
-          },
-        items: [
           {
-            category: "622516a44f48774b0a18a864", subcategories: ["62163c704e1f963fce2d7afd", "62163c7d4e1f963fce2d7aff"],
-            description: "Arreglo y construccion de todo tipo de obras",
-            certification: [""]
-          }
+            category: "62256f724f48774b0a18a8bf",
+            subcategories: ["621640ca4e1f963fce2d7bfa", "621640ca4e1f963fce2d7bfb"],
+          },
         ],
-        offers: ["622a9f3ed4d886b45ace0141"],
-  },
-]
+      },
+      requests: {
+        received: [],
+        send: [],
+      },
+    };
 
     try {
-        user.forEach(async(f:any)=> await User.create({ email: f.email, name: f.name, phone: {diallingCode:f.phone.diallingCode, number:f.phone.number}, password: f.password, description: f.description, authCode: f.authCode, withProvider: true, isAuthenticated: true, profilePic: f.profilePic, isWorker: true, isPremium: f.isPremium, payerId: f.payerId, address: {...f.address}, preferences: {...f.preferences}, rating: {...f.rating}, items: [...f.items], offers: [...f.offers]}))
-  res.status (200).json({message: "El Tomy se la come"})
-    }catch(error){res.status (404)}
-},
-  
-  ERROR: (_, res) => {
-    res.status(400).json({ message: "Error, method is invalid!" });
+      const user = await User.create({
+        email: f.email,
+        name: f.name,
+        phone: {
+          diallingCode: f.phone.diallingCode,
+          number: f.phone.number,
+        },
+        password: await hashPassword(f.password),
+        description: f.description,
+        authCode: f.authCode,
+        withProvider: f.withProvider,
+        isAuthenticated: f.isAuthenticated,
+        profilePic: f.profilePic,
+        isWorker: f.isWorker,
+        isPremium: f.isPremium,
+        payerId: f.payerId,
+        address: { ...f.address },
+        preferences: { ...f.preferences },
+        rating: { ...f.rating },
+        workerData: { ...f.workerData },
+        requests: { ...f.requests },
+      });
+
+      res.status(200).json({ message: "El Tomy se la come", user });
+    } catch (error) {
+      console.log(error);
+
+      res.status(404);
+    }
   },
 };
 
@@ -211,13 +151,8 @@ export default async function index(
   req: NextApiRequest,
   res: NextApiResponse<DataAccesDenied>
 ) {
-  
-    const { method } = req;
-    if (
-      method &&
-      (method === "GET")
-    ) {
-      return cases[method](req, res);
-    }
-    return cases["ERROR"](req, res);
-  } 
+  const { method } = req;
+  if (method && method === "GET") {
+    return cases[method](req, res);
+  }
+}
