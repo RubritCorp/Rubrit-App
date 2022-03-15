@@ -1,9 +1,11 @@
 // import { SMTPClient } from 'emailjs';
 import { NextApiRequest, NextApiResponse } from 'next';
 import ServiceRequest from 'models/ServiceRequest';
+import User from 'models/User';
 import 'utils/db';
 
 import type IServiceRequest from 'models/ServiceRequest/IServiceRequest';
+
 
 
 interface DataSuccess {
@@ -31,6 +33,9 @@ const cases: ICases = {
       let locationObject = { formattedAddress: location, lat, lng };
       professionalId ? data = { title, description, location: locationObject, images, userId, professionalId, isActive: true } : data = { category, subcategory, title, description, location: locationObject, images, userId, professionalId, isActive: true }
       const serviceRequest = await ServiceRequest.create(data);
+
+      await User.findByIdAndUpdate(userId, { $push: { "requests.sent": serviceRequest._id } });
+      if (professionalId) await User.findByIdAndUpdate(professionalId, { $push: { "requests.received": serviceRequest._id } });
 
       // const client: any = new SMTPClient({
       //   user: process.env.EMAIL_SENDER,
