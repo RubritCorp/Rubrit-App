@@ -68,7 +68,7 @@ export default NextAuth({
     },
   },
   callbacks: {
-    async signIn({ user, credentials }) {
+    async signIn({ user }) {
       try {
         const userSession = await User.findOne({
           email: user.email,

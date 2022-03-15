@@ -34,8 +34,6 @@ const ProfessionalLanding: React.FC<any> = (props) => {
   const user = JSON.parse(props.user);
   const { workerData } = user;
 
-  console.log(user);
-
   if (!user) return <Loading />;
 
   return (
@@ -72,10 +70,8 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 <Flex>
                   {workerData.items?.map((cat: any, i: number) => {
                     return (
-                      <Flex flexDirection={"column"}>
-                        <Text color={"medium_green"} key={i}>
-                          {cat.category.name}
-                        </Text>
+                      <Flex flexDirection={"column"} key={i}>
+                        <Text color={"medium_green"}>{cat.category.name}</Text>
                       </Flex>
                     );
                   })}
@@ -205,20 +201,16 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                     flexDirection={"row"}
                     flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}
                   >
-                    
-          {workerData?.images.map((img: any, index: number) => (
-            <Image
-              key={index}
-              src={img.src}
-              alt={img.index}
-              maxW="100px"
-                borderRadius={"0.3rem"}
-                      margin={"1rem"}
-              
-            />
-          ))}
-        
-                    
+                    {workerData?.images.map((img: any, index: number) => (
+                      <Image
+                        key={index}
+                        src={img.src}
+                        alt={img.index}
+                        maxW="100px"
+                        borderRadius={"0.3rem"}
+                        margin={"1rem"}
+                      />
+                    ))}
                   </Flex>
                   <Divider margin={"1em 0"}></Divider>
                 </Box>
