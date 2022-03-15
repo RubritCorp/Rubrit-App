@@ -32,6 +32,8 @@ export interface IUser {
   payerId: string;
   address: {
     name: string;
+    city: string;
+    country: string;
     lat: number;
     lng: number;
     searchRange: number;
@@ -39,18 +41,19 @@ export interface IUser {
   };
   preferences: {
     notificationsMessages: boolean;
-
     notificationsNewOffer: boolean;
     showAllChats: boolean;
     language: string;
     hideAddress: boolean;
   };
-  rating: {
+  rating: [{
     userComment: Types.ObjectId;
     description: string;
     score: string;
-  };
+  }];
   workerData: IWorkerData;
   items: HItems[];
-  offers: Types.ObjectId[];
-}
+  requests: {
+    received: Types.ObjectId[];
+    send: Types.ObjectId[];
+}}
