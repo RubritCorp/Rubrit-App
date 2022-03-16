@@ -15,18 +15,17 @@ import {
   Grid,
   GridItem,
 } from "@chakra-ui/react";
-
 import { Star, Check, Checks, CheckCircle } from "phosphor-react";
+
 //native libraries
 import Link from "next/link";
+import { useState } from "react";
+
 //components
 import Layout from "../layout";
 import Comments from "../Comments";
 import Loading from "../Loading";
-
-import { NextPage } from "next/types";
 import Map from "../Maps/Map";
-import { useState } from "react";
 
 const ProfessionalLanding: React.FC<any> = (props) => {
   const theme = useTheme();
