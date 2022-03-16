@@ -30,6 +30,8 @@ declare module "next-auth" {
     description: string;
     address: {
       name: string;
+      city: string;
+      country: string;
       lat: number;
       lng: number;
       searchRange: number;

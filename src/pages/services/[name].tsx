@@ -80,7 +80,7 @@ const Services: NextPage<{ category: any; name: string }> = ({
               marginBottom={1}
               color={"gray.800"}
             >
-              {cat.name} en {Session ? Session.address.name : "Cordoba Capital"}
+              {cat.name} en {Session ? Session.address.city : "CABA"}
             </Heading>
             <Text
               fontSize={"xl"}
@@ -128,7 +128,7 @@ const Services: NextPage<{ category: any; name: string }> = ({
               _id={m._id}
               img={m.workerData.items[0].category.picture_small}
               name={m.name}
-              city={m.address.name}
+              city={m.address.city}
               avatar={m.profilePic}
               description={m.description}
               categories={m.workerData.items.map((m: any) => m.category.name)}

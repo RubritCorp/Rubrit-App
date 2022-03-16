@@ -151,12 +151,15 @@ const ProfessionalLanding: React.FC<any> = (props) => {
             </Flex>
           </Flex>
         </Flex>
-        <Container maxW={"container.lg"} p={"0 "} margin={"0 1em"}>
+        <Container maxW={"container.lg"}  margin={"0 -1em"}>
           <Flex margin={"1rem"} flexDirection={"column"} textAlign={"start"}>
-            <Heading fontSize={"1.5rem"} margin={"1rem"}>
-              {user.description}
-            </Heading>
-            <Text fontSize={"1rem"} margin={"0.5rem"}></Text>
+          <Heading
+                    fontSize={"1.5rem"}
+                    color={"light_grey_sub"}
+                  >
+                    DESCRIPCION
+                  </Heading>
+            <Text fontSize={"1.5rem"} marginTop={"0.5rem"}>{user.description}</Text>
           </Flex>
           <Divider margin={"1em 0"}></Divider>
         </Container>
@@ -170,22 +173,8 @@ const ProfessionalLanding: React.FC<any> = (props) => {
               }}
             >
               <Stack>
-                <Box>
-                  <Heading
-                    fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
-                    color={"light_grey_sub"}
-                  >
-                    DESCRIPCION
-                  </Heading>
-                  <Box>
-                    {workerData.items?.map((e: any, index: number) => (
-                      <Text key={index} margin={"1em"}>
-                        {e.description}
-                      </Text>
-                    ))}
-                  </Box>
-                </Box>
-                <Divider></Divider>
+                
+                
                 <Box margin={"1em 0"}>
                   <Heading
                     fontSize={{
@@ -201,16 +190,22 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                     flexDirection={"row"}
                     flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}
                   >
-                    {workerData?.images.map((img: any, index: number) => (
-                      <Image
-                        key={index}
-                        src={img.src}
-                        alt={img.index}
-                        maxW="100px"
-                        borderRadius={"0.3rem"}
-                        margin={"1rem"}
-                      />
-                    ))}
+                    {user.workerData.images.map((n: any, i: number) => {
+                      console.log(i);
+                      if (i < 4) {
+                        return (
+                          <Image
+                            p={1}
+                            key={i}
+                            src={n}
+                            alt="jobs-pic"
+                            maxW="100px"
+                            borderRadius={"0.3rem"}
+                            margin={"1rem"}
+                          />
+                        );
+                      }
+                    })}
                   </Flex>
                   <Divider margin={"1em 0"}></Divider>
                 </Box>
@@ -251,10 +246,11 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 >
                   UBICACION
                 </Heading>
-                <Map
+                <Box height="400px" width="300px">
+                <Map 
                   location={user.address}
                   coverage={user.address.searchRange}
-                ></Map>
+                ></Map></Box>
               </Box>
             </Flex>
             <Flex flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}>
