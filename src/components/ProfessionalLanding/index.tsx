@@ -179,7 +179,6 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 md: "wrap",
                 lg: "nowrap",
               }}
-              justifyContent={"space-between"}
             >
               <Stack>
                 <Box margin={"1em 0"}>
