@@ -153,7 +153,6 @@ const ProfessionalLanding: React.FC<any> = (props) => {
         </Flex>
         <Container maxW={"container.lg"} margin={"0 -1em"}>
           <Flex margin={"1rem"} flexDirection={"column"} textAlign={"start"}>
-
             <Heading
               fontSize={{
                 base: "1rem",
@@ -179,7 +178,6 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 md: "wrap",
                 lg: "nowrap",
               }}
-              justifyContent={"space-between"}
             >
               <Stack>
                 <Box margin={"1em 0"}>
@@ -263,7 +261,6 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   width={{ base: "26em", md: "28em", lg: "34em" }}
                   marginTop="1.2em"
                 >
-
                   <Map
                     location={user.address}
                     coverage={user.address.searchRange}
