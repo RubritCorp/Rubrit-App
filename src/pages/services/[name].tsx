@@ -94,24 +94,7 @@ const Services: NextPage<{ category: any; name: string }> = ({
           </Flex>
         </Container>
       </Box>
-      <Flex justifyContent="center">
-        <Flex flexDirection="column">
-          <Link href="/" passHref>
-            <Box
-              mt={-6}
-              as="button"
-              width="16rem"
-              height="2.5rem"
-              borderRadius="10px"
-              bg={"medium_green"}
-              color="white"
-              fontSize="1.6rem"
-            >
-              Cotizá gratis
-            </Box>
-          </Link>
-        </Flex>
-      </Flex>
+
       <Grid
         templateColumns={{
           base: "repeat(1,1fr)",
