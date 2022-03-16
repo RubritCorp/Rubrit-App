@@ -114,23 +114,25 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   href={{ pathname: "/request/new", query: { id: user._id } }}
                   passHref
                 >
-                  <Button
-                    as={"button"}
-                    width={{ base: "150px", md: "200px", lg: "250px" }}
-                    height={{ base: "30px", md: "35px", lg: "40px" }}
-                    borderRadius={"10px"}
-                    bg={"medium_green"}
-                    color={"white"}
-                    fontSize={{ base: "1rem", md: "1.2rem", lg: "1.4rem" }}
-                    _hover={{
-                      transform: "translateY(-2px)",
-                      boxShadow: "lg",
-                    }}
-                    isLoading={loading}
-                    onClick={() => setLoading(true)}
-                  >
-                    Pedir Cotizacion
-                  </Button>
+                  <a>
+                    <Button
+                      as={"button"}
+                      width={{ base: "150px", md: "200px", lg: "250px" }}
+                      height={{ base: "30px", md: "35px", lg: "40px" }}
+                      borderRadius={"10px"}
+                      bg={"medium_green"}
+                      color={"white"}
+                      fontSize={{ base: "1rem", md: "1.2rem", lg: "1.4rem" }}
+                      _hover={{
+                        transform: "translateY(-2px)",
+                        boxShadow: "lg",
+                      }}
+                      isLoading={loading}
+                      onClick={() => setLoading(true)}
+                    >
+                      Pedir Cotizacion
+                    </Button>
+                  </a>
                 </Link>
                 <Flex
                   flexDirection={"row"}

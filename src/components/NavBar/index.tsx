@@ -132,12 +132,14 @@ const WithSubnavigation: React.FC = () => {
             </Box>
           )}
           <Link href="/" passHref={true}>
-            <Text
-              fontFamily={"heading"}
-              color={useColorModeValue("gray.800", "white")}
-            >
-              Logo
-            </Text>
+            <a>
+              <Text
+                fontFamily={"heading"}
+                color={useColorModeValue("gray.800", "white")}
+              >
+                Logo
+              </Text>
+            </a>
           </Link>
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
             <DesktopNav />
@@ -206,9 +208,11 @@ const WithSubnavigation: React.FC = () => {
                     }}
                     passHref
                   >
-                    <MenuItem icon={<ExternalLinkIcon />}>
-                      Ajustes De Cuenta
-                    </MenuItem>
+                    <a>
+                      <MenuItem icon={<ExternalLinkIcon />}>
+                        Ajustes De Cuenta
+                      </MenuItem>
+                    </a>
                   </Link>
                   <MenuDivider />
                   <Link
@@ -218,14 +222,18 @@ const WithSubnavigation: React.FC = () => {
                     }}
                     passHref
                   >
-                    <MenuItem>Solicitudes</MenuItem>
+                    <a>
+                      <MenuItem>Solicitudes</MenuItem>
+                    </a>
                   </Link>
                   <MenuDivider />
                   <Link
                     href={{ pathname: "myAccount", query: { site: "" } }}
                     passHref
                   >
-                    <MenuItem>Solicita Cotización</MenuItem>
+                    <a>
+                      <MenuItem>Solicita Cotización</MenuItem>
+                    </a>
                   </Link>
                   <MenuDivider />
                   <Link
@@ -235,7 +243,9 @@ const WithSubnavigation: React.FC = () => {
                     }}
                     passHref
                   >
-                    <MenuItem>Ofrecé tus Servicios</MenuItem>
+                    <a>
+                      <MenuItem>Ofrecé tus Servicios</MenuItem>
+                    </a>
                   </Link>
                   <MenuDivider />
                   <MenuItem d={{ base: "inline", md: "none" }}>
