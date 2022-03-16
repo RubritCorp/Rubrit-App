@@ -25,7 +25,7 @@ export async function getServerSideProps(context: any) {
   console.log(session);
   if (session) {
     const workBag = await getNearServices({
-      categories: session.items.map((m: any) => m.category),
+      categories: session.workerData.items.map((m: any) => m.category),
       lat: session.address.lat,
       lng: session.address.lng,
       RangeCoverage: 100,
