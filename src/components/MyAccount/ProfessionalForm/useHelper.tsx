@@ -15,6 +15,7 @@ export const useHelper = () => {
     rangeCoverage: 0,
     images: [],
     categories: [],
+    certification: [],
   });
 
   interface DataInitialValues {
@@ -22,6 +23,7 @@ export const useHelper = () => {
     rangeCoverage: number;
     images?: string[];
     categories: string[];
+    certification?: string[];
   }
 
   const initialValues: DataInitialValues = {
@@ -29,6 +31,7 @@ export const useHelper = () => {
     rangeCoverage: 0,
     images: [],
     categories: [],
+    certification: [],
   };
 
   const validationSchema = Yup.object({
@@ -40,13 +43,12 @@ export const useHelper = () => {
         test: (n: any) => n >= 5,
       })
       .required("El rango de cobertura es requerido"),
-    // categories: Yup.array(),
   });
 
   const handleOnSubmit = async (event: any, values: any) => {
     event.preventDefault();
     let categoriesArray: any[] = [];
-    const { description, rangeCoverage, images } = values;
+    const { description, rangeCoverage, images, certification } = values;
     for (let val in values) {
       if (Array.isArray(values[val]) && val !== "images") {
         let obj = { name: val, subcategories: values[val] };
@@ -61,31 +63,59 @@ export const useHelper = () => {
       rangeCoverage,
       images,
       categoriesArray,
+      certification,
     };
 
     const formData = new FormData();
-    formData.append("path", "user/userid/files/img/form");
-    formData.append("title", "imagenes-form");
+    formData.append("path", `users/${session!._id}/files/form/images`);
+    formData.append("title", "imagenes");
+
+    const formDataCertification = new FormData();
+    formDataCertification.append(
+      "path",
+      `users/${session!._id}/files/form/certification`
+    );
+    formDataCertification.append("title", "certification");
 
     if (finalValues.images) {
       for (let i = 0; i < finalValues.images.length; i++) {
         formData.append("files", finalValues.images[i] as any);
       }
     }
+    if (finalValues.certification) {
+      for (let i = 0; i < finalValues.certification.length; i++) {
+        formDataCertification.append(
+          "files",
+          finalValues.certification[i] as any
+        );
+      }
+    }
 
-    const {
-      data: { urls },
-    } = await axios.post(`${envConfig?.apiUrl}/aws/upload-files`, formData);
+    const imagesWorks = await axios.post(
+      `${envConfig?.apiUrl}/aws/upload-files`,
+      formData
+    );
+
+    const imagesCertification = await axios.post(
+      `${envConfig?.apiUrl}/aws/upload-files`,
+      formDataCertification
+    );
 
     try {
       const data = await axios.put("/api/user/updateToProfessional", {
         id: session!._id,
         categories: finalValues.categoriesArray,
-        images: urls,
+        images: imagesWorks.data.urls,
         description: finalValues.description,
         rangeCoverage: finalValues.rangeCoverage,
+        certification: imagesCertification.data.urls,
       });
-      setValues({ ...finalValues, images: urls });
+
+      setValues({
+        ...finalValues,
+        images: imagesWorks.data.urls,
+        certification: imagesCertification.data.urls,
+      });
 
       toast({
         title: `¡Felicidades!`,
@@ -95,6 +125,7 @@ export const useHelper = () => {
         isClosable: true,
       });
     } catch (err) {
+      console.log(err);
       toast({
         title: "¡Lo Sentimos!.",
         description: "Hubo un error en configurar la cuenta.",

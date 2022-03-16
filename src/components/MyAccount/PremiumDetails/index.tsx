@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Loading from "../../Loading";
+import envConfig from "../../../../next-env-config";
 interface IUser {
   id: string;
   status: string;
@@ -56,7 +57,7 @@ const PremiumDetails: React.FC<{ payerId: string; email: string }> = ({
     setLoading(true);
     if (payerId) {
       const res = await axios.get(
-        `http://localhost:8080/subs/payer?id=${payerId}`
+        `${envConfig?.apiUrl}/subs/payer?id=${payerId}`
       );
       if (res.statusText) {
         const {
@@ -130,12 +131,9 @@ const PremiumDetails: React.FC<{ payerId: string; email: string }> = ({
       setLoading(true);
 
       if (!payerId) throw new Error("payerId not found");
-      const mp = await axios.put(
-        `http://localhost:8080/subs/payer/${payerId}`,
-        {
-          status,
-        }
-      );
+      const mp = await axios.put(`${envConfig?.apiUrl}/subs/payer/${payerId}`, {
+        status,
+      });
       let isPremium;
       let id = payerId;
       if (status === "paused") {
