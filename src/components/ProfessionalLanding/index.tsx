@@ -153,15 +153,14 @@ const ProfessionalLanding: React.FC<any> = (props) => {
             </Flex>
           </Flex>
         </Flex>
-        <Container maxW={"container.lg"}  margin={"0 -1em"}>
+        <Container maxW={"container.lg"} margin={"0 -1em"}>
           <Flex margin={"1rem"} flexDirection={"column"} textAlign={"start"}>
-          <Heading
-                    fontSize={"1.5rem"}
-                    color={"light_grey_sub"}
-                  >
-                    DESCRIPCION
-                  </Heading>
-            <Text fontSize={"1.5rem"} marginTop={"0.5rem"}>{user.description}</Text>
+            <Heading fontSize={"1.5rem"} color={"light_grey_sub"}>
+              DESCRIPCION
+            </Heading>
+            <Text fontSize={"1.5rem"} marginTop={"0.5rem"}>
+              {user.description}
+            </Text>
           </Flex>
           <Divider margin={"1em 0"}></Divider>
         </Container>
@@ -173,10 +172,9 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 md: "wrap",
                 lg: "nowrap",
               }}
+              justifyContent={"space-between"}
             >
               <Stack>
-                
-                
                 <Box margin={"1em 0"}>
                   <Heading
                     fontSize={{
@@ -249,10 +247,11 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   UBICACION
                 </Heading>
                 <Box height="400px" width="300px">
-                <Map 
-                  location={user.address}
-                  coverage={user.address.searchRange}
-                ></Map></Box>
+                  <Map
+                    location={user.address}
+                    coverage={user.address.searchRange}
+                  ></Map>
+                </Box>
               </Box>
             </Flex>
             <Flex flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}>

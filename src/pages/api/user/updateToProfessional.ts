@@ -28,7 +28,7 @@ interface DataAccesDenied {
 
 const cases: ICases = {
   PUT: async (req, res) => {
-    const { id, categories, images, rangeCoverage, description} =
+    const { id, categories, images, rangeCoverage, description, certification} =
       req.body;
 
     const user = await User.findOne({ _id: id });
@@ -44,11 +44,11 @@ const cases: ICases = {
     });
 
     const itemsCat = await Promise.all(items)
-      
       user.workerData = {
       rangeCoverage: rangeCoverage,
       images: images,
-      items: itemsCat 
+      items: itemsCat,
+      certification: certification
     };
     user.description = description;
     user.save();
