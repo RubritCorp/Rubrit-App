@@ -1,21 +1,10 @@
-import axios from "axios";
-import envConfig from "../../../../next-env-config";
-import Layout from "../../layout";
-import { useState } from "react";
 import {
-  Container,
   Flex,
   Box,
   Image,
   Text,
   FormLabel,
-  FormControl,
   Button,
-  Input,
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
   ButtonGroup,
   Drawer,
   DrawerBody,
@@ -30,11 +19,9 @@ import {
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
-  Switch,
   Checkbox,
-  Stack,
   Icon,
-  Heading
+  Heading,
 } from "@chakra-ui/react";
 import { Formik } from "formik";
 
@@ -43,94 +30,26 @@ import {
   ResetButton,
   SubmitButton,
   SliderControl,
-  SwitchControl,
   CheckboxContainer,
   CheckboxControl,
+  TextareaControl,
 } from "formik-chakra-ui";
-import { useSession } from "next-auth/react";
-import { useCategories } from "../../../Provider/CategoriesProvider";
+
 import { MultipleImagesControl } from "../../CustomFormControls/MultipleImagesControl";
 import useHelper from "./useHelper";
+import { useCategories } from "Provider/CategoriesProvider";
 
 const ProfessionalForm: React.FC = () => {
-  const { initialValues, toast, onSubmit, validationSchema } = useHelper();
+  const { initialValues, validationSchema, handleOnSubmit, values } =
+    useHelper();
+  const { description, rangeCoverage, images } = values;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { categories } = useCategories();
-  const { data: session } = useSession();
-  const [values, setValues] = useState<any>({
-    companyName: "",
-    description: "",
-    rangeCoverage: 0,
-    images: [],
-    categories: [],
-  });
-  const handleOnSubmit2 = async (event: any, values: any) => {
-    event.preventDefault();
-    let categoriesArray: any[] = [];
 
-    for (let val in values) {
-      if (Array.isArray(values[val]) && val !== "images") {
-        let obj = { name: val, subcategories: values[val] };
-        if (obj.subcategories.length > 0) {
-          categoriesArray.push({ name: val, subcategories: values[val] });
-        }
-      }
-    }
-
-    let finalValues = {
-      companyName: values.companyName,
-      description: values.description,
-      rangeCoverage: values.rangeCoverage,
-      images: values.images,
-      categories: categoriesArray,
-    };
-
-    const formData = new FormData();
-    formData.append("path", "user/userid/files/img/form");
-    formData.append("title", "imagenes-form");
-
-    if (finalValues.images) {
-      for (let i = 0; i < finalValues.images.length; i++) {
-        formData.append("files", finalValues.images[i] as any);
-      }
-    }
-    if (finalValues.categories.length > 3) {
-      alert("Solo puedes seleccionar 3 categorias");
-    } else {
-      const {
-        data: { urls },
-      } = await axios.post(`${envConfig?.apiUrl}/aws/upload-files`, formData);
-
-      try {
-        const data = await axios.put("/api/user/updateToProfessional", {
-          id: session!._id,
-          categories: finalValues.categories,
-          images: urls,
-          description: finalValues.description,
-          companyName: finalValues.companyName,
-          rangeCoverage: finalValues.rangeCoverage,
-        });
-        setValues({ ...finalValues, images: urls });
-        //onSubmit(finalValues);
-        toast({
-          title: `¡Felicidades!`,
-          description: "Tu perfil como profesional fue creado con exito.",
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-        });
-      } catch (err) {
-        toast({
-          title: "¡Lo Sentimos!.",
-          description: "Hubo un error en configurar la cuenta.",
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
-      }
-    }
-  };
-
+  function handleSaveCat() {
+    onClose();
+  }
+  console.log("values", values.categories);
   return (
     <Flex
       flexDirection={"row"}
@@ -144,40 +63,36 @@ const ProfessionalForm: React.FC = () => {
       </Box> */}
       <Formik
         initialValues={initialValues}
-        onSubmit={handleOnSubmit2}
+        onSubmit={handleOnSubmit}
         validationSchema={validationSchema}
       >
         {({ values, errors }) => (
           <Box
             as="form"
             onSubmit={(event: React.SyntheticEvent): Promise<void> =>
-              handleOnSubmit2(event, values) as any
+              handleOnSubmit(event, values) as any
             }
           >
-            <InputControl
-              name="companyName"
-              label="Nombre de la compañia"
-              inputProps={{
-                placeholder: "Nombre de la compañia",
-                autoComplete: "off",
-              }}
-              isRequired
-              padding={"0.5rem 0"}
-            />
-            <InputControl
+            <TextareaControl
               name="description"
               label="Descripcion de tu experiencia"
-              inputProps={{
-                placeholder: "Descripcion de tu experiencia",
-                autoComplete: "off",
-              }}
-              isRequired
               padding={"0.5rem 0"}
             />
             <Box padding={"0.5rem 0"}>
-              <MultipleImagesControl label="images" name="images" />
+              <MultipleImagesControl
+                label="images"
+                name="images"
+                title={"Imagenes de trabajos realizados"}
+              />
             </Box>
-            <FormLabel>Seleccionar categorias</FormLabel>
+            <Box padding={"0.5rem 0"}>
+              <MultipleImagesControl
+                label="documentation"
+                name="documentation"
+                title={"Imagenes de certificados, titulos, matriculas"}
+              />
+            </Box>
+            <FormLabel>Seleccionar entre 1 y 3 categorias</FormLabel>
             <Box padding={"0.5rem 0"}>
               <Button colorScheme="teal" onClick={onOpen}>
                 Categorias
@@ -192,16 +107,16 @@ const ProfessionalForm: React.FC = () => {
 
                   <DrawerBody>
                     <Accordion allowMultiple>
-                      {categories?.map((cat) => {
+                      {categories?.map((cat: any, index: number) => {
                         return (
                           <AccordionItem key={cat.name}>
                             <h2>
                               <AccordionButton>
                                 <Image
                                   src={cat.icon}
-                                  key={cat.name}
+                                  key={index}
                                   boxSize={"1.7rem"}
-                                  alt="cat-icon"
+                                  alt={`cat-icon-${cat.name}`}
                                   mr={"1rem"}
                                 ></Image>
                                 <Box flex="1" textAlign="left">
@@ -213,7 +128,7 @@ const ProfessionalForm: React.FC = () => {
                             <AccordionPanel pb={4}>
                               <CheckboxContainer name={cat.name}>
                                 {cat.subcategories?.map(
-                                  (sub, index: number) => (
+                                  (sub: any, index: number) => (
                                     <Flex key={index}>
                                       <CheckboxControl
                                         name={cat.name}
@@ -237,7 +152,7 @@ const ProfessionalForm: React.FC = () => {
                     <Button variant="outline" mr={3} onClick={onClose}>
                       Cancel
                     </Button>
-                    <Button colorScheme="blue" onClick={onClose}>
+                    <Button colorScheme="blue" onClick={handleSaveCat}>
                       Save
                     </Button>
                   </DrawerFooter>
@@ -259,36 +174,45 @@ const ProfessionalForm: React.FC = () => {
               isRequired
             ></SliderControl>
             <ButtonGroup>
-              <SubmitButton>Submit</SubmitButton>
+              <SubmitButton
+                disabled={
+                  // Object.keys(errors).length > 0 ||
+                  // !Object.values(values)[0].length ||
+                  // Object.keys(values).length < 9 ||
+                  // Object.keys(values).length > 5
+                  //   ? true
+                  //   :
+                  false
+                }
+              >
+                Submit
+              </SubmitButton>
               <ResetButton>Reset</ResetButton>
             </ButtonGroup>
           </Box>
         )}
       </Formik>
       <Box margin={"0 55px"}>
-        {values.companyName.length > 0 && (
+        {description.length > 0 && (
           <>
-            <Text></Text>
-            <Box>
-              <Heading size="md">Compañia</Heading>
-              <Text>{values?.companyName}</Text>
-            </Box>
             <Box>
               <Heading size="md">Descripcion</Heading>
-              <Text>{values?.description}</Text>
+              <Text>{description}</Text>
             </Box>
             <Box>
               <Heading size="md">Rango de cobertura</Heading>
-              <Text>{values.rangeCoverage}</Text>
+              <Text>{rangeCoverage}</Text>
               <Heading size="sm">Fotos de trabajos realizados</Heading>
-              <Box boxSize="sm" margin={"20px 0"}>
-                <Image src={values.images[0]} boxSize="100px" alt="alt" />
+              <Box margin={"20px 0"}>
+                {images?.map((e: any) => (
+                  <Image src={e} boxSize="100px" alt="alt" />
+                ))}
               </Box>
               <Heading size="sm">Categorias</Heading>
 
-              {values.categories.map((cat: any) => (
+              {values?.categoriesArray?.map((cat: any, i: number) => (
                 <>
-                  <Text>{cat.name}</Text>
+                  <Text key={i}>{cat.name}</Text>
                   <Box>
                     {cat.subcategories.map((sub: any, i: number) => (
                       <Text key={i}>{sub.name}</Text>

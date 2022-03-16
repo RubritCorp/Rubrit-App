@@ -13,7 +13,7 @@ import type CustomFieldProps from "./ICustomFieldProps";
 
 export const MultipleImagesControl: React.FC<
   FieldHookConfig<string> & CustomFieldProps
-> = ({ label, ...props }) => {
+> = ({ label, title, ...props }) => {
   // useField documentation: https://formik.org/docs/api/useField
   const [field, meta, helpers] = useField(props);
   const { setValue } = helpers;
@@ -104,7 +104,7 @@ export const MultipleImagesControl: React.FC<
 
   return (
     <FormControl isInvalid={meta.touched && !!meta.error}>
-      <FormLabel>Trabajos realizados</FormLabel>
+      <FormLabel>{title}</FormLabel>
       <Button onClick={handleClick} backgroundColor={"warning_red"}>
         Subir Imagenes
       </Button>

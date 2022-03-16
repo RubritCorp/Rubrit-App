@@ -5,7 +5,7 @@ interface IProps {}
 const RequestSend: React.FC<IProps> = () => {
   return (
     <>
-      <Heading>SOLICITUDES ENVIADAS</Heading>
+      <Heading>Publicas</Heading>
     </>
   );
 };
