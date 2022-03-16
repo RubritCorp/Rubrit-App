@@ -66,7 +66,7 @@ const Footer: React.FC = () => {
         <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={8}>
           <Stack align={"flex-start"}>
             <ListHeader>Rubrit</ListHeader>
-            <Link href={"#"}>
+            <Link href={"/"}>
               <a>Inicio</a>
             </Link>
             <Link href={"/findServices"}>
@@ -78,7 +78,7 @@ const Footer: React.FC = () => {
             <Link href={"/aboutUs"}>
               <a>Sobre Nosotros</a>
             </Link>
-            <Link href={"#"}>
+            <Link href={"/myAccount?site=offerServices"}>
               <a>Registrate como Profesional</a>
             </Link>
           </Stack>
