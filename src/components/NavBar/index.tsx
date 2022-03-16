@@ -16,6 +16,7 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
+
 } from "@chakra-ui/react";
 import {
   BellIcon,
@@ -39,8 +40,10 @@ import { DrawerOptions } from "components/MyAccount";
 //interfaces
 import EmailAuthModal from "./emailAuthModal";
 import Profile from "components/Profile/Profile";
+import Image from "next/image";
 //providers
-import { useCategories } from "Provider/CategoriesProvider";
+import rubritlogo from "assets/RUBRIT.png";
+
 
 const WithSubnavigation: React.FC = () => {
   const toast = useToast();
@@ -132,14 +135,12 @@ const WithSubnavigation: React.FC = () => {
             </Box>
           )}
           <Link href="/" passHref={true}>
-            <a>
-              <Text
-                fontFamily={"heading"}
-                color={useColorModeValue("gray.800", "white")}
-              >
-                Logo
-              </Text>
-            </a>
+                 <Image
+                    src={rubritlogo}
+                    alt="user-image"
+                    width={"120px"}
+                    height={"35px"}
+                 />
           </Link>
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
             <DesktopNav />

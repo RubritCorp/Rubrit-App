@@ -100,10 +100,11 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                 <Stack direction={"row"} justify={"center"} spacing={6}>
                   <Stack spacing={0} align={"center"}>
                     <Text
+                      
                       align={"center"}
                       fontSize={{ base: "xs", md: "md" }}
-                      pl={5}
-                      pr={5}
+                      pl={8}
+                      pr={8}
                       color={"green.500"}
                       w={"296px"}
                       h={"55px"}
