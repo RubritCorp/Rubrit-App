@@ -55,7 +55,6 @@ const ProfessionalLanding: React.FC<any> = (props) => {
               objectFit={"cover"}
             ></Image>
           </Box>
-
           <Flex flexDirection={"column"}>
             <Flex
               flexDirection={"row"}
@@ -108,7 +107,6 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   </Flex>
                 </Flex>
               </Flex>
-
               <Flex flexDirection={"column"} alignItems={"center"}>
                 <Link
                   href={{ pathname: "/request/new", query: { id: user._id } }}
@@ -155,10 +153,18 @@ const ProfessionalLanding: React.FC<any> = (props) => {
         </Flex>
         <Container maxW={"container.lg"} margin={"0 -1em"}>
           <Flex margin={"1rem"} flexDirection={"column"} textAlign={"start"}>
-            <Heading fontSize={"1.5rem"} color={"light_grey_sub"}>
+
+            <Heading
+              fontSize={{
+                base: "1rem",
+                md: "1.2rem",
+                lg: "1.5rem",
+              }}
+              color={"light_grey_sub"}
+            >
               DESCRIPCION
             </Heading>
-            <Text fontSize={"1.5rem"} marginTop={"0.5rem"}>
+            <Text fontSize={{ base: "0.9rem", md: "1.2rem", lg: "1.4rem" }}>
               {user.description}
             </Text>
           </Flex>
@@ -167,6 +173,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
         <Container maxW={"container.lg"} p={"0 "} margin={"0 1em"}>
           <Flex flexDirection={"column"}>
             <Flex
+              justifyContent={"space-between"}
               flexWrap={{
                 base: "wrap",
                 md: "wrap",
@@ -191,7 +198,6 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                     flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}
                   >
                     {user.workerData.images.map((n: any, i: number) => {
-                      console.log(i);
                       if (i < 4) {
                         return (
                           <Image
@@ -199,9 +205,9 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                             key={i}
                             src={n}
                             alt="jobs-pic"
-                            maxW="100px"
+                            maxW="13em"
                             borderRadius={"0.3rem"}
-                            margin={"1rem"}
+                            marginTop={"1rem"}
                           />
                         );
                       }
@@ -220,33 +226,44 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   >
                     DOCUMENTACION
                   </Heading>
-                  <Flex flexDirection={"row"}>
-                    <Image
-                      maxW="100px"
-                      src="https://www.mercurynews.com/wp-content/uploads/2019/06/SCHWARZENEGGER_DIPLOMAS_2_.jpg?w=1442"
-                      borderRadius="0.4rem"
-                      alt="Dan Abramov"
-                      margin={"1rem"}
-                    ></Image>
-                    <Image
-                      maxW="100px"
-                      src="https://m.media-amazon.com/images/I/81q4U2Jtg7L._AC_SL1500_.jpg"
-                      borderRadius="0.4rem"
-                      alt="Dan Abramov"
-                      margin={"1rem"}
-                    ></Image>
+                  <Flex
+                    flexDirection={"row"}
+                    flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}
+                  >
+                    {user.workerData.certification.map((n: any, i: number) => {
+                      console.log(i);
+                      if (i < 4) {
+                        return (
+                          <Image
+                            p={1}
+                            key={i}
+                            src={n}
+                            alt="worker-cert"
+                            maxW="13em"
+                            borderRadius={"0.3rem"}
+                            marginTop={"1rem"}
+                          />
+                        );
+                      }
+                    })}
                   </Flex>
                   <Divider margin={"1em 0"}></Divider>
                 </Flex>
               </Stack>
-              <Box margin={"1rem"}>
+              <Box marginTop="1em">
                 <Heading
                   fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
                   color={"light_grey_sub"}
                 >
                   UBICACION
                 </Heading>
-                <Box height="400px" width="300px">
+
+                <Box
+                  height={{ base: "26em", md: "28em", lg: "30em" }}
+                  width={{ base: "26em", md: "28em", lg: "34em" }}
+                  marginTop="1.2em"
+                >
+
                   <Map
                     location={user.address}
                     coverage={user.address.searchRange}
