@@ -114,17 +114,21 @@ const NearProfesionals: React.FC = () => {
 
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
-        {users.slice(0, 10).map((item, index: number) => (
+        {users?.slice(0, 10)?.map((item, index: number) => {
+
+          {console.log(item)}
+          return (
           <CardProfesional
             key={index}
             _id={item._id}
             name={item.name}
-            img={item.workerData.items[0].category.picture_small}
+            img={item.workerData.items[0]?.category.picture_small}
             avatar={item.profilePic}
             city={item.address.name}
             description={item.description}
           />
-        ))}
+        );
+        })}
       </Slider>
     </Box>
   );

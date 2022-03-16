@@ -1,50 +1,94 @@
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import * as Yup from "yup";
+import { useSession } from "next-auth/react";
+import { useCategories } from "../../../Provider/CategoriesProvider";
+import { useState } from "react";
+import envConfig from "../../../../next-env-config";
 
 export const useHelper = () => {
+  const { categories } = useCategories();
+  const { data: session } = useSession();
   const toast = useToast();
-  interface DataInitialValues {
-    companyName: string;
-    description: string;
-    rangeCoverage: number;
-    images?: string[];
-  }
-
-  const initialValues: DataInitialValues = {
-    companyName: "",
+  const [values, setValues] = useState<any>({
     description: "",
     rangeCoverage: 0,
     images: [],
+    categories: [],
+  });
+
+  interface DataInitialValues {
+    description: string;
+    rangeCoverage: number;
+    images?: string[];
+    categories: string[];
+  }
+
+  const initialValues: DataInitialValues = {
+    description: "",
+    rangeCoverage: 0,
+    images: [],
+    categories: [],
   };
 
   const validationSchema = Yup.object({
-    companyName: Yup.string().required("El nombre es requerido"),
     description: Yup.string().required("Una descripcion es requerida"),
+    rangeCoverage: Yup.number()
 
-    rangeCoverage: Yup.number().required("El rango de cobertura es requerido"),
-    images: Yup.array().required(""),
+      .test({
+        message: "La distancia minima es de 5km",
+        test: (n: any) => n >= 5,
+      })
+      .required("El rango de cobertura es requerido"),
+    // categories: Yup.array(),
   });
 
-  const onSubmit = async (values: DataInitialValues) => {
-    console.log("eeee", values);
+  const handleOnSubmit = async (event: any, values: any) => {
+    event.preventDefault();
+    let categoriesArray: any[] = [];
+    const { description, rangeCoverage, images } = values;
+    for (let val in values) {
+      if (Array.isArray(values[val]) && val !== "images") {
+        let obj = { name: val, subcategories: values[val] };
+        if (obj.subcategories.length > 0) {
+          categoriesArray.push({ name: val, subcategories: values[val] });
+        }
+      }
+    }
 
-    const { companyName, description, rangeCoverage, images } = values;
-
-    const userProfessional = {
-      companyName,
+    let finalValues = {
       description,
       rangeCoverage,
       images,
+      categoriesArray,
     };
+
+    const formData = new FormData();
+    formData.append("path", "user/userid/files/img/form");
+    formData.append("title", "imagenes-form");
+
+    if (finalValues.images) {
+      for (let i = 0; i < finalValues.images.length; i++) {
+        formData.append("files", finalValues.images[i] as any);
+      }
+    }
+
+    const {
+      data: { urls },
+    } = await axios.post(`${envConfig?.apiUrl}/aws/upload-files`, formData);
+
     try {
-      const { data } = await axios.put(
-        "/rutaPerfilProgesional",
-        userProfessional
-      );
+      const data = await axios.put("/api/user/updateToProfessional", {
+        id: session!._id,
+        categories: finalValues.categoriesArray,
+        images: urls,
+        description: finalValues.description,
+        rangeCoverage: finalValues.rangeCoverage,
+      });
+      setValues({ ...finalValues, images: urls });
 
       toast({
-        title: `¡Felicidades NOMBRE DE USUARIO!`,
+        title: `¡Felicidades!`,
         description: "Tu perfil como profesional fue creado con exito.",
         status: "success",
         duration: 5000,
@@ -61,7 +105,7 @@ export const useHelper = () => {
     }
   };
 
-  return { initialValues, toast, onSubmit, validationSchema };
+  return { initialValues, validationSchema, handleOnSubmit, values };
 };
 
 export default useHelper;
