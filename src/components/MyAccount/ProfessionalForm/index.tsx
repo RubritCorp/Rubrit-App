@@ -206,14 +206,24 @@ const ProfessionalForm: React.FC = () => {
               <Text>{rangeCoverage}</Text>
               <Heading size="sm">Fotos de trabajos realizados</Heading>
               <Box margin={"20px 0"}>
-                {images?.map((e: any) => (
-                  <Image src={e} boxSize="100px" alt="alt" />
+                {images?.map((e: any, index: number) => (
+                  <Image
+                    src={e}
+                    boxSize="100px"
+                    alt="img-trabajos-realizados"
+                    key={index}
+                  />
                 ))}
               </Box>
               <Heading size="sm">Fotos de trabajos realizados</Heading>
               <Box margin={"20px 0"}>
-                {certification?.map((e: any) => (
-                  <Image src={e} boxSize="100px" alt="alt" />
+                {certification?.map((e: any, index: number) => (
+                  <Image
+                    src={e}
+                    boxSize="100px"
+                    alt="img-certification"
+                    key={index}
+                  />
                 ))}
               </Box>
               <Heading size="sm">Categorias</Heading>
