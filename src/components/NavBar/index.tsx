@@ -183,84 +183,89 @@ const WithSubnavigation: React.FC = () => {
                   <BellIcon fontSize={"2xl"} />
                 </MenuButton>
               </Menu>
-              <Menu>
-                <MenuButton
-                  as={Button}
-                  rightIcon={<ChevronDownIcon />}
-                  bg={"transparent"}
-                >
-                  {user && (
-                    <Avatar
-                      src={user?.image}
-                      name={user?.name}
-                      cursor={"pointer"}
-                      size={"sm"}
-                      id={"profile"}
-                    />
-                  )}
-                </MenuButton>
-                <MenuList>
-                  <MenuItem onClick={() => onOpenProfile()}>Mi Perfil</MenuItem>
-                  <MenuDivider />
-                  <Link
-                    href={{
-                      pathname: "myAccount",
-                      query: { site: "accountSettings" },
-                    }}
-                    passHref
+              <Menu isLazy>
+                {/* fix Popper warning */}
+                <h1 style={{ margin: 0 }}>
+                  <MenuButton
+                    as={Button}
+                    rightIcon={<ChevronDownIcon />}
+                    bg={"transparent"}
                   >
-                    <a>
-                      <MenuItem icon={<ExternalLinkIcon />}>
-                        Ajustes De Cuenta
-                      </MenuItem>
-                    </a>
-                  </Link>
-                  <MenuDivider />
-                  <Link
-                    href={{
-                      pathname: "myAccount",
-                      query: { site: "myRequest" },
-                    }}
-                    passHref
-                  >
-                    <a>
-                      <MenuItem>Solicitudes</MenuItem>
-                    </a>
-                  </Link>
-                  <MenuDivider />
-                  <Link
-                    href={{ pathname: "myAccount", query: { site: "" } }}
-                    passHref
-                  >
-                    <a>
-                      <MenuItem>Solicita Cotización</MenuItem>
-                    </a>
-                  </Link>
-                  <MenuDivider />
-                  <Link
-                    href={{
-                      pathname: "myAccount",
-                      query: { site: "offerServices" },
-                    }}
-                    passHref
-                  >
-                    <a>
-                      <MenuItem>Ofrecé tus Servicios</MenuItem>
-                    </a>
-                  </Link>
-                  <MenuDivider />
-                  <MenuItem d={{ base: "inline", md: "none" }}>
-                    Notificaciones
-                  </MenuItem>
-                  <MenuDivider d={{ base: "", md: "none" }} />
-                  <MenuItem
-                    onClick={() => {
-                      signOut({ redirect: false });
-                    }}
-                  >
-                    Cerrar Sesion
-                  </MenuItem>
-                </MenuList>
+                    {user && (
+                      <Avatar
+                        src={user?.image}
+                        name={user?.name}
+                        cursor={"pointer"}
+                        size={"sm"}
+                        id={"profile"}
+                      />
+                    )}
+                  </MenuButton>
+                  <MenuList>
+                    <MenuItem onClick={() => onOpenProfile()}>
+                      Mi Perfil
+                    </MenuItem>
+                    <MenuDivider />
+                    <Link
+                      href={{
+                        pathname: "myAccount",
+                        query: { site: "accountSettings" },
+                      }}
+                      passHref
+                    >
+                      <a>
+                        <MenuItem icon={<ExternalLinkIcon />}>
+                          Ajustes De Cuenta
+                        </MenuItem>
+                      </a>
+                    </Link>
+                    <MenuDivider />
+                    <Link
+                      href={{
+                        pathname: "myAccount",
+                        query: { site: "myRequest" },
+                      }}
+                      passHref
+                    >
+                      <a>
+                        <MenuItem>Solicitudes</MenuItem>
+                      </a>
+                    </Link>
+                    <MenuDivider />
+                    <Link
+                      href={{ pathname: "myAccount", query: { site: "" } }}
+                      passHref
+                    >
+                      <a>
+                        <MenuItem>Solicita Cotización</MenuItem>
+                      </a>
+                    </Link>
+                    <MenuDivider />
+                    <Link
+                      href={{
+                        pathname: "myAccount",
+                        query: { site: "offerServices" },
+                      }}
+                      passHref
+                    >
+                      <a>
+                        <MenuItem>Ofrecé tus Servicios</MenuItem>
+                      </a>
+                    </Link>
+                    <MenuDivider />
+                    <MenuItem d={{ base: "inline", md: "none" }}>
+                      Notificaciones
+                    </MenuItem>
+                    <MenuDivider d={{ base: "", md: "none" }} />
+                    <MenuItem
+                      onClick={() => {
+                        signOut({ redirect: false });
+                      }}
+                    >
+                      Cerrar Sesion
+                    </MenuItem>
+                  </MenuList>
+                </h1>
               </Menu>
             </>
           )}

@@ -106,8 +106,10 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ title, image }) => {
           <Image
             src={image}
             quality={50}
+            width="276px"
+            height="377px"
             objectFit={"cover"}
-            layout={"fill"}
+            // layout={"fill"}
             alt="cat-image"
           />
         </a>

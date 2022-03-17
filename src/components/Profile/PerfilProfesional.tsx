@@ -18,7 +18,7 @@ type Props = {
 };
 
 const PerfilProfesional = ({ user }: Props) => {
-  console.log(user.workerData);
+  // console.log(user.workerData);
 
   return (
     <Flex

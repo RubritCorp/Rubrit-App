@@ -25,7 +25,7 @@ const cases: ICases = {
   GET: async (req, res) => {
     const { code, email } = req.query;
 
-    console.log(code, email);
+    // console.log(code, email);
 
     if (!code) {
       res
