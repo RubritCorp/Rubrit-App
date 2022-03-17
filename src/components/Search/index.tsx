@@ -70,7 +70,6 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       borderRightColor={useColorModeValue('gray.200', 'gray.700')}
       w={{ base: 'full', md: 60 }}
       pos='fixed'
-      //h={{ base: "calc(full - 400px)" }}
       overflow='hidden'
       h='full'
       {...rest}>

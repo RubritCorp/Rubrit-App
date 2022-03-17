@@ -1,24 +1,29 @@
 //components
-import { Box, Text } from "@chakra-ui/react";
-import Head from "next/head";
-import Footer from "components/Footer";
-import Navbar from "components/NavBar";
-import SearchWithSideBar from "components/Search";
+import { Box } from '@chakra-ui/react';
+import Head from 'next/head';
+import Footer from 'components/Footer';
+import Navbar from 'components/NavBar';
+import SearchResults from 'components/Search/SearchResults'
+import SearchWithSideBar from 'components/Search';
+import { search } from 'components/Search/searchHelper';
 
 const Search: React.FC<{
   title?: string;
   description?: string;
 }> = ({ title, description }) => {
+
+  search().then(res => console.log("API RESPONSE:",res));
+
   return (
     <Box>
       <Head>
-        <link rel="icon" href="../../public/favicon.ico" />
+        <link rel='icon' href='../../public/favicon.ico' />
         <title>{`Rubrit | ${title}`}</title>
-        <meta name="description" content={description} />
+        <meta name='description' content={description} />
       </Head>
       <Navbar />
       <SearchWithSideBar>
-        <Text p='4' h='100vh'>Search</Text>
+        <SearchResults />
         <Footer />
       </SearchWithSideBar>
     </Box>
@@ -27,8 +32,8 @@ const Search: React.FC<{
 };
 
 Search.defaultProps = {
-  title: "Mi sitio web",
-  description: "Descripcion de mi sitio Web",
+  title: 'Resultados de la búsqueda',
+  description: 'Encuentra todos los servicios que necesites',
 };
 
 
