@@ -39,7 +39,7 @@ export const StepOneFields: React.FC<{ selectedCategory: any }> = ({ selectedCat
           margin: '0 0 8px 0',
         }}
         selectProps={{
-          placeholder: 'Ver categorías',
+          placeholder: loading ? 'Cargando...' : 'Ver categorías'
         }}
       >
         {loading
@@ -60,7 +60,7 @@ export const StepOneFields: React.FC<{ selectedCategory: any }> = ({ selectedCat
           margin: '8px 0 8px 0',
         }}
         selectProps={{
-          placeholder: 'Ver subcategorías',
+          placeholder: loading ? 'Cargando...' : 'Ver subcategorías'
         }}
       >
         {subcategories?.map((subcategory) => (
