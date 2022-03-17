@@ -6,15 +6,13 @@ import { useUsers } from "Provider/UsersProvider";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
 
-
 const NearProfesionals: React.FC = () => {
   const { users, status } = useUsers();
   const { data: Session, status: auth } = useSession();
   const [slider, setSlider] = useState<Slider | null>(null);
 
-  const cardsToSlider = users.slice(0,10).length
-  console.log(cardsToSlider);
-  
+  const cardsToSlider = users.slice(0, 10).length;
+
   const settings = {
     dots: true,
     infinite: true,
@@ -38,7 +36,7 @@ const NearProfesionals: React.FC = () => {
         settings: {
           centerMode: true,
           centerPadding: "10px",
-          slidesToShow: cardsToSlider <= 3? cardsToSlider : 3,
+          slidesToShow: cardsToSlider <= 3 ? cardsToSlider : 3,
           dots: true,
         },
       },
