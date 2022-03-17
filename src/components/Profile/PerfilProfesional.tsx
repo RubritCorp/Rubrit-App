@@ -70,10 +70,14 @@ const PerfilProfesional = ({ user }: Props) => {
             border={"2px solid"}
             borderColor={"medium_green"}
           >
-            <Map
-              coverage={user.workerData.rangeCoverage}
-              location={{ lat: user.address.lat, lng: user.address.lng }}
-            />
+            {user.address.lat && user.address.lng ? (
+              <Map
+                coverage={user.workerData.rangeCoverage}
+                location={{ lat: user.address.lat, lng: user.address.lng }}
+              />
+            ) : (
+              <Map />
+            )}
           </Box>
         </Flex>
 

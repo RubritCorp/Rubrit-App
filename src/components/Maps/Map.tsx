@@ -3,10 +3,13 @@ import { Loader } from "@googlemaps/js-api-loader";
 import styles from "./Map.module.css";
 
 type Props = {};
-
-const Map: React.FC<{ location: any; coverage?: number }> = ({
-  location,
-  coverage,
+interface ILocation {
+  lat: number;
+  lng: number;
+}
+const Map: React.FC<{ location?: ILocation; coverage?: number }> = ({
+  location = { lat: -34.6111947, lng: -58.4461956 },
+  coverage = 1,
 }) => {
   //especificar el elemento HTML al cual Google maps será embebido
   const googlemap = useRef(null);

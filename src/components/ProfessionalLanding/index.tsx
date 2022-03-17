@@ -260,10 +260,17 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   width={{ base: "26em", md: "28em", lg: "34em" }}
                   marginTop="1.2em"
                 >
-                  <Map
-                    location={user.address}
-                    coverage={user.address.searchRange}
-                  ></Map>
+                  {user.address.lat && user.address.lng ? (
+                    <Map
+                      location={{
+                        lat: user.address.lat,
+                        lng: user.address.lng,
+                      }}
+                      coverage={user.address.searchRange}
+                    />
+                  ) : (
+                    <Map />
+                  )}
                 </Box>
               </Box>
             </Flex>

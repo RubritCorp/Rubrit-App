@@ -60,7 +60,7 @@ export const LocationControl: React.FC<
         {...field}
         autoComplete="off"
         placeholder="Escribe una dirección"
-        onKeyDown={(e: any) => e.keyCode == 13 ? e.preventDefault() : null}
+        onKeyDown={(e: any) => (e.keyCode == 13 ? e.preventDefault() : null)}
       />
       <Field type="hidden" name="lat" />
       <Field type="hidden" name="lng" />
