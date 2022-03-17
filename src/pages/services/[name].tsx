@@ -45,7 +45,7 @@ const Services: NextPage<{ category: any; name: string }> = ({
       );
     }
   }, [cat.name, category, name, users]);
- console.log(cat);
+
   if (!cat || Object.keys(users).length < 1)
     return (
       <Layout>
