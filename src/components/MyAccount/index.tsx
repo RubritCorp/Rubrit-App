@@ -25,20 +25,20 @@ import { Session } from "next-auth/core/types";
 //components
 import AccountSettings from "./AccountSettings";
 import Loading from "components/Loading";
+import BecomePremium from "./BecomePremium";
+import PremiumDetails from "./PremiumDetails";
+import ProfessionalForm from "./ProfessionalForm/";
+import Requests from "./Requests";
+import UpdateProfesionalProfile from "./UpdateProfessionalProfile";
+//next
+import { NextPage } from "next";
+//assets
 import User from "assets/user.png";
 import Folder from "assets/folder.png";
 import File from "assets/file.png";
 import Worker from "assets/worker.png";
 import Premium from "assets/premium.png";
 import GoBack from "assets/goBack.png";
-//Subs
-import BecomePremium from "./BecomePremium";
-import PremiumDetails from "./PremiumDetails";
-
-import ProfessionalForm from "./ProfessionalForm/";
-import Requests from "./Requests";
-//next
-import { NextPage } from "next";
 
 interface ICases {
   accountSettings(session: Session): ReactElement;
@@ -83,7 +83,11 @@ const Index: NextPage = () => {
       return <Requests />;
     },
     offerServices: (session) => {
-      return <ProfessionalForm />;
+      return session.isWorker ? (
+        <UpdateProfesionalProfile {...{ session }} />
+      ) : (
+        <ProfessionalForm />
+      );
     },
     premiumDetails: (session) => {
       return <PremiumDetails payerId={session.payerId} email={session.email} />;
@@ -126,6 +130,7 @@ const Index: NextPage = () => {
       <Flex d={{ base: "none", xl: "flex" }} h={"90%"} mr={10} ml={10}>
         {
           <Content
+            user={session}
             payerId={session && session.payerId ? session.payerId : ""}
           />
         }
@@ -149,6 +154,13 @@ export const DrawerOptions: React.FC<{
   onClose(): void;
   payerId: string;
 }> = ({ isOpen, onClose, payerId }) => {
+  const { data: session } = useSession();
+  const router = useRouter();
+  useEffect(() => {
+    if (!session) {
+      router.push("/");
+    }
+  }, [router, session]);
   return (
     <Drawer {...{ isOpen, onClose }} placement={"left"} size={"md"}>
       <DrawerOverlay />
@@ -157,14 +169,19 @@ export const DrawerOptions: React.FC<{
         <DrawerHeader>
           <Text color={"medium_green"}>Panel</Text>
         </DrawerHeader>
-        <DrawerBody>{<Content payerId={payerId} />}</DrawerBody>
+        <DrawerBody>
+          {session && <Content payerId={payerId} user={session} />}
+        </DrawerBody>
         <DrawerFooter />
       </DrawerContent>
     </Drawer>
   );
 };
 
-const Content: React.FC<{ payerId: string }> = ({ payerId }) => {
+const Content: React.FC<{ payerId: string; user: Session }> = ({
+  payerId,
+  user,
+}) => {
   return (
     <Box
       marginTop={3}
@@ -311,7 +328,9 @@ const Content: React.FC<{ payerId: string }> = ({ payerId }) => {
                     height={"30px"}
                   />
                   <Text cursor={"pointer"} ml={3}>
-                    Ofrece Tus Servicios
+                    {user.isWorker
+                      ? "Modifica tu Perfil Profesional"
+                      : "Ofrece Tus Servicios"}
                   </Text>
                 </Flex>
                 <ChevronRightIcon />

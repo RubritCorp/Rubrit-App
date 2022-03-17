@@ -222,7 +222,9 @@ const MiPerfil: React.FC<{
         </Text>
         <Text>
           {user.isWorker ? "Profesional" : "Contratista"}{" "}
-          {user.isPremium && "- Cuenta Premium"}
+          {user.isPremium && (
+            <span style={{ color: "#2EB67D" }}>- Cuenta Premium</span>
+          )}
         </Text>
         <Text color="gray" fontSize={{ base: "sm", lg: "md" }} marginTop={5}>
           Zona Horaria

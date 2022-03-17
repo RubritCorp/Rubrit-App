@@ -1,5 +1,11 @@
 import { Types } from "mongoose";
 
+interface IRating {
+  userComment: Types.ObjectId;
+  description: string;
+  score: string;
+}
+
 interface HItems {
   category: Types.ObjectId;
   subcategories: Types.ObjectId[];
@@ -46,11 +52,7 @@ export interface IUser {
     language: string;
     hideAddress: boolean;
   };
-  rating: [{
-    userComment: Types.ObjectId;
-    description: string;
-    score: string;
-  }];
+  rating: IRating[];
   workerData: IWorkerData;
   items: HItems[];
   requests: {

@@ -46,6 +46,11 @@ export async function getUser(userId: any) {
       model: "Subcategory",
       select: "_id name",
     },
+    {
+      path: "rating.userComment",
+      model: "User",
+      select: "_id name profilePic email",
+    },
   ];
   const user = await User.findOne({ _id: userId }).populate(populateQuery);
 
