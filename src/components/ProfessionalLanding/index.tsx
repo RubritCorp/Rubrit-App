@@ -150,7 +150,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
             </Flex>
           </Flex>
         </Flex>
-        <Container maxW={"container.lg"} margin={"0 -1em"}>
+        <Container maxW={"container.lg"} margin={"0 auto"}>
           <Flex margin={"1rem"} flexDirection={"column"} textAlign={"start"}>
             <Heading
               fontSize={{
@@ -168,9 +168,10 @@ const ProfessionalLanding: React.FC<any> = (props) => {
           </Flex>
           <Divider margin={"1em 0"}></Divider>
         </Container>
-        <Container maxW={"container.lg"} p={"0 "} margin={"0 1em"}>
+        <Container maxW={"container.lg"} p={"0 "} margin={"0 auto"}>
           <Flex flexDirection={"column"}>
             <Flex
+              w={"100%"}
               justifyContent={"space-between"}
               flexWrap={{
                 base: "wrap",

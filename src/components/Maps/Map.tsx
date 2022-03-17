@@ -1,6 +1,7 @@
 import { useEffect, useRef, useLayoutEffect, useState } from "react";
 import { Loader } from "@googlemaps/js-api-loader";
 import styles from "./Map.module.css";
+import envConfig from "../../../next-env-config";
 
 type Props = {};
 interface ILocation {
@@ -75,7 +76,7 @@ const Map: React.FC<{ location?: ILocation; coverage?: number }> = ({
     // console.log("map2", googlemap);
 
     const loader = new Loader({
-      apiKey: "AIzaSyDlRwG9CITQZ2vO0tJrw-GRzuoCfKYjBzM",
+      apiKey: `${envConfig?.mapsKey}`,
       version: "weekly",
     });
     let map;
