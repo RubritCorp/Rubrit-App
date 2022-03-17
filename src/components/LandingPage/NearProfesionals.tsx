@@ -12,8 +12,7 @@ const NearProfesionals: React.FC = () => {
   const [slider, setSlider] = useState<Slider | null>(null);
 
   const cardsToSlider = users.slice(0, 10).length;
-  // console.log(cardsToSlider);
-
+  
   const settings = {
     dots: true,
     infinite: true,

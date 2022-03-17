@@ -9,17 +9,29 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
 import RequestReceived from "./RequestReceived";
 import RequestSend from "./RequestSend";
+import axios from "axios";
 
 const Requests: React.FC = () => {
   const session = useSession();
+  const [requests, setRequests] = useState({});
 
-  useEffect(() => {}, []);
+  async function fetchRequest() {
+    const requests = await axios.get("/api/serviceRequest/new", {
+      params: {
+        id: session.data!._id,
+      },
+    });
+    setRequests(requests);
+  }
+
+  useEffect(() => {
+    fetchRequest();
+  }, []);
 
   return (
     <Tabs

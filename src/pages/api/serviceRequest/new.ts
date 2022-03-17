@@ -15,14 +15,17 @@ interface DataSuccess {
 
 interface DataError {
   message: string;
+  requests?: any,
 }
 
 interface ICases {
+  GET(req:NextApiRequest, res: NextApiResponse<DataError>): void;
   POST(req: NextApiRequest, res: NextApiResponse<DataSuccess>): void;
   ERROR(req: NextApiRequest, res: NextApiResponse<DataError>): void;
 }
 
 const cases: ICases = {
+
   POST: async (req, res) => {
     const { category, subcategory, title, description, location, lat, lng, images, userId, professionalId } = req.body;
 
@@ -69,14 +72,45 @@ const cases: ICases = {
       console.log(err);
     }
   },
+  GET: async (req,res) => {
+    
+    try {
+        const { id } = req.query;
+          
+        const userRequests = await User.findOne({_id: "6230effe011d3377deba088e"})
+        .populate([{
+          path: "requests.sent",
+          model: "ServiceRequest"
+        },
+        {
+          path: "requests.received",
+          model: "ServiceRequest"
+        }])
+        
+        if(userRequests) {
+         
+            res.status(200).json({message: "Requests found", requests : userRequests.requests})
+        }
+
+    } catch (err) {
+      console.log('Error in GET REQUESTS');
+      console.log(err)
+      res.status(400).json({message: `${err}`})
+    }
+
+  },
   ERROR: (_, res) => {
+   
     res.status(400).json({ message: 'Invalid Method' });
   },
 };
 
 export default function index(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req;
-  if (method && method === 'POST') {
+
+
+  
+  if (method && method === 'POST' || method === "GET") {
     return cases[method](req, res);
   } else {
     return cases['ERROR'](req, res);
