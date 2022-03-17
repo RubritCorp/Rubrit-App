@@ -21,7 +21,6 @@ export const LocationControl: React.FC<
 
   // PlacesSearchBox documentation: https://developers.google.com/maps/documentation/javascript/places-autocomplete#typescript
   const { ref }: any = usePlacesWidget({
-    apiKey: envConfig?.mapsKey, // To do: fix security issue (variable is exposed to browser)
     options: {
       types: ["address"],
     },
