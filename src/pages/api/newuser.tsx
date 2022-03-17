@@ -61,7 +61,7 @@ const cases: ICases = {
       withProvider: false,
       isAuthenticated: true,
       profilePic:
-        "https://ca.slack-edge.com/TPRS7H4PN-U01M0BP7CQJ-416c76e76358-512",
+        "https://avatars.githubusercontent.com/u/79219062?v=4",
       isWorker: true,
       isPremium: true,
       payerId: "",
@@ -83,14 +83,19 @@ const cases: ICases = {
       },
       rating: [
         {
-          userComment: "6230c17a5fbcf2faa57644db",
-          description: "Remodeló mi baño y cocina. Me encantó el diseño y trabaja de manera muy profesional",
+          userComment: "6230c696ac761ce2feb45bd7",
+          description: "Hizo la remodelación completa de baño y cocina. Hermoso diseño",
+          score: "4",
+        },
+        {
+          userComment: "6230aca0f6b78c97becf0794",
+          description: "Muy profesional. Terminó la obra en el tiempo pautado",
           score: "4",
         },
       ],
       workerData: {
         images: ["https://www.paperarquitectura.com.ar/wp-content/uploads/elementor/thumbs/DSC_0610-scaled-pd7py4uy3eqjm29qgbu45vpcu3oznbj0v4lpzgfp1k.jpg", "https://www.paperarquitectura.com.ar/wp-content/uploads/elementor/thumbs/IMG_20210817_173234_1-pd7s2j6pknbj93aqccohtlo2zj4z9otmp9gg735rbc.jpg"],
-        certification: [],
+        certification: ["https://rubrit-development.s3.sa-east-1.amazonaws.com/users/6230aca0f6b78c97becf0794/files/form/certification/lt03109011_quantized.png"],
         rangeCoverage: 50,
         items: [
           {
@@ -115,7 +120,8 @@ const cases: ICases = {
     };
 
     try {
-      const user = await User.create({
+      const user = await User.create(
+        {
         email: f.email,
         name: f.name,
         phone: {
@@ -133,7 +139,7 @@ const cases: ICases = {
         payerId: f.payerId,
         address: { ...f.address },
         preferences: { ...f.preferences },
-        rating: { ...f.rating },
+        rating: [ ...f.rating ],
         workerData: { ...f.workerData },
         requests: { ...f.requests },
       });
