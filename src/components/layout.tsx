@@ -1,5 +1,6 @@
 // native libraries
 import Head from "next/head";
+import Script from "next/script";
 // components
 import Footer from "components/Footer";
 import Navbar from "components/NavBar";
@@ -17,12 +18,9 @@ const Layout: React.FC<{
         <link rel="icon" href="../../public/favicon.ico" />
         <title>{`Rubrit | ${title}`}</title>
         <meta name="description" content={description} />
-        <script
-          type="text/javascript" 
-          // To do: fix security issue (variable is exposed to browser)
-          src={`https://maps.googleapis.com/maps/api/js?key=${envConfig?.mapsKey}&libraries=places`}
-        ></script>
       </Head>
+      { /* To do: fix security issue (variable is exposed to browser) */ } 
+      <Script src={`https://maps.googleapis.com/maps/api/js?key=${envConfig?.mapsKey}&libraries=places`} strategy='beforeInteractive' />
       <Box minH={"100vh"}>
         <Navbar />
         <main>{children}</main>
