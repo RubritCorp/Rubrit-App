@@ -1,17 +1,18 @@
-import { ChevronDownIcon, MinusIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, EditIcon, MinusIcon } from "@chakra-ui/icons";
 import {
   Accordion,
   AccordionButton,
   AccordionItem,
   AccordionPanel,
+  Alert,
   Box,
-  Divider,
+  Button,
   Flex,
   Text,
 } from "@chakra-ui/react";
 import Map from "components/Maps/Map";
 import { Session } from "next-auth/core/types";
-import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 type Props = {
   user: Session;
@@ -19,7 +20,7 @@ type Props = {
 
 const PerfilProfesional = ({ user }: Props) => {
   // console.log(user.workerData);
-
+  const router = useRouter();
   return (
     <Flex
       alignItems={"center"}
@@ -76,9 +77,27 @@ const PerfilProfesional = ({ user }: Props) => {
           </Box>
         </Flex>
 
-        <Text color="gray" fontSize={{ base: "sm", lg: "md" }} mb={2} mt={2}>
-          Rango de Servicio
-        </Text>
+        <Alert
+          status={"info"}
+          d={"flex"}
+          flexDirection={"column"}
+          borderRadius={7}
+          mt={7}
+        >
+          <Flex textAlign={"center"}>
+            Recordá que para modificar tu perfil profesional debes ir a los
+            ajustes de tu cuenta.
+          </Flex>
+          <Button
+            variant={"ghost"}
+            leftIcon={<EditIcon />}
+            w={"100%"}
+            mt={2}
+            onClick={() => router.push("/myAccount")}
+          >
+            Modificar perfil profesional
+          </Button>
+        </Alert>
       </Box>
     </Flex>
   );
