@@ -26,6 +26,7 @@ import Layout from "../layout";
 import Comments from "../Comments";
 import Loading from "../Loading";
 import Map from "../Maps/Map";
+import { Session } from "next-auth/core/types";
 
 const ProfessionalLanding: React.FC<any> = (props) => {
   const theme = useTheme();
@@ -33,8 +34,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
   const user = JSON.parse(props.user);
   const { workerData } = user;
 
-  if (!user) return <Loading />;
-
+  if (!user) return <Loading />
   return (
     <Layout>
       <Container maxW={"container.xl"}>
@@ -69,7 +69,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   {workerData.items?.map((cat: any, i: number) => {
                     return (
                       <Flex flexDirection={"column"} key={i}>
-                        <Text color={"medium_green"}>{cat.category.name}</Text>
+                        <Text color={"medium_green"}>{`${cat.category.name}`}&nbsp;&nbsp;</Text>
                       </Flex>
                     );
                   })}
@@ -108,7 +108,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
               </Flex>
               <Flex flexDirection={"column"} alignItems={"center"}>
                 <Link
-                  href={{ pathname: "/request/new", query: { id: user._id } }}
+                  href={{ pathname: "/request/new", query: { id: `${user._id}` } }}
                   passHref
                 >
                   <a>
@@ -272,7 +272,8 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 maxH={{ base: "550px", sm: "350px", md: "550px" }}
                 overflowY="auto"
               >
-                <Comments />
+                <Comments {...{user}}
+                />
               </Flex>
               <Box borderRadius={"10px"} margin={"2em"}>
                 <Flex
@@ -282,7 +283,6 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   overflowY={"auto"}
                 >
                   {workerData.items?.map((cat: any, index: number) => {
-                    console.log(cat);
                     return (
                       <Flex flexDirection={"column"} key={cat.category.name}>
                         <Heading

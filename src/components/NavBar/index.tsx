@@ -204,7 +204,7 @@ const WithSubnavigation: React.FC = () => {
                   <MenuDivider />
                   <Link
                     href={{
-                      pathname: "myAccount",
+                      pathname: "/myAccount",
                       query: { site: "accountSettings" },
                     }}
                     passHref

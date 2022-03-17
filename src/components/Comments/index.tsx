@@ -11,39 +11,13 @@ import {
 } from "@chakra-ui/react";
 
 import { Star } from "phosphor-react";
+import { Session } from "next-auth/core/types";
 
 const testimonials = [
-  {
-    name: "Brandon P.",
-    role: "Chief Marketing Officer",
-    content:
-      "Wilson was fantastic! Easy to work with, efficient, and went above and beyond when the task ended up being much larger/longer than we ant...",
-    avatar:
-      "https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-    categorie: "Plomeria",
-  },
-  {
-    name: "Krysta B.",
-    role: "Entrepreneur",
-    content:
-      "Essra was a pleasure to work with. Punctual, friendly, helpful and really knows how to pack a storage unit for maximum efficiency. Will h...",
-    avatar:
-      "https://images.unsplash.com/photo-1598550874175-4d0ef436c909?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-    categorie: "Limpieza",
-  },
-  {
-    name: "Darcy L.",
-    role: "Movie star",
-    content:
-      "Hermann did a fantastic job installing a new AC unit in our house. His communication was excellent and he did really detailed work. I wil...",
-    avatar:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=334&q=80",
-    categorie: "Automotor",
-  },
+  
   {
     name: "Daniel Td.",
-    role: "Musician",
-    content:
+    description:
       "Laura is AMAZING. She is, by far, the BEST we've found on TaskRabbit for cleaning jobs. She is extremely detailed and efficient. I defini...",
     avatar:
       "https://images.unsplash.com/photo-1606513542745-97629752a13b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
@@ -51,8 +25,7 @@ const testimonials = [
   },
   {
     name: "Daniel Ta.",
-    role: "Musician",
-    content:
+    description:
       "Dmitriy was great! Was fast to respond to the job, worked quickly but professionally, and had all the appropriate tools. Would recommend ",
     avatar:
       "https://images.unsplash.com/photo-1606513542745-97629752a13b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
@@ -60,8 +33,7 @@ const testimonials = [
   },
   {
     name: "Daniel Te.",
-    role: "Musician",
-    content:
+    description:
       "Nick did an outstanding job assembling my patio heater, and he got it done faster than I could have imagined. He also has a very pleasan...",
     avatar:
       "https://images.unsplash.com/photo-1606513542745-97629752a13b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
@@ -69,18 +41,11 @@ const testimonials = [
   },
 ];
 
-interface TestimonialCardProps {
-  name: string;
-  role: string;
-  content: string;
-  avatar: string;
-  index: number;
-  categorie: string;
-}
+type Props = { user: Session }
 
-function TestmonialCard(props: TestimonialCardProps) {
-  const { name, role, content, avatar, categorie, index } = props;
 
+function TestimonialCard ( props: any ) {
+  const { description, score, userComment:{ name, email, profilePic } } = props; 
   const theme = useTheme();
 
   return (
@@ -119,8 +84,8 @@ function TestmonialCard(props: TestimonialCardProps) {
           justifyContent="space-evenly"
         >
           <Box>
-            <Avatar
-              src={avatar}
+             <Avatar
+              src={profilePic}
               height={"80px"}
               width={"80px"}
               alignSelf={"center"}
@@ -136,15 +101,7 @@ function TestmonialCard(props: TestimonialCardProps) {
         </Flex>
         <Flex flexDirection="column">
           <chakra.p fontFamily={"Poppins"} fontWeight={"bold"}>
-            {name}
-            <chakra.span
-              fontFamily={"Roboto"}
-              fontWeight={"medium"}
-              color={"gray.500"}
-            >
-              {" "}
-              - {role}
-            </chakra.span>
+             {name}
           </chakra.p>
           <chakra.p
             fontFamily={"Poppins"}
@@ -156,7 +113,7 @@ function TestmonialCard(props: TestimonialCardProps) {
             }}
             pb={4}
           >
-            {content}
+             {description} 
           </chakra.p>
           <chakra.p
             fontFamily={"Roboto"}
@@ -164,7 +121,7 @@ function TestmonialCard(props: TestimonialCardProps) {
             pb={4}
             color={theme.colors.medium_green}
           >
-            {categorie}
+            {/* {categorie} */}
           </chakra.p>
         </Flex>
       </Flex>
@@ -172,7 +129,7 @@ function TestmonialCard(props: TestimonialCardProps) {
   );
 }
 
-export default function GridBlurredBackdrop() {
+export default function GridBlurredBackdrop( {user} : any ) {
   return (
     <Flex
       textAlign={"center"}
@@ -188,9 +145,9 @@ export default function GridBlurredBackdrop() {
         mx={"0"}
         minChildWidth={{ base: "300px", lg: "420px" }}
       >
-        {testimonials.map((cardInfo, index) => (
-          <TestmonialCard {...cardInfo} index={index} key={cardInfo.name} />
-        ))}
+         {user?.rating.map((el: any, index: number) => (
+          <TestimonialCard description={el.description} score={el.score} userComment={el.userComment}  index={index} key={index} />
+        ))} 
       </SimpleGrid>
     </Flex>
   );
