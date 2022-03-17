@@ -291,7 +291,7 @@ const BecomePremium: NextPage<{ email: string }> = ({ email }) => {
             console.error("Script failed to load", e);
           }}
           onLoad={() => {
-            console.log("MP API");
+            // console.log("MP API");
             // chargeMP();
             setScript1(true);
           }}
@@ -302,7 +302,7 @@ const BecomePremium: NextPage<{ email: string }> = ({ email }) => {
             defer
             src="mp.js"
             onLoad={() => {
-              console.log("MP");
+              // console.log("MP");
             }}
           />
         )}

@@ -123,7 +123,7 @@ const cases: ICases = {
     };
 
     try {
-      const user = await User.create({
+      /* const user = await User.create({
         email: f.email,
         name: f.name,
         phone: {
@@ -144,7 +144,25 @@ const cases: ICases = {
         rating: { ...f.rating },
         workerData: { ...f.workerData },
         requests: { ...f.requests },
-      });
+      }); */
+
+      const user = await User.findOneAndUpdate(
+        { email: "workeraguscastro2014.ac@gmail.com" },
+        {
+          ["workerData.images"]: [
+            "https://relubquim.com.ec/wp-content/uploads/2019/11/C01.jpg",
+            "https://i.ytimg.com/vi/V6yZ8i3qyVo/hqdefault.jpg",
+            "https://i.pinimg.com/originals/d5/72/29/d57229598b64b80f4c50ddd23e53dddd.jpg",
+            "https://www.tapicerobarato.com/wp-content/gallery/trabajos-de-tapiceria/trabajos-de-tapiceria-37.jpg",
+            "http://tapisseriarapit.com.otrarroba.com/sites/default/files/Tapisseria_Rapit-funda-sofa_01.jpg",
+            "https://imagenes.cordobavende.com/medianas/3c43fab0d0b03fad4712a70f6ec1a034-1.jpg",
+            "https://http2.mlstatic.com/D_NQ_NP_863179-MLA29071459315_122018-O.jpg",
+          ],
+          ["workerData.certification"]: [
+            "https://i.pinimg.com/474x/e7/6d/a9/e76da988b07eaac05eda92daa82b78b8.jpg",
+          ],
+        }
+      );
 
       res.status(200).json({ message: "El Tomy se la come", user });
     } catch (error) {
