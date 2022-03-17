@@ -73,18 +73,20 @@ const Hero: React.FC = () => {
           </InputGroup>
           <Text>ó</Text>
           <Link href={{ pathname: "/request/new" }} passHref>
-            <Button
-              alignSelf="center"
-              size="md"
-              bg="medium_green"
-              _hover={{
-                bg: "green.500",
-              }}
-              isLoading={loading}
-              onClick={() => setLoading(true)}
-            >
-              Presupuesto gratis
-            </Button>
+            <a>
+              <Button
+                alignSelf="center"
+                size="md"
+                bg="medium_green"
+                _hover={{
+                  bg: "green.500",
+                }}
+                isLoading={loading}
+                onClick={() => setLoading(true)}
+              >
+                Presupuesto gratis
+              </Button>
+            </a>
           </Link>
         </Stack>
       </Stack>

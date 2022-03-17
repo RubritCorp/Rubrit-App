@@ -80,7 +80,7 @@ const Services: NextPage<{ category: any; name: string }> = ({
               marginBottom={1}
               color={"gray.800"}
             >
-              {cat.name} en {Session ? Session.address.name : "Cordoba Capital"}
+              {cat.name} en {Session ? Session.address.city : "CABA"}
             </Heading>
             <Text
               fontSize={"xl"}
@@ -94,24 +94,7 @@ const Services: NextPage<{ category: any; name: string }> = ({
           </Flex>
         </Container>
       </Box>
-      <Flex justifyContent="center">
-        <Flex flexDirection="column">
-          <Link href="/" passHref>
-            <Box
-              mt={-6}
-              as="button"
-              width="16rem"
-              height="2.5rem"
-              borderRadius="10px"
-              bg={"medium_green"}
-              color="white"
-              fontSize="1.6rem"
-            >
-              Cotizá gratis
-            </Box>
-          </Link>
-        </Flex>
-      </Flex>
+
       <Grid
         templateColumns={{
           base: "repeat(1,1fr)",
@@ -128,7 +111,7 @@ const Services: NextPage<{ category: any; name: string }> = ({
               _id={m._id}
               img={m.workerData.items[0].category.picture_small}
               name={m.name}
-              city={m.address.name}
+              city={m.address.city}
               avatar={m.profilePic}
               description={m.description}
               categories={m.workerData.items.map((m: any) => m.category.name)}

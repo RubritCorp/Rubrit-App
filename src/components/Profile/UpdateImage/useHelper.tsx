@@ -6,6 +6,7 @@ import { getCroppedImg } from "./cropperUtils";
 import { useState, useCallback } from "react";
 import axios from "axios";
 import { Session } from "next-auth/core/types";
+import envConfig from "../../../../next-env-config";
 
 interface Props {
   user: Session;
@@ -70,7 +71,7 @@ const useHelper = ({ user, onCloseUpdateImage, image }: Props) => {
       formData.append("title", `${user.name}-profile-pic`);
 
       const { data } = await axios.post(
-        "http://localhost:8080/aws/upload-file",
+        `${envConfig?.apiUrl}/aws/upload-file`,
         formData,
         {
           headers: {

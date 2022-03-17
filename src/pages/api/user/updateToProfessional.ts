@@ -28,7 +28,7 @@ interface DataAccesDenied {
 
 const cases: ICases = {
   PUT: async (req, res) => {
-    const { id, categories, images, rangeCoverage, description, companyName } =
+    const { id, categories, images, rangeCoverage, description, certification} =
       req.body;
 
     const user = await User.findOne({ _id: id });
@@ -43,15 +43,14 @@ const cases: ICases = {
       };
     });
 
-    user.items = await Promise.all(items);
-
-    user.workerData = {
+    const itemsCat = await Promise.all(items)
+      user.workerData = {
       rangeCoverage: rangeCoverage,
-      description: description,
-      companyName: companyName,
       images: images,
+      items: itemsCat,
+      certification: certification
     };
-
+    user.description = description;
     user.save();
     res.status(200).json({ message: "Profile was modified", user });
   },

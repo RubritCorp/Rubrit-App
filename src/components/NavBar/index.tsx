@@ -16,6 +16,7 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
+
 } from "@chakra-ui/react";
 import {
   BellIcon,
@@ -39,8 +40,10 @@ import { DrawerOptions } from "components/MyAccount";
 //interfaces
 import EmailAuthModal from "./emailAuthModal";
 import Profile from "components/Profile/Profile";
+import Image from "next/image";
 //providers
-import { useCategories } from "Provider/CategoriesProvider";
+import rubritlogo from "assets/RUBRIT.png";
+
 
 const WithSubnavigation: React.FC = () => {
   const toast = useToast();
@@ -132,12 +135,12 @@ const WithSubnavigation: React.FC = () => {
             </Box>
           )}
           <Link href="/" passHref={true}>
-            <Text
-              fontFamily={"heading"}
-              color={useColorModeValue("gray.800", "white")}
-            >
-              Logo
-            </Text>
+                 <Image
+                    src={rubritlogo}
+                    alt="user-image"
+                    width={"120px"}
+                    height={"35px"}
+                 />
           </Link>
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
             <DesktopNav />
@@ -206,9 +209,11 @@ const WithSubnavigation: React.FC = () => {
                     }}
                     passHref
                   >
-                    <MenuItem icon={<ExternalLinkIcon />}>
-                      Ajustes De Cuenta
-                    </MenuItem>
+                    <a>
+                      <MenuItem icon={<ExternalLinkIcon />}>
+                        Ajustes De Cuenta
+                      </MenuItem>
+                    </a>
                   </Link>
                   <MenuDivider />
                   <Link
@@ -218,14 +223,18 @@ const WithSubnavigation: React.FC = () => {
                     }}
                     passHref
                   >
-                    <MenuItem>Solicitudes</MenuItem>
+                    <a>
+                      <MenuItem>Solicitudes</MenuItem>
+                    </a>
                   </Link>
                   <MenuDivider />
                   <Link
                     href={{ pathname: "myAccount", query: { site: "" } }}
                     passHref
                   >
-                    <MenuItem>Solicita Cotización</MenuItem>
+                    <a>
+                      <MenuItem>Solicita Cotización</MenuItem>
+                    </a>
                   </Link>
                   <MenuDivider />
                   <Link
@@ -235,7 +244,9 @@ const WithSubnavigation: React.FC = () => {
                     }}
                     passHref
                   >
-                    <MenuItem>Ofrecé tus Servicios</MenuItem>
+                    <a>
+                      <MenuItem>Ofrecé tus Servicios</MenuItem>
+                    </a>
                   </Link>
                   <MenuDivider />
                   <MenuItem d={{ base: "inline", md: "none" }}>
