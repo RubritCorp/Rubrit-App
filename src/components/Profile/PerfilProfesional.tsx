@@ -19,6 +19,7 @@ type Props = {
 };
 
 const PerfilProfesional = ({ user }: Props) => {
+  // console.log(user.workerData);
   const router = useRouter();
   return (
     <Flex
