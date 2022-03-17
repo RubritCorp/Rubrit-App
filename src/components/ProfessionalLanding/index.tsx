@@ -26,6 +26,7 @@ import Layout from "../layout";
 import Comments from "../Comments";
 import Loading from "../Loading";
 import Map from "../Maps/Map";
+import { Session } from "next-auth/core/types";
 
 const ProfessionalLanding: React.FC<any> = (props) => {
   const theme = useTheme();
@@ -33,8 +34,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
   const user = JSON.parse(props.user);
   const { workerData } = user;
 
-  if (!user) return <Loading />;
-
+  if (!user) return <Loading />
   return (
     <Layout>
       <Container maxW={"container.xl"}>
@@ -69,7 +69,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   {workerData.items?.map((cat: any, i: number) => {
                     return (
                       <Flex flexDirection={"column"} key={i}>
-                        <Text color={"medium_green"}>{cat.category.name}</Text>
+                        <Text color={"medium_green"}>{`${cat.category.name}`}&nbsp;&nbsp;</Text>
                       </Flex>
                     );
                   })}
@@ -108,7 +108,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
               </Flex>
               <Flex flexDirection={"column"} alignItems={"center"}>
                 <Link
-                  href={{ pathname: "/request/new", query: { id: user._id } }}
+                  href={{ pathname: "/request/new", query: { id: `${user._id}` } }}
                   passHref
                 >
                   <a>
@@ -150,7 +150,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
             </Flex>
           </Flex>
         </Flex>
-        <Container maxW={"container.lg"} margin={"0 -1em"}>
+        <Container maxW={"container.lg"} margin={"0 auto"}>
           <Flex margin={"1rem"} flexDirection={"column"} textAlign={"start"}>
             <Heading
               fontSize={{
@@ -168,9 +168,10 @@ const ProfessionalLanding: React.FC<any> = (props) => {
           </Flex>
           <Divider margin={"1em 0"}></Divider>
         </Container>
-        <Container maxW={"container.lg"} p={"0 "} margin={"0 1em"}>
+        <Container maxW={"container.lg"} p={"0 "} margin={"0 auto"}>
           <Flex flexDirection={"column"}>
             <Flex
+              w={"100%"}
               justifyContent={"space-between"}
               flexWrap={{
                 base: "wrap",
@@ -228,7 +229,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                     flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}
                   >
                     {user.workerData.certification.map((n: any, i: number) => {
-                      console.log(i);
+                      // console.log(i);
                       if (i < 4) {
                         return (
                           <Image
@@ -260,10 +261,17 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   width={{ base: "26em", md: "28em", lg: "34em" }}
                   marginTop="1.2em"
                 >
-                  <Map
-                    location={user.address}
-                    coverage={user.address.searchRange}
-                  ></Map>
+                  {user.address.lat && user.address.lng ? (
+                    <Map
+                      location={{
+                        lat: user.address.lat,
+                        lng: user.address.lng,
+                      }}
+                      coverage={user.address.searchRange}
+                    />
+                  ) : (
+                    <Map />
+                  )}
                 </Box>
               </Box>
             </Flex>
@@ -272,7 +280,8 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 maxH={{ base: "550px", sm: "350px", md: "550px" }}
                 overflowY="auto"
               >
-                <Comments />
+                <Comments {...{user}}
+                />
               </Flex>
               <Box borderRadius={"10px"} margin={"2em"}>
                 <Flex
@@ -282,7 +291,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   overflowY={"auto"}
                 >
                   {workerData.items?.map((cat: any, index: number) => {
-                    console.log(cat);
+
                     return (
                       <Flex flexDirection={"column"} key={cat.category.name}>
                         <Heading

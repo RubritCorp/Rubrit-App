@@ -48,11 +48,11 @@ const PublicRequestMain: React.FC = () => {
     } 
   }
 
-  function showCurrentStep() {
+  function showCurrentStep(values: any) {
     let CurrentComponent;
     if (isRequestSuccessful === null) {
       // Render component when form is not sent yet
-      !isOpen ? CurrentComponent = <StepOneFields /> : CurrentComponent = <StepTwoFields />
+      !isOpen ? CurrentComponent = <StepOneFields selectedCategory={values.category} /> : CurrentComponent = <StepTwoFields />
     } else if (isRequestSuccessful === true) {
       CurrentComponent = <SuccessMessage />
     } else {
@@ -132,7 +132,7 @@ const PublicRequestMain: React.FC = () => {
             <>
               <Box as='form' w='100%' onSubmit={(e: React.SyntheticEvent): Promise<void> => preSubmit(e, values)}>
                 <Stack py='15px'>
-                  { showCurrentStep() }
+                  { showCurrentStep(values) }
                 </Stack>
                 <Flex gap='1rem' justifyContent='center' py='1rem'>
                   { showCurrentButtons(values, isSubmitting, errors) }
