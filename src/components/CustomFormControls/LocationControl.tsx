@@ -26,10 +26,12 @@ export const LocationControl: React.FC<
       types: ["address"],
     },
     onPlaceSelected: (place: any) => {
-      setValue(place.formatted_address);
-      setUserInput(place.formatted_address);
-      setFieldValue("lat", place.geometry.location.lat());
-      setFieldValue("lng", place.geometry.location.lng());
+      if (place?.formatted_address) {
+        setValue(place.formatted_address);
+        setUserInput(place.formatted_address);
+        setFieldValue("lat", place.geometry.location.lat());
+        setFieldValue("lng", place.geometry.location.lng());
+      }
     },
   });
 
@@ -58,6 +60,7 @@ export const LocationControl: React.FC<
         {...field}
         autoComplete="off"
         placeholder="Escribe una dirección"
+        onKeyDown={(e: any) => e.keyCode == 13 ? e.preventDefault() : null}
       />
       <Field type="hidden" name="lat" />
       <Field type="hidden" name="lng" />
