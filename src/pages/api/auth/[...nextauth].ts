@@ -141,7 +141,7 @@ export default NextAuth({
   pages: {
     signIn: envConfig?.signIn,
     signOut: envConfig?.signOut,
-    newUser: "http://localhost:3000/COMPLETARPERFIL",
-    error: "http://localhost:3000/",
+    newUser: `${envConfig?.host}/COMPLETARPERFIL`,
+    error: `${envConfig?.host}`,
   },
 });

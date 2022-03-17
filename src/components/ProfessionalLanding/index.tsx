@@ -228,7 +228,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                     flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}
                   >
                     {user.workerData.certification.map((n: any, i: number) => {
-                      console.log(i);
+                      // console.log(i);
                       if (i < 4) {
                         return (
                           <Image
@@ -282,7 +282,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   overflowY={"auto"}
                 >
                   {workerData.items?.map((cat: any, index: number) => {
-                    console.log(cat);
+                    // console.log(cat);
                     return (
                       <Flex flexDirection={"column"} key={cat.category.name}>
                         <Heading
