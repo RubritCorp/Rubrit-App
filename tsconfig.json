@@ -17,6 +17,6 @@
     //baseUrl was made for short imports
     "baseUrl": "./src"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/models/Contract/IContract.ts"],
   "exclude": ["node_modules"]
 }

@@ -12,31 +12,35 @@ const useHelper = (session: Session, isAuthenticated: string, code: string) => {
     const [loading, setLoading] = useState<boolean>(false);
 
     interface DataInitialValues {
-        nameUser: string;
-        emailUser: string;
-        addressUser: string;
+        nameClient: string;
+        emailClient: string;
+        addressClient: string;
         nameProfessional: string;
         emailProfessional: string;
         addressProfessional: string;
-        currentDate: Date;
+        currentDate: string;
         approxDuration: string;
-        budget: string;
-        detalles: string;
-        state: Boolean;
+        details: string;
+        budget: Number;
+        addressWorke: string;
+        firmaClient: string;
+        firmaProfessional: string;
     }
 
     const initialValues: DataInitialValues = {
-        nameUser: "",
-        emailUser: "",
-        addressUser: "",
+        nameClient: "",
+        emailClient: "",
+        addressClient: "",
         nameProfessional: "",
         emailProfessional: "",
         addressProfessional: "",
-        currentDate: new Date(),
+        currentDate: "",
         approxDuration: "",
-        budget: "",
-        detalles: "",
-        state: false,
+        details: "",
+        budget: 0,
+        addressWorke: "",
+        firmaClient: "",
+        firmaProfessional: "",
     };
 
     const validationSchema = Yup.object({
@@ -46,24 +50,25 @@ const useHelper = (session: Session, isAuthenticated: string, code: string) => {
     });
 
     const onSubmit = async (values: DataInitialValues, actions: any) => {
-        setLoading(true);
+
         try {
-            const { data } = await axios.post("/api//contract", {
-                nameUser: values.nameUser,
-                emailUser: values.emailUser,
-                addressUser: values.addressUser,
+            const { data } = await axios.post("/api/contract", {
+                nameClient: values.nameClient,
+                emailUser: values.emailClient,
+                addressUser: values.addressClient,
                 nameProfessional: values.nameProfessional,
                 emailProfessional: values.emailProfessional,
                 addressProfessional: values.addressProfessional,
                 currentDate: values.currentDate,
                 approxDuration: values.approxDuration,
                 budget: values.budget,
-                detalles: values.detalles,
-                state: values.state,
+                details: values.details,
+                addressWork: values.addressWorke,
+                firmaClient: values.firmaClient,
+                firmaProfessional: values.firmaProfessional,
             });
 
             if (!data) {
-                setLoading(false);
                 toast({
                     title: "Error al crear el Contrato.",
                     description:
@@ -75,11 +80,9 @@ const useHelper = (session: Session, isAuthenticated: string, code: string) => {
                 alert("Error al crear el contrato");
                 actions.resetForm()
             } else {
-                setLoading(false);
                 signOut();
             }
         } catch (err) {
-            setLoading(false);
             toast({
                 title: "Error al crear el Contrato.",
                 description:
@@ -98,7 +101,6 @@ const useHelper = (session: Session, isAuthenticated: string, code: string) => {
         input,
         setInput,
         loading,
-        setLoading,
     }
 }
 

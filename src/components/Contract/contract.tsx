@@ -6,30 +6,25 @@ import {
   OrderedList,
   Button,
   useTheme,
-  FormLabel,
-  InputGroup,
-  InputRightElement,
-  ButtonGroup,
   VStack,
   Heading,
+  Input,
 } from "@chakra-ui/react";
 import { Field, Formik } from "formik";
-import SignatureCanvas from "react-signature-canvas";
+import { Cliente, Profesional } from "./myDatos";
+import SignaturePad from "react-signature-canvas";
 import { InputControl, TextareaControl } from "formik-chakra-ui";
 import useHelper from "./useHelper";
 import { Session } from "next-auth/core/types";
 import { useRouter } from "next/router";
-import {
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Form: React.FC<{ session: Session }> = ({ session }) => {
   const theme = useTheme();
   const router = useRouter();
   const { isAuthenticated, code } = router.query;
   const signatureRef = useRef<any>(null);
+  const signsave = useRef<any>(null);
   const [imageData, setImageData] = useState("");
   const [error, setError] = useState(false);
 
@@ -37,18 +32,27 @@ const Form: React.FC<{ session: Session }> = ({ session }) => {
     setImageData(signature);
   };
 
+  const deleteSignature = () => {
+    signatureRef.current.clear();
+  };
+
+  const deleteCli = () => {
+    signsave.current.clear();
+  };
+
+  const save = () => {
+    console.log(signatureRef.current.getTrimmedCanvas().toDataURL());
+  };
+
   useEffect(() => {
     console.log(imageData);
   }, [imageData]);
 
   const {
-    input,
-    loading,
     initialValues,
     validationSchema,
-    setLoading,
     onSubmit,
-    setInput,
+    input,
   } = useHelper(session, `${isAuthenticated}`, `${code}`);
   return (
     <VStack
@@ -58,7 +62,14 @@ const Form: React.FC<{ session: Session }> = ({ session }) => {
       h="auto"
       justifyContent="center"
     >
-      <Heading color={"medium_green"}>Contrato de Acuerdo</Heading>
+      <Heading
+        color={"medium_green"}
+        fontSize={{ base: "1.5rem", md: "1rem", lg: "2.5rem" }}
+        fontWeight={300}
+        p={"0.5em"}
+      >
+        Contrato de Acuerdo
+      </Heading>
       <Box>
         <Formik
           initialValues={initialValues}
@@ -70,19 +81,23 @@ const Form: React.FC<{ session: Session }> = ({ session }) => {
               <Text>Segun los terminos de este acuerdo,</Text>
               <Text>Cliente:</Text>
               <InputControl
-                name="namelUser"
+                name="nameCliente"
                 inputProps={{
                   placeholder: "name",
                   type: "text",
                   autoComplete: "off",
+                  value: Cliente.name,
                 }}
               />
+                
+            
               <InputControl
                 name="emailUser"
                 inputProps={{
                   placeholder: "email",
                   type: "email",
                   autoComplete: "off",
+                  value: Cliente.email,
                 }}
               />
               <InputControl
@@ -91,23 +106,26 @@ const Form: React.FC<{ session: Session }> = ({ session }) => {
                   placeholder: "direcciónCliente",
                   type: "text",
                   autoComplete: "off",
+                  value: Cliente.address,
                 }}
               />
               <Text>Profesional:</Text>
-                          <InputControl
-                              name="nameProfesional"
-                              inputProps={{
-                                  placeholder: " name",
-                                  type: "text",
-                                  autoComplete: "off",
-                              }}
-                          />
+              <InputControl
+                name="nameProfesional"
+                inputProps={{
+                  placeholder: " name",
+                  type: "text",
+                  autoComplete: "off",
+                  value: Profesional.name,
+                }}
+              />
               <InputControl
                 name="emailProfesional"
                 inputProps={{
                   placeholder: "email",
                   type: "email",
                   autoComplete: "off",
+                  value: Profesional.email,
                 }}
               />
               <InputControl
@@ -116,6 +134,7 @@ const Form: React.FC<{ session: Session }> = ({ session }) => {
                   placeholder: "dirección",
                   type: "text",
                   autoComplete: "off",
+                  value: Profesional.address,
                 }}
               />
               <Text>
@@ -159,7 +178,13 @@ const Form: React.FC<{ session: Session }> = ({ session }) => {
                 resize="vertical"
                 onBlur={handleBlur}
               />
-              <Text>Terminos generales</Text>
+              <Text
+                fontSize={{ base: "0.5rem", md: "0.5rem", lg: "1.5rem" }}
+                fontWeight={300}
+                p={"0.5em"}
+              >
+                Terminos generales
+              </Text>
 
               <OrderedList>
                 <ListItem>
@@ -247,19 +272,32 @@ const Form: React.FC<{ session: Session }> = ({ session }) => {
                 Al firmar a continuación, ambas partes aceptan estar sujetas a
                 los términos de este contrato.
               </Text>
+            </Box>
+          )}
+        </Formik>
+      </Box>
+      <Box mt={4}>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+        >
+          {({ handleSubmit, values, errors }) => (
+            <Box as="form" onSubmit={handleSubmit as any}>
               <InputControl
                 name="nameCliente"
                 inputProps={{
-                  placeholder: "name",
+                  placeholder: "nameCliente",
                   type: "text",
                   autoComplete: "off",
+                  value: Cliente.name,
                 }}
               />
             </Box>
           )}
         </Formik>
       </Box>
-      <SignatureCanvas
+      <SignaturePad
         canvasProps={{
           width: 300,
           height: 120,
@@ -268,26 +306,18 @@ const Form: React.FC<{ session: Session }> = ({ session }) => {
         minWidth={2}
         maxWidth={3}
         penColor={useColorModeValue("#000000", "#ffffff")}
-        ref={signatureRef}
-        onEnd={() =>
-          saveSignature(signatureRef.current.getTrimmedCanvas().toDataURL())
-        }
-        onBegin={() => {
-          setError(false);
-        }}
+        ref={signsave}
       />
-          <button onClick={() => {
-              signatureRef.current.clear(); 
-                setError(false);
-          }}> Clear </button>
-      <Text>Firma del Profesional</Text>
+      <Button onClick={deleteCli}>Borrar</Button>
+      <Button onClick={save}>Guardar</Button>
+      <Text>Firma del cliente</Text>
       <Box mt={4}>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
-          {({ handleSubmit, values, errors, handleBlur }) => (
+          {({ handleSubmit, values, errors }) => (
             <Box as="form" onSubmit={handleSubmit as any}>
               <InputControl
                 name="nameProfesional"
@@ -295,13 +325,14 @@ const Form: React.FC<{ session: Session }> = ({ session }) => {
                   placeholder: "nameProfesional",
                   type: "text",
                   autoComplete: "off",
+                  value: Profesional.name,
                 }}
               />
             </Box>
           )}
         </Formik>
       </Box>
-      <SignatureCanvas
+      <SignaturePad
         canvasProps={{
           width: 300,
           height: 120,
@@ -311,30 +342,26 @@ const Form: React.FC<{ session: Session }> = ({ session }) => {
         maxWidth={3}
         penColor={useColorModeValue("#000000", "#ffffff")}
         ref={signatureRef}
-        onEnd={() =>
-          saveSignature(signatureRef.current.getTrimmedCanvas().toDataURL())
-        }
-        onBegin={() => {
-          setError(false);
-        }}
       />
-      <button
-        onClick={() => {
-          if (signatureRef.current.isEmpty()) {
-            setError(true);
-          } else {
-            setError(false);
-          }
-        }}
-      >
-        {error ? "Falta Firma" : "Firmar"}
-      </button>
-      <Text>Firma del cliente</Text>
+      <Button onClick={deleteSignature}>Borrar</Button>
+      <Button onClick={save}>Guardar</Button>
+      <Text>Firma del Profesional</Text>
       <Button type="submit" variant="outline" colorScheme="teal">
         Crear Acuerdo
       </Button>
     </VStack>
   );
 };
+
+export const getServerSideProps = async (_ctx: any) => {
+  const res = await fetch('http://localhost:3000/api/contracts');
+  const contract = await res.json()
+  return {
+    props: {
+      contract
+    }
+  }
+}
+
 
 export default Form;

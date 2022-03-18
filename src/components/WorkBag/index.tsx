@@ -143,11 +143,11 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
     if (status === "authenticated" || status === "unauthenticated") {
       const cardworker = nearOffers?.map((item: any) => {
         return {
-          name: item.userId.name,
+          name: item.name,
           location: item.location.formattedAddress,
           title: item.title,
           testimonialWork: item.description,
-          src: item.userId.profilePic,
+          src: item.image,
           _id: item._id,
         };
       });
