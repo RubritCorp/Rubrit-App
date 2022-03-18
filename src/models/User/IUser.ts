@@ -3,7 +3,7 @@ import { Types } from "mongoose";
 interface IRating {
   userComment: Types.ObjectId;
   description: string;
-  score: string;
+  score: number;
 }
 
 interface HItems {
