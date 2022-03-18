@@ -243,7 +243,11 @@ const MiPerfil: React.FC<{
         </Text>
       </Box>
 
-      {(!user.address.name || !user.phone.number) && (
+      {(!user.address.name ||
+        !user.phone.number ||
+        !user.address.city ||
+        !user.address.country ||
+        !user.address.searchRange) && (
         <Alert status="warning" flexDirection={"column"} borderRadius={10}>
           <Flex>
             <AlertIcon />
