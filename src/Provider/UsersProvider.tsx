@@ -22,7 +22,7 @@ type Subcategory = {
 type IRating = {
   userComment: { name: string, profilePic: string, email: string};
   description: string;
-  score: string;
+  score: number;
 }
 
 type Items = {

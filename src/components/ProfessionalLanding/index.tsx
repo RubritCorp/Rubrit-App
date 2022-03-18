@@ -69,7 +69,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   {workerData.items?.map((cat: any, i: number) => {
                     return (
                       <Flex flexDirection={"column"} key={i}>
-                        <Text color={"medium_green"}>{`${cat.category.name}`}&nbsp;&nbsp;</Text>
+                        <Text color={"medium_green"}>{`${cat.category.name}`}&nbsp;</Text>
                       </Flex>
                     );
                   })}

@@ -13,39 +13,14 @@ import {
 import { Star } from "phosphor-react";
 import { Session } from "next-auth/core/types";
 
-const testimonials = [
-  
-  {
-    name: "Daniel Td.",
-    description:
-      "Laura is AMAZING. She is, by far, the BEST we've found on TaskRabbit for cleaning jobs. She is extremely detailed and efficient. I defini...",
-    avatar:
-      "https://images.unsplash.com/photo-1606513542745-97629752a13b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-    categorie: "Limpieza",
-  },
-  {
-    name: "Daniel Ta.",
-    description:
-      "Dmitriy was great! Was fast to respond to the job, worked quickly but professionally, and had all the appropriate tools. Would recommend ",
-    avatar:
-      "https://images.unsplash.com/photo-1606513542745-97629752a13b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-    categorie: "Profesor",
-  },
-  {
-    name: "Daniel Te.",
-    description:
-      "Nick did an outstanding job assembling my patio heater, and he got it done faster than I could have imagined. He also has a very pleasan...",
-    avatar:
-      "https://images.unsplash.com/photo-1606513542745-97629752a13b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-    categorie: "Profesor",
-  },
-];
+type Props = { user: Session };
 
-type Props = { user: Session }
-
-
-function TestimonialCard ( props: any ) {
-  const { description, score, userComment:{ name, email, profilePic } } = props; 
+function TestimonialCard(props: any) {
+  const {
+    description,
+    score,
+    userComment: { name, email, profilePic },
+  } = props;
   const theme = useTheme();
 
   return (
@@ -84,24 +59,28 @@ function TestimonialCard ( props: any ) {
           justifyContent="space-evenly"
         >
           <Box>
-             <Avatar
+            <Avatar
               src={profilePic}
               height={"80px"}
               width={"80px"}
               alignSelf={"center"}
             />
           </Box>
-          <Flex margin={"1em"}>
-            <Star size={12} weight="fill" color={theme.colors.medium_green} />
-            <Star size={12} weight="fill" color={theme.colors.medium_green} />
-            <Star size={12} weight="fill" color={theme.colors.medium_green} />
-            <Star size={12} weight="fill" color={theme.colors.medium_green} />
-            <Star size={12} weight="fill" color={theme.colors.medium_green} />
+          <Flex margin={"1em"}>   
+            {[...Array(score)].map((el: any, index: number) => {
+              return(
+              <Star
+                key={index}
+                size={12}
+                weight="fill"
+                color={theme.colors.medium_green}
+              />
+            )})}
           </Flex>
         </Flex>
         <Flex flexDirection="column">
           <chakra.p fontFamily={"Poppins"} fontWeight={"bold"}>
-             {name}
+            {name}
           </chakra.p>
           <chakra.p
             fontFamily={"Poppins"}
@@ -113,7 +92,7 @@ function TestimonialCard ( props: any ) {
             }}
             pb={4}
           >
-             {description} 
+            {description}
           </chakra.p>
           <chakra.p
             fontFamily={"Roboto"}
@@ -129,7 +108,7 @@ function TestimonialCard ( props: any ) {
   );
 }
 
-export default function GridBlurredBackdrop( {user} : any ) {
+export default function GridBlurredBackdrop({ user }: any) {
   return (
     <Flex
       textAlign={"center"}
@@ -145,9 +124,15 @@ export default function GridBlurredBackdrop( {user} : any ) {
         mx={"0"}
         minChildWidth={{ base: "300px", lg: "420px" }}
       >
-         {user?.rating.map((el: any, index: number) => (
-          <TestimonialCard description={el.description} score={el.score} userComment={el.userComment}  index={index} key={index} />
-        ))} 
+        {user?.rating.map((el: any, index: number) => (
+          <TestimonialCard
+            description={el.description}
+            score={el.score}
+            userComment={el.userComment}
+            index={index}
+            key={index}
+          />
+        ))}
       </SimpleGrid>
     </Flex>
   );
