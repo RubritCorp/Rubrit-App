@@ -77,7 +77,7 @@ const cases: ICases = {
     try {
         const { id } = req.query;
           
-        const userRequests = await User.findOne({_id: "6230effe011d3377deba088e"})
+        const userRequests = await User.findOne({_id: id})
         .populate([{
           path: "requests.sent",
           model: "ServiceRequest"
@@ -87,7 +87,7 @@ const cases: ICases = {
           model: "ServiceRequest"
         }
       ])
-
+        
    const requestsPop =  await userRequests.populate([{
       path:"requests.received.subcategory",
       model: "Subcategory",
@@ -114,6 +114,16 @@ const cases: ICases = {
       },
       {
         path:"requests.received.userId",
+          model: "User",
+          select: "name profilePic"
+      },
+      {
+        path:"requests.sent.professionalId",
+          model: "User",
+          select: "name profilePic"
+      },
+      {
+        path:"requests.received.professionalId",
           model: "User",
           select: "name profilePic"
       }])

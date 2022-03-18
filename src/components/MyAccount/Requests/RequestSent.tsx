@@ -20,7 +20,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import Image from "next/image";
+
 interface IProps {
   requests: any;
 }
@@ -40,9 +40,7 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
     setModal(null);
     onClose();
   }
-
-  console.log(modal);
-
+  console.log("front requestssend", requests);
   return (
     <>
       <Heading>Publicas</Heading>
@@ -56,10 +54,10 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
         <GridItem w="100%" h="10" bg="blue.500" colSpan={2}>
           Descripcion
         </GridItem>
-        <GridItem w="100%" h="10" bg="blue.500" colSpan={0.5}>
+        <GridItem w="100%" h="10" bg="blue.500">
           Estado???
         </GridItem>
-        <GridItem w="100%" h="10" bg="blue.500" colSpan={0.5}>
+        <GridItem w="100%" h="10" bg="blue.500">
           Informacion
         </GridItem>
       </Grid>
@@ -76,7 +74,7 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                 <Text>{request.title}</Text>
               </GridItem>
               <GridItem w="100%" h="10" d={"flex"} alignItems={"center"}>
-                {request.category.name}
+                {request.category?.name}
               </GridItem>
               <GridItem
                 w="100%"
@@ -117,15 +115,17 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
             <ModalBody>
               <Box>
                 <Flex m={"10px"}>
-                  <Avatar src={modal.userId.profilePic} />
+                  <Avatar src={modal.professionalId?.profilePic} />
                   <Box ml="3">
                     <Text fontWeight="bold">
-                      {modal.userId.name}
+                      {modal.professionalId?.name || "CATEGORIA"}
                       <Badge ml="1" colorScheme="green">
                         Premiun?Validado?
                       </Badge>
                     </Text>
-                    <Text fontSize="sm">UI Engineer</Text>
+                    <Text fontSize="sm">
+                      {modal.professionalId?.name || "SUBCATEGORIA"}
+                    </Text>
                   </Box>
                 </Flex>
               </Box>
@@ -162,7 +162,7 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
               <Button colorScheme="blue" mr={3} onClick={setIndexModalOnClose}>
                 Close
               </Button>
-              <Link href={`/professional/${modal.userId._id}`}>
+              <Link href={`/professional/${modal.professionalId?._id}`}>
                 <Button variant="ghost">Ir al perfil</Button>
               </Link>
             </ModalFooter>
