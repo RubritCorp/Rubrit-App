@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import RequestReceived from "./RequestReceived";
-import RequestSend from "./RequestSend";
+import RequestSent from "./RequestSent";
 import axios from "axios";
 
 const Requests: React.FC = () => {
@@ -21,7 +21,9 @@ const Requests: React.FC = () => {
   const [requests, setRequests] = useState({});
 
   async function fetchRequest() {
-    const requests = await axios.get("/api/serviceRequest/new", {
+    const {
+      data: { requests },
+    } = await axios.get("/api/serviceRequest/new", {
       params: {
         id: session.data!._id,
       },
@@ -101,7 +103,7 @@ const Requests: React.FC = () => {
           borderBottomLeftRadius={5}
           borderBottomRightRadius={5}
         >
-          <RequestSend />
+          <RequestSent requests={requests} />
         </TabPanel>
         <TabPanel
           bg={useColorModeValue("#fafafa", "#1A202C")}
@@ -110,7 +112,7 @@ const Requests: React.FC = () => {
           borderBottomLeftRadius={5}
           borderBottomRightRadius={5}
         >
-          <RequestReceived />
+          <RequestReceived requests={requests} />
         </TabPanel>
       </TabPanels>
     </Tabs>

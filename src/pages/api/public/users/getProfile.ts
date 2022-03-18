@@ -63,18 +63,18 @@ const cases: ICases = {
 
     const populateQuery = [
       {
-        path: "items.category",
+        path: "workerData.items.category",
         model: "Category",
         select: "_id name ",
       },
       {
-        path: "items.subcategories",
+        path: "workerData.items.subcategories",
         model: "Subcategory",
         select: "_id name",
       },
     ];
     const user = await User.findOne({ _id: userId }).populate(populateQuery);
-
+      
     if (!user) return res.status(404).json({ message: "User not found" });
 
     res.status(200).json({ message: "User data", user });
