@@ -39,8 +39,9 @@ import { DrawerOptions } from "components/MyAccount";
 //interfaces
 import EmailAuthModal from "./emailAuthModal";
 import Profile from "components/Profile/Profile";
+import Image from "next/image";
 //providers
-import { useCategories } from "Provider/CategoriesProvider";
+import rubritlogo from "assets/RUBRIT.png";
 
 const WithSubnavigation: React.FC = () => {
   const toast = useToast();
@@ -132,12 +133,14 @@ const WithSubnavigation: React.FC = () => {
             </Box>
           )}
           <Link href="/" passHref={true}>
-            <Text
-              fontFamily={"heading"}
-              color={useColorModeValue("gray.800", "white")}
-            >
-              Logo
-            </Text>
+            <a>
+              <Image
+                src={rubritlogo}
+                alt="user-image"
+                width={"120px"}
+                height={"35px"}
+              />
+            </a>
           </Link>
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
             <DesktopNav />
@@ -180,76 +183,89 @@ const WithSubnavigation: React.FC = () => {
                   <BellIcon fontSize={"2xl"} />
                 </MenuButton>
               </Menu>
-              <Menu>
-                <MenuButton
-                  as={Button}
-                  rightIcon={<ChevronDownIcon />}
-                  bg={"transparent"}
-                >
-                  {user && (
-                    <Avatar
-                      src={user?.image}
-                      name={user?.name}
-                      cursor={"pointer"}
-                      size={"sm"}
-                      id={"profile"}
-                    />
-                  )}
-                </MenuButton>
-                <MenuList>
-                  <MenuItem onClick={() => onOpenProfile()}>Mi Perfil</MenuItem>
-                  <MenuDivider />
-                  <Link
-                    href={{
-                      pathname: "myAccount",
-                      query: { site: "accountSettings" },
-                    }}
-                    passHref
+              <Menu isLazy>
+                {/* fix Popper warning */}
+                <h1 style={{ margin: 0 }}>
+                  <MenuButton
+                    as={Button}
+                    rightIcon={<ChevronDownIcon />}
+                    bg={"transparent"}
                   >
-                    <MenuItem icon={<ExternalLinkIcon />}>
-                      Ajustes De Cuenta
+                    {user && (
+                      <Avatar
+                        src={user?.image}
+                        name={user?.name}
+                        cursor={"pointer"}
+                        size={"sm"}
+                        id={"profile"}
+                      />
+                    )}
+                  </MenuButton>
+                  <MenuList>
+                    <MenuItem onClick={() => onOpenProfile()}>
+                      Mi Perfil
                     </MenuItem>
-                  </Link>
-                  <MenuDivider />
-                  <Link
-                    href={{
-                      pathname: "myAccount",
-                      query: { site: "myRequest" },
-                    }}
-                    passHref
-                  >
-                    <MenuItem>Solicitudes</MenuItem>
-                  </Link>
-                  <MenuDivider />
-                  <Link
-                    href={{ pathname: "myAccount", query: { site: "" } }}
-                    passHref
-                  >
-                    <MenuItem>Solicita Cotización</MenuItem>
-                  </Link>
-                  <MenuDivider />
-                  <Link
-                    href={{
-                      pathname: "myAccount",
-                      query: { site: "offerServices" },
-                    }}
-                    passHref
-                  >
-                    <MenuItem>Ofrecé tus Servicios</MenuItem>
-                  </Link>
-                  <MenuDivider />
-                  <MenuItem d={{ base: "inline", md: "none" }}>
-                    Notificaciones
-                  </MenuItem>
-                  <MenuDivider d={{ base: "", md: "none" }} />
-                  <MenuItem
-                    onClick={() => {
-                      signOut({ redirect: false });
-                    }}
-                  >
-                    Cerrar Sesion
-                  </MenuItem>
-                </MenuList>
+                    <MenuDivider />
+                    <Link
+                      href={{
+                        pathname: "myAccount",
+                        query: { site: "accountSettings" },
+                      }}
+                      passHref
+                    >
+                      <a>
+                        <MenuItem icon={<ExternalLinkIcon />}>
+                          Ajustes De Cuenta
+                        </MenuItem>
+                      </a>
+                    </Link>
+                    <MenuDivider />
+                    <Link
+                      href={{
+                        pathname: "myAccount",
+                        query: { site: "myRequest" },
+                      }}
+                      passHref
+                    >
+                      <a>
+                        <MenuItem>Solicitudes</MenuItem>
+                      </a>
+                    </Link>
+                    <MenuDivider />
+                    <Link
+                      href={{ pathname: "myAccount", query: { site: "" } }}
+                      passHref
+                    >
+                      <a>
+                        <MenuItem>Solicita Cotización</MenuItem>
+                      </a>
+                    </Link>
+                    <MenuDivider />
+                    <Link
+                      href={{
+                        pathname: "myAccount",
+                        query: { site: "offerServices" },
+                      }}
+                      passHref
+                    >
+                      <a>
+                        <MenuItem>Ofrecé tus Servicios</MenuItem>
+                      </a>
+                    </Link>
+                    <MenuDivider />
+                    <MenuItem d={{ base: "inline", md: "none" }}>
+                      Notificaciones
+                    </MenuItem>
+                    <MenuDivider d={{ base: "", md: "none" }} />
+                    <MenuItem
+                      onClick={() => {
+                        signOut({ redirect: false });
+                      }}
+                    >
+                      Cerrar Sesion
+                    </MenuItem>
+                  </MenuList>
+                </h1>
               </Menu>
             </>
           )}

@@ -207,7 +207,7 @@ const Login: React.FC<{
               <Image
                 src={facebook}
                 alt="fbLogo"
-                layout="fill"
+                // layout="fill"
                 objectFit="cover"
               />
             </Box>
@@ -229,7 +229,7 @@ const Login: React.FC<{
               <Image
                 src={google}
                 alt="googleLogo"
-                layout="fill"
+                // layout="fill"
                 objectFit="cover"
               />
             </Box>

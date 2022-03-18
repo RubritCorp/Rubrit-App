@@ -31,7 +31,7 @@ const cases: ICases = {
     try {
       const user = await User.find({ _id: id })
         .select("name items profilePic address.name")
-        .populate({ path: "items.category", model: "Category" });
+        .populate({ path: "workerData.items.category", model: "Category" });
 
       res.status(200).json({ message: "Data was fetched", user });
     } catch (err) {

@@ -186,21 +186,23 @@ const FindServices: React.FC = () => {
           <Flex justifyContent="center" padding={5}>
             <Flex flexDirection="column">
               <Link href="/request/new" passHref>
-                <Button
-                  width="18rem"
-                  height="3rem"
-                  borderRadius="10px"
-                  bg={"medium_green"}
-                  _hover={{
-                    bg: "medium_green_sub.700",
-                  }}
-                  color="white"
-                  fontSize="1.8rem"
-                  onClick={() => setLoading(true)}
-                  isLoading={loading}
-                >
-                  COMENZAR
-                </Button>
+                <a>
+                  <Button
+                    width="18rem"
+                    height="3rem"
+                    borderRadius="10px"
+                    bg={"medium_green"}
+                    _hover={{
+                      bg: "medium_green_sub.700",
+                    }}
+                    color="white"
+                    fontSize="1.8rem"
+                    onClick={() => setLoading(true)}
+                    isLoading={loading}
+                  >
+                    COMENZAR
+                  </Button>
+                </a>
               </Link>
               <Flex flexDirection="row" justifyContent="center" padding={2}>
                 {status === "unauthenticated" && (

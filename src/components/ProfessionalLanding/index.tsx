@@ -15,18 +15,18 @@ import {
   Grid,
   GridItem,
 } from "@chakra-ui/react";
-
 import { Star, Check, Checks, CheckCircle } from "phosphor-react";
+
 //native libraries
 import Link from "next/link";
+import { useState } from "react";
+
 //components
 import Layout from "../layout";
 import Comments from "../Comments";
 import Loading from "../Loading";
-
-import { NextPage } from "next/types";
 import Map from "../Maps/Map";
-import { useState } from "react";
+import { Session } from "next-auth/core/types";
 
 const ProfessionalLanding: React.FC<any> = (props) => {
   const theme = useTheme();
@@ -34,10 +34,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
   const user = JSON.parse(props.user);
   const { workerData } = user;
 
-  console.log(user);
-
-  if (!user) return <Loading />;
-
+  if (!user) return <Loading />
   return (
     <Layout>
       <Container maxW={"container.xl"}>
@@ -57,7 +54,6 @@ const ProfessionalLanding: React.FC<any> = (props) => {
               objectFit={"cover"}
             ></Image>
           </Box>
-
           <Flex flexDirection={"column"}>
             <Flex
               flexDirection={"row"}
@@ -72,10 +68,8 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 <Flex>
                   {workerData.items?.map((cat: any, i: number) => {
                     return (
-                      <Flex flexDirection={"column"}>
-                        <Text color={"medium_green"} key={i}>
-                          {cat.category.name}
-                        </Text>
+                      <Flex flexDirection={"column"} key={i}>
+                        <Text color={"medium_green"}>{`${cat.category.name}`}&nbsp;&nbsp;</Text>
                       </Flex>
                     );
                   })}
@@ -112,29 +106,30 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   </Flex>
                 </Flex>
               </Flex>
-
               <Flex flexDirection={"column"} alignItems={"center"}>
                 <Link
-                  href={{ pathname: "/request/new", query: { id: user._id } }}
+                  href={{ pathname: "/request/new", query: { id: `${user._id}` } }}
                   passHref
                 >
-                  <Button
-                    as={"button"}
-                    width={{ base: "150px", md: "200px", lg: "250px" }}
-                    height={{ base: "30px", md: "35px", lg: "40px" }}
-                    borderRadius={"10px"}
-                    bg={"medium_green"}
-                    color={"white"}
-                    fontSize={{ base: "1rem", md: "1.2rem", lg: "1.4rem" }}
-                    _hover={{
-                      transform: "translateY(-2px)",
-                      boxShadow: "lg",
-                    }}
-                    isLoading={loading}
-                    onClick={() => setLoading(true)}
-                  >
-                    Pedir Cotizacion
-                  </Button>
+                  <a>
+                    <Button
+                      as={"button"}
+                      width={{ base: "150px", md: "200px", lg: "250px" }}
+                      height={{ base: "30px", md: "35px", lg: "40px" }}
+                      borderRadius={"10px"}
+                      bg={"medium_green"}
+                      color={"white"}
+                      fontSize={{ base: "1rem", md: "1.2rem", lg: "1.4rem" }}
+                      _hover={{
+                        transform: "translateY(-2px)",
+                        boxShadow: "lg",
+                      }}
+                      isLoading={loading}
+                      onClick={() => setLoading(true)}
+                    >
+                      Pedir Cotizacion
+                    </Button>
+                  </a>
                 </Link>
                 <Flex
                   flexDirection={"row"}
@@ -155,18 +150,29 @@ const ProfessionalLanding: React.FC<any> = (props) => {
             </Flex>
           </Flex>
         </Flex>
-        <Container maxW={"container.lg"} p={"0 "} margin={"0 1em"}>
+        <Container maxW={"container.lg"} margin={"0 auto"}>
           <Flex margin={"1rem"} flexDirection={"column"} textAlign={"start"}>
-            <Heading fontSize={"1.5rem"} margin={"1rem"}>
-              {user.description}
+            <Heading
+              fontSize={{
+                base: "1rem",
+                md: "1.2rem",
+                lg: "1.5rem",
+              }}
+              color={"light_grey_sub"}
+            >
+              DESCRIPCION
             </Heading>
-            <Text fontSize={"1rem"} margin={"0.5rem"}></Text>
+            <Text fontSize={{ base: "0.9rem", md: "1.2rem", lg: "1.4rem" }}>
+              {user.description}
+            </Text>
           </Flex>
           <Divider margin={"1em 0"}></Divider>
         </Container>
-        <Container maxW={"container.lg"} p={"0 "} margin={"0 1em"}>
+        <Container maxW={"container.lg"} p={"0 "} margin={"0 auto"}>
           <Flex flexDirection={"column"}>
             <Flex
+              w={"100%"}
+              justifyContent={"space-between"}
               flexWrap={{
                 base: "wrap",
                 md: "wrap",
@@ -174,22 +180,6 @@ const ProfessionalLanding: React.FC<any> = (props) => {
               }}
             >
               <Stack>
-                <Box>
-                  <Heading
-                    fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
-                    color={"light_grey_sub"}
-                  >
-                    DESCRIPCION
-                  </Heading>
-                  <Box>
-                    {workerData.items?.map((e: any, index: number) => (
-                      <Text key={index} margin={"1em"}>
-                        {e.description}
-                      </Text>
-                    ))}
-                  </Box>
-                </Box>
-                <Divider></Divider>
                 <Box margin={"1em 0"}>
                   <Heading
                     fontSize={{
@@ -205,20 +195,21 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                     flexDirection={"row"}
                     flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}
                   >
-                    
-          {workerData?.images.map((img: any, index: number) => (
-            <Image
-              key={index}
-              src={img.src}
-              alt={img.index}
-              maxW="100px"
-                borderRadius={"0.3rem"}
-                      margin={"1rem"}
-              
-            />
-          ))}
-        
-                    
+                    {user.workerData.images.map((n: any, i: number) => {
+                      if (i < 4) {
+                        return (
+                          <Image
+                            p={1}
+                            key={i}
+                            src={n}
+                            alt="jobs-pic"
+                            maxW="13em"
+                            borderRadius={"0.3rem"}
+                            marginTop={"1rem"}
+                          />
+                        );
+                      }
+                    })}
                   </Flex>
                   <Divider margin={"1em 0"}></Divider>
                 </Box>
@@ -233,36 +224,55 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   >
                     DOCUMENTACION
                   </Heading>
-                  <Flex flexDirection={"row"}>
-                    <Image
-                      maxW="100px"
-                      src="https://www.mercurynews.com/wp-content/uploads/2019/06/SCHWARZENEGGER_DIPLOMAS_2_.jpg?w=1442"
-                      borderRadius="0.4rem"
-                      alt="Dan Abramov"
-                      margin={"1rem"}
-                    ></Image>
-                    <Image
-                      maxW="100px"
-                      src="https://m.media-amazon.com/images/I/81q4U2Jtg7L._AC_SL1500_.jpg"
-                      borderRadius="0.4rem"
-                      alt="Dan Abramov"
-                      margin={"1rem"}
-                    ></Image>
+                  <Flex
+                    flexDirection={"row"}
+                    flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}
+                  >
+                    {user.workerData.certification.map((n: any, i: number) => {
+                      // console.log(i);
+                      if (i < 4) {
+                        return (
+                          <Image
+                            p={1}
+                            key={i}
+                            src={n}
+                            alt="worker-cert"
+                            maxW="13em"
+                            borderRadius={"0.3rem"}
+                            marginTop={"1rem"}
+                          />
+                        );
+                      }
+                    })}
                   </Flex>
                   <Divider margin={"1em 0"}></Divider>
                 </Flex>
               </Stack>
-              <Box margin={"1rem"}>
+              <Box marginTop="1em">
                 <Heading
                   fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
                   color={"light_grey_sub"}
                 >
                   UBICACION
                 </Heading>
-                <Map
-                  location={user.address}
-                  coverage={user.address.searchRange}
-                ></Map>
+
+                <Box
+                  height={{ base: "26em", md: "28em", lg: "30em" }}
+                  width={{ base: "26em", md: "28em", lg: "34em" }}
+                  marginTop="1.2em"
+                >
+                  {user.address.lat && user.address.lng ? (
+                    <Map
+                      location={{
+                        lat: user.address.lat,
+                        lng: user.address.lng,
+                      }}
+                      coverage={user.address.searchRange}
+                    />
+                  ) : (
+                    <Map />
+                  )}
+                </Box>
               </Box>
             </Flex>
             <Flex flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}>
@@ -270,7 +280,8 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 maxH={{ base: "550px", sm: "350px", md: "550px" }}
                 overflowY="auto"
               >
-                <Comments />
+                <Comments {...{user}}
+                />
               </Flex>
               <Box borderRadius={"10px"} margin={"2em"}>
                 <Flex
@@ -280,7 +291,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   overflowY={"auto"}
                 >
                   {workerData.items?.map((cat: any, index: number) => {
-                    console.log(cat);
+
                     return (
                       <Flex flexDirection={"column"} key={cat.category.name}>
                         <Heading

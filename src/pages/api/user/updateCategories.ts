@@ -1,3 +1,4 @@
+//from modules
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 //models
@@ -6,7 +7,6 @@ import User from "models/User";
 import { IUser } from "models/User/IUser";
 //db
 import "utils/db";
-import Category from "models/Category";
 
 interface ICases {
   PUT(req: NextApiRequest, res: NextApiResponse<DataUpdate>): void;
@@ -14,8 +14,8 @@ interface ICases {
 }
 
 interface DataUpdate {
-  user?: IUser;
   message: string;
+  user?: IUser;
 }
 
 interface DataError {
@@ -28,31 +28,27 @@ interface DataAccesDenied {
 
 const cases: ICases = {
   PUT: async (req, res) => {
-    const { id, categories, images, rangeCoverage, description, certification} =
-      req.body;
+    const { _id, categories } = req.body;
 
-    const user = await User.findOne({ _id: id });
+    if (!_id || !categories) {
+      res.status(404).json({ message: "Info is required" });
+    }
 
-    if (!user) return res.status(404).json({ message: "User not found" });
-    user.isWorker = true;
-    let items = categories.map(async (m: any) => {
-      let category = await Category.findOne({ name: m.name }).select("_id");
-      return {
-        category: category._id,
-        subcategories: [...m.subcategories],
-      };
-    });
-
-    const itemsCat = await Promise.all(items)
-      user.workerData = {
-      rangeCoverage: rangeCoverage,
-      images: images,
-      items: itemsCat,
-      certification: certification
-    };
-    user.description = description;
-    user.save();
-    res.status(200).json({ message: "Profile was modified", user });
+    try {
+      let formattedData: any = [];
+      for (let e in categories) {
+        formattedData.push({ category: e, subcategories: [...categories[e]] });
+      }
+      await User.findByIdAndUpdate(
+        { _id: _id },
+        {
+          ["workerData.items"]: [...formattedData],
+        }
+      );
+      res.status(200).json({ message: "Categories are updated" });
+    } catch (err) {
+      res.status(404).json({ message: "Error ocurred in UPDATE CATEGORIES" });
+    }
   },
   ERROR: (_, res) => {
     res.status(400).json({ message: "Error, method is invalid!" });

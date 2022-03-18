@@ -1,5 +1,13 @@
+//react - next
 import Script from "next/script";
-//form
+import React, { useState, useEffect } from "react";
+import { NextPage } from "next";
+//thirds dep
+import axios from "axios";
+//config
+import envConfig from "../../../../next-env-config";
+//styles
+import { CheckCircle } from "phosphor-react";
 import {
   Box,
   Button,
@@ -17,10 +25,6 @@ import {
   Heading,
   VStack,
 } from "@chakra-ui/react";
-import React, { useState, useEffect, useRef } from "react";
-import { NextPage } from "next";
-import { CheckCircle } from "phosphor-react";
-import axios from "axios";
 
 const BecomePremium: NextPage<{ email: string }> = ({ email }) => {
   const [input, setInput] = useState({
@@ -52,7 +56,7 @@ const BecomePremium: NextPage<{ email: string }> = ({ email }) => {
   const [script1, setScript1] = useState(false);
 
   const getPlan = async () => {
-    const res = await axios.get(`http://localhost:8080/subs/plan`);
+    const res = await axios.get(`${envConfig?.apiUrl}/subs/plan`);
     if (res.statusText) {
       setPlan(res.data);
     }
@@ -287,7 +291,7 @@ const BecomePremium: NextPage<{ email: string }> = ({ email }) => {
             console.error("Script failed to load", e);
           }}
           onLoad={() => {
-            console.log("MP API");
+            // console.log("MP API");
             // chargeMP();
             setScript1(true);
           }}
@@ -298,7 +302,7 @@ const BecomePremium: NextPage<{ email: string }> = ({ email }) => {
             defer
             src="mp.js"
             onLoad={() => {
-              console.log("MP");
+              // console.log("MP");
             }}
           />
         )}

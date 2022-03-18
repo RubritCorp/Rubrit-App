@@ -10,6 +10,7 @@ import Layout from "components/layout";
 import { Button, Flex, Text, useToast } from "@chakra-ui/react";
 import { CheckCircleIcon, EmailIcon } from "@chakra-ui/icons";
 import { useSession } from "next-auth/react";
+import envConfig from "../../../next-env-config";
 
 const Code: React.FC = () => {
   const toast = useToast();
@@ -24,7 +25,7 @@ const Code: React.FC = () => {
     const sessionCheck = async () => {
       if (!router.isReady) return;
       if (session && session.isAuthenticated === true) {
-        Router.push("http://localhost:3000/");
+        Router.push(`${envConfig?.host}`);
       } else {
         setIsAlreadyValid(false);
       }

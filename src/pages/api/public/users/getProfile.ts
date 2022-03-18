@@ -26,40 +26,41 @@ interface DataAccesDenied {
   message: string;
 }
 
-
 interface ICases {
   GET(req: any, res: NextApiResponse<DataDocument>): void;
   ERROR(req: NextApiRequest, res: NextApiResponse<DataError>): void;
 }
 
-
-
 export async function getUser(userId: any) {
   await Category.find();
   await Subcategory.find();
-  
+
   const populateQuery = [
     {
-      path: "items.category",
+      path: "workerData.items.category",
       model: "Category",
       select: "_id name ",
     },
     {
-      path: "items.subcategories",
+      path: "workerData.items.subcategories",
       model: "Subcategory",
       select: "_id name",
     },
+    {
+      path: "rating.userComment",
+      model: "User",
+      select: "_id name profilePic email",
+    },
   ];
-      const user = await User.findOne({ _id: userId }).populate(populateQuery)
-     
-    return user
-}
+  const user = await User.findOne({ _id: userId }).populate(populateQuery);
 
+  return user;
+}
 
 const cases: ICases = {
   GET: async (req, res) => {
-    const { userId } = req.query
-    
+    const { userId } = req.query;
+
     const populateQuery = [
       {
         path: "items.category",
@@ -72,12 +73,10 @@ const cases: ICases = {
         select: "_id name",
       },
     ];
-    const user = await User.findOne({ _id: userId }).populate(populateQuery)
-
-    
+    const user = await User.findOne({ _id: userId }).populate(populateQuery);
 
     if (!user) return res.status(404).json({ message: "User not found" });
-    
+
     res.status(200).json({ message: "User data", user });
   },
   ERROR: (_, res) => {
@@ -89,12 +88,10 @@ export default async function index(
   req: NextApiRequest,
   res: NextApiResponse<DataAccesDenied>
 ) {
- 
-    const { method } = req;
-    if (method && method === "GET") {
-      return cases[method](req, res);
-    } else {
-      return cases["ERROR"](req, res);
-    }
-  
+  const { method } = req;
+  if (method && method === "GET") {
+    return cases[method](req, res);
+  } else {
+    return cases["ERROR"](req, res);
+  }
 }

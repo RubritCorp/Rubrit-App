@@ -1,10 +1,16 @@
 import { useEffect, useRef, useLayoutEffect, useState } from "react";
 import { Loader } from "@googlemaps/js-api-loader";
 import styles from "./Map.module.css";
+import envConfig from "../../../next-env-config";
 
-const Map: React.FC<{ location: any; coverage?: number }> = ({
-  location,
-  coverage,
+type Props = {};
+interface ILocation {
+  lat: number;
+  lng: number;
+}
+const Map: React.FC<{ location?: ILocation; coverage?: number }> = ({
+  location = { lat: -34.6111947, lng: -58.4461956 },
+  coverage = 1,
 }) => {
   //especificar el elemento HTML al cual Google maps será embebido
   const googlemap = useRef(null);
@@ -70,7 +76,7 @@ const Map: React.FC<{ location: any; coverage?: number }> = ({
     // console.log("map2", googlemap);
 
     const loader = new Loader({
-      apiKey: "AIzaSyDlRwG9CITQZ2vO0tJrw-GRzuoCfKYjBzM",
+      apiKey: `${envConfig?.mapsKey}`,
       version: "weekly",
     });
     let map;

@@ -155,9 +155,11 @@ const MiPerfil: React.FC<{
             />
             <MenuList>
               <Link href={"myAccount"} passHref>
-                <MenuItem icon={<ExternalLinkIcon />}>
-                  Ajustes De La Cuenta
-                </MenuItem>
+                <a>
+                  <MenuItem icon={<ExternalLinkIcon />}>
+                    Ajustes De La Cuenta
+                  </MenuItem>
+                </a>
               </Link>
               <MenuDivider />
               {user.isPremium && (
@@ -187,7 +189,9 @@ const MiPerfil: React.FC<{
                 href={{ pathname: "myAccount", query: { site: "myfiles" } }}
                 passHref
               >
-                <MenuItem>Ver Tus Archivos</MenuItem>
+                <a>
+                  <MenuItem>Ver Tus Archivos</MenuItem>
+                </a>
               </Link>
             </MenuList>
           </Menu>
@@ -218,7 +222,9 @@ const MiPerfil: React.FC<{
         </Text>
         <Text>
           {user.isWorker ? "Profesional" : "Contratista"}{" "}
-          {user.isPremium && "- Cuenta Premium"}
+          {user.isPremium && (
+            <span style={{ color: "#2EB67D" }}>- Cuenta Premium</span>
+          )}
         </Text>
         <Text color="gray" fontSize={{ base: "sm", lg: "md" }} marginTop={5}>
           Zona Horaria
