@@ -78,6 +78,7 @@ const useHelper = ({ user, onCloseEditProfile }: Props) => {
   interface DataInitialValues {
     name: string;
     phone: string;
+    city: string;
     address: string;
     lat: number;
     lng: number;
@@ -117,6 +118,10 @@ const useHelper = ({ user, onCloseEditProfile }: Props) => {
   const initialValues: DataInitialValues = {
     name: user.name,
     phone: user.phone.number,
+    city:
+      user.address.city && user.address.country
+        ? `${user.address.city},${user.address.country}`
+        : " ",
     address: user.address.name ? user.address.name : "",
     lat: user.address.lat ? user.address.lat : 0,
     lng: user.address.lng ? user.address.lng : 0,
@@ -130,7 +135,8 @@ const useHelper = ({ user, onCloseEditProfile }: Props) => {
       .required("El numero de telefono es requerido")
       .matches(/^[0-9,+]*$/, "Este campo solo acepta números")
       .min(8, "Número de teléfono invalido."),
-    address: Yup.string().required("La ciudad es requerida"),
+    city: Yup.string().required("La ciudad es requerida"),
+    address: Yup.string().required("La dirección es requerida"),
     searchRange: Yup.number(),
     timeZone: Yup.string().required("La Zona Horaria es Requerida"),
   });
@@ -152,6 +158,8 @@ const useHelper = ({ user, onCloseEditProfile }: Props) => {
         };
         address: {
           name: string;
+          city: string;
+          country: string;
           lat: number;
           lng: number;
           searchRange: number;
@@ -167,6 +175,8 @@ const useHelper = ({ user, onCloseEditProfile }: Props) => {
         },
         address: {
           name: values.address,
+          city: values.city.split(",")[0],
+          country: values.city.split(",")[1],
           lat: values.lat,
           lng: values.lng,
           searchRange: values.searchRange,

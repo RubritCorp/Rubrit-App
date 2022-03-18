@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import envConfig from "../../../next-env-config";
 import type CustomFieldProps from "./ICustomFieldProps";
 
-export const LocationControl: React.FC<
+export const CityControl: React.FC<
   FieldHookConfig<string> & CustomFieldProps
 > = ({ label, ...props }) => {
   // useField documentation: https://formik.org/docs/api/useField
@@ -22,14 +22,12 @@ export const LocationControl: React.FC<
   // PlacesSearchBox documentation: https://developers.google.com/maps/documentation/javascript/places-autocomplete#typescript
   const { ref }: any = usePlacesWidget({
     options: {
-      types: ["address"],
+      types: ["(cities)"],
     },
     onPlaceSelected: (place: any) => {
       if (place?.formatted_address) {
         setValue(place.formatted_address);
         setUserInput(place.formatted_address);
-        setFieldValue("lat", place.geometry.location.lat());
-        setFieldValue("lng", place.geometry.location.lng());
       }
     },
   });
@@ -52,11 +50,9 @@ export const LocationControl: React.FC<
         ref={ref}
         {...field}
         autoComplete="off"
-        placeholder="Escribe una dirección"
+        placeholder="Escribe una Ciudad"
         onKeyDown={(e: any) => (e.keyCode == 13 ? e.preventDefault() : null)}
       />
-      <Field type="hidden" name="lat" />
-      <Field type="hidden" name="lng" />
       {meta.touched && meta.error ? (
         <FormErrorMessage>{meta.error}</FormErrorMessage>
       ) : null}

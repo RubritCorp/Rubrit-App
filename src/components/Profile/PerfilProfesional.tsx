@@ -19,7 +19,6 @@ type Props = {
 };
 
 const PerfilProfesional = ({ user }: Props) => {
-
   const router = useRouter();
   return (
     <Flex
@@ -70,13 +69,11 @@ const PerfilProfesional = ({ user }: Props) => {
             border={"2px solid"}
             borderColor={"medium_green"}
           >
-            {user.address.lat && user.address.lng ? (
+            {user.address.lat && user.address.lng && (
               <Map
                 coverage={user.workerData.rangeCoverage}
                 location={{ lat: user.address.lat, lng: user.address.lng }}
               />
-            ) : (
-              <Map />
             )}
           </Box>
         </Flex>
@@ -97,7 +94,12 @@ const PerfilProfesional = ({ user }: Props) => {
             leftIcon={<EditIcon />}
             w={"100%"}
             mt={2}
-            onClick={() => router.push("/myAccount")}
+            onClick={() =>
+              router.push({
+                pathname: "/myAccount",
+                query: { site: "offerServices" },
+              })
+            }
           >
             Modificar perfil profesional
           </Button>

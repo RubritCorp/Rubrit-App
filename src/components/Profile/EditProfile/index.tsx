@@ -49,6 +49,7 @@ import { InputControl, SliderControl, SubmitButton } from "formik-chakra-ui";
 //components
 import DeleteImage from "../DeleteImage";
 import { LocationControl } from "components/CustomFormControls/LocationControl";
+import { CityControl } from "components/CustomFormControls/CityControl";
 //assets
 import UpdateImage from "../UpdateImage";
 import useHelper from "./useHelper";
@@ -208,6 +209,10 @@ const EditProfile: React.FC<{
                       </Popover>
                     </InputRightElement>
                   </InputGroup>
+
+                  <Box mt={3}>
+                    <CityControl label="Ciudad" name="city" />
+                  </Box>
 
                   <Box mt={3}>
                     <LocationControl label="Dirección" name="address" />
