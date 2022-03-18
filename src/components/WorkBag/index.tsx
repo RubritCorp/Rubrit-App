@@ -143,7 +143,7 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
       const cardworker = nearOffers?.map((item: any) => {
         return {
           name: item.userId?.name,
-          location: item.location?.formttedAddress,
+          location: item.location?.formattedAddress,
           title: item.title,
           testimonialWork: item.description,
           src: item.userId?.profilePic,
