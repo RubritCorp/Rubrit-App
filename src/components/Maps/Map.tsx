@@ -2,6 +2,7 @@ import { useEffect, useRef, useLayoutEffect, useState } from "react";
 import { Loader } from "@googlemaps/js-api-loader";
 import styles from "./Map.module.css";
 import envConfig from "../../../next-env-config";
+import { useSession } from "next-auth/react";
 
 type Props = {};
 interface ILocation {
@@ -15,6 +16,9 @@ const Map: React.FC<{ location?: ILocation; coverage?: number }> = ({
   //especificar el elemento HTML al cual Google maps será embebido
   const googlemap = useRef(null);
   const [mapObject, setMapObject] = useState<any>(null);
+
+  //modificar el mapa cuando se actualiza la sesión
+  const { data: Session } = useSession();
 
   //marker
   const marker: any = useRef(null);
@@ -115,7 +119,7 @@ const Map: React.FC<{ location?: ILocation; coverage?: number }> = ({
       //marker
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [Session]);
   useEffect(() => {
     if (mapObject) {
       if (marker.current) {
@@ -166,7 +170,7 @@ const Map: React.FC<{ location?: ILocation; coverage?: number }> = ({
       rangeCircle.current.setMap(mapObject);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mapObject]);
+  }, [mapObject, Session]);
   return <div ref={googlemap} id="map" className={styles.map} />;
 };
 

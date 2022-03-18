@@ -146,7 +146,7 @@ const cases: ICases = {
         requests: { ...f.requests },
       }); */
 
-      const user = await User.findOneAndUpdate(
+      /* const user = await User.findOneAndUpdate(
         { email: "workeraguscastro2014.ac@gmail.com" },
         {
           ["workerData.images"]: [
@@ -160,6 +160,20 @@ const cases: ICases = {
           ],
           ["workerData.certification"]: [
             "https://i.pinimg.com/474x/e7/6d/a9/e76da988b07eaac05eda92daa82b78b8.jpg",
+          ],
+        }
+      ); */
+
+      const user = await User.findOneAndUpdate(
+        { email: "workeraguscastro2014.ac@gmail.com" },
+        {
+          rating: [
+            {
+              userComment: "6230b9925fbcf2faa5764432",
+              description:
+                "Increible Resolución de problemas, un gran albañil.",
+              score: "4",
+            },
           ],
         }
       );

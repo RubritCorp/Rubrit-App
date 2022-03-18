@@ -22,7 +22,7 @@ export const LocationControl: React.FC<
   // PlacesSearchBox documentation: https://developers.google.com/maps/documentation/javascript/places-autocomplete#typescript
   const { ref }: any = usePlacesWidget({
     options: {
-      types: ["address"],
+      types: ["postal_code"],
     },
     onPlaceSelected: (place: any) => {
       if (place?.formatted_address) {
@@ -33,6 +33,12 @@ export const LocationControl: React.FC<
       }
     },
   });
+
+  // Bug fix: always show pacContainer
+  if (typeof window !== "undefined") {
+    let pacContainer: any = document.querySelector(".pac-container");
+    if (pacContainer) pacContainer.style.zIndex = "99999999";
+  }
 
   // Check if user tries to change address after onPlaceSelected
   useEffect(() => {
@@ -55,8 +61,6 @@ export const LocationControl: React.FC<
         placeholder="Escribe una dirección"
         onKeyDown={(e: any) => (e.keyCode == 13 ? e.preventDefault() : null)}
       />
-      <Field type="hidden" name="lat" />
-      <Field type="hidden" name="lng" />
       {meta.touched && meta.error ? (
         <FormErrorMessage>{meta.error}</FormErrorMessage>
       ) : null}
