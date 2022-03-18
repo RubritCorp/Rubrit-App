@@ -17,9 +17,18 @@ import {
   Avatar,
   Center,
   IconButton,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverBody,
+  PopoverFooter,
+  ButtonGroup,
 } from "@chakra-ui/react";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import Slider from "react-slick";
 //native libraries
@@ -41,7 +50,7 @@ import {
   ArrowRight,
 } from "phosphor-react";
 import Link from "next/link";
-
+import { useSession } from "next-auth/react";
 const whatTheySay = [
   {
     image:
@@ -97,104 +106,14 @@ const whatTheySay = [
 ];
 
 const Offerservices: React.FC = () => {
+  const { status } = useSession();
   const [slider, setSlider] = useState<Slider | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+
   return (
     <Layout>
-      <Container maxW={"container.xl"} py={12}>
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-          <Flex>
-            <Image
-              rounded={"md"}
-              alt={"feature image"}
-              src={
-                "https://homesolution.net/blog/wp-content/uploads/2019/01/IMG_5613.jpg"
-              }
-              objectFit={"cover"}
-            />
-          </Flex>
-          <Stack spacing={4}>
-            <Heading>Aumenta tus clientes a traves nuestro</Heading>
-            <Text color={"gray.500"} fontSize={"lg"}>
-              Subscribite en nuestra pagina y empeza a ver el cambio en tu lista
-              de clientes
-            </Text>
-            <Stack
-              spacing={4}
-              divider={
-                <StackDivider
-                  borderColor={useColorModeValue("gray.100", "gray.700")}
-                />
-              }
-            >
-              <Heading fontSize={"s"}>Selecciona tu provincia</Heading>
-              <Select
-                size="lg"
-                bg="green.100"
-                borderColor="green.100"
-                color="green.900"
-                placeholder="Selecciona tu ciudad"
-              />
-              <Heading fontSize={"s"}>Selecciona tu ciudad</Heading>
-              <Select
-                size="lg"
-                bg="green.100"
-                borderColor="green.100"
-                color="green.900"
-                placeholder="Selecciona tu servicio"
-              />
-              <Heading fontSize={"s"}>
-                Aumenta tus clientes a traves nuestro
-              </Heading>
-              <Select
-                size="lg"
-                bg="green.100"
-                borderColor="green.100"
-                color="green.900"
-                placeholder="Selecciona una subcategoria"
-              />
-            </Stack>
-          </Stack>
-        </SimpleGrid>
-        <Container
-          paddingTop={8}
-          paddingBottom={3}
-          maxW={"container.xl"}
-          centerContent
-        >
-          <Link href={"/workbag"} passHref>
-            <a>
-              <Button
-                colorScheme={"green"}
-                bg={"green.400"}
-                rounded={"md"}
-                px={20}
-                _hover={{
-                  bg: "green.500",
-                }}
-                onClick={() => setLoading(true)}
-                isLoading={loading}
-              >
-                EMPECEMOS
-              </Button>
-            </a>
-          </Link>
-        </Container>
-        <Container paddingBottom={8} maxW={"container.xl"} centerContent>
-          <Stack
-            direction={"row"}
-            align={"center"}
-            alignSelf={"center"}
-            position={"absolute"}
-          >
-            <Text fontSize={"sm"}>¿YA TENES UNA CUENTA?</Text>
-            <Button variant={"link"} colorScheme={"green"} size={"sm"}>
-              SIGN UP
-            </Button>
-          </Stack>
-        </Container>
-      </Container>
-      <Divider />
+
+
       <Container centerContent py={10} maxW={"container.xl"}>
         <Heading>POSTULATE Y ENCONTRA TRABAJO</Heading>
         <Text color={"gray.500"} fontSize={"lg"}>
@@ -358,7 +277,229 @@ const Offerservices: React.FC = () => {
       </Container>
 
       <Divider />
+      <Container maxW={"container.xl"} py={12}>
+        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
+          <Flex>
+            <Image
+              rounded={"md"}
+              alt={"feature image"}
+              src={
+                "https://homesolution.net/blog/wp-content/uploads/2019/01/IMG_5613.jpg"
+              }
+              objectFit={"cover"}
+            />
+          </Flex>
+          <Stack spacing={4}>
+            <Heading>Aumenta tus clientes a traves nuestro</Heading>
+            <Text color={"gray.500"} fontSize={"lg"}>
+              Subscribite en nuestra pagina y empeza a ver el cambio en tu lista
+              de clientes
+            </Text>
+            <Stack
+              spacing={4}
+              divider={
+                <StackDivider
+                  borderColor={useColorModeValue("gray.100", "gray.700")}
+                />
+              }
+            >
+              <Heading fontSize={"lg"}>¿TENES TU PERFIL DE TRABAJADOR ARMADO?</Heading>
+              <Popover
 
+
+                placement='bottom'
+                closeOnBlur={true}
+              >
+                <PopoverTrigger>
+                  <Button
+                    size="lg"
+                    bg="green.400"
+                    borderColor="green.100"
+                    color={useColorModeValue("white", "gray.700")}
+                    _hover={
+                      {
+                        bg: "green.300",
+                        borderColor: "green.600",
+                      }
+                    }
+                  >
+                    EDITAR MI PERFIL!
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent color='white' bg='blue.800' borderColor='blue.800'>
+                  <PopoverHeader pt={4} fontWeight='bold' border='0'>
+                    ARMAR UN BUEN PERFIL
+                  </PopoverHeader>
+                  <PopoverArrow />
+                  <PopoverCloseButton />
+                  <PopoverBody>
+                    Para poder mostrar lo que haces, es esencial tener un perfil bien armado. En el vas
+                    a poder setear multiples oficios, cargar fotos , titulos , diplomas y mucho mas.
+                  </PopoverBody>
+                  <PopoverFooter
+                    border='0'
+                    d='flex'
+                    justifyContent='flex-end'
+                    pb={4}
+                  >
+                    <Button
+                      size='sm'
+                      bg="green.400"
+                      borderColor="green.100"
+                      color={useColorModeValue("white", "gray.700")}
+                      _hover={
+                        {
+                          bg: "green.300",
+                          borderColor: "green.600",
+                        }
+                      }
+                      onClick={() => {
+                        status === "authenticated" ? (
+                          (window.location.href = "/myAccount?site=offerServices")
+                        ) : (
+                          document.getElementById('signInButton')?.click()
+                        )
+                      }}
+                    >HAGAMOSLO!</Button>
+
+                  </PopoverFooter>
+                </PopoverContent>
+              </Popover>
+              <Heading fontSize={"lg"}>¿QUERES OBTENER TRABAJOS LO MAS RAPIDO POSIBLE?</Heading>
+              <Popover
+
+
+                placement='bottom'
+                closeOnBlur={true}
+              >
+                <PopoverTrigger>
+                  <Button
+                    size="lg"
+                    bg="green.400"
+                    borderColor="green.100"
+                    color={useColorModeValue("white", "gray.700")}
+                    _hover={
+                      {
+                        bg: "green.300",
+                        borderColor: "green.600",
+                      }
+                    }
+                  >
+                    BOLSA DE TRABAJO!
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent color='white' bg='blue.800' borderColor='blue.800'>
+                  <PopoverHeader pt={4} fontWeight='bold' border='0'>
+                    MULTIPLES OFERTAS DE TRABAJO!
+                  </PopoverHeader>
+                  <PopoverArrow />
+                  <PopoverCloseButton />
+                  <PopoverBody>
+                    En BOLSA DE TRABAJO podras elegir entre varias ofertas que se ajustan
+                    a tu perfil y tu disponibilidad.
+                  </PopoverBody>
+                  <PopoverFooter
+                    border='0'
+                    d='flex'
+                    justifyContent='flex-end'
+                    pb={4}
+                  >
+
+
+                    <Button
+                      size='sm'
+                      bg="green.400"
+                      borderColor="green.100"
+                      color={useColorModeValue("white", "gray.700")}
+                      _hover={
+                        {
+                          bg: "green.300",
+                          borderColor: "green.600",
+                        }}
+                      onClick={() => {
+                        status === "authenticated" ? (
+                          (window.location.href = "/workbag")
+                        ) : (
+                          document.getElementById('signInButton')?.click()
+                        )
+                      }}
+                    >VAMOS YA!!!</Button>
+
+                  </PopoverFooter>
+                </PopoverContent>
+              </Popover>
+              <Heading fontSize={"lg"}>
+                ¿TE GUSTARIA TENER MAS VISIBILIDAD QUE EL RESTO?
+              </Heading>
+              <Popover
+
+
+                placement='bottom'
+                closeOnBlur={true}
+              >
+                <PopoverTrigger>
+                  <Button
+                    size="lg"
+                    bg="green.400"
+                    borderColor="green.100"
+                    color={useColorModeValue("white", "gray.700")}
+                    _hover={
+                      {
+                        bg: "green.300",
+                        borderColor: "green.600",
+                      }
+                    }
+                  >
+                    RUBRIT PREMIUM!
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent color='white' bg='blue.800' borderColor='blue.800'>
+                  <PopoverHeader pt={4} fontWeight='bold' border='0'>
+                    Mejora tu visibilidad!
+                  </PopoverHeader>
+                  <PopoverArrow />
+                  <PopoverCloseButton />
+                  <PopoverBody>
+                    En RUBRIT PREMIUM podras pagar una pequeña subscripcion que te va a ayudar
+                    a mejorar tu visibilidad en la pagina.
+                  </PopoverBody>
+                  <PopoverFooter
+                    border='0'
+                    d='flex'
+                    justifyContent='flex-end'
+                    pb={4}
+                  >
+
+
+                    <Button
+                      size='sm'
+                      bg="green.400"
+                      borderColor="green.100"
+                      color={useColorModeValue("white", "gray.700")}
+                      _hover={
+                        {
+                          bg: "green.300",
+                          borderColor: "green.600",
+                        }}
+                      onClick={() => {
+                        status === "authenticated" ? (
+                          (window.location.href = "/myAccount?site=becomePremium")
+                        ) : (
+                          document.getElementById('signInButton')?.click()
+                        )
+                      }}
+                    >QUIERO SER PREMIUM!</Button>
+
+                  </PopoverFooter>
+                </PopoverContent>
+              </Popover>
+            </Stack>
+          </Stack>
+        </SimpleGrid>
+
+
+      </Container>
+      <Divider />
       <Stack py={10} spacing={3}>
         <Stack align={"center"} alignSelf={"center"} spacing={3}>
           <Heading>¿QUE DICEN LOS RUBRITS?</Heading>
