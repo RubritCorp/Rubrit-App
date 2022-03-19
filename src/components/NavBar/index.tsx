@@ -173,13 +173,17 @@ const WithSubnavigation: React.FC = () => {
                 setIsAuth(true);
                 onOpen();
               }}
+              transition={"2s"}
             >
               Comenzar
             </Button>
           ) : (
             <>
               <Menu>
-                <MenuButton d={{ base: "none", md: "inline" }}>
+                <MenuButton
+                  d={{ base: "none", md: "inline" }}
+                  transition={".7s"}
+                >
                   <BellIcon fontSize={"2xl"} />
                 </MenuButton>
               </Menu>
@@ -190,6 +194,7 @@ const WithSubnavigation: React.FC = () => {
                     as={Button}
                     rightIcon={<ChevronDownIcon />}
                     bg={"transparent"}
+                    transition={".7s"}
                   >
                     {user && (
                       <Avatar
