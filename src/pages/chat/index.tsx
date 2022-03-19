@@ -1,4 +1,4 @@
-import HomePage from "components/Chat/HomePage";
+import HomePage from "../../chat/components/HomePage";
 import Layout from "components/layout";
 import { NextPage } from "next";
 
