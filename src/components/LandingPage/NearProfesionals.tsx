@@ -1,4 +1,15 @@
-import { Heading, Box, Alert, AlertIcon, Text, Button } from "@chakra-ui/react";
+import {
+  Heading,
+  Box,
+  Alert,
+  AlertIcon,
+  Text,
+  Button,
+  Stack,
+  Skeleton,
+  Flex,
+  Container,
+} from "@chakra-ui/react";
 import CardProfesional from "components/CardProfesional";
 import Loading from "components/Loading";
 import { useSession } from "next-auth/react";
@@ -12,7 +23,7 @@ const NearProfesionals: React.FC = () => {
   const [slider, setSlider] = useState<Slider | null>(null);
 
   const cardsToSlider = users.slice(0, 10).length;
-  
+
   const settings = {
     dots: true,
     infinite: true,
@@ -62,9 +73,21 @@ const NearProfesionals: React.FC = () => {
   };
   useEffect(() => {}, [Session]);
 
-  if (status === "true" || status === "false") {
-    return <Loading />;
-  }
+  const Skeletons = () => {
+    return (
+      <>
+        <Container
+          borderRadius={7}
+          height="420px"
+          maxW={"container.xl"}
+          centerContent
+          py={10}
+        >
+          <Skeleton w={"100%"} h={"100%"} />
+        </Container>
+      </>
+    );
+  };
 
   return (
     <Box
@@ -115,17 +138,21 @@ const NearProfesionals: React.FC = () => {
 
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
-        {users?.slice(0, 10)?.map((item, index: number) => (
-          <CardProfesional
-            key={index}
-            _id={item._id}
-            name={item.name}
-            img={item.workerData.items[0]?.category.picture_small}
-            avatar={item.profilePic}
-            city={item.address.name}
-            description={item.description}
-          />
-        ))}
+        {status === "true" || status === "false"
+          ? [1, 2, 3, 4, 5].map((m, i: number) => <Skeletons key={i} />)
+          : users
+              ?.slice(0, 10)
+              ?.map((item, index: number) => (
+                <CardProfesional
+                  key={index}
+                  _id={item._id}
+                  name={item.name}
+                  img={item.workerData.items[0]?.category.picture_small}
+                  avatar={item.profilePic}
+                  city={item.address.name}
+                  description={item.description}
+                />
+              ))}
       </Slider>
     </Box>
   );

@@ -20,10 +20,10 @@ type Subcategory = {
 };
 
 type IRating = {
-  userComment: { name: string, profilePic: string, email: string};
+  userComment: { name: string; profilePic: string; email: string };
   description: string;
   score: string;
-}
+};
 
 type Items = {
   category: Category;
@@ -107,11 +107,11 @@ export function UsersProvider({ children }: Props) {
   useEffect(() => {
     if (Session && auth === "authenticated" && Session.address.lat) {
       fillData(
-        `/api/public/users?city=${Session.address.name}&lat=${Session.address.lat}&lng=${Session.address.lng}&searchRange=${Session.address.searchRange}`
+        `/api/public/users?city=${Session.address.city}&country=${Session.address.country}&lat=${Session.address.lat}&lng=${Session.address.lng}&searchRange=${Session.address.searchRange}`
       );
     } else {
       fillData(
-        `/api/public/users?city=Cordoba Capital, Cordoba, Argentina&lat=-31.4198303&lng=-64.1903709&searchRange=100`
+        `/api/public/users?city=Cordoba&country=Argentina&lat=-31.4198303&lng=-64.1903709&searchRange=100`
       );
     }
   }, [Session, auth, users.length]);
