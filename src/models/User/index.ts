@@ -121,6 +121,9 @@ const userSchema = new Schema(
         score: {
           type: Number,
         },
+        date: {
+          type: String,
+        },
       },
     ],
     workerData: {

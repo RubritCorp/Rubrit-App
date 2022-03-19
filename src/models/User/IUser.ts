@@ -4,6 +4,7 @@ interface IRating {
   userComment: Types.ObjectId;
   description: string;
   score: number;
+  date: string;
 }
 
 interface HItems {
