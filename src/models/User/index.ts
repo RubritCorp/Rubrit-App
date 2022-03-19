@@ -119,6 +119,9 @@ const userSchema = new Schema(
           type: String,
         },
         score: {
+          type: Number,
+        },
+        date: {
           type: String,
         },
         date: {

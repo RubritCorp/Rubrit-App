@@ -1,5 +1,10 @@
 import { Heading } from "@chakra-ui/react";
-const RequestReceived: React.FC = () => {
+
+interface IProps {
+  requests?: any;
+}
+
+const RequestReceived: React.FC<IProps> = ({ requests }) => {
   return (
     <>
       <Heading>Privadas</Heading>

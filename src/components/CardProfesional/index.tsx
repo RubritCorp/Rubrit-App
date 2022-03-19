@@ -97,10 +97,9 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                     {city}
                   </Text>
                 </Stack>
-                <Stack direction={"row"} justify={"center"} spacing={6}>
+                <Stack direction={"row"} justify={"center"} spacing={6} marginBottom={8}>
                   <Stack spacing={0} align={"center"}>
                     <Text
-                      
                       align={"center"}
                       fontSize={{ base: "xs", md: "md" }}
                       pl={8}
@@ -108,7 +107,7 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                       color={"green.500"}
                       w={"296px"}
                       h={"55px"}
-                      overflow="hidden"
+                      // overflow="hidden"
                       css={{
                         display: "-webkit-box",
                         ["WebkitBoxOrient"]: "vertical",

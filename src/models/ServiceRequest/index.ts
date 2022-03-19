@@ -24,9 +24,9 @@ const serviceRequestSchema = new Schema(
       type: Types.ObjectId,
       required: true
     },
-    professionalId: Types.ObjectId,
-    category: Types.ObjectId,
-    subcategory: Types.ObjectId,
+    professionalId: { type: Types.ObjectId, default: null },
+    category: { type: Types.ObjectId, default: null },
+    subcategory: { type: Types.ObjectId, default: null },
     isActive: {
       type: Boolean,
       required: true
@@ -36,7 +36,7 @@ const serviceRequestSchema = new Schema(
   {
     timestamps: true,
     versionKey: false,
-  }
+  },
 );
 
 export default models?.ServiceRequest || model<IServiceRequest>("ServiceRequest", serviceRequestSchema);

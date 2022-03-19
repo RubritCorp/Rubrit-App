@@ -77,7 +77,7 @@ const cases: ICases = {
     try {
         const { id } = req.query;
           
-        const userRequests = await User.findOne({_id: "6230effe011d3377deba088e"})
+        const userRequests = await User.findOne({_id: id})
         .populate([{
           path: "requests.sent",
           model: "ServiceRequest"
@@ -85,11 +85,52 @@ const cases: ICases = {
         {
           path: "requests.received",
           model: "ServiceRequest"
-        }])
+        }
+      ])
         
-        if(userRequests) {
+   const requestsPop =  await userRequests.populate([{
+      path:"requests.received.subcategory",
+      model: "Subcategory",
+      select: "name "
+        },
+        {
+          path:"requests.received.category",
+          model: "Category",
+          select: "name icon"
+        },
+        {
+          path:"requests.sent.subcategory",
+          model: "Subcategory"
+        },
+      {
+        path:"requests.sent.category",
+          model: "Category",
+          select: "name icon"
+      },
+      {
+        path:"requests.sent.userId",
+          model: "User",
+          select: "name profilePic"
+      },
+      {
+        path:"requests.received.userId",
+          model: "User",
+          select: "name profilePic"
+      },
+      {
+        path:"requests.sent.professionalId",
+          model: "User",
+          select: "name profilePic"
+      },
+      {
+        path:"requests.received.professionalId",
+          model: "User",
+          select: "name profilePic"
+      }])
+        
+        if(requestsPop) {
          
-            res.status(200).json({message: "Requests found", requests : userRequests.requests})
+            res.status(200).json({message: "Requests found", requests : requestsPop.requests})
         }
 
     } catch (err) {

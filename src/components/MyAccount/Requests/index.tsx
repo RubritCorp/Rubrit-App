@@ -8,20 +8,25 @@ import {
   Flex,
   Text,
   useColorModeValue,
+  Icon,
+  useTheme,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { useSession } from "next-auth/react";
 import RequestReceived from "./RequestReceived";
-import RequestSend from "./RequestSend";
+import RequestSent from "./RequestSent";
 import axios from "axios";
+import { Article } from "phosphor-react";
 
 const Requests: React.FC = () => {
   const session = useSession();
+  const theme = useTheme();
   const [requests, setRequests] = useState({});
 
   async function fetchRequest() {
-    const requests = await axios.get("/api/serviceRequest/new", {
+    const {
+      data: { requests },
+    } = await axios.get("/api/serviceRequest/new", {
       params: {
         id: session.data!._id,
       },
@@ -43,9 +48,9 @@ const Requests: React.FC = () => {
       position={"relative"}
     >
       <Flex position={"absolute"} top={-12} left={9} alignItems={"center"}>
-        <Image src={"/"} alt="user-image" width={"32px"} height={"32px"} />
-        <Text fontSize={"32px"} fontWeight={500}>
-          Cuenta
+        <Article size={40} weight="light" color={theme.colors.medium_green} />
+        <Text fontSize={"32px"} fontWeight={500} m={"0 10px"}>
+          Solicitudes
         </Text>
       </Flex>
       <TabList>
@@ -101,7 +106,7 @@ const Requests: React.FC = () => {
           borderBottomLeftRadius={5}
           borderBottomRightRadius={5}
         >
-          <RequestSend />
+          <RequestSent requests={requests} />
         </TabPanel>
         <TabPanel
           bg={useColorModeValue("#fafafa", "#1A202C")}
@@ -110,7 +115,7 @@ const Requests: React.FC = () => {
           borderBottomLeftRadius={5}
           borderBottomRightRadius={5}
         >
-          <RequestReceived />
+          <RequestReceived requests={requests} />
         </TabPanel>
       </TabPanels>
     </Tabs>

@@ -33,7 +33,8 @@ const ProfessionalLanding: React.FC<any> = (props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const user = JSON.parse(props.user);
   const { workerData } = user;
-
+  const scoreTotal = Math.ceil(user.rating?.reduce((total: any, el: any) => (total += el.score), 0)/ user.rating.length);
+  
   if (!user) return <Loading />
   return (
     <Layout>
@@ -69,21 +70,20 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   {workerData.items?.map((cat: any, i: number) => {
                     return (
                       <Flex flexDirection={"column"} key={i}>
-                        <Text color={"medium_green"}>{`${cat.category.name}`}&nbsp;&nbsp;</Text>
+                        <Text color={"medium_green"}>{`${cat.category.name}`}&nbsp;</Text>
                       </Flex>
                     );
                   })}
                 </Flex>
                 <Text>{user.address.name}</Text>
                 <Flex flexDirection={"column"}>
-                  <Flex flexDirection={"row"}>
-                    <Star size={20} weight="fill" />
-
+                  <Flex flexDirection={"row"}> 
+                  {Array(scoreTotal).fill(null).map((el: any, index: number) => (  
+                    <Star key={index} size={20} weight="fill" color={theme.colors.medium_green}/>))}
                     <Text
                       ml={"0.5rem"}
                       fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
                     >
-                      {/* {user.rating} */}
                     </Text>
                   </Flex>
                   <Flex flexDirection={"row"}>

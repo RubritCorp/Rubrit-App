@@ -22,8 +22,10 @@ type Subcategory = {
 type IRating = {
   userComment: { name: string; profilePic: string; email: string };
   description: string;
-  score: string;
-};
+  score: number;
+  date: string;
+}
+
 
 type Items = {
   category: Category;

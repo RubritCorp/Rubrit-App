@@ -84,14 +84,25 @@ const cases: ICases = {
       rating: [
         {
           userComment: "6230c696ac761ce2feb45bd7",
-          description: "Hizo la remodelación completa de baño y cocina. Hermoso diseño",
-          score: "4",
+          description: "Hizo la remodelación completa de baño y cocina. Hermoso diseño. El presupuesto fue acorde y terminó la obra en el tiempo pautado. Muy recomendable.",
+          score: 4,
         },
         {
-          userComment: "6230aca0f6b78c97becf0794",
-          description: "Muy profesional. Terminó la obra en el tiempo pautado",
-          score: "4",
+          userComment: "6230b9925fbcf2faa5764432",
+          description: "Muy profesional, me gusto mucho como quedó la reforma. Los obreros fueron muy respetuosos y prolijos.",
+          score: 5,
         },
+        {
+          userComment: "6230be538d79de54f8023075",
+          description: "Muy profesional, me gusto mucho como quedó la reforma. Los obreros fueron muy respetuosos y prolijos.",
+          score: 3,
+        },
+        {
+          userComment: "6230c6fa647ec9ae8d47e1c2",
+          description: "Muy profesional, me gusto mucho como quedó la reforma. Los obreros fueron muy respetuosos y prolijos.",
+          score: 4,
+        },
+        
       ],
       workerData: {
         images: ["https://www.paperarquitectura.com.ar/wp-content/uploads/elementor/thumbs/DSC_0610-scaled-pd7py4uy3eqjm29qgbu45vpcu3oznbj0v4lpzgfp1k.jpg", "https://www.paperarquitectura.com.ar/wp-content/uploads/elementor/thumbs/IMG_20210817_173234_1-pd7s2j6pknbj93aqccohtlo2zj4z9otmp9gg735rbc.jpg"],
