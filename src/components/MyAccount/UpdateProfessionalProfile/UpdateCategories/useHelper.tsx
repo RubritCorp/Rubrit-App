@@ -72,7 +72,7 @@ const useHelper = ({ session }: Props) => {
     if (!session.isPremium && Object.keys(categories).length > 3) {
       setDrawerLoading(false);
       return toast({
-        title: "Solo se pueden seleccionar 2 categorias",
+        title: "Solo se pueden seleccionar 3 categorias",
         description:
           "¡Pasate a la versión Premium y elegí la cantidad de categorias que quieras!",
         status: "warning",
