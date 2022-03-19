@@ -19,6 +19,7 @@ function TestimonialCard(props: any) {
   const {
     description,
     score,
+    date,
     userComment: { name, email, profilePic },
   } = props;
   const theme = useTheme();
@@ -100,7 +101,7 @@ function TestimonialCard(props: any) {
             pb={4}
             color={theme.colors.medium_green}
           >
-            {/* {categorie} */}
+            {date}
           </chakra.p>
         </Flex>
       </Flex>
@@ -128,6 +129,7 @@ export default function GridBlurredBackdrop({ user }: any) {
           <TestimonialCard
             description={el.description}
             score={el.score}
+            date={el.date}
             userComment={el.userComment}
             index={index}
             key={index}

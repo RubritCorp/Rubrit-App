@@ -23,6 +23,7 @@ type IRating = {
   userComment: { name: string, profilePic: string, email: string};
   description: string;
   score: number;
+  date: string;
 }
 
 type Items = {

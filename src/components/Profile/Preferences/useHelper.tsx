@@ -73,7 +73,7 @@ const useHelper = ({ user, onClosePreferences }: Props) => {
       });
       setLoading(false);
       toast({
-        title: "La información se actaulizo correctamente.",
+        title: "La información se actualizó correctamente.",
         status: "success",
         duration: 5000,
         isClosable: true,
