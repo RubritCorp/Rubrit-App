@@ -71,7 +71,7 @@ const useHelper = ({ session, onClose, typeImages }: Props) => {
         20 &&
       !session.isPremium
     ) {
-      toast({
+      return toast({
         title: "¡La cantidad de imagenes subidas superan el cupo de su cuota!",
         description: `¡Lo sentimos!. Solo puedes cargar ${
           (session.workerData.certification.length +

@@ -10,7 +10,6 @@ import {
   AccordionPanel,
   Button,
   useDisclosure,
-  Image as ChakraImage,
   Alert,
   AlertIcon,
   Divider,
@@ -60,10 +59,10 @@ const ProfessionalUpdate = ({ session }: Props) => {
 
   useEffect(() => {}, [session]);
 
-  const numberOfCertificationImages = session.workerData.certification.length;
+  const numberOfCertificationImages = session.workerData?.certification.length;
 
-  const workImages = session.workerData.images.slice(0, 3);
-  const numberOfWorkImages = session.workerData.images.length;
+  const workImages = session.workerData?.images.slice(0, 3);
+  const numberOfWorkImages = session.workerData?.images.length;
 
   return (
     <Box mt={16} w={"100%"} position={"relative"}>
@@ -105,7 +104,7 @@ const ProfessionalUpdate = ({ session }: Props) => {
               size={"md"}
               onClick={onOpenUpdateProfile}
             >
-              Editar
+              {session.workerData?.items ? "Editar" : "Añadir"}
             </Button>
           </Flex>
           <UpdateCategories
@@ -114,7 +113,7 @@ const ProfessionalUpdate = ({ session }: Props) => {
             session={session}
           />
           <Accordion allowToggle mt={3}>
-            {session.workerData.items.map((m, i: number) => (
+            {session.workerData?.items.map((m, i: number) => (
               <AccordionItem key={i}>
                 <h2>
                   <AccordionButton>
@@ -270,10 +269,21 @@ const ProfessionalUpdate = ({ session }: Props) => {
                 />
               ))}
             </Flex>
-            <Text mt={2} color="gray" fontSize={{ base: "sm", md: "lg" }}>
-              Mostrando {workImages.length} de {numberOfWorkImages}{" "}
-              {numberOfWorkImages === 1 ? "Elemento" : "Elementos"}
-            </Text>
+            {workImages.length > 0 ? (
+              <Text mt={2} color="gray" fontSize={{ base: "sm", md: "lg" }}>
+                Mostrando {workImages.length} de {numberOfWorkImages}{" "}
+                {numberOfWorkImages === 1 ? "Elemento" : "Elementos"}
+              </Text>
+            ) : (
+              <Text
+                mt={3}
+                color="gray"
+                fontSize={{ base: "sm", md: "lg" }}
+                textAlign={"center"}
+              >
+                ¡Aún no tienes imagenes cargadas, empecemos a cargar algunas!
+              </Text>
+            )}
           </Box>
           <UpdatedWorkerImages
             {...{ session }}
