@@ -5,7 +5,6 @@ interface IProps {
 }
 
 const RequestReceived: React.FC<IProps> = ({ requests }) => {
-  console.log(requests.received);
   return (
     <>
       <Heading>Privadas</Heading>

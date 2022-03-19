@@ -8,16 +8,19 @@ import {
   Flex,
   Text,
   useColorModeValue,
+  Icon,
+  useTheme,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { useSession } from "next-auth/react";
 import RequestReceived from "./RequestReceived";
 import RequestSent from "./RequestSent";
 import axios from "axios";
+import { Article } from "phosphor-react";
 
 const Requests: React.FC = () => {
   const session = useSession();
+  const theme = useTheme();
   const [requests, setRequests] = useState({});
 
   async function fetchRequest() {
@@ -45,9 +48,9 @@ const Requests: React.FC = () => {
       position={"relative"}
     >
       <Flex position={"absolute"} top={-12} left={9} alignItems={"center"}>
-        <Image src={"/"} alt="user-image" width={"32px"} height={"32px"} />
-        <Text fontSize={"32px"} fontWeight={500}>
-          Cuenta
+        <Article size={40} weight="light" color={theme.colors.medium_green} />
+        <Text fontSize={"32px"} fontWeight={500} m={"0 10px"}>
+          Solicitudes
         </Text>
       </Flex>
       <TabList>
