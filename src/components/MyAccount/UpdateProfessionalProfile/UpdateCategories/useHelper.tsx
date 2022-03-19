@@ -69,7 +69,7 @@ const useHelper = ({ session }: Props) => {
       }
     }
 
-    if (Object.keys(categories).length > 3) {
+    if (!session.isPremium && Object.keys(categories).length > 3) {
       setDrawerLoading(false);
       return toast({
         title: "Solo se pueden seleccionar 2 categorias",
