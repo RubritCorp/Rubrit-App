@@ -15,8 +15,9 @@ import {
 //assets
 import { TwitterLogo, YoutubeLogo, InstagramLogo } from "phosphor-react";
 
-import DarkModeSwitch from "components/DarkModeSwitch";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
@@ -57,6 +58,8 @@ const SocialButton = ({
 };
 
 const Footer: React.FC = () => {
+  const { status } = useSession();
+  const router = useRouter();
   return (
     <Box
       bg={useColorModeValue("medium_grey", "dark_green")}
@@ -78,9 +81,16 @@ const Footer: React.FC = () => {
             <Link href={"/aboutUs"}>
               <a>Sobre Nosotros</a>
             </Link>
-            <Link href={"/myAccount?site=offerServices"}>
-              <a>Registrate como Profesional</a>
-            </Link>
+            <Text
+              cursor={"pointer"}
+              onClick={() => {
+                status === "authenticated"
+                  ? router.push("/myAccount?site=offerServices")
+                  : document.getElementById("signInButton")?.click();
+              }}
+            >
+              Registrate como Profesional
+            </Text>
           </Stack>
 
           <Stack align={"flex-start"}>

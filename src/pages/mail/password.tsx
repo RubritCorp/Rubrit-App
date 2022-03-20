@@ -29,11 +29,10 @@ import { signIn, useSession } from "next-auth/react";
 
 const Password: React.FC = () => {
   const toast = useToast();
-  const theme = useTheme();
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState<boolean>();
   const [loading, setLoading] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
+  const [isUpdated, setIsUpdated] = useState<boolean>(false);
   const { code, email } = router.query;
   const { status } = useSession();
 
@@ -76,25 +75,37 @@ const Password: React.FC = () => {
   const onSubmit = async (values: DataValues) => {
     setLoading(true);
     try {
-      await axios.post("/api/user/updatePassword", {
+      const { data } = await axios.post("/api/user/updatePassword", {
         email,
         code,
         newPassword: values.password,
       });
       setLoading(false);
+      if (
+        data.message === "La nueva contraseña no puede ser igual a la anterior!"
+      ) {
+        if (!toast.isActive("same-password")) {
+          toast({
+            title: data.message,
+            description: "Prueba con una contraseña diferente",
+            status: "warning",
+            duration: 6000,
+            isClosable: true,
+            position: "bottom-right",
+            id: "same-password",
+          });
+        }
+        return;
+      }
       toast({
         title: "¡La contraseña fue restablecida!",
         description: "Su nueva contraseña esta habilatada para iniciar sesion",
         status: "success",
         duration: 5000,
         isClosable: true,
-        position: "top-left",
+        position: "bottom-right",
       });
-      signIn("credentials", {
-        email: email,
-        password: values.password,
-      });
-      //router.push("/?login=true");
+      setIsUpdated(true);
     } catch (err) {
       setLoading(false);
       toast({
@@ -102,27 +113,10 @@ const Password: React.FC = () => {
         status: "error",
         duration: 5000,
         isClosable: true,
-        position: "top-left",
+        position: "bottom-right",
       });
     }
   };
-
-  if (isLoading) {
-    return (
-      <Layout>
-        <Flex
-          width={"100vw"}
-          h={"64.7vh"}
-          alignItems={"center"}
-          justifyContent={"center"}
-          flexDirection={"column"}
-          transition={"0.3"}
-        >
-          <Loading />
-        </Flex>
-      </Layout>
-    );
-  }
 
   return (
     <Layout>
@@ -160,12 +154,13 @@ const Password: React.FC = () => {
                       autoComplete: "off",
                     }}
                     name="password"
+                    isDisabled={isUpdated}
                   />
                   <InputRightElement>
                     <Button
-                      bg={theme.colors.medium_green}
+                      bg={"medium_green"}
                       _hover={{
-                        bg: theme.colors.light_green_sub[700],
+                        bg: "light_green_sub.700",
                       }}
                       onClick={() => setShow(!show)}
                     >
@@ -188,12 +183,13 @@ const Password: React.FC = () => {
                       type: show ? "text" : "password",
                       autoComplete: "off",
                     }}
+                    isDisabled={isUpdated}
                   />
                   <InputRightElement>
                     <Button
-                      bg={theme.colors.medium_green}
+                      bg={"medium_green"}
                       _hover={{
-                        bg: theme.colors.light_green_sub[700],
+                        bg: "light_green_sub.700",
                       }}
                       onClick={() => setShow(!show)}
                     >
@@ -206,27 +202,48 @@ const Password: React.FC = () => {
                   </InputRightElement>
                 </InputGroup>
                 <ButtonGroup mt={6} justifyContent={"flex-end"} d={"flex"}>
-                  <ResetButton
-                    colorScheme={"green"}
-                    mr={3}
-                    fontSize={{ base: "xs", md: "l", lg: "l" }}
-                  >
-                    Reiniciar
-                  </ResetButton>
-                  <SubmitButton
-                    fontSize={{ base: "xs", md: "l", lg: "l" }}
-                    colorScheme={"green"}
-                    color={"white"}
-                    isLoading={loading}
-                    disabled={
-                      Object.keys(errors).length > 0 ||
-                      !Object.values(values)[0].length
-                        ? true
-                        : false
-                    }
-                  >
-                    Confirmar
-                  </SubmitButton>
+                  {isUpdated ? (
+                    <Button
+                      fontSize={{ base: "xs", md: "l", lg: "l" }}
+                      colorScheme={"blue"}
+                      color={"white"}
+                      onClick={() => {
+                        setLoading(true);
+                        signIn("credentials", {
+                          email: email,
+                          password: values.password,
+                        });
+                      }}
+                      isLoading={loading}
+                    >
+                      Iniciar Sesión
+                    </Button>
+                  ) : (
+                    <>
+                      <ResetButton
+                        colorScheme={"green"}
+                        mr={3}
+                        fontSize={{ base: "xs", md: "l", lg: "l" }}
+                      >
+                        Reiniciar
+                      </ResetButton>
+                      <SubmitButton
+                        fontSize={{ base: "xs", md: "l", lg: "l" }}
+                        colorScheme={"green"}
+                        color={"white"}
+                        isLoading={loading}
+                        disabled={
+                          Object.keys(errors).length > 0 ||
+                          !Object.values(values)[0].length ||
+                          isUpdated
+                            ? true
+                            : false
+                        }
+                      >
+                        Confirmar
+                      </SubmitButton>
+                    </>
+                  )}
                 </ButtonGroup>
               </Box>
             )}

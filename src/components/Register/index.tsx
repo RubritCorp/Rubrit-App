@@ -133,13 +133,16 @@ const Register: React.FC<{
                         </MenuButton>
                         <MenuList>
                           {countries.map((m, i: number) => (
-                            <MenuItem key={i} value={m.code}>
+                            <MenuItem
+                              key={i}
+                              value={m.code}
+                              onClick={() => setCountryCode(m.code)}
+                            >
                               {m.img}
                               <Text
                                 ml={3}
                                 fontWeight={400}
                                 variant={"ghost"}
-                                onClick={() => setCountryCode(m.code)}
                                 _hover={{ bg: "transparent" }}
                               >
                                 {m.name} {m.code}
