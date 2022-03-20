@@ -111,8 +111,8 @@ const NearProfesionals: React.FC = () => {
       />
       <Heading fontSize={{ base: "lg", md: "2rem" }} textAlign={"center"} p={4}>
         Profesionales cerca de{" "}
-        {Session?.address.name && auth === "authenticated"
-          ? Session.address.name
+        {Session?.address.city && auth === "authenticated"
+          ? Session.address.city
           : "Cordoba Capital, Argentina"}
       </Heading>
       {!Session ||

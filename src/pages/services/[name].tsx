@@ -80,13 +80,14 @@ const Services: NextPage<{ category: any; name: string }> = ({
               marginBottom={1}
               color={"gray.800"}
             >
-              {cat.name} en {Session ? Session.address.city : "CABA"}
+              {cat.name} en {Session ? Session.address.city : "Cordoba Capital"}
             </Heading>
             <Text
-              fontSize={"xl"}
+              fontSize={{ base: "1rem", md: "1.2rem", lg: "1.3rem" }}
               textAlign="center"
               marginBottom={5}
               color={"gray.800"}
+              
             >
               Chatea al instante con profesionales de confianza. No compartimos
               ni tu dirección ni tu teléfono con nadie.
@@ -96,18 +97,19 @@ const Services: NextPage<{ category: any; name: string }> = ({
       </Box>
 
       <Grid
+      justifyContent="center"
         templateColumns={{
           base: "repeat(1,1fr)",
-          sm: "repeat(2,1fr)",
+          sm: "repeat(1,1fr)",
           md: "repeat(2,1fr)",
           xl: "repeat(3,1fr)",
           "2xl": "repeat(4,1fr)",
         }}
-        gap={6}
+        gap={2}
       >
         {filteredUsers?.map((m: IUser, i: number) => (
           <GridItem key={i} w={"100%"}>
-            <CardProfesional
+            <CardProfesional 
               _id={m._id}
               img={m.workerData.items[0].category.picture_small}
               name={m.name}
