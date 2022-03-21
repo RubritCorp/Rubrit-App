@@ -82,10 +82,10 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
           Name
         </GridItem>
         <GridItem w="100%" h="10">
-          Categoria
+          <Text>Tipo</Text>
         </GridItem>
         <GridItem w="100%" h="10" colSpan={2}>
-          Descripcion
+          <Text>Categoria - Descripcion</Text>
         </GridItem>
         <GridItem w="100%" h="10">
           FECHA
@@ -120,7 +120,13 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                 textAlign={"center"}
                 justifyContent={"center"}
               >
-                <Text>{request.category?.name}</Text>
+                {request.category !== null ? (
+                  <>
+                    <Text>Publica</Text>
+                  </>
+                ) : (
+                  <Text>Privada</Text>
+                )}
               </GridItem>
               <GridItem
                 w="100%"
@@ -133,7 +139,10 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                 m={"5px"}
                 colSpan={2}
               >
-                {request.description}
+                <Flex flexDirection={"column"}>
+                  <Text fontWeight={600}>{request.category?.name}</Text>
+                  <Text> {request.description}</Text>
+                </Flex>
               </GridItem>
               <GridItem
                 w="100%"
