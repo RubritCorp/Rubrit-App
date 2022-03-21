@@ -4,10 +4,7 @@ import {
   Flex,
   Text,
   Button,
-  Stack,
-  Input,
-  InputRightElement,
-  InputGroup,
+  Stack
 } from "@chakra-ui/react";
 import SearchBarAutocomplete from "components/CustomFormControls/SearchBarAutocomplete";
 import Link from "next/link";
@@ -49,30 +46,6 @@ const Hero: React.FC = () => {
 
         <Stack as={Box} textAlign="center" alignSelf="center" spacing="1">
           <SearchBarAutocomplete onSearch={() => null} query='' setQuery={() => null} isHero={true} />
-          {/* <InputGroup paddingX={{ base: "5px", sm: "25px" }} size="md">
-            <Input
-              placeholder="Comienza a buscar"
-              pr="4.5rem"
-              bg="white"
-              w={{ base: "16rem", sm: "28rem", md: "30rem", lg: "30rem" }}
-              color="dark_grey"
-              _placeholder={{ color: "medium_grey" }}
-            />
-            <InputRightElement
-              w="5rem"
-              marginRight={{ base: "5px", sm: "25px" }}
-            >
-              <Button
-                bg="medium_green"
-                _hover={{
-                  bg: "green.500",
-                }}
-                roundedLeft="none"
-              >
-                Buscar
-              </Button>
-            </InputRightElement>
-          </InputGroup> */}
           <Text>ó</Text>
           <Link href={{ pathname: "/request/new" }} passHref>
             <a>
