@@ -32,10 +32,10 @@ const AboutUs: React.FC = () => {
             direction="column"
             marginTop={10}
           >
-            <Heading fontSize={"2xl"} textAlign="center" marginBottom={1}>
+            <Heading fontSize={{ base: "xl", md: "xl", lg: "2xl" }} textAlign="center" marginBottom={1}>
               Revolucionando el trabajo diario
             </Heading>
-            <Text fontSize={"xl"} textAlign="center" marginBottom={5}>
+            <Text fontSize={{ base: "l", md: "l", lg: "xl" }} textAlign="center" marginBottom={5}>
               El trabajo diario es importante. Pero también requiere mucho
               tiempo. Podemos ayudarte.
             </Text>
@@ -53,10 +53,10 @@ const AboutUs: React.FC = () => {
           </Flex>
         </Box>
         <Flex justifyContent="center" padding={5} direction="column">
-          <Heading fontSize={"2xl"} textAlign="center" marginBottom={2}>
+          <Heading fontSize={{ base: "xl", md: "xl", lg: "2xl" }} textAlign="center" marginBottom={2}>
             Haga más en menos tiempo
           </Heading>
-          <Text fontSize={"xl"} textAlign="center" marginBottom={5}>
+          <Text fontSize={{ base: "l", md: "l", lg: "xl" }} textAlign="center" marginBottom={5}>
             Nuestra plataforma de servicio lo conecta instantáneamente con
             trabajadores calificados para ayudarlo en trabajos ocasionales y
             mandados, para que pueda ser más productivo todos los días.
@@ -80,14 +80,14 @@ const AboutUs: React.FC = () => {
                 </Flex>
               </Box>
               <Heading
-                fontSize={"xl"}
+                fontSize={{ base: "xl", md: "xl", lg: "2xl" }}
                 textAlign="center"
                 fontWeight="bold"
                 marginBottom={2}
               >
                 350.000
               </Heading>
-              <Text fontSize={"lg"} textAlign="center">
+              <Text fontSize={{ base: "l", md: "l", lg: "xl" }} textAlign="center">
                 horas dedicadas a hacer mandados por toda la ciudad
               </Text>
             </Container>
@@ -102,14 +102,14 @@ const AboutUs: React.FC = () => {
                 </Flex>
               </Box>
               <Heading
-                fontSize={"xl"}
+                fontSize={{ base: "xl", md: "xl", lg: "2xl" }}
                 textAlign="center"
                 fontWeight="bold"
                 marginBottom={2}
               >
                 16.000
               </Heading>
-              <Text fontSize={"lg"} textAlign="center">
+              <Text fontSize={{ base: "l", md: "l", lg: "xl" }} textAlign="center">
                 reparaciones en hogares y oficinas
               </Text>
             </Container>
@@ -124,14 +124,14 @@ const AboutUs: React.FC = () => {
                 </Flex>
               </Box>
               <Heading
-                fontSize={"xl"}
+                fontSize={{ base: "xl", md: "xl", lg: "2xl" }}
                 textAlign="center"
                 fontWeight="bold"
                 marginBottom={2}
               >
                 4.000
               </Heading>
-              <Text fontSize={"lg"} textAlign="center">
+              <Text fontSize={{ base: "l", md: "l", lg: "xl" }} textAlign="center">
                 nuevos usuarios en el último mes
               </Text>
             </Container>
@@ -148,14 +148,14 @@ const AboutUs: React.FC = () => {
           marginBottom={90}
         >
           <Heading
-            fontSize={"2xl"}
+            fontSize={{ base: "xl", md: "xl", lg: "2xl" }}
             textAlign="center"
             marginBottom={2}
             marginTop={8}
           >
             Nuestro Equipo
           </Heading>
-          <Text fontSize={"xl"} textAlign="center" marginBottom={75}>
+          <Text fontSize={{ base: "l", md: "l", lg: "xl" }} textAlign="center" marginBottom={75}>
             Contamos los mejores profesionales a su servicio, para asistirlo las
             24 hs. del día
           </Text>
