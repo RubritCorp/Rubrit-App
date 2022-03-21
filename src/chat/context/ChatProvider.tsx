@@ -26,18 +26,23 @@ interface IChat {
 
 type chatContextType = {
   user: IUserChat;
-  setUser: Dispatch<SetStateAction<IUserChat>>;
+  // setUser: Dispatch<SetStateAction<IUserChat>>;
+  setUser: any;
   selectedChat: IChat;
-  setSelectedChat: Dispatch<SetStateAction<IChat>>;
+  // setSelectedChat: Dispatch<SetStateAction<IChat>>;
+  setSelectedChat: any;
   chats: IChat[];
-  setChats: Dispatch<SetStateAction<IChat[]>>;
+  // setChats: Dispatch<SetStateAction<IChat[]>>;
+  setChats: any;
 };
 
-const chatContextDefaultValues: chatContextType= {
+const chatContextDefaultValues: chatContextType = {
   user: { _id: "", name: "", email: "", pic: "" },
-  setUser:
+  setUser: null,
   selectedChat: { _id: "", chatName: "", isGroupChat: false, users: [] },
+  setSelectedChat: null,
   chats: [],
+  setChats: null,
 };
 
 const ChatContext = createContext<chatContextType>(chatContextDefaultValues);

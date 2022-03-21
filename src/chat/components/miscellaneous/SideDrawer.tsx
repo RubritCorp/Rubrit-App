@@ -38,7 +38,7 @@ const SideDrawer = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingChat, setLoadingChat] = useState<boolean>(false);
 
-  const { user, setSelectedChat } = useChat();
+  const { user, setSelectedChat, setChats, chats } = useChat();
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
@@ -109,7 +109,7 @@ const SideDrawer = () => {
       setSelectedChat(data);
       setLoadingChat(false);
       onClose();
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Error fetching the chat",
         description: error.message,
