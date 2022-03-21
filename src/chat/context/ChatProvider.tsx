@@ -10,6 +10,7 @@ import {
 } from "react";
 
 export type IMessage = {
+  _id: string;
   sender: IUserChat;
   content: string;
   chat: IChat;

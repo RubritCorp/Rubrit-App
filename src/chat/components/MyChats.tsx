@@ -31,12 +31,12 @@ const MyChats: React.FC<{ fetchAgain: boolean }> = ({ fetchAgain }) => {
       };
 
       const { data } = await axios.get(`${envConfig?.apiUrl}/chat`, config);
-      console.log(data);
+
       setChats(data);
     } catch (error) {
       toast({
-        title: "Error Occured!",
-        description: "Failed to Load the chats",
+        title: "Ocurrió un Error!",
+        description: "Error al cargar los Chats",
         status: "error",
         duration: 5000,
         isClosable: true,

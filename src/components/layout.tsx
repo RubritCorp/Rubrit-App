@@ -27,10 +27,10 @@ const Layout: React.FC<{
       <Flex
         minH={"100vh"}
         flexDirection={"column"}
-        // justifyContent="space-between"
+        justifyContent="space-between"
       >
         <Navbar />
-        <main style={{ minHeight: "46.5vh" }}>{children}</main>
+        <main>{children}</main>
         <Footer />
       </Flex>
     </Box>

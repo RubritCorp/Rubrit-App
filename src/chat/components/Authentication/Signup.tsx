@@ -32,7 +32,7 @@ const Signup = () => {
     setLoading(true);
     if (!name || !email || !password || !confirmpassword) {
       toast({
-        title: "Please Fill all the Feilds",
+        title: "Por favor, llene todos los campos",
         status: "warning",
         duration: 5000,
         isClosable: true,
@@ -43,7 +43,7 @@ const Signup = () => {
     }
     if (password !== confirmpassword) {
       toast({
-        title: "Passwords Do Not Match",
+        title: "Las contraseñas no coinciden",
         status: "warning",
         duration: 5000,
         isClosable: true,
@@ -65,7 +65,7 @@ const Signup = () => {
         password,
       });
       toast({
-        title: "Registration Successful",
+        title: "Registro exitoso",
         status: "success",
         duration: 5000,
         isClosable: true,
@@ -76,7 +76,7 @@ const Signup = () => {
       router.push("/chat/chats");
     } catch (error: any) {
       toast({
-        title: "Error Occured!",
+        title: "Ocurrió un Error!",
         description: error.response.data.message,
         status: "error",
         duration: 5000,
