@@ -31,7 +31,7 @@ const HomePage = () => {
         d="flex"
         justifyContent="center"
         p={3}
-        bg="white"
+        bg="#fafafa"
         w="100%"
         m="40px 0 15px 0"
         borderRadius="lg"
@@ -42,7 +42,7 @@ const HomePage = () => {
         </Text>
       </Box>
       <Box
-        bg="white"
+        bg="#fafafa"
         w="100%"
         p={4}
         borderRadius="lg"
