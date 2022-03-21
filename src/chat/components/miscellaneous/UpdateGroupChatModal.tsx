@@ -24,9 +24,10 @@ import axios from "axios";
 import envConfig from "../../../../next-env-config";
 
 const UpdateGroupChatModal: React.FC<{
+  fetchMessages: any;
   fetchAgain: boolean;
   setFetchAgain: Dispatch<SetStateAction<boolean>>;
-}> = ({ fetchAgain, setFetchAgain }) => {
+}> = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState<string>("");
   const [search, setSearch] = useState<string>("");
@@ -197,7 +198,7 @@ const UpdateGroupChatModal: React.FC<{
 
       user1._id === user._id ? setSelectedChat() : setSelectedChat(data);
       setFetchAgain(!fetchAgain);
-      // fetchMessages();
+      fetchMessages();
       setLoading(false);
     } catch (error: any) {
       toast({
