@@ -8,10 +8,14 @@ import {
 } from "@chakra-ui/react";
 import SearchBarAutocomplete from "components/CustomFormControls/SearchBarAutocomplete";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 const Hero: React.FC = () => {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [ loading, setLoading ] = useState<boolean>(false);
+  const [ query, setQuery ] = useState('');
+  const router = useRouter();
+
   return (
     <Flex
       w="full"
@@ -45,7 +49,7 @@ const Hero: React.FC = () => {
         </Stack>
 
         <Stack as={Box} textAlign="center" alignSelf="center" spacing="1">
-          <SearchBarAutocomplete onSearch={() => null} query='' setQuery={() => null} isHero={true} />
+          <SearchBarAutocomplete onSearch={() => router.push(`/search?query=${query}`)} query={query} setQuery={setQuery} isHero={true} />
           <Text>ó</Text>
           <Link href={{ pathname: "/request/new" }} passHref>
             <a>

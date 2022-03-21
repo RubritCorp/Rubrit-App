@@ -2,6 +2,7 @@
 import { Box, useDisclosure } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import Footer from 'components/Footer';
 import Navbar from 'components/NavBar';
 import SearchResults from 'components/Search/SearchResults'
@@ -17,9 +18,16 @@ const Search: React.FC<{
   const [ filters, setFilters ] = useState({orderBy: 'DEF'});
   const [ results, setResults ] = useState([]);
   const [ initialResults, setInitialResults ] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     // On first load
+    let { query: routerQuery } = router.query;
+    if (routerQuery && routerQuery !== '') {
+      routerQuery = routerQuery.toString();
+      setQuery(routerQuery);
+      search(routerQuery).then(res => setInitialResults(res.data.users));;
+    }
     if (query !== '') search(query).then(res => setInitialResults(res.data.users));
   },[])
 
@@ -29,6 +37,7 @@ const Search: React.FC<{
 
   function onSearch() {
     search(query).then(res => setInitialResults(res.data.users));
+    router.push(`/search`, `/search?query=${query}`, { shallow: true })
   }
 
   function onFilter() {
