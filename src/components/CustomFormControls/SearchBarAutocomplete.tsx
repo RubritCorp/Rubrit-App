@@ -7,13 +7,10 @@ import {
   AutoCompleteItem,
   AutoCompleteList,
 } from '@choc-ui/chakra-autocomplete';
+import { useCategories } from 'Provider/CategoriesProvider';
 
 export default function SearchBarAutocomplete({onSearch, query, setQuery, isHero = false}: {onSearch: () => void, query: string, setQuery: (value: string) => void, isHero: boolean}) {
-  const categories = {
-    building: ['albañil', 'south africa'],
-    asia: ['japan', 'south korea'],
-    europe: ['united kingdom', 'russia'],
-  };
+  const { categories } = useCategories();
 
   return (
     <InputGroup size='md' minW='320px' maxW={{ base: '500px', xl: '600px'}} w={isHero ? { base: '16rem', sm: '28rem', md: '30rem', lg: '30rem' } : 'full'}>
@@ -35,19 +32,20 @@ export default function SearchBarAutocomplete({onSearch, query, setQuery, isHero
             </Button>
           </InputRightElement>
           <AutoCompleteList>
-            {Object.entries(categories).map(([category, subcategories], co_id) => (
-              <AutoCompleteGroup key={co_id} showDivider>
-                <AutoCompleteGroupTitle textTransform='capitalize'>
-                  {category}
+            {categories?.map((category) => (
+              <AutoCompleteGroup key={category._id.toString()} showDivider>
+                <AutoCompleteGroupTitle textTransform='capitalize' color='black'>
+                  {category.name}
                 </AutoCompleteGroupTitle>
-                {subcategories.map((subcategory, s_id) => (
+                {category.subcategories?.map((subcategory) => (
                   <AutoCompleteItem
-                    key={s_id}
-                    value={subcategory}
+                    key={subcategory._id.toString()}
+                    value={subcategory.name}
                     textTransform='capitalize'
-                    onClick={() => setQuery(subcategory)}
+                    color='black'
+                    onClick={() => setQuery(subcategory.name)}
                   >
-                    {subcategory}
+                    {subcategory.name}
                   </AutoCompleteItem>
                 ))}
               </AutoCompleteGroup>
