@@ -155,6 +155,7 @@ const userSchema = new Schema(
       },
     ],
     offers: [{ type: Types.ObjectId, ref: "ServiceRequest" }],
+    contracts: [{ type: Types.ObjectId, ref: "Contract" }],
   },
   {
     timestamps: true,

@@ -53,4 +53,5 @@ export interface IUser {
   workerData: IWorkerData;
   items: HItems[];
   offers: Types.ObjectId[];
+  contracts: Types.ObjectId[];
 }
