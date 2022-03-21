@@ -9,6 +9,11 @@ import {
   SetStateAction,
 } from "react";
 
+export type IMessage = {
+  sender: IUserChat;
+  content: string;
+  chat: IChat;
+};
 export type IUserChat = {
   _id: string;
   name: string;
@@ -22,6 +27,7 @@ interface IChat {
   isGroupChat: boolean;
   users: IUserChat[];
   groupAdmin?: IUserChat;
+  latestMessage?: IMessage;
 }
 
 type chatContextType = {
@@ -36,7 +42,7 @@ type chatContextType = {
   setChats: any;
 };
 
-const chatContextDefaultValues: chatContextType = {
+export const chatContextDefaultValues: chatContextType = {
   user: { _id: "", name: "", email: "", pic: "" },
   setUser: null,
   selectedChat: { _id: "", chatName: "", isGroupChat: false, users: [] },
