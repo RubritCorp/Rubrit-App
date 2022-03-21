@@ -28,11 +28,11 @@ function TestimonialCard(props: any) {
     <Flex
       boxShadow={"xl"}
       maxW="100%"
-      margin={"0 "}
-      direction={{ base: "column-reverse", md: "row" }}
+      maxH="12rem"
+      direction={"row"}
       width={"full"}
       rounded={"xl"}
-      p={{ base: "1em 0em", lg: "1em 1em" }}
+      p={"1em"}
       justifyContent={"space-between"}
       position={"relative"}
       bg={useColorModeValue("white", "gray.800")}
@@ -51,7 +51,7 @@ function TestimonialCard(props: any) {
         direction={"row"}
         textAlign={"left"}
         justifyContent={"space-between"}
-        p={"1em 0"}
+        p={"1em"}
       >
         <Flex
           paddingRight={"1em"}
@@ -59,7 +59,7 @@ function TestimonialCard(props: any) {
           alignItems="center"
           justifyContent="space-evenly"
         >
-          <Box>
+          <Box minH="6rem">
             <Avatar
               src={profilePic}
               height={"80px"}
@@ -67,7 +67,7 @@ function TestimonialCard(props: any) {
               alignSelf={"center"}
             />
           </Box>
-          <Flex margin={"1em"}>   
+          <Flex>   
             {[...Array(score)].map((el: any, index: number) => {
               return(
               <Star
@@ -79,7 +79,9 @@ function TestimonialCard(props: any) {
             )})}
           </Flex>
         </Flex>
-        <Flex flexDirection="column">
+        
+        <Flex flexDirection="column" >
+          <Box minH={"6.45rem"}>
           <chakra.p fontFamily={"Poppins"} fontWeight={"bold"}>
             {name}
           </chakra.p>
@@ -92,9 +94,16 @@ function TestimonialCard(props: any) {
               lg: "1rem",
             }}
             pb={4}
+            h={{ base: "60px", lg:"70px"}}
+            overflow="hidden"
+                      css={{
+                        display: "-webkit-box",
+                        ["WebkitBoxOrient"]: "vertical",
+                        ["WebkitLineClamp"]: "2",
+                      }}
           >
             {description}
-          </chakra.p>
+          </chakra.p></Box>
           <chakra.p
             fontFamily={"Roboto"}
             fontWeight={600}
@@ -114,15 +123,13 @@ export default function GridBlurredBackdrop({ user }: any) {
     <Flex
       textAlign={"center"}
       justifyContent={"center"}
-      direction={"column"}
-      width={"full"}
+      width={"xl"}
     >
       <SimpleGrid
         columns={[1, null, 1]}
         spacing={"6"}
         mt={5}
         mb={10}
-        mx={"0"}
         minChildWidth={{ base: "300px", lg: "420px" }}
       >
         {user?.rating.map((el: any, index: number) => (
