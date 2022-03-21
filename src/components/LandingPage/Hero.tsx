@@ -9,6 +9,7 @@ import {
   InputRightElement,
   InputGroup,
 } from "@chakra-ui/react";
+import SearchBarAutocomplete from "components/CustomFormControls/SearchBarAutocomplete";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -47,7 +48,8 @@ const Hero: React.FC = () => {
         </Stack>
 
         <Stack as={Box} textAlign="center" alignSelf="center" spacing="1">
-          <InputGroup paddingX={{ base: "5px", sm: "25px" }} size="md">
+          <SearchBarAutocomplete onSearch={() => null} query='' setQuery={() => null} isHero={true} />
+          {/* <InputGroup paddingX={{ base: "5px", sm: "25px" }} size="md">
             <Input
               placeholder="Comienza a buscar"
               pr="4.5rem"
@@ -70,7 +72,7 @@ const Hero: React.FC = () => {
                 Buscar
               </Button>
             </InputRightElement>
-          </InputGroup>
+          </InputGroup> */}
           <Text>ó</Text>
           <Link href={{ pathname: "/request/new" }} passHref>
             <a>

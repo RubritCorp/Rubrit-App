@@ -45,7 +45,7 @@ const Search: React.FC<{
       </Head>
       <Navbar />
       <SearchWithSideBar isOpen={isOpen} onClose={onClose} filters={filters} setFilters={setFilters}>
-        <SearchResults results={results} onOpen={onOpen} onFilter={onFilter} onSearch={onSearch} filters={filters} setFilters={setFilters} setQuery={setQuery} />
+        <SearchResults results={results} onOpen={onOpen} onFilter={onFilter} onSearch={onSearch} filters={filters} setFilters={setFilters} query={query} setQuery={setQuery} />
         <Footer />
       </SearchWithSideBar>
     </Box>
