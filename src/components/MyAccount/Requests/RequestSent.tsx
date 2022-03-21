@@ -1,3 +1,4 @@
+import { DeleteIcon } from "@chakra-ui/icons";
 import {
   Button,
   Divider,
@@ -18,7 +19,22 @@ import {
   Avatar,
   Badge,
   Link,
+  Popover,
+  Portal,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverBody,
+  PopoverHeader,
+  PopoverFooter,
+  PopoverTrigger,
+  Image,
 } from "@chakra-ui/react";
+//import ModalImage from "react-modal-image";
+
+import ModalImage from "react-modal-image";
+
+import axios from "axios";
 import { useState } from "react";
 
 interface IProps {
@@ -36,45 +52,75 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
     setModal(sent[id]);
     onOpen();
   }
+  async function deleteRequest(id: string) {
+    // const deleteRequest = await axios.delete("/api/serviceRequest/new", {
+    //   data: { id: id },
+    // });
+    onClose();
+    console.log(deleteRequest);
+  }
+
+  function setIndexDelete(event: any, i: number) {
+    const idRequest = sent[i]._id;
+    deleteRequest(idRequest);
+  }
+
   function setIndexModalOnClose() {
     setModal(null);
     onClose();
   }
-  console.log("front requestssend", requests);
+
   return (
     <>
-      <Heading>Publicas</Heading>
-      <Grid templateColumns="repeat(6, 1fr)" gap={6}>
-        <GridItem w="100%" h="10" bg="blue.500">
+      <Grid
+        templateColumns="repeat(6, 1fr)"
+        gap={6}
+        textAlign={"center"}
+        fontWeight={600}
+      >
+        <GridItem w="100%" h="10">
           Name
         </GridItem>
-        <GridItem w="100%" h="10" bg="blue.500">
+        <GridItem w="100%" h="10">
           Categoria
         </GridItem>
-        <GridItem w="100%" h="10" bg="blue.500" colSpan={2}>
+        <GridItem w="100%" h="10" colSpan={2}>
           Descripcion
         </GridItem>
-        <GridItem w="100%" h="10" bg="blue.500">
-          Estado???
+        <GridItem w="100%" h="10">
+          FECHA
         </GridItem>
-        <GridItem w="100%" h="10" bg="blue.500">
-          Informacion
-        </GridItem>
+        <GridItem w="100%" h="10"></GridItem>
       </Grid>
+      <Divider />
       {sent?.map((request: any, index: number) => {
         return (
-          <Box key={index} margin={"10px auto"}>
-            <Divider />
+          <Box key={index}>
             <Grid
               templateColumns="repeat(6, 1fr)"
               gap={6}
-              justifyContent={"center"}
+              textAlign={"center"}
+              alignItems={"center"}
             >
-              <GridItem w="100%" h="10" d={"flex"} alignItems={"center"}>
+              <GridItem
+                w="100%"
+                h="10"
+                d={"flex"}
+                textAlign={"center"}
+                alignItems={"center"}
+                justifyContent={"center"}
+              >
                 <Text>{request.title}</Text>
               </GridItem>
-              <GridItem w="100%" h="10" d={"flex"} alignItems={"center"}>
-                {request.category?.name}
+              <GridItem
+                w="100%"
+                h="10"
+                d={"flex"}
+                alignItems={"center"}
+                textAlign={"center"}
+                justifyContent={"center"}
+              >
+                <Text>{request.category?.name}</Text>
               </GridItem>
               <GridItem
                 w="100%"
@@ -82,28 +128,102 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                 d={"flex"}
                 fontSize={"0.8rem"}
                 alignItems={"center"}
+                textAlign={"justify"}
                 overflowY="auto"
                 m={"5px"}
                 colSpan={2}
               >
                 {request.description}
               </GridItem>
-              <GridItem w="100%" h="10" d={"flex"} alignItems={"center"}>
-                Estado???
+              <GridItem
+                w="100%"
+                h="10"
+                d={"flex"}
+                alignItems={"center"}
+                justifyContent={"center"}
+              >
+                <Flex flexDirection={"column"}>
+                  <Text fontSize={"0.8rem"}>
+                    {request?.createdAt.substring(0, 10)}
+                  </Text>
+                  <Text fontSize={"0.7rem"}>
+                    {request?.createdAt.substring(11, 16)}
+                  </Text>
+                </Flex>
               </GridItem>
-              <GridItem w="100%" h="10" d={"flex"} alignItems={"center"}>
-                <Flex alignItems={"center"}>
-                  <Button
-                    onClick={setIndexModal}
-                    variant="outline"
-                    size="xs"
-                    id={`${index}`}
-                  >
-                    Detalle
-                  </Button>
+              <GridItem
+                w="100%"
+                h="10"
+                minH={"100px"}
+                d={"flex"}
+                alignItems={"center"}
+                justifyContent={"center"}
+              >
+                <Flex flexDirection={"column"}>
+                  <Box m={"2px"}>
+                    <Button
+                      onClick={setIndexModal}
+                      variant="outline"
+                      size="xs"
+                      id={`${index}`}
+                      bg={"medium_green"}
+                    >
+                      Detalle
+                    </Button>
+                  </Box>
+                  <Box m={"2px"} key={index}>
+                    {/* <Button
+                      onClick={setIndexModal}
+                      variant="outline"
+                      size="xs"
+                      id={`${index}`}
+                      bg={"warning_red"}
+                    >
+                      ELIMINAR
+                    </Button> */}
+                    <Popover key={`${index}`}>
+                      <PopoverTrigger>
+                        <Button
+                          variant="outline"
+                          size="xs"
+                          bg={"warning_red"}
+                          rightIcon={<DeleteIcon />}
+                        >
+                          Eliminar
+                        </Button>
+                      </PopoverTrigger>
+                      <Portal>
+                        <PopoverContent>
+                          <PopoverArrow />
+                          <PopoverHeader
+                            fontWeight={"800"}
+                            color={"warning_red"}
+                            textAlign={"center"}
+                          >
+                            AVISO IMPORTANTE
+                          </PopoverHeader>
+                          <PopoverCloseButton />
+                          <PopoverBody>
+                            Si aceptas las confirmacion, la solicitud se
+                            eliminara de la base de datos y no podras
+                            recuperarla.
+                          </PopoverBody>
+                          <PopoverFooter>
+                            <Button
+                              _hover={{ bg: "warning_red" }}
+                              onClick={(e: any) => setIndexDelete(e, index)}
+                            >
+                              CONFIRMAR
+                            </Button>
+                          </PopoverFooter>
+                        </PopoverContent>
+                      </Portal>
+                    </Popover>
+                  </Box>
                 </Flex>
               </GridItem>
             </Grid>
+            <Divider />
           </Box>
         );
       })}
@@ -114,13 +234,15 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
             <ModalCloseButton />
             <ModalBody>
               <Box>
-                <Flex m={"10px"}>
+                <Flex m={"10px"} justifyContent={"center"}>
                   <Avatar src={modal.professionalId?.profilePic} />
                   <Box ml="3">
                     <Text fontWeight="bold">
                       {modal.professionalId?.name || "CATEGORIA"}
                       <Badge ml="1" colorScheme="green">
-                        Premiun?Validado?
+                        {modal.professionalId?.isAuthenticated
+                          ? "Autenticado"
+                          : "Normal"}
                       </Badge>
                     </Text>
                     <Text fontSize="sm">
@@ -129,32 +251,70 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                   </Box>
                 </Flex>
               </Box>
+              <Divider m={"10px auto"} />
               <Heading m={"0 auto"} fontSize={"1rem"} textAlign={"center"}>
                 {modal.title}
               </Heading>
+              <Flex justifyContent={"center"}>
+                <Text m={"0 10px"} fontSize={"0.8rem"}>
+                  {modal.createdAt.substring(0, 10)}
+                </Text>
+                <Text fontSize={"0.8rem"}>
+                  {modal.createdAt.substring(11, 16)}
+                </Text>
+              </Flex>
+              <Divider m={"10px auto"} />
+              <Flex
+                justifyContent={"space-between"}
+                flexDirection={"column"}
+                textAlign={"center"}
+              >
+                <Heading m={"0 auto"} fontSize={"1rem"}>
+                  Ubicacion
+                </Heading>
 
-              <Flex justifyContent={"space-between"} flexDirection={"row"}>
-                <Flex>
-                  <Text>Fecha</Text>
-                </Flex>
-                <Flex>
-                  <Text m={"0 10px"}>{modal.createdAt.substring(0, 10)}</Text>
-                  <Text>{modal.createdAt.substring(11, 16)}</Text>
-                </Flex>
+                <Text m={"0 10px"} fontSize={"0.8rem"}>
+                  {modal.location.formattedAddress}
+                </Text>
+                <Divider m={"10px auto"} />
               </Flex>
-              <Flex justifyContent={"space-between"} flexDirection={"row"}>
-                <Flex>
-                  <Text>Ubicacion</Text>
-                </Flex>
-                <Flex>
-                  <Text m={"0 10px"} fontSize={"0.8rem"}>
-                    {modal.location.formattedAddress}
-                  </Text>
-                </Flex>
+              <Flex
+                justifyContent={"space-between"}
+                flexDirection={"column"}
+                textAlign={"center"}
+              >
+                <Heading m={"0 auto"} fontSize={"1rem"}>
+                  Descripcion
+                </Heading>
+
+                <Text m={"0 10px"} fontSize={"0.8rem"}>
+                  {modal.description}
+                </Text>
               </Flex>
-              <Flex>
-                <Text m={"0 auto"}>Descripcion</Text>
-                <Text>{modal.description}</Text>
+              <Divider />
+              <Flex
+                justifyContent={"space-between"}
+                flexDirection={"column"}
+                textAlign={"center"}
+              >
+                <Heading m={"0 auto"} fontSize={"1rem"} margin={"10px 0"}>
+                  Imagenes
+                </Heading>
+                <Flex>
+                  {modal.images?.map((img: string) => {
+                    return (
+                      <Flex flexWrap={"wrap"} overflowY={"auto"} maxH={"200px"}>
+                        <Flex maxW={"100px"} m={"5px"}>
+                          <ModalImage
+                            small={img}
+                            large={img}
+                            alt={`img-solicitud ${modal.title}`}
+                          />
+                        </Flex>
+                      </Flex>
+                    );
+                  })}
+                </Flex>
               </Flex>
             </ModalBody>
 
