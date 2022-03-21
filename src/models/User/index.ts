@@ -124,9 +124,6 @@ const userSchema = new Schema(
         date: {
           type: String,
         },
-        date: {
-          type: String,
-        },
       },
     ],
     workerData: {
