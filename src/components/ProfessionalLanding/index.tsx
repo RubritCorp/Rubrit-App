@@ -33,9 +33,12 @@ const ProfessionalLanding: React.FC<any> = (props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const user = JSON.parse(props.user);
   const { workerData } = user;
-  const scoreTotal = Math.ceil(user.rating?.reduce((total: any, el: any) => (total += el.score), 0)/ user.rating.length);
-  
-  if (!user) return <Loading />
+  const scoreTotal = Math.ceil(
+    user.rating?.reduce((total: any, el: any) => (total += el.score), 0) /
+      user.rating.length
+  );
+
+  if (!user) return <Loading />;
   return (
     <Layout>
       <Container maxW={"container.xl"}>
@@ -69,22 +72,32 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 <Flex>
                   {workerData.items?.map((cat: any, i: number) => {
                     return (
-                      <Flex flexDirection={"column"} key={i}>
-                        <Text color={"medium_green"}>{`${cat.category.name}`}&nbsp;</Text>
+                      <Flex flexDirection={"column"} key={i} m={"0 5px"}>
+                        <Text color={"medium_green"}>
+                          {`${cat.category.name}`}
+                        </Text>
                       </Flex>
                     );
                   })}
                 </Flex>
                 <Text>{user.address.name}</Text>
                 <Flex flexDirection={"column"}>
-                  <Flex flexDirection={"row"}> 
-                  {Array(scoreTotal).fill(null).map((el: any, index: number) => (  
-                    <Star key={index} size={20} weight="fill" color={theme.colors.medium_green}/>))}
+                  <Flex flexDirection={"row"}>
+                    {scoreTotal &&
+                      Array(scoreTotal)
+                        .fill(null)
+                        ?.map((el: any, index: number) => (
+                          <Star
+                            key={index}
+                            size={20}
+                            weight="fill"
+                            color={theme.colors.medium_green}
+                          />
+                        ))}
                     <Text
                       ml={"0.5rem"}
                       fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
-                    >
-                    </Text>
+                    ></Text>
                   </Flex>
                   <Flex flexDirection={"row"}>
                     <Check size={20} weight="fill" />
@@ -108,7 +121,10 @@ const ProfessionalLanding: React.FC<any> = (props) => {
               </Flex>
               <Flex flexDirection={"column"} alignItems={"center"}>
                 <Link
-                  href={{ pathname: "/request/new", query: { id: `${user._id}` } }}
+                  href={{
+                    pathname: "/request/new",
+                    query: { id: `${user._id}` },
+                  }}
                   passHref
                 >
                   <a>
@@ -278,10 +294,22 @@ const ProfessionalLanding: React.FC<any> = (props) => {
             <Flex flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}>
               <Flex
                 maxH={{ base: "550px", sm: "350px", md: "550px" }}
-                overflowY="auto"
+                overflowY={"auto"}
+                css={{
+                  "&::-webkit-scrollbar": {
+                    width: "4px",
+                  },
+                  "&::-webkit-scrollbar-track": {
+                    width: "6px",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    background: "#2eb67d",
+                    borderRadius: "24px",
+                  },
+                }}
+                p={"10px"}
               >
-                <Comments {...{user}}
-                />
+                <Comments {...{ user }} />
               </Flex>
               <Box borderRadius={"10px"} margin={"2em"}>
                 <Flex
@@ -291,7 +319,6 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   overflowY={"auto"}
                 >
                   {workerData.items?.map((cat: any, index: number) => {
-
                     return (
                       <Flex flexDirection={"column"} key={cat.category.name}>
                         <Heading
