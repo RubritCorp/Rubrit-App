@@ -2,8 +2,9 @@ import { Faders } from 'phosphor-react';
 import { Button, Flex, FlexProps, FormLabel, IconButton, Input, InputGroup, InputRightElement, Select, SelectField, Stack, Text, Wrap, WrapItem } from '@chakra-ui/react';
 import CardProfessional from '../CardProfesional';
 import SearchBarAutocomplete from 'components/CustomFormControls/SearchBarAutocomplete';
+import Loading from '../Loading';
 
-const SearchResults: React.FC<{ results?: any; onOpen: any; onFilter: any; onSearch: any; query: string; setQuery: any; setFilters: any; filters: any;}> = ({ results, onOpen, onSearch, query, setQuery, setFilters, filters }) => {
+const SearchResults: React.FC<{ isLoading: boolean; results?: any; onOpen: any; onFilter: any; onSearch: any; query: string; setQuery: any; setFilters: any; filters: any;}> = ({ isLoading, results, onOpen, onSearch, query, setQuery, setFilters, filters }) => {
   return (
     <Stack paddingX={{ base: "5px", sm: "25px" }}>
       <Flex marginTop='35px' gap='20px' flexWrap={{ base: 'wrap', xl: 'nowrap' }} alignItems='center' justifyContent='space-between'>
@@ -20,10 +21,10 @@ const SearchResults: React.FC<{ results?: any; onOpen: any; onFilter: any; onSea
         </Flex>
       </Flex>
       <Flex>
-        <Text mt='10px'>{results?.length > 0 ? `${results.length} resultados encontrados` : 'No se encontraron resultados'}</Text>
+        <Text mt='10px'>{results?.length > 0 ? `${results.length} resultados encontrados` : isLoading ? null : 'No se encontraron resultados'}</Text>
       </Flex>
       <Wrap p='4' minH='100vh' spacing='10px' justify='center'>
-        {results?.length > 0 && results?.map((prof: any) => <WrapItem key={prof._id}><CardProfessional _id={prof._id} name={prof.name} img={prof.workerData.items[0]?.category?.picture_small} avatar={prof.profilePic} city={prof.address.name} description={prof.description} /></WrapItem>)}
+        {results?.length > 0 ? results?.map((prof: any) => <WrapItem key={prof._id}><CardProfessional _id={prof._id} name={prof.name} img={prof.workerData.items[0]?.category?.picture_small} avatar={prof.profilePic} city={prof.address.name} description={prof.description} /></WrapItem>) : isLoading ? <Loading /> : null}
       </Wrap>
     </Stack>
   );

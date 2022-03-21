@@ -18,6 +18,7 @@ const Search: React.FC<{
   const [ filters, setFilters ] = useState({orderBy: 'DEF'});
   const [ results, setResults ] = useState([]);
   const [ initialResults, setInitialResults ] = useState([]);
+  const [ isLoading, setIsLoading ] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -33,10 +34,15 @@ const Search: React.FC<{
 
   useEffect(() => {
     if (Object.keys(filters).length > 0 && initialResults.length > 0) onFilter();
+    if (initialResults.length === 0) setResults([]);;
   },[filters, initialResults])
 
   function onSearch() {
-    search(query).then(res => setInitialResults(res.data.users));
+    setIsLoading(true);
+    search(query).then(res => {
+      setInitialResults(res.data.users);
+      setIsLoading(false);
+    });
     router.push(`/search`, `/search?query=${query}`, { shallow: true })
   }
 
@@ -54,7 +60,7 @@ const Search: React.FC<{
       </Head>
       <Navbar />
       <SearchWithSideBar isOpen={isOpen} onClose={onClose} filters={filters} setFilters={setFilters}>
-        <SearchResults results={results} onOpen={onOpen} onFilter={onFilter} onSearch={onSearch} filters={filters} setFilters={setFilters} query={query} setQuery={setQuery} />
+        <SearchResults isLoading={isLoading} results={results} onOpen={onOpen} onFilter={onFilter} onSearch={onSearch} filters={filters} setFilters={setFilters} query={query} setQuery={setQuery} />
         <Footer />
       </SearchWithSideBar>
     </Box>
