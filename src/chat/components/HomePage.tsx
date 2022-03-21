@@ -8,10 +8,24 @@ import {
   TabPanels,
   TabPanel,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import Login from "./Authentication/Login";
 import Signup from "./Authentication/Signup";
 
 const HomePage = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    const info = localStorage.getItem("userInfo");
+    console.log("info", info);
+    const userInfo = JSON.parse(info ? info : "null");
+    console.log("info", userInfo);
+
+    if (userInfo) {
+      router.push("/chat/chats");
+    }
+  }, [router]);
   return (
     <Container maxW="xl" centerContent>
       <Box
