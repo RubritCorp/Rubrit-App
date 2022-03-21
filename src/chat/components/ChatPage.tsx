@@ -1,6 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useChat } from "../context/ChatProvider";
 import ChatBox from "./ChatBox";
 import MyChats from "./MyChats";
@@ -8,6 +7,7 @@ import SideDrawer from "./miscellaneous/SideDrawer";
 
 const ChatPage = () => {
   const { user } = useChat();
+  const [fetchAgain, setFetchAgain] = useState<boolean>(false);
   return (
     <div>
       {user && <SideDrawer />}
@@ -15,11 +15,13 @@ const ChatPage = () => {
         display={"flex"}
         justifyContent="space-between"
         w={"100%"}
-        h="91.5%"
+        h="80vh"
         p="aopx"
       >
-        {user && <MyChats />}
-        {user && <ChatBox />}
+        {user && <MyChats fetchAgain={fetchAgain} />}
+        {user && (
+          <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+        )}
       </Box>
     </div>
   );
