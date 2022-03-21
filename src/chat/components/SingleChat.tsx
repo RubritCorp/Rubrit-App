@@ -7,6 +7,7 @@ import {
   Text,
   useToast,
   FormControl,
+  Stack,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { getSender, getSenderFull } from "chat/config/ChatLogic";
@@ -230,10 +231,29 @@ const SingleChat: React.FC<{
               />
             ) : (
               <Box
-                display="flex"
-                flex-direction="column"
-                overflow-y="scroll"
-                scrollbar-width="none"
+                overflowY="auto"
+                css={{
+                  "&::-webkit-scrollbar": {
+                    width: "6px",
+                  },
+                  "&::-webkit-scrollbar-track": {
+                    width: "6px",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    background: "#2EB67D",
+                    borderRadius: "24px",
+                  },
+                  // display: "flex",
+                  // flexDirection: "column",
+                  // overflowY: "scroll",
+                  // scrollbarWidth: "none",
+                }}
+                // style={{
+                //   display: "flex",
+                //   flexDirection: "column",
+                //   overflowY: "scroll",
+                //   scrollbarWidth: "none",
+                // }}
               >
                 <ScrollableChat messages={messages} />
               </Box>

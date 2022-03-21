@@ -13,7 +13,7 @@ const UserListItem: React.FC<{ user: IUserChat; handleFunction: any }> = ({
       bg="#E8E8E8"
       _hover={{
         background: "#38B2AC",
-        color: "white",
+        color: "#fafafa",
       }}
       w="100%"
       d="flex"

@@ -59,7 +59,7 @@ const MyChats: React.FC<{ fetchAgain: boolean }> = ({ fetchAgain }) => {
       flexDir="column"
       alignItems="center"
       p={3}
-      bg="white"
+      bg="#fafafa"
       w={{ base: "100%", md: "31%" }}
       borderRadius="lg"
       borderWidth="1px"
@@ -96,13 +96,27 @@ const MyChats: React.FC<{ fetchAgain: boolean }> = ({ fetchAgain }) => {
         overflowY="hidden"
       >
         {chats ? (
-          <Stack overflowY="scroll">
+          <Stack
+            overflowY="auto"
+            css={{
+              "&::-webkit-scrollbar": {
+                width: "6px",
+              },
+              "&::-webkit-scrollbar-track": {
+                width: "6px",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                background: "#2EB67D",
+                borderRadius: "24px",
+              },
+            }}
+          >
             {chats?.map((chat) => (
               <Box
                 onClick={() => setSelectedChat(chat)}
                 cursor="pointer"
                 bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
-                color={selectedChat === chat ? "white" : "black"}
+                color={selectedChat === chat ? "#fafafa" : "black"}
                 px={3}
                 py={2}
                 borderRadius="lg"
