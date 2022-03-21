@@ -72,9 +72,9 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 <Flex>
                   {workerData.items?.map((cat: any, i: number) => {
                     return (
-                      <Flex flexDirection={"column"} key={i} m={"0 5px"}>
+                      <Flex flexDirection={"column"} key={i}>
                         <Text color={"medium_green"}>
-                          {`${cat.category.name}`}
+                          {`${cat.category.name}`}&nbsp;
                         </Text>
                       </Flex>
                     );
@@ -83,17 +83,16 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 <Text>{user.address.name}</Text>
                 <Flex flexDirection={"column"}>
                   <Flex flexDirection={"row"}>
-                    {scoreTotal &&
-                      Array(scoreTotal)
-                        .fill(null)
-                        ?.map((el: any, index: number) => (
-                          <Star
-                            key={index}
-                            size={20}
-                            weight="fill"
-                            color={theme.colors.medium_green}
-                          />
-                        ))}
+                    {Array(scoreTotal)
+                      .fill(null)
+                      .map((el: any, index: number) => (
+                        <Star
+                          key={index}
+                          size={20}
+                          weight="fill"
+                          color={theme.colors.medium_green}
+                        />
+                      ))}
                     <Text
                       ml={"0.5rem"}
                       fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
@@ -166,8 +165,8 @@ const ProfessionalLanding: React.FC<any> = (props) => {
             </Flex>
           </Flex>
         </Flex>
-        <Container maxW={"container.lg"} margin={"0 auto"}>
-          <Flex margin={"1rem"} flexDirection={"column"} textAlign={"start"}>
+        <Container maxW={"container.xl"}>
+          <Flex flexDirection={"column"}>
             <Heading
               fontSize={{
                 base: "1rem",
@@ -181,14 +180,10 @@ const ProfessionalLanding: React.FC<any> = (props) => {
             <Text fontSize={{ base: "0.9rem", md: "1.2rem", lg: "1.4rem" }}>
               {user.description}
             </Text>
-          </Flex>
-          <Divider margin={"1em 0"}></Divider>
-        </Container>
-        <Container maxW={"container.lg"} p={"0 "} margin={"0 auto"}>
-          <Flex flexDirection={"column"}>
+
+            <Divider margin={"1em 0"}></Divider>
             <Flex
               w={"100%"}
-              justifyContent={"space-between"}
               flexWrap={{
                 base: "wrap",
                 md: "wrap",
@@ -196,40 +191,40 @@ const ProfessionalLanding: React.FC<any> = (props) => {
               }}
             >
               <Stack>
-                <Box margin={"1em 0"}>
-                  <Heading
-                    fontSize={{
-                      base: "1rem",
-                      md: "1.2rem",
-                      lg: "1.5rem",
-                    }}
-                    color={"light_grey_sub"}
-                  >
-                    TRABAJOS REALIZADOS
-                  </Heading>
-                  <Flex
-                    flexDirection={"row"}
-                    flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}
-                  >
-                    {user.workerData.images.map((n: any, i: number) => {
-                      if (i < 4) {
-                        return (
-                          <Image
-                            p={1}
-                            key={i}
-                            src={n}
-                            alt="jobs-pic"
-                            maxW="13em"
-                            borderRadius={"0.3rem"}
-                            marginTop={"1rem"}
-                          />
-                        );
-                      }
-                    })}
-                  </Flex>
-                  <Divider margin={"1em 0"}></Divider>
-                </Box>
-                <Flex flexDirection={"column"} margin={"1rem"}>
+                <Flex flexDirection={"column"}>
+                  <Box margin={"1em 0"}>
+                    <Heading
+                      fontSize={{
+                        base: "1rem",
+                        md: "1.2rem",
+                        lg: "1.5rem",
+                      }}
+                      color={"light_grey_sub"}
+                    >
+                      TRABAJOS REALIZADOS
+                    </Heading>
+                    <Flex
+                      flexDirection={"row"}
+                      flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}
+                    >
+                      {user.workerData.images.map((n: any, i: number) => {
+                        if (i < 3) {
+                          return (
+                            <Image
+                              p={1.5}
+                              key={i}
+                              src={n}
+                              alt="jobs-pic"
+                              maxW="12em"
+                              borderRadius={"0.3rem"}
+                              marginTop={"1rem"}
+                            />
+                          );
+                        }
+                      })}
+                    </Flex>
+                    <Divider margin={"1em 0"}></Divider>
+                  </Box>
                   <Heading
                     fontSize={{
                       base: "1rem",
@@ -242,18 +237,18 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   </Heading>
                   <Flex
                     flexDirection={"row"}
+                    justifyContent={"left"}
                     flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}
                   >
                     {user.workerData.certification.map((n: any, i: number) => {
-                      // console.log(i);
-                      if (i < 4) {
+                      if (i < 3) {
                         return (
                           <Image
-                            p={1}
+                            p={1.5}
                             key={i}
                             src={n}
                             alt="worker-cert"
-                            maxW="13em"
+                            maxW="12em"
                             borderRadius={"0.3rem"}
                             marginTop={"1rem"}
                           />
@@ -264,85 +259,87 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   <Divider margin={"1em 0"}></Divider>
                 </Flex>
               </Stack>
-              <Box marginTop="1em">
-                <Heading
-                  fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
-                  color={"light_grey_sub"}
-                >
-                  UBICACION
-                </Heading>
-
-                <Box
-                  height={{ base: "26em", md: "28em", lg: "30em" }}
-                  width={{ base: "26em", md: "28em", lg: "34em" }}
-                  marginTop="1.2em"
-                >
-                  {user.address.lat && user.address.lng ? (
-                    <Map
-                      location={{
-                        lat: user.address.lat,
-                        lng: user.address.lng,
-                      }}
-                      coverage={user.address.searchRange}
-                    />
-                  ) : (
-                    <Map />
-                  )}
-                </Box>
-              </Box>
-            </Flex>
-            <Flex flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}>
               <Flex
-                maxH={{ base: "550px", sm: "350px", md: "550px" }}
-                overflowY={"auto"}
-                css={{
-                  "&::-webkit-scrollbar": {
-                    width: "4px",
-                  },
-                  "&::-webkit-scrollbar-track": {
-                    width: "6px",
-                  },
-                  "&::-webkit-scrollbar-thumb": {
-                    background: "#2eb67d",
-                    borderRadius: "24px",
-                  },
-                }}
-                p={"10px"}
+                flexDirection={"column"}
+                margin={{ base: "0", md: "0", lg: "1rem" }}
+                justifyContent="center"
               >
-                <Comments {...{ user }} />
+                <Box>
+                  <Heading
+                    fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
+                    color={"light_grey_sub"}
+                    marginLeft="0.6em"
+                  >
+                    UBICACION
+                  </Heading>
+                  <Box
+                    height={{ base: "23em", md: "25em", lg: "27em" }}
+                    width={{ base: "24em", md: "28em", lg: "34em" }}
+                    margin={"1.3em 0 1.7em 1em"}
+                  >
+                    {user.address.lat && user.address.lng ? (
+                      <Map
+                        location={{
+                          lat: user.address.lat,
+                          lng: user.address.lng,
+                        }}
+                        coverage={user.address.searchRange}
+                      />
+                    ) : (
+                      <Map />
+                    )}
+                  </Box>
+                </Box>
               </Flex>
-              <Box borderRadius={"10px"} margin={"2em"}>
-                <Flex
-                  flexDirection={"column"}
-                  padding={"1em"}
-                  boxShadow={"lg"}
-                  overflowY={"auto"}
-                >
-                  {workerData.items?.map((cat: any, index: number) => {
-                    return (
-                      <Flex flexDirection={"column"} key={cat.category.name}>
-                        <Heading
-                          fontSize={{
-                            base: "1rem",
-                            md: "1.2rem",
-                            lg: "1.5rem",
-                          }}
-                          color={"light_grey_sub"}
-                          key={cat.category.name}
-                        >
-                          {cat.category.name}
-                        </Heading>
-                        <Box>
-                          {cat.subcategories?.map((sub: any, index: number) => (
-                            <Text key={index}>{sub.name}</Text>
-                          ))}
-                        </Box>
-                      </Flex>
-                    );
-                  })}
-                </Flex>
-              </Box>
             </Flex>
+            <Container maxW={"container.lg"}>
+              <Flex
+                flexDirection={"row"}
+                justifyContent={"space-evenly"}
+                flexWrap={{ base: "wrap", md: "wrap", lg: "wrap" }}
+                marginBottom={10}
+              >
+                <Flex maxH={"540px"} overflowY="auto">
+                  <Comments {...{ user }} />
+                </Flex>
+                <Box
+                  borderRadius={"10px"}
+                  margin={{ base: "2em", lg: "2em 0 0 10em" }}
+                >
+                  <Flex
+                    flexDirection={"column"}
+                    padding={{ base: "1em", lg: "2em" }}
+                    boxShadow={"lg"}
+                    overflowY={"auto"}
+                  >
+                    {workerData.items?.map((cat: any, index: number) => {
+                      return (
+                        <Flex flexDirection={"column"} key={cat.category.name}>
+                          <Heading
+                            fontSize={{
+                              base: "1rem",
+                              md: "1.2rem",
+                              lg: "1.5rem",
+                            }}
+                            color={"light_grey_sub"}
+                            key={cat.category.name}
+                          >
+                            {cat.category.name}
+                          </Heading>
+                          <Box>
+                            {cat.subcategories?.map(
+                              (sub: any, index: number) => (
+                                <Text key={index}>{sub.name}</Text>
+                              )
+                            )}
+                          </Box>
+                        </Flex>
+                      );
+                    })}
+                  </Flex>
+                </Box>
+              </Flex>
+            </Container>
           </Flex>
         </Container>
       </Container>
