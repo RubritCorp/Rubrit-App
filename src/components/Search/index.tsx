@@ -168,7 +168,7 @@ function SliderInput({ filters, setFilters }: { filters: any, setFilters: any })
         <SliderTrack>
           <SliderFilledTrack />
         </SliderTrack>
-        <SliderThumb fontSize='sm' boxSize='32px' color='black' title='Rango (km)' children={value} />
+        <SliderThumb fontSize='sm' boxSize={6} color='black' title='Rango (km)' children={value} />
       </Slider>
   )
 }
@@ -185,8 +185,8 @@ function RangeSliderInput({ filters, setFilters }: { filters: any, setFilters: a
       <RangeSliderTrack bg='red.100'>
         <RangeSliderFilledTrack bg='gold' />
       </RangeSliderTrack>
-      <RangeSliderThumb boxSize={6} index={0} children={value[0]} />
-      <RangeSliderThumb boxSize={6} index={1} children={value[1]} />
+      <RangeSliderThumb boxSize={6} color='black' index={0} children={value[0]} />
+      <RangeSliderThumb boxSize={6} color='black' index={1} children={value[1]} />
     </RangeSlider>
   );
 }
