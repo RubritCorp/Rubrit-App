@@ -36,7 +36,7 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   return (
-    <Container maxW={"container.xl"} centerContent py={10}>
+    <Container maxW={"container.xl"} centerContent py={2}>
       <Flex>
         <Center py={6}>
           <Box
@@ -97,7 +97,7 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                     {city}
                   </Text>
                 </Stack>
-                <Stack direction={"row"} justify={"center"} spacing={6} marginBottom={8}>
+                <Stack direction={"row"} justify={"center"} spacing={6} marginBottom={4}>
                   <Stack spacing={0} align={"center"}>
                     <Text
                       align={"center"}
@@ -106,8 +106,8 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                       pr={8}
                       color={"green.500"}
                       w={"296px"}
-                      h={"55px"}
-                      // overflow="hidden"
+                      h={"50px"}
+                      overflow="hidden"
                       css={{
                         display: "-webkit-box",
                         ["WebkitBoxOrient"]: "vertical",
@@ -121,10 +121,10 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                 {categories && (
                   <>
                     <Divider mt={3} />
+                    <Box minH={"80px"}>
                     <Text textAlign={"center"} mt={1}>
                       Rubros
                     </Text>
-
                     {categories.map((m: string, i: number) => (
                       <Box
                         key={i}
@@ -139,7 +139,7 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                           {m}
                         </Text>
                       </Box>
-                    ))}
+                    ))}</Box>
                   </>
                 )}
                 <Link href={`/professional/${_id}`} passHref>

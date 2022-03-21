@@ -165,7 +165,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
             </Flex>
           </Flex>
         </Flex>
-        <Container maxW={"container.xl"}>
+            <Container maxW={"container.xl"}>
           <Flex flexDirection={"column"}>
             <Heading
               fontSize={{
@@ -180,8 +180,8 @@ const ProfessionalLanding: React.FC<any> = (props) => {
             <Text fontSize={{ base: "0.9rem", md: "1.2rem", lg: "1.4rem" }}>
               {user.description}
             </Text>
-
-            <Divider margin={"1em 0"}></Divider>
+         
+          <Divider margin={"1em 0"}></Divider>
             <Flex
               w={"100%"}
               flexWrap={{
@@ -190,41 +190,40 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 lg: "nowrap",
               }}
             >
-              <Stack>
-                <Flex flexDirection={"column"}>
-                  <Box margin={"1em 0"}>
-                    <Heading
-                      fontSize={{
-                        base: "1rem",
-                        md: "1.2rem",
-                        lg: "1.5rem",
-                      }}
-                      color={"light_grey_sub"}
-                    >
-                      TRABAJOS REALIZADOS
-                    </Heading>
-                    <Flex
-                      flexDirection={"row"}
-                      flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}
-                    >
-                      {user.workerData.images.map((n: any, i: number) => {
-                        if (i < 3) {
-                          return (
-                            <Image
-                              p={1.5}
-                              key={i}
-                              src={n}
-                              alt="jobs-pic"
-                              maxW="12em"
-                              borderRadius={"0.3rem"}
-                              marginTop={"1rem"}
-                            />
-                          );
-                        }
-                      })}
-                    </Flex>
-                    <Divider margin={"1em 0"}></Divider>
-                  </Box>
+              <Stack><Flex flexDirection={"column"}>
+                <Box margin={"1em 0"}>
+                  <Heading
+                    fontSize={{
+                      base: "1rem",
+                      md: "1.2rem",
+                      lg: "1.5rem",
+                    }}
+                    color={"light_grey_sub"}
+                  >
+                    TRABAJOS REALIZADOS
+                  </Heading>
+                  <Flex
+                    flexDirection={"row"}
+                    flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}
+                  >
+                    {user.workerData.images.map((n: any, i: number) => {
+                      if (i < 3) {
+                        return (
+                          <Image
+                            p={1.5}
+                            key={i}
+                            src={n}
+                            alt="jobs-pic"
+                            maxW="12em"
+                            borderRadius={"0.3rem"}
+                            marginTop={"1rem"}
+                          />
+                        );
+                      }
+                    })}
+                  </Flex>
+                  <Divider margin={"1em 0"}></Divider>
+                </Box>
                   <Heading
                     fontSize={{
                       base: "1rem",
@@ -236,8 +235,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                     DOCUMENTACION
                   </Heading>
                   <Flex
-                    flexDirection={"row"}
-                    justifyContent={"left"}
+                    flexDirection={"row"} justifyContent={"left"}
                     flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}
                   >
                     {user.workerData.certification.map((n: any, i: number) => {
@@ -258,57 +256,48 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   </Flex>
                   <Divider margin={"1em 0"}></Divider>
                 </Flex>
-              </Stack>
-              <Flex
-                flexDirection={"column"}
-                margin={{ base: "0", md: "0", lg: "1rem" }}
-                justifyContent="center"
-              >
-                <Box>
-                  <Heading
-                    fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
-                    color={"light_grey_sub"}
-                    marginLeft="0.6em"
-                  >
-                    UBICACION
-                  </Heading>
-                  <Box
-                    height={{ base: "23em", md: "25em", lg: "27em" }}
-                    width={{ base: "24em", md: "28em", lg: "34em" }}
-                    margin={"1.3em 0 1.7em 1em"}
-                  >
-                    {user.address.lat && user.address.lng ? (
-                      <Map
-                        location={{
-                          lat: user.address.lat,
-                          lng: user.address.lng,
-                        }}
-                        coverage={user.address.searchRange}
-                      />
-                    ) : (
-                      <Map />
-                    )}
-                  </Box>
+              </Stack><Flex flexDirection={"column"} margin={{ base: "0", md: "0", lg: "1rem" }} justifyContent="center">
+              <Box>
+                <Heading
+                  fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
+                  color={"light_grey_sub"}
+                  marginLeft="0.6em"
+                >
+                  UBICACION
+                </Heading>
+                <Box
+                  height={{ base: "23em", md: "25em", lg: "27em" }}
+                  width={{ base: "24em", md: "28em", lg: "34em" }}
+                  margin={"1.3em 0 1.7em 1em"}
+                >
+                  {user.address.lat && user.address.lng ? (
+                    <Map
+                      location={{
+                        lat: user.address.lat,
+                        lng: user.address.lng,
+                      }}
+                      coverage={user.address.searchRange}
+                    />
+                  ) : (
+                    <Map />
+                  )}
                 </Box>
-              </Flex>
+              </Box></Flex>
             </Flex>
             <Container maxW={"container.lg"}>
-              <Flex
-                flexDirection={"row"}
-                justifyContent={"space-evenly"}
-                flexWrap={{ base: "wrap", md: "wrap", lg: "wrap" }}
-                marginBottom={10}
-              >
-                <Flex maxH={"540px"} overflowY="auto">
+              <Flex flexDirection={"row"}
+          justifyContent={"space-evenly"}         
+          flexWrap={{ base: "wrap", md: "wrap", lg: "wrap" }} marginBottom={10}>
+                <Flex
+                  maxH={"540px"}
+                  overflowY="auto"
+                >
                   <Comments {...{ user }} />
                 </Flex>
-                <Box
-                  borderRadius={"10px"}
-                  margin={{ base: "2em", lg: "2em 0 0 10em" }}
-                >
+                <Box borderRadius={"10px"} margin={{ base: "2em", lg: "2em 0 0 10em"}}>
                   <Flex
                     flexDirection={"column"}
-                    padding={{ base: "1em", lg: "2em" }}
+                    padding={{ base: "1em", lg: "2em"}}
                     boxShadow={"lg"}
                     overflowY={"auto"}
                   >

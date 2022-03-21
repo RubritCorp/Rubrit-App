@@ -77,8 +77,6 @@ const WithSubnavigation: React.FC = () => {
             position: "bottom-left",
           });
         }
-      } else {
-        toast.close("verify-account");
       }
     } else {
       toast.close("verify-account");

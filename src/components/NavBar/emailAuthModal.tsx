@@ -11,6 +11,14 @@ const EmailAuthModal: React.FC<{ email: any }> = ({ email }) => {
       setLoading(true);
       await axios.post("/api/auth/emailVerification", { email });
       setLoading(false);
+      toast({
+        title: "¡Hemos reenviado el correo de verificacón!",
+        description: "Revise su casilla de correo para verificar su cuenta.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
     } catch (err) {
       setLoading(false);
       toast({
@@ -18,7 +26,7 @@ const EmailAuthModal: React.FC<{ email: any }> = ({ email }) => {
         status: "error",
         duration: 5000,
         isClosable: true,
-        position: "top-left",
+        position: "bottom-left",
       });
     }
   };
