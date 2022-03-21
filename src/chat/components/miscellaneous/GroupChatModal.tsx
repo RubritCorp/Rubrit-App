@@ -34,7 +34,7 @@ const GroupChatModal: React.FC = ({ children }) => {
   const handleGroup = (userToAdd: IUserChat) => {
     if (selectedUsers.includes(userToAdd)) {
       toast({
-        title: "User already added",
+        title: "Usuario ya agregado",
         status: "warning",
         duration: 5000,
         isClosable: true,
@@ -63,13 +63,12 @@ const GroupChatModal: React.FC = ({ children }) => {
         `${envConfig?.apiUrl}/user?search=${query}`,
         config
       );
-      console.log(data);
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
       toast({
-        title: "Error Occured!",
-        description: "Failed to Load the Search Results",
+        title: "Ocurrió un Error!",
+        description: "Error al cargar los resultados de la búsqueda",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -87,7 +86,7 @@ const GroupChatModal: React.FC = ({ children }) => {
   const handleSubmit = async () => {
     if (!groupChatName || !selectedUsers) {
       toast({
-        title: "Please fill all the feilds",
+        title: "Por favor llene todos los campos",
         status: "warning",
         duration: 5000,
         isClosable: true,

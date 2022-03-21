@@ -51,7 +51,7 @@ const SideDrawer = () => {
   const handleSearch = async () => {
     if (!search) {
       toast({
-        title: "Please Enter something in search",
+        title: "Por favor ingrese algo en la búsqueda",
         status: "warning",
         duration: 5000,
         isClosable: true,
@@ -78,8 +78,8 @@ const SideDrawer = () => {
       setSearchResult(data);
     } catch (error) {
       toast({
-        title: "Error Occured!",
-        description: "Failed to Load the Search Results",
+        title: "Ocurrió un Error!",
+        description: "Error al cargar los resultados de la búsqueda",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -109,7 +109,7 @@ const SideDrawer = () => {
       onClose();
     } catch (error: any) {
       toast({
-        title: "Error fetching the chat",
+        title: "Error al obtener el chat",
         description: error.message,
         status: "error",
         duration: 5000,

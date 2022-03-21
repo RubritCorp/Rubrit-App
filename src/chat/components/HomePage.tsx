@@ -18,9 +18,8 @@ const HomePage = () => {
 
   useEffect(() => {
     const info = localStorage.getItem("userInfo");
-    console.log("info", info);
+
     const userInfo = JSON.parse(info ? info : "null");
-    console.log("info", userInfo);
 
     if (userInfo) {
       router.push("/chat/chats");

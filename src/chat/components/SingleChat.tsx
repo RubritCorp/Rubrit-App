@@ -1,9 +1,11 @@
-import { Box, IconButton, Text, useToast } from "@chakra-ui/react";
-import { getSender } from "chat/config/ChatLogic";
+import { ArrowBackIcon } from "@chakra-ui/icons";
+import { Box, IconButton, Spinner, Text, useToast } from "@chakra-ui/react";
+import { getSender, getSenderFull } from "chat/config/ChatLogic";
 import { FormControl } from "formik-chakra-ui";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useChat } from "../context/ChatProvider";
 import ProfileModal from "./miscellaneous/ProfileModal";
+import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 
 const SingleChat: React.FC<{
   fetchAgain: boolean;
@@ -54,8 +56,8 @@ const SingleChat: React.FC<{
   //     socket.emit("join chat", selectedChat._id);
   //   } catch (error) {
   //     toast({
-  //       title: "Error Occured!",
-  //       description: "Failed to Load the Messages",
+  //       title: "Ocurrió un Error!",
+  //       description: "Error al cargar los Mensajes",
   //       status: "error",
   //       duration: 5000,
   //       isClosable: true,
@@ -87,8 +89,8 @@ const SingleChat: React.FC<{
   //       setMessages([...messages, data]);
   //     } catch (error) {
   //       toast({
-  //         title: "Error Occured!",
-  //         description: "Failed to send the Message",
+  //         title: "Ocurrió un Error!",
+  //         description: "Error al cargar los Mensajes",
   //         status: "error",
   //         duration: 5000,
   //         isClosable: true,
@@ -151,12 +153,13 @@ const SingleChat: React.FC<{
   //     }
   //   }, timerLength);
   // };
+  useEffect(() => {}, [selectedChat, user]);
 
   return (
     <>
-      {selectedChat ? (
+      {selectedChat && selectedChat.users.length > 0 ? (
         <>
-          {/* <Text
+          <Text
             fontSize={{ base: "28px", md: "30px" }}
             pb={3}
             px={2}
@@ -166,6 +169,7 @@ const SingleChat: React.FC<{
             alignItems="center"
           >
             <IconButton
+              aria-label="Show Sender"
               d={{ base: "flex", md: "none" }}
               icon={<ArrowBackIcon />}
               onClick={() => setSelectedChat("")}
@@ -182,7 +186,7 @@ const SingleChat: React.FC<{
                 <>
                   {selectedChat.chatName.toUpperCase()}
                   <UpdateGroupChatModal
-                    fetchMessages={fetchMessages}
+                    // fetchMessages={fetchMessages}
                     fetchAgain={fetchAgain}
                     setFetchAgain={setFetchAgain}
                   />
@@ -200,7 +204,7 @@ const SingleChat: React.FC<{
             borderRadius="lg"
             overflowY="hidden"
           >
-            {loading ? (
+            {/* {loading ? (
               <Spinner
                 size="xl"
                 w={20}
@@ -239,8 +243,8 @@ const SingleChat: React.FC<{
                 value={newMessage}
                 onChange={typingHandler}
               />
-            </FormControl>
-          </Box> */}
+            </FormControl> */}
+          </Box>
         </>
       ) : (
         // to get socket.io on same page

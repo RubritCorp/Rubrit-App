@@ -26,7 +26,7 @@ const Login = () => {
     setLoading(true);
     if (!email || !password) {
       toast({
-        title: "Please Fill all the Feilds",
+        title: "Por favor, llene todos los campos",
         status: "warning",
         duration: 5000,
         isClosable: true,
@@ -52,7 +52,7 @@ const Login = () => {
 
       // console.log(JSON.stringify(data));
       toast({
-        title: "Login Successful",
+        title: "Inicio de sesión correcto",
         status: "success",
         duration: 5000,
         isClosable: true,
@@ -63,7 +63,7 @@ const Login = () => {
       router.push("/chat/chats");
     } catch (error: any) {
       toast({
-        title: "Error Occured!",
+        title: "Ocurrió un Error!",
         description: error.response.data.message,
         status: "error",
         duration: 5000,
