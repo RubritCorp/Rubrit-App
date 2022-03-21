@@ -17,8 +17,8 @@ const Login = () => {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
   const toast = useToast();
-  const [email, setEmail] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -76,7 +76,7 @@ const Login = () => {
 
   return (
     <VStack spacing={"5px"} color="black">
-      <FormControl id="email" isRequired>
+      <FormControl id="emailLogin" isRequired>
         <FormLabel>Email Adress</FormLabel>
         <Input
           value={email}
@@ -85,7 +85,7 @@ const Login = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
       </FormControl>
-      <FormControl id="password" isRequired>
+      <FormControl id="passwordLogin" isRequired>
         <FormLabel>Password</FormLabel>
         <InputGroup>
           <Input
