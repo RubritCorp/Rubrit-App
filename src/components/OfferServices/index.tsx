@@ -196,7 +196,7 @@ const Offerservices: React.FC = () => {
           >
             <SignIn size={50} color="#6bdaae" weight="duotone" />
             <Heading fontSize={"lg"}>1. Sign Up</Heading>
-            <Text>Primero que nada te registras en nuesta app.</Text>
+            <Text>Primero que nada, necesitamos que te registres en nuesta app.</Text>
           </Stack>
           <Stack
             spacing={2}
