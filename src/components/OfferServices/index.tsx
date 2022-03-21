@@ -112,13 +112,11 @@ const Offerservices: React.FC = () => {
 
   return (
     <Layout>
-
-
       <Container centerContent py={10} maxW={"container.xl"}>
         <Heading>POSTULATE Y ENCONTRA TRABAJO</Heading>
         <Text color={"gray.500"} fontSize={"lg"}>
           En nuestra pagina vas a poder postularte y llegar a miles de personas
-          que se encuentran en tu ciudad en busca de tus cualidades
+          que se encuentran en tu ciudad en busca de tus cualidades.
         </Text>
       </Container>
       <Container maxW={"container.xl"} paddingBottom={20}>
@@ -134,9 +132,9 @@ const Offerservices: React.FC = () => {
             <ListChecks size={50} color="#6bdaae" />
             <Heading fontSize={"lg"}>SE TU PROPIO JEFE</Heading>
             <Text>
-              Vas a poder ofrecerte seun el trabajo que realices. Manejar tu
+              Vas a poder ofrecerte segun el trabajo que realices. Manejar tu
               agenda a gusto. Hacerlo como y cuando quieras segun lo acordado
-              con el cliente
+              con el cliente.
             </Text>
           </Stack>
           <Stack
@@ -198,7 +196,7 @@ const Offerservices: React.FC = () => {
           >
             <SignIn size={50} color="#6bdaae" weight="duotone" />
             <Heading fontSize={"lg"}>1. Sign Up</Heading>
-            <Text>Primero que nada te logueas en nuestra aplicacion.</Text>
+            <Text>Primero que nada te registras en nuesta app.</Text>
           </Stack>
           <Stack
             spacing={2}
@@ -210,7 +208,10 @@ const Offerservices: React.FC = () => {
           >
             <UserList size={50} color="#6bdaae" />
             <Heading fontSize={"lg"}> 2. Construi tu perfil</Heading>
-            <Text>selecciona los oficios que sabes hacer.</Text>
+            <Text>
+              Selecciona las categorias y subcategorias en relacion a tus
+              servicios.
+            </Text>
           </Stack>
           <Stack
             spacing={2}
@@ -250,10 +251,10 @@ const Offerservices: React.FC = () => {
             }
           >
             <CalendarCheck size={50} color="#6bdaae" />
-            <Heading fontSize={"lg"}>5. Setea tu calendario</Heading>
+            <Heading fontSize={"lg"}>5. Empeza a trabajar </Heading>
             <Text>
-              Nos indicas cuales son los dias y horarios en los cuales estas
-              disponible para trabjar.
+              Una vez que hayas completados los pasos anteriores ya estas
+              listo/a para empezar a recibir ofertas.
             </Text>
           </Stack>
           <Stack
@@ -267,10 +268,11 @@ const Offerservices: React.FC = () => {
             <Stack direction={"row"} spacing={3}>
               <PersonSimpleRun size={50} color="#6bdaae" />
             </Stack>
-            <Heading fontSize={"lg"}>6. Empeza a trabajar </Heading>
+            <Heading fontSize={"lg"}>6. Buscar ofertas </Heading>
             <Text>
-              Una vez que hayas completados los pasos anteriores ya estas
-              listo/a para empezar a recibir ofertas.
+              Podes comenzar a buscar ofertas en nuestra bolsa de trabajo. Ahi
+              encontraras usuarios que necesitan un servicio especifico y donde
+              tu podras contactarte para realizar el trabajo.
             </Text>
           </Stack>
         </SimpleGrid>
@@ -303,201 +305,186 @@ const Offerservices: React.FC = () => {
                 />
               }
             >
-              <Heading fontSize={"lg"}>¿TENES TU PERFIL DE TRABAJADOR ARMADO?</Heading>
-              <Popover
-
-
-                placement='bottom'
-                closeOnBlur={true}
-              >
+              <Heading fontSize={"lg"}>
+                ¿TENES TU PERFIL DE TRABAJADOR ARMADO?
+              </Heading>
+              <Popover placement="bottom" closeOnBlur={true}>
                 <PopoverTrigger>
                   <Button
                     size="lg"
-                    bg="green.400"
+                    bg={"medium_green"}
                     borderColor="green.100"
                     color={useColorModeValue("white", "gray.700")}
-                    _hover={
-                      {
-                        bg: "green.300",
-                        borderColor: "green.600",
-                      }
-                    }
+                    _hover={{
+                      bg: "green.300",
+                      borderColor: "green.600",
+                    }}
                   >
                     EDITAR MI PERFIL!
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent color='white' bg='blue.800' borderColor='blue.800'>
-                  <PopoverHeader pt={4} fontWeight='bold' border='0'>
+                <PopoverContent
+                  color="white"
+                  bg="blue.800"
+                  borderColor="blue.800"
+                >
+                  <PopoverHeader pt={4} fontWeight="bold" border="0">
                     ARMAR UN BUEN PERFIL
                   </PopoverHeader>
                   <PopoverArrow />
                   <PopoverCloseButton />
                   <PopoverBody>
-                    Para poder mostrar lo que haces, es esencial tener un perfil bien armado. En el vas
-                    a poder setear multiples oficios, cargar fotos , titulos , diplomas y mucho mas.
+                    Para poder mostrar lo que haces, es esencial tener un perfil
+                    bien armado. En el vas a poder setear multiples oficios,
+                    cargar fotos , titulos , diplomas y mucho mas.
                   </PopoverBody>
                   <PopoverFooter
-                    border='0'
-                    d='flex'
-                    justifyContent='flex-end'
+                    border="0"
+                    d="flex"
+                    justifyContent="flex-end"
                     pb={4}
                   >
                     <Button
-                      size='sm'
+                      size="sm"
                       bg="green.400"
                       borderColor="green.100"
                       color={useColorModeValue("white", "gray.700")}
-                      _hover={
-                        {
-                          bg: "green.300",
-                          borderColor: "green.600",
-                        }
-                      }
-                      onClick={() => {
-                        status === "authenticated" ? (
-                          (window.location.href = "/myAccount?site=offerServices")
-                        ) : (
-                          document.getElementById('signInButton')?.click()
-                        )
+                      _hover={{
+                        bg: "green.300",
+                        borderColor: "green.600",
                       }}
-                    >HAGAMOSLO!</Button>
-
+                      onClick={() => {
+                        status === "authenticated"
+                          ? (window.location.href =
+                              "/myAccount?site=offerServices")
+                          : document.getElementById("signInButton")?.click();
+                      }}
+                    >
+                      HAGAMOSLO!
+                    </Button>
                   </PopoverFooter>
                 </PopoverContent>
               </Popover>
-              <Heading fontSize={"lg"}>¿QUERES OBTENER TRABAJOS LO MAS RAPIDO POSIBLE?</Heading>
-              <Popover
-
-
-                placement='bottom'
-                closeOnBlur={true}
-              >
+              <Heading fontSize={"lg"}>
+                ¿QUERES OBTENER TRABAJOS LO MAS RAPIDO POSIBLE?
+              </Heading>
+              <Popover placement="bottom" closeOnBlur={true}>
                 <PopoverTrigger>
                   <Button
                     size="lg"
-                    bg="green.400"
+                    bg={"medium_green"}
                     borderColor="green.100"
                     color={useColorModeValue("white", "gray.700")}
-                    _hover={
-                      {
-                        bg: "green.300",
-                        borderColor: "green.600",
-                      }
-                    }
+                    _hover={{
+                      bg: "green.300",
+                      borderColor: "green.600",
+                    }}
                   >
                     BOLSA DE TRABAJO!
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent color='white' bg='blue.800' borderColor='blue.800'>
-                  <PopoverHeader pt={4} fontWeight='bold' border='0'>
+                <PopoverContent
+                  color="white"
+                  bg="blue.800"
+                  borderColor="blue.800"
+                >
+                  <PopoverHeader pt={4} fontWeight="bold" border="0">
                     MULTIPLES OFERTAS DE TRABAJO!
                   </PopoverHeader>
                   <PopoverArrow />
                   <PopoverCloseButton />
                   <PopoverBody>
-                    En BOLSA DE TRABAJO podras elegir entre varias ofertas que se ajustan
-                    a tu perfil y tu disponibilidad.
+                    En BOLSA DE TRABAJO podras elegir entre varias ofertas que
+                    se ajustan a tu perfil y tu disponibilidad.
                   </PopoverBody>
                   <PopoverFooter
-                    border='0'
-                    d='flex'
-                    justifyContent='flex-end'
+                    border="0"
+                    d="flex"
+                    justifyContent="flex-end"
                     pb={4}
                   >
-
-
                     <Button
-                      size='sm'
+                      size="sm"
                       bg="green.400"
                       borderColor="green.100"
                       color={useColorModeValue("white", "gray.700")}
-                      _hover={
-                        {
-                          bg: "green.300",
-                          borderColor: "green.600",
-                        }}
-                      onClick={() => {
-                        status === "authenticated" ? (
-                          (window.location.href = "/workbag")
-                        ) : (
-                          document.getElementById('signInButton')?.click()
-                        )
+                      _hover={{
+                        bg: "green.300",
+                        borderColor: "green.600",
                       }}
-                    >VAMOS YA!!!</Button>
-
+                      onClick={() => {
+                        status === "authenticated"
+                          ? (window.location.href = "/workbag")
+                          : document.getElementById("signInButton")?.click();
+                      }}
+                    >
+                      VAMOS YA!!!
+                    </Button>
                   </PopoverFooter>
                 </PopoverContent>
               </Popover>
               <Heading fontSize={"lg"}>
                 ¿TE GUSTARIA TENER MAS VISIBILIDAD QUE EL RESTO?
               </Heading>
-              <Popover
-
-
-                placement='bottom'
-                closeOnBlur={true}
-              >
+              <Popover placement="bottom" closeOnBlur={true}>
                 <PopoverTrigger>
                   <Button
                     size="lg"
-                    bg="green.400"
+                    bg={"medium_green"}
                     borderColor="green.100"
                     color={useColorModeValue("white", "gray.700")}
-                    _hover={
-                      {
-                        bg: "green.300",
-                        borderColor: "green.600",
-                      }
-                    }
+                    _hover={{
+                      bg: "green.300",
+                      borderColor: "green.600",
+                    }}
                   >
                     RUBRIT PREMIUM!
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent color='white' bg='blue.800' borderColor='blue.800'>
-                  <PopoverHeader pt={4} fontWeight='bold' border='0'>
+                <PopoverContent
+                  color="white"
+                  bg="blue.800"
+                  borderColor="blue.800"
+                >
+                  <PopoverHeader pt={4} fontWeight="bold" border="0">
                     Mejora tu visibilidad!
                   </PopoverHeader>
                   <PopoverArrow />
                   <PopoverCloseButton />
                   <PopoverBody>
-                    En RUBRIT PREMIUM podras pagar una pequeña subscripcion que te va a ayudar
-                    a mejorar tu visibilidad en la pagina.
+                    En RUBRIT PREMIUM podras pagar una pequeña subscripcion que
+                    te va a ayudar a mejorar tu visibilidad en la pagina.
                   </PopoverBody>
                   <PopoverFooter
-                    border='0'
-                    d='flex'
-                    justifyContent='flex-end'
+                    border="0"
+                    d="flex"
+                    justifyContent="flex-end"
                     pb={4}
                   >
-
-
                     <Button
-                      size='sm'
+                      size="sm"
                       bg="green.400"
                       borderColor="green.100"
                       color={useColorModeValue("white", "gray.700")}
-                      _hover={
-                        {
-                          bg: "green.300",
-                          borderColor: "green.600",
-                        }}
-                      onClick={() => {
-                        status === "authenticated" ? (
-                          (window.location.href = "/myAccount?site=becomePremium")
-                        ) : (
-                          document.getElementById('signInButton')?.click()
-                        )
+                      _hover={{
+                        bg: "green.300",
+                        borderColor: "green.600",
                       }}
-                    >QUIERO SER PREMIUM!</Button>
-
+                      onClick={() => {
+                        status === "authenticated"
+                          ? (window.location.href =
+                              "/myAccount?site=becomePremium")
+                          : document.getElementById("signInButton")?.click();
+                      }}
+                    >
+                      QUIERO SER PREMIUM!
+                    </Button>
                   </PopoverFooter>
                 </PopoverContent>
               </Popover>
             </Stack>
           </Stack>
         </SimpleGrid>
-
-
       </Container>
       <Divider />
       <Stack py={10} spacing={3}>

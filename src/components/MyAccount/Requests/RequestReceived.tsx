@@ -54,7 +54,6 @@ const RequestReceived: React.FC<IProps> = ({ requests }) => {
     //   data: { id: id },
     // });
     onClose();
-    console.log(deleteRequest);
   }
 
   function setIndexDelete(event: any, i: number) {
@@ -66,8 +65,6 @@ const RequestReceived: React.FC<IProps> = ({ requests }) => {
     setModal(null);
     onClose();
   }
-
-  console.log(requests);
 
   return (
     <>
@@ -81,7 +78,7 @@ const RequestReceived: React.FC<IProps> = ({ requests }) => {
           Name
         </GridItem>
         <GridItem w="100%" h="10">
-          Categoria
+          Tipo
         </GridItem>
         <GridItem w="100%" h="10" colSpan={2}>
           Descripcion
@@ -118,9 +115,7 @@ const RequestReceived: React.FC<IProps> = ({ requests }) => {
                 alignItems={"center"}
                 textAlign={"center"}
                 justifyContent={"center"}
-              >
-                <Text>{request.category?.name}</Text>
-              </GridItem>
+              ></GridItem>
               <GridItem
                 w="100%"
                 maxH={"100px"}

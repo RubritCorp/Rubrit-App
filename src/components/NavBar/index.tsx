@@ -211,7 +211,7 @@ const WithSubnavigation: React.FC = () => {
                     <MenuDivider />
                     <Link
                       href={{
-                        pathname: "myAccount",
+                        pathname: "/myAccount",
                         query: { site: "accountSettings" },
                       }}
                       passHref
@@ -225,7 +225,7 @@ const WithSubnavigation: React.FC = () => {
                     <MenuDivider />
                     <Link
                       href={{
-                        pathname: "myAccount",
+                        pathname: "/myAccount",
                         query: { site: "myRequest" },
                       }}
                       passHref
@@ -236,7 +236,7 @@ const WithSubnavigation: React.FC = () => {
                     </Link>
                     <MenuDivider />
                     <Link
-                      href={{ pathname: "myAccount", query: { site: "" } }}
+                      href={{ pathname: "/myAccount", query: { site: "" } }}
                       passHref
                     >
                       <a>
@@ -246,7 +246,7 @@ const WithSubnavigation: React.FC = () => {
                     <MenuDivider />
                     <Link
                       href={{
-                        pathname: "myAccount",
+                        pathname: "/myAccount",
                         query: { site: "offerServices" },
                       }}
                       passHref

@@ -181,7 +181,11 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
               {card?.map((item: any, index: number) => (
                 <Testimonial key={index}>
                   <TestimonialContent>
-                    <Box marginTop={"-6"} marginRight={"-5"} alignSelf={"end"}>
+                    <Flex
+                      marginTop={"-6"}
+                      marginRight={"-5"}
+                      justifyContent={"flex-end"}
+                    >
                       <Button
                         w={"5px"}
                         size={"xs"}
@@ -190,7 +194,7 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
                       >
                         x
                       </Button>
-                    </Box>
+                    </Flex>
                     {/* TESTIMONIAL HEADING */}
                     <Heading
                       as={"h3"}
@@ -209,11 +213,11 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
                     <TestimonialText>{item.testimonialWork}</TestimonialText>
                     <Stack p={3} align={"center"}>
                       <Button
-                        onClick={() =>{
-                          status === "authenticated"? (onOpen())
-                          :
-                          (document.getElementById('signInButton')?.click())
-                          }} //acaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                        onClick={() => {
+                          status === "authenticated"
+                            ? onOpen()
+                            : document.getElementById("signInButton")?.click();
+                        }} //acaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                         bg={"green.500"}
                         _hover={{ bg: "green.400" }}
                         position={"absolute"}
@@ -242,7 +246,6 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
 
           <DrawerBody>
             <Stack spacing={4}>
-            
               <Text color="#6bdaae" mb="8px">
                 {" "}
                 Detalle del trabajo a realizar:{" "}
