@@ -1,41 +1,50 @@
 
 import {
-  IconButton,
   Box,
   CloseButton,
   Flex,
   Icon,
   useColorModeValue,
-  Link,
   Drawer,
   DrawerContent,
   Text,
-  useDisclosure,
   BoxProps,
   FlexProps,
+  Input,
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
+  Stack,
+  RangeSlider,
+  RangeSliderTrack,
+  RangeSliderFilledTrack,
+  RangeSliderThumb,
 } from '@chakra-ui/react';
-import { BellIcon } from '@chakra-ui/icons';
-import { ReactNode, ReactText } from 'react';
+import { MapPin, Star } from 'phosphor-react';
+import { usePlacesWidget } from 'react-google-autocomplete';
+import { ReactNode, useEffect, useState } from 'react';
 
-interface LinkItemProps {
-  name: string;
-  icon: any;
-}
-const LinkItems: Array<LinkItemProps> = [
-  { name: 'Home', icon: BellIcon },
-  { name: 'Trending', icon: BellIcon },
-  { name: 'Explore', icon: BellIcon },
-  { name: 'Favourites', icon: BellIcon },
-  { name: 'Settings', icon: BellIcon },
-];
+// interface LinkItemProps {
+//   name: string;
+//   icon: any;
+// }
+// const LinkItems: Array<LinkItemProps> = [
+//   { name: 'Home', icon: BellIcon },
+//   { name: 'Trending', icon: BellIcon },
+//   { name: 'Explore', icon: BellIcon },
+//   { name: 'Favourites', icon: BellIcon },
+//   { name: 'Settings', icon: BellIcon },
+// ];
 
-export default function SimpleSidebar({ children }: { children: ReactNode }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+export default function SimpleSidebar({ children, isOpen, onClose, filters, setFilters }: { children: ReactNode, isOpen: boolean, onClose: any, filters: any, setFilters: any }) {
   return (
     <Box minH='100vh' bg={useColorModeValue('gray.100', 'gray.900')}>
       <SidebarContent
-        onClose={() => onClose}
+        onClose={onClose}
         display={{ base: 'none', md: 'block' }}
+        filters={filters} 
+        setFilters={setFilters}
       />
       <Drawer
         autoFocus={false}
@@ -45,12 +54,10 @@ export default function SimpleSidebar({ children }: { children: ReactNode }) {
         returnFocusOnClose={false}
         onOverlayClick={onClose}
         size='full'>
-        <DrawerContent>
-          <SidebarContent onClose={onClose} />
+        <DrawerContent zIndex={1}>
+          <SidebarContent onClose={onClose} filters={filters} setFilters={setFilters} />
         </DrawerContent>
       </Drawer>
-      {/* mobilenav */}
-      <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }}>
         {children}
       </Box>
@@ -59,10 +66,29 @@ export default function SimpleSidebar({ children }: { children: ReactNode }) {
 }
 
 interface SidebarProps extends BoxProps {
+  filters: any;
   onClose: () => void;
+  setFilters: any;
 }
 
-const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+const SidebarContent = ({ onClose, filters, setFilters, ...rest }: SidebarProps) => {
+  const { ref }: any = usePlacesWidget({
+    apiKey: 'AIzaSyDlRwG9CITQZ2vO0tJrw-GRzuoCfKYjBzM',
+    options: {
+      types: ['(cities)'],
+    },
+    onPlaceSelected: (place: any) => {
+      if (place?.formatted_address) {
+        let location = {
+          address: place.formatted_address,
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng()
+        };
+        setFilters({ ...filters, location: location });
+      }
+    },
+  });
+
   return (
     <Box
       bg={useColorModeValue('white', 'gray.900')}
@@ -79,61 +105,82 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
-      {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
-          {link.name}
-        </NavItem>
-      ))}
+      { /* NavItems (filters) */ }
+      <NavItem key='location' icon={MapPin}>
+        <Stack>
+          <Input placeholder='Lugar' ref={ref} size='sm' onChange={(e: any) => e.target.value == '' ? setFilters({ ...filters, location: null }) : null } />
+          { filters.location ? <SliderInput filters={filters} setFilters={setFilters} /> : null}
+        </Stack>
+      </NavItem>
+      <NavItem key='rating' icon={Star}>
+        <RangeSliderInput filters={filters} setFilters={setFilters} />
+      </NavItem>
     </Box>
   );
 };
 
 interface NavItemProps extends FlexProps {
   icon: any;
-  children: ReactText;
+  children: any;
 }
 const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
   return (
-    <Link href='#' style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
-      <Flex
-        align='center'
-        p='4'
-        mx='4'
-        borderRadius='lg'
-        role='group'
-        cursor='pointer'
-        _hover={{
-          bg: 'cyan.400',
-          color: 'white',
-        }}
-        {...rest}>
-        {icon && (
-          <Icon
-            mr='4'
-            fontSize='16'
-            _groupHover={{
-              color: 'white',
-            }}
-            as={icon}
-          />
-        )}
-        {children}
-      </Flex>
-    </Link>
+    <Flex
+      align='center'
+      p='4'
+      mx='4'
+      borderRadius='lg'
+      role='group'
+      {...rest}>
+      {icon && (
+        <Icon
+          mr='4'
+          fontSize='16'
+          as={icon}
+        />
+      )}
+      {children}
+    </Flex>
   );
 };
 
-interface MobileProps extends FlexProps {
-  onOpen: () => void;
-}
-const MobileNav = ({ onOpen, ...rest }: MobileProps | any) => {
+function SliderInput({ filters, setFilters }: { filters: any, setFilters: any }) {
+  const [value, setValue] = useState(20)
+  const handleChange = (value: number) => setValue(value)
+
+  useEffect(() => {
+    setFilters({ ...filters, location: { ...filters.location, range: value } });
+  },[value])
+
   return (
-    <IconButton
-      variant='outline'
-      onClick={onOpen}
-      aria-label='open menu'
-      icon={<BellIcon />}
-      {...rest}
-    />
+      <Slider
+        focusThumbOnChange={false}
+        value={value}
+        onChange={handleChange}
+        min={0} max={200}
+      >
+        <SliderTrack>
+          <SliderFilledTrack />
+        </SliderTrack>
+        <SliderThumb fontSize='sm' boxSize='32px' color='black' title='Rango (km)' children={value} />
+      </Slider>
+  )
+}
+
+function RangeSliderInput({ filters, setFilters }: { filters: any, setFilters: any }) {
+  const [ value, setValue] = useState([1,5])
+
+  useEffect(() => {
+    setFilters({ ...filters, rating: value });
+  },[value])
+
+  return (
+    <RangeSlider aria-label={['min', 'max']} defaultValue={[1, 5]} min={1} max={5} onChange={(val) => setValue(val)}>
+      <RangeSliderTrack bg='red.100'>
+        <RangeSliderFilledTrack bg='gold' />
+      </RangeSliderTrack>
+      <RangeSliderThumb boxSize={6} index={0} children={value[0]} />
+      <RangeSliderThumb boxSize={6} index={1} children={value[1]} />
+    </RangeSlider>
   );
-};
+}
