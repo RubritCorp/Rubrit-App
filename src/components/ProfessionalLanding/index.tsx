@@ -5,6 +5,14 @@ import {
   Divider,
   Flex,
   Text,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
   Center,
   Stack,
   Heading,
@@ -49,6 +57,8 @@ const ProfessionalLanding: React.FC<any> = (props) => {
 
   //pagination states
   const [numberPage, setNumberPage] = useState<number>(0);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   if (!user) return <Loading />;
   return (
@@ -250,8 +260,30 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                               backgroundPosition={"center"}
                               backgroundSize={"cover"}
                               borderRadius={7}
+                              onClick={onOpen}
+                              objectFit="cover"
+                              _hover={{ cursor: "zoom-in" }}
                             ></Box>
                           ))}
+                           <Modal isOpen={isOpen} onClose={onClose} size="full">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalCloseButton />
+          <ModalBody>
+            <Flex justifyContent={"center"}>
+              <Image src={workerData.images} alt={`img-solicitud ${workerData.images}`}></Image>
+            </Flex>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+                          <Flex maxW={"120px"} h={"120px"} m={"5px"}>
+      </Flex>
                       </Flex>
                     </Container>
 

@@ -37,6 +37,10 @@ const Services: NextPage<{ category: any; name: string }> = ({
   const premiumUsers = filteredUsers.filter((f) => f.isPremium);
   const nonPremiumUsers = filteredUsers.filter((f) => !f.isPremium);
 
+    const [numberPage, setNumberPage] = useState<number>(0);
+
+
+
   useEffect(() => {
     if (users.length && Object.keys(category).length > 0) {
       var info = JSON.parse(category);
@@ -153,9 +157,11 @@ const Services: NextPage<{ category: any; name: string }> = ({
           </GridItem>
         ))}
       </Grid>
+      
       {filteredUsers.length === 0 ? (
         <Heading>SIN RESULTADO DE BUSQUEDA</Heading>
       ) : null}
+      
       <Flex justifyContent={"center"} m={"10px"}>
         <Link href={"/"}>
           <a>

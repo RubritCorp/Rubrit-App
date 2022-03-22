@@ -139,7 +139,7 @@ export default function GridBlurredBackdrop({ user }: any) {
         mb={10}
         minChildWidth={{ base: "300px", lg: "420px" }}
       >
-        {user?.rating.map((el: any, index: number) => (
+        {!user?.rating.map((el: any, index: number) => (
           <TestimonialCard
             description={el.description}
             score={el.score}
