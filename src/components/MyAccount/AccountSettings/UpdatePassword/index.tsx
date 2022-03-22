@@ -15,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 import { EmailIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 //from modules
-import { useRouter } from "next/router";
 import { Session } from "next-auth/core/types";
 import { Formik } from "formik";
 import { InputControl, ResetButton, SubmitButton } from "formik-chakra-ui";

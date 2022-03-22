@@ -24,8 +24,7 @@ type IRating = {
   description: string;
   score: number;
   date: string;
-}
-
+};
 
 type Items = {
   category: Category;
@@ -41,7 +40,7 @@ export interface IUser {
   phone: string;
   description: string;
   profilePic: string;
-  isPremiun: boolean;
+  isPremium: boolean;
   address: {
     name: string;
     city: string;

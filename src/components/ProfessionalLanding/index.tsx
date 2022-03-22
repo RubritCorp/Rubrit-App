@@ -14,6 +14,7 @@ import {
   Image,
   Grid,
   GridItem,
+  useToast,
 } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { Star, Check, Checks, CheckCircle } from "phosphor-react";
@@ -27,20 +28,28 @@ import Layout from "../layout";
 import Comments from "../Comments";
 import Loading from "../Loading";
 import Map from "../Maps/Map";
-import { Session } from "next-auth/core/types";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 const ProfessionalLanding: React.FC<any> = (props) => {
   const theme = useTheme();
+  const router = useRouter();
+  const toast = useToast();
   const [loading, setLoading] = useState<boolean>(false);
+  const { data: Session } = useSession();
   const user = JSON.parse(props.user);
   const { workerData } = user;
+
   //average rating
+
   const scoreTotal = Math.ceil(
     user.rating?.reduce((total: any, el: any) => (total += el.score), 0) /
       user.rating.length
   );
+
   //pagination states
   const [numberPage, setNumberPage] = useState<number>(0);
+
 
   if (!user) return <Loading />;
   return (
@@ -87,6 +96,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 <Text>{user.address.name}</Text>
                 <Flex flexDirection={"column"}>
                   <Flex flexDirection={"row"}>
+
                     {scoreTotal &&
                       Array(scoreTotal)
                         .fill(null)
@@ -124,33 +134,47 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 </Flex>
               </Flex>
               <Flex flexDirection={"column"} alignItems={"center"}>
-                <Link
-                  href={{
-                    pathname: "/request/new",
-                    query: { id: `${user._id}` },
+
+                <Button
+                  as={"button"}
+                  width={{ base: "150px", md: "200px", lg: "250px" }}
+                  height={{ base: "45px", md: "45px", lg: "45px" }}
+                  borderRadius={"10px"}
+                  bg={"medium_green"}
+                  color={"white"}
+                  fontSize={{ base: "1rem", md: "1.2rem", lg: "1.4rem" }}
+                  _hover={{
+                    transform: "translateY(-2px)",
+                    boxShadow: "lg",
                   }}
-                  passHref
+                  isLoading={loading}
+                  onClick={() => {
+                    if (!Session?.isAuthenticated) {
+                      if (!toast.isActive("no-authenticated")) {
+                        toast({
+                          title: "¡Aún no has verificado tu identidad!",
+                          description:
+                            "Hemos detectado que aún no has verificado tu correo electronico, porfavor revisa tu casilla de correo, si no has recibido el codigo puedes reenviar el mail.",
+                          status: "error",
+                          duration: 9000,
+                          isClosable: true,
+                          position: "bottom-left",
+                          id: "no-authenticated",
+                        });
+                      }
+                      return;
+                    }
+                    router.push({
+                      pathname: "/request/new",
+                      query: { id: `${user._id}` },
+                    });
+                    setLoading(true);
+                  }}
+
                 >
-                  <a>
-                    <Button
-                      as={"button"}
-                      width={{ base: "150px", md: "200px", lg: "250px" }}
-                      height={{ base: "30px", md: "35px", lg: "40px" }}
-                      borderRadius={"10px"}
-                      bg={"medium_green"}
-                      color={"white"}
-                      fontSize={{ base: "1rem", md: "1.2rem", lg: "1.4rem" }}
-                      _hover={{
-                        transform: "translateY(-2px)",
-                        boxShadow: "lg",
-                      }}
-                      isLoading={loading}
-                      onClick={() => setLoading(true)}
-                    >
-                      Pedir Cotizacion
-                    </Button>
-                  </a>
-                </Link>
+                  Pedir Cotizacion
+                </Button>
+
                 <Flex
                   flexDirection={"row"}
                   justifyContent={"center"}
@@ -395,8 +419,42 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 flexWrap={{ base: "wrap", md: "wrap", lg: "wrap" }}
                 marginBottom={10}
               >
+
+                /*<Comments {...{ user }} />
+              </Flex>
+              <Box borderRadius={"10px"} margin={"2em"}>
+                <Flex
+                  flexDirection={"column"}
+                  padding={"1em"}
+                  boxShadow={"lg"}
+                  overflowY={"auto"}
+                >
+                  {workerData.items?.map((cat: any, index: number) => {
+                    return (
+                      <Flex flexDirection={"column"} key={cat.category.name}>
+                        <Heading
+                          fontSize={{
+                            base: "1rem",
+                            md: "1.2rem",
+                            lg: "1.5rem",
+                          }}
+                          color={"light_grey_sub"}
+                          key={cat.category.name}
+                        >
+                          {cat.category.name}
+                        </Heading>
+                        <Box>
+                          {cat.subcategories?.map((sub: any, index: number) => (
+                            <Text key={index}>{sub.name}</Text>
+                          ))}
+                        </Box>
+                      </Flex>
+                    );
+                  })}*/
+
                 <Flex maxH={"540px"} overflowY="auto">
                   <Comments {...{ user }} />
+
                 </Flex>
                 <Box
                   borderRadius={"10px"}

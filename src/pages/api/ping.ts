@@ -88,7 +88,7 @@ const cases: ICases = {
           {
             userComment: "6230b9925fbcf2faa5764432",
             description: "Increible Resolución de problemas, un gran albañil.",
-            score: "4",
+            score: 4,
             date: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
           },
         ],
@@ -179,7 +179,7 @@ const cases: ICases = {
           {
             userComment: "6230b9925fbcf2faa5764432",
             description: "Increible Resolución de problemas, un gran ladron.",
-            score: "4",
+            score: 4,
             date: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
           },
         ],
@@ -262,7 +262,7 @@ const cases: ICases = {
             userComment: "6230b9925fbcf2faa5764432",
             description:
               "Increible Resolución de problemas, un hacedor de cosas.",
-            score: "5",
+            score: 5,
             date: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
           },
         ],
@@ -345,7 +345,7 @@ const cases: ICases = {
             userComment: "6230b9925fbcf2faa5764432",
             description:
               "Increible Colombiano, nunca vi un colombiano tan colombiano.",
-            score: "5",
+            score: 5,
             date: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
           },
         ],
@@ -428,7 +428,7 @@ const cases: ICases = {
           {
             userComment: "6230b9925fbcf2faa5764432",
             description: "Increible Eventero.",
-            score: "1",
+            score: 1,
             date: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
           },
         ],
@@ -484,28 +484,32 @@ const cases: ICases = {
 
     try {
       f.map(async (f) => {
-        await User.create({
-          email: f.email,
-          name: f.name,
-          phone: {
-            diallingCode: f.phone.diallingCode,
-            number: f.phone.number,
+        await User.findOneAndUpdate(
+          {
+            email: f.email,
           },
-          password: await hashPassword(f.password),
-          description: f.description,
-          authCode: f.authCode,
-          withProvider: f.withProvider,
-          isAuthenticated: f.isAuthenticated,
-          profilePic: f.profilePic,
-          isWorker: f.isWorker,
-          isPremium: f.isPremium,
-          payerId: f.payerId,
-          address: { ...f.address },
-          preferences: { ...f.preferences },
-          rating: { ...f.rating },
-          workerData: { ...f.workerData },
-          requests: { ...f.requests },
-        });
+          {
+            name: f.name,
+            phone: {
+              diallingCode: f.phone.diallingCode,
+              number: f.phone.number,
+            },
+            password: await hashPassword(f.password),
+            description: f.description,
+            authCode: f.authCode,
+            withProvider: f.withProvider,
+            isAuthenticated: f.isAuthenticated,
+            profilePic: f.profilePic,
+            isWorker: f.isWorker,
+            isPremium: f.isPremium,
+            payerId: f.payerId,
+            address: { ...f.address },
+            preferences: { ...f.preferences },
+            rating: [...f.rating],
+            workerData: { ...f.workerData },
+            requests: { ...f.requests },
+          }
+        );
       });
 
       /* const user = await User.findOneAndUpdate(

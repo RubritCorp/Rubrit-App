@@ -77,6 +77,19 @@ export const useHelper = (
 
   const onSubmitChangePassword = async (values: DataChangePassword) => {
     setLoading(true);
+    if (values.passwordChange === values.newPassword) {
+      if (!toast.isActive("same-password")) {
+        toast({
+          title: "¡Su nueva contraseña no puede ser igual a la anterior!",
+          status: "warning",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom",
+        });
+      }
+      setLoading(false);
+      return;
+    }
     try {
       await axios.post("/api/user/updatePassword", {
         [isAuthenticated === "true" ? "code" : "password"]:

@@ -65,7 +65,22 @@ const useHelper = ({ user, onClosePreferences }: Props) => {
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setLoading(true);
-
+    if (!user?.isAuthenticated) {
+      setLoading(false);
+      if (!toast.isActive("no-authenticated")) {
+        toast({
+          title: "¡Aún no has verificado tu identidad!",
+          description:
+            "Hemos detectado que aún no has verificado tu correo electronico. Para realizar modificaciones en tu perfil debes confirmar tu identidad.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "bottom-left",
+          id: "no-authenticated",
+        });
+      }
+      return;
+    }
     try {
       await axios.put("/api/user/updatePreferences", {
         email: user.email,

@@ -60,6 +60,7 @@ const EditProfile: React.FC<{
   onCloseEditProfile(): void;
 }> = ({ user, isOpenEditProfile, onCloseEditProfile }) => {
   const {
+    toast,
     image,
     loading,
     countries,
@@ -97,7 +98,24 @@ const EditProfile: React.FC<{
                   colorScheme="red"
                   aria-label="remove Image"
                   icon={<SmallCloseIcon />}
-                  onClick={onOpenDeleteImage}
+                  onClick={() => {
+                    if (!user?.isAuthenticated) {
+                      if (!toast.isActive("no-authenticated")) {
+                        toast({
+                          title: "¡Aún no has verificado tu identidad!",
+                          description:
+                            "Hemos detectado que aún no has verificado tu correo electronico. Para realizar modificaciones en tu perfil debes confirmar tu identidad.",
+                          status: "error",
+                          duration: 9000,
+                          isClosable: true,
+                          position: "bottom-left",
+                          id: "no-authenticated",
+                        });
+                      }
+                      return;
+                    }
+                    onOpenDeleteImage();
+                  }}
                 />
               </Tooltip>
               <Tooltip label="Editar foto">
@@ -111,7 +129,24 @@ const EditProfile: React.FC<{
                   colorScheme="green"
                   aria-label="remove Image"
                   icon={<EditIcon />}
-                  onClick={() => inputFileRef.current?.click()}
+                  onClick={() => {
+                    if (!user?.isAuthenticated) {
+                      if (!toast.isActive("no-authenticated")) {
+                        toast({
+                          title: "¡Aún no has verificado tu identidad!",
+                          description:
+                            "Hemos detectado que aún no has verificado tu correo electronico. Para realizar modificaciones en tu perfil debes confirmar tu identidad.",
+                          status: "error",
+                          duration: 9000,
+                          isClosable: true,
+                          position: "bottom-left",
+                          id: "no-authenticated",
+                        });
+                      }
+                      return;
+                    }
+                    inputFileRef.current?.click();
+                  }}
                 />
               </Tooltip>
             </Avatar>

@@ -13,6 +13,7 @@ import {
   Stack,
   useColorModeValue,
   Divider,
+  useToast,
 } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 //from modules
@@ -50,6 +51,7 @@ interface ICases {
 }
 
 const Index: NextPage = () => {
+  const toast = useToast();
   const router = useRouter();
   const { data: session } = useSession();
   const { site } = router.query;
@@ -59,8 +61,24 @@ const Index: NextPage = () => {
   useEffect(() => {
     const validateSession = async () => {
       const isValid = await getSession();
-      if (!isValid) {
+
+      if (!isValid || (session && !session?.isAuthenticated)) {
         Router.push("/");
+        if (session && !session?.isAuthenticated) {
+          if (!toast.isActive("no-authenticated")) {
+            toast({
+              title: "¡Aún no has verificado tu identidad!",
+              description:
+                "Hemos detectado que aún no has verificado tu correo electronico. Para realizar modificaciones en tu perfil debes confirmar tu identidad.",
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+              position: "bottom-left",
+              id: "no-authenticated",
+            });
+          }
+          return;
+        }
       } else {
         if (site === undefined) {
           setRoute("accountSettings");
@@ -70,7 +88,8 @@ const Index: NextPage = () => {
       }
     };
     validateSession();
-  }, [site]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [site, session]);
 
   const cases: ICases = {
     accountSettings: (session) => {
@@ -86,7 +105,7 @@ const Index: NextPage = () => {
       return session.isWorker ? (
         <UpdateProfesionalProfile {...{ session }} />
       ) : (
-        <ProfessionalForm />
+        <ProfessionalForm {...{ session }} />
       );
     },
     premiumDetails: (session) => {
@@ -155,12 +174,7 @@ export const DrawerOptions: React.FC<{
   payerId: string;
 }> = ({ isOpen, onClose, payerId }) => {
   const { data: session } = useSession();
-  const router = useRouter();
-  useEffect(() => {
-    if (!session) {
-      router.push("/");
-    }
-  }, [router, session]);
+
   return (
     <Drawer {...{ isOpen, onClose }} placement={"left"} size={"md"}>
       <DrawerOverlay />

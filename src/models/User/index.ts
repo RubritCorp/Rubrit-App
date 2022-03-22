@@ -127,6 +127,9 @@ const userSchema = new Schema(
       },
     ],
     workerData: {
+      shortDescription: {
+        type: String,
+      },
       images: [
         {
           type: String,
