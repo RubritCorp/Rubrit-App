@@ -122,7 +122,7 @@ const useHelper = ({ user, onCloseEditProfile }: Props) => {
       user.address.city && user.address.country
         ? `${user.address.city},${user.address.country}`
         : " ",
-    address: user.address.name ? user.address.name : "",
+    address: user.address.name ? user.address.name : " ",
     lat: user.address.lat ? user.address.lat : 0,
     lng: user.address.lng ? user.address.lng : 0,
     searchRange: user.address.searchRange ? user.address.searchRange : 10,
@@ -148,7 +148,22 @@ const useHelper = ({ user, onCloseEditProfile }: Props) => {
 
   const onSubmit = async (values: DataInitialValues) => {
     setLoading(true);
-
+    if (!user?.isAuthenticated) {
+      if (!toast.isActive("no-authenticated")) {
+        toast({
+          title: "¡Aún no has verificado tu identidad!",
+          description:
+            "Hemos detectado que aún no has verificado tu correo electronico. Para realizar modificaciones en tu perfil debes confirmar tu identidad.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "bottom-left",
+          id: "no-authenticated",
+        });
+      }
+      setLoading(false);
+      return;
+    }
     try {
       interface UpdateData {
         name: string;
@@ -209,6 +224,7 @@ const useHelper = ({ user, onCloseEditProfile }: Props) => {
   };
 
   return {
+    toast,
     image,
     loading,
     countries,

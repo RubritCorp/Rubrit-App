@@ -25,13 +25,13 @@ const Code: React.FC = () => {
     const sessionCheck = async () => {
       if (!router.isReady) return;
       if (session && session.isAuthenticated === true) {
-        Router.push(`${envConfig?.host}`);
+        Router.push(`/`);
       } else {
         setIsAlreadyValid(false);
       }
     };
     sessionCheck();
-  }, [router, session]);
+  }, [router.isReady, session]);
 
   const resend = async () => {
     await axios.post("/api/auth/emailVerification", { email });
@@ -48,16 +48,17 @@ const Code: React.FC = () => {
       await axios.get(
         `/api/auth/emailVerification?code=${code}&email=${email}`
       );
+
+      setIsLoading(false);
+      setStatus("resolved");
+      reloadSession();
       toast({
         title: "¡La cuenta ha sido verificada!",
         status: "success",
         duration: 5000,
         isClosable: true,
-        position: "top-left",
+        position: "bottom-left",
       });
-      setIsLoading(false);
-      setStatus("resolved");
-      reloadSession();
     } catch (err) {
       console.log("Error ocurred in EMAIL_CODE VERIFICATION");
       toast({

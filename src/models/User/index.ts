@@ -124,12 +124,12 @@ const userSchema = new Schema(
         date: {
           type: String,
         },
-        date: {
-          type: String,
-        },
       },
     ],
     workerData: {
+      shortDescription: {
+        type: String,
+      },
       images: [
         {
           type: String,

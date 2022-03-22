@@ -14,6 +14,7 @@ import {
   Image,
   Grid,
   GridItem,
+  useToast,
 } from "@chakra-ui/react";
 import { Star, Check, Checks, CheckCircle } from "phosphor-react";
 
@@ -26,16 +27,23 @@ import Layout from "../layout";
 import Comments from "../Comments";
 import Loading from "../Loading";
 import Map from "../Maps/Map";
-import { Session } from "next-auth/core/types";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 const ProfessionalLanding: React.FC<any> = (props) => {
   const theme = useTheme();
+  const router = useRouter();
+  const toast = useToast();
   const [loading, setLoading] = useState<boolean>(false);
+  const { data: Session } = useSession();
   const user = JSON.parse(props.user);
   const { workerData } = user;
-  const scoreTotal = Math.ceil(user.rating?.reduce((total: any, el: any) => (total += el.score), 0)/ user.rating.length);
-  
-  if (!user) return <Loading />
+  const scoreTotal = Math.ceil(
+    user.rating?.reduce((total: any, el: any) => (total += el.score), 0) /
+      user.rating.length
+  );
+
+  if (!user) return <Loading />;
   return (
     <Layout>
       <Container maxW={"container.xl"}>
@@ -70,21 +78,30 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   {workerData.items?.map((cat: any, i: number) => {
                     return (
                       <Flex flexDirection={"column"} key={i}>
-                        <Text color={"medium_green"}>{`${cat.category.name}`}&nbsp;</Text>
+                        <Text color={"medium_green"}>
+                          {`${cat.category.name}`}&nbsp;
+                        </Text>
                       </Flex>
                     );
                   })}
                 </Flex>
                 <Text>{user.address.name}</Text>
                 <Flex flexDirection={"column"}>
-                  <Flex flexDirection={"row"}> 
-                  {Array(scoreTotal).fill(null).map((el: any, index: number) => (  
-                    <Star key={index} size={20} weight="fill" color={theme.colors.medium_green}/>))}
+                  <Flex flexDirection={"row"}>
+                    {Array(scoreTotal)
+                      .fill(null)
+                      .map((el: any, index: number) => (
+                        <Star
+                          key={index}
+                          size={20}
+                          weight="fill"
+                          color={theme.colors.medium_green}
+                        />
+                      ))}
                     <Text
                       ml={"0.5rem"}
                       fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
-                    >
-                    </Text>
+                    ></Text>
                   </Flex>
                   <Flex flexDirection={"row"}>
                     <Check size={20} weight="fill" />
@@ -107,30 +124,45 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 </Flex>
               </Flex>
               <Flex flexDirection={"column"} alignItems={"center"}>
-                <Link
-                  href={{ pathname: "/request/new", query: { id: `${user._id}` } }}
-                  passHref
+                <Button
+                  as={"button"}
+                  width={{ base: "150px", md: "200px", lg: "250px" }}
+                  height={{ base: "45px", md: "45px", lg: "45px" }}
+                  borderRadius={"10px"}
+                  bg={"medium_green"}
+                  color={"white"}
+                  fontSize={{ base: "1rem", md: "1.2rem", lg: "1.4rem" }}
+                  _hover={{
+                    transform: "translateY(-2px)",
+                    boxShadow: "lg",
+                  }}
+                  isLoading={loading}
+                  onClick={() => {
+                    if (!Session?.isAuthenticated) {
+                      if (!toast.isActive("no-authenticated")) {
+                        toast({
+                          title: "¡Aún no has verificado tu identidad!",
+                          description:
+                            "Hemos detectado que aún no has verificado tu correo electronico, porfavor revisa tu casilla de correo, si no has recibido el codigo puedes reenviar el mail.",
+                          status: "error",
+                          duration: 9000,
+                          isClosable: true,
+                          position: "bottom-left",
+                          id: "no-authenticated",
+                        });
+                      }
+                      return;
+                    }
+                    router.push({
+                      pathname: "/request/new",
+                      query: { id: `${user._id}` },
+                    });
+                    setLoading(true);
+                  }}
                 >
-                  <a>
-                    <Button
-                      as={"button"}
-                      width={{ base: "150px", md: "200px", lg: "250px" }}
-                      height={{ base: "30px", md: "35px", lg: "40px" }}
-                      borderRadius={"10px"}
-                      bg={"medium_green"}
-                      color={"white"}
-                      fontSize={{ base: "1rem", md: "1.2rem", lg: "1.4rem" }}
-                      _hover={{
-                        transform: "translateY(-2px)",
-                        boxShadow: "lg",
-                      }}
-                      isLoading={loading}
-                      onClick={() => setLoading(true)}
-                    >
-                      Pedir Cotizacion
-                    </Button>
-                  </a>
-                </Link>
+                  Pedir Cotizacion
+                </Button>
+
                 <Flex
                   flexDirection={"row"}
                   justifyContent={"center"}
@@ -280,8 +312,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 maxH={{ base: "550px", sm: "350px", md: "550px" }}
                 overflowY="auto"
               >
-                <Comments {...{user}}
-                />
+                <Comments {...{ user }} />
               </Flex>
               <Box borderRadius={"10px"} margin={"2em"}>
                 <Flex
@@ -291,7 +322,6 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   overflowY={"auto"}
                 >
                   {workerData.items?.map((cat: any, index: number) => {
-
                     return (
                       <Flex flexDirection={"column"} key={cat.category.name}>
                         <Heading

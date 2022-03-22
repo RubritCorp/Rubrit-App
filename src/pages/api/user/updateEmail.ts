@@ -40,6 +40,12 @@ const cases: ICases = {
 
     try {
       const user = await User.findOne({ email: email });
+      const emailExist = await User.findOne({ email: newEmail });
+
+      if (emailExist)
+        return res
+          .status(200)
+          .json({ message: "Ya existe una cuenta con ese correo" });
 
       if (!user) return res.status(404).json({ message: "User not found" });
 
@@ -47,11 +53,6 @@ const cases: ICases = {
 
       if (!isValid)
         return res.status(404).json({ message: "Password is not valid" });
-
-      const verification = await User.findOne({ email: newEmail });
-
-      if (verification)
-        return res.status(404).json({ message: "User already exists" });
 
       const createCode = () => {
         return Math.floor(
@@ -65,6 +66,7 @@ const cases: ICases = {
 
       user.email = newEmail;
       user.authCode = await hashCode(code);
+      user.isAuthenticated = false;
       user.save();
 
       const client: any = new SMTPClient({
@@ -99,12 +101,13 @@ const cases: ICases = {
         <p style="text-align:center">Hemos detectado que decidio modificar su correo electronico!. Porfavor confirma tu identidad clickeando en el siguiente link!</p>
         <div style="width: 100%;display: flex;justify-content: center;height: 3rem;align-items: center;" >
           <div style="width: max-content;height: 2.5rem;border-radius: 8px;background-color: #2EB67D;display: flex;justify-content: center;align-items: center;margin:auto;">
-            <a href=${process.env.CALLBACK_REDIRECT_EMAIL_AUTH}code=${code}&email=${newEmail} style="color: #fafafa;text-decoration: none;margin:auto;padding-left:1rem;padding-right:1rem;">¡Verifiquemos tu nuevo mail!</a>
+          <a href=${process.env.CALLBACK_REDIRECT_EMAIL_AUTH}code=${code}&email=${newEmail} style="color: #fafafa;text-decoration: none;margin:auto;padding-left:1rem;padding-right:1rem;">¡Verifiquemos tu nuevo mail!</a>
           </div>
         </div>
       </div>
     </div>
   </div>`,
+              alternative: true,
             },
           ],
         },

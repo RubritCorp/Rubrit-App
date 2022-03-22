@@ -22,7 +22,9 @@ const NearProfesionals: React.FC = () => {
   const { data: Session, status: auth } = useSession();
   const [slider, setSlider] = useState<Slider | null>(null);
 
-  const cardsToSlider = users.slice(0, 10).length;
+  const premiumUsers = users.filter((f) => f.isPremium);
+  const nonPremiumUsers = users.filter((f) => !f.isPremium);
+  const cardsToSlider = [...premiumUsers, ...nonPremiumUsers].slice(0, 10);
 
   const settings = {
     dots: true,
@@ -30,7 +32,7 @@ const NearProfesionals: React.FC = () => {
     autoplay: true,
     speed: 500,
     autoplaySpeed: 5000,
-    slidesToShow: cardsToSlider <= 5 ? cardsToSlider : 5,
+    slidesToShow: cardsToSlider.length <= 5 ? cardsToSlider.length : 5,
     slidesToScroll: 1,
     responsive: [
       {
@@ -38,7 +40,7 @@ const NearProfesionals: React.FC = () => {
         settings: {
           centerMode: true,
           centerPadding: "10px",
-          slidesToShow: cardsToSlider <= 4 ? cardsToSlider : 4,
+          slidesToShow: cardsToSlider.length <= 4 ? cardsToSlider.length : 4,
           dots: true,
         },
       },
@@ -47,7 +49,7 @@ const NearProfesionals: React.FC = () => {
         settings: {
           centerMode: true,
           centerPadding: "10px",
-          slidesToShow: cardsToSlider <= 3 ? cardsToSlider : 3,
+          slidesToShow: cardsToSlider.length <= 3 ? cardsToSlider.length : 3,
           dots: true,
         },
       },
@@ -140,19 +142,18 @@ const NearProfesionals: React.FC = () => {
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
         {status === "true" || status === "false"
           ? [1, 2, 3, 4, 5].map((m, i: number) => <Skeletons key={i} />)
-          : users
-              ?.slice(0, 10)
-              ?.map((item, index: number) => (
-                <CardProfesional
-                  key={index}
-                  _id={item._id}
-                  name={item.name}
-                  img={item.workerData.items[0]?.category.picture_small}
-                  avatar={item.profilePic}
-                  city={item.address.name}
-                  description={item.description}
-                />
-              ))}
+          : cardsToSlider?.map((item, index: number) => (
+              <CardProfesional
+                key={index}
+                _id={item._id}
+                name={item.name}
+                img={item.workerData.items[0]?.category.picture_small}
+                avatar={item.profilePic}
+                city={item.address.name}
+                description={item.description}
+                isPremium={item.isPremium}
+              />
+            ))}
       </Slider>
     </Box>
   );

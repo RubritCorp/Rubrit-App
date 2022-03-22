@@ -15,6 +15,7 @@ import {
   MenuItem,
   MenuList,
   MenuDivider,
+  useToast,
 } from "@chakra-ui/react";
 import {
   EditIcon,
@@ -35,6 +36,7 @@ import Link from "next/link";
 const MiPerfil: React.FC<{
   user: Session;
 }> = ({ user }) => {
+  const toast = useToast();
   const {
     isOpen: isOpenUpdateDescription,
     onOpen: onOpenUpdateDescription,
@@ -64,9 +66,9 @@ const MiPerfil: React.FC<{
         src={user.image}
         name={user.name}
         borderRadius={10}
-        w={180}
-        h={180}
-        marginTop={10}
+        w={220}
+        h={220}
+        marginTop={3}
       />
 
       <Text
@@ -101,7 +103,24 @@ const MiPerfil: React.FC<{
           flexDirection={"column"}
           w={"33%"}
           cursor={"pointer"}
-          onClick={onOpenUpdateDescription}
+          onClick={() => {
+            if (!user?.isAuthenticated) {
+              if (!toast.isActive("no-authenticated")) {
+                toast({
+                  title: "¡Aún no has verificado tu identidad!",
+                  description:
+                    "Hemos detectado que aún no has verificado tu correo electronico. Para realizar modificacion en tu perfil debes confirmar tu identidad.",
+                  status: "error",
+                  duration: 9000,
+                  isClosable: true,
+                  position: "bottom-left",
+                  id: "no-authenticated",
+                });
+              }
+              return;
+            }
+            onOpenUpdateDescription();
+          }}
         >
           <Button leftIcon={<StarIcon />} iconSpacing={0} w={"max-content"} />
           <Text
@@ -251,17 +270,22 @@ const MiPerfil: React.FC<{
         <Alert status="warning" flexDirection={"column"} borderRadius={10}>
           <Flex>
             <AlertIcon />
-            Recordá que debes completar tu perfil antes de poder disfrutar todo
-            lo que tenemos para ofrecerte
+            {!user.isAuthenticated
+              ? "Recordá que debes verificar tu identidad, revisa tu casilla de correo, si aún no has recibido el correo puedes reenviarlo."
+              : "Recordá que debes completar tu perfil antes de poder disfrutar todo lo que tenemos para ofrecerte"}
           </Flex>
-          <Button
-            leftIcon={<EditIcon />}
-            w={"100%"}
-            variant={"ghost"}
-            onClick={() => onOpenEditProfile()}
-          >
-            Completar Perfil
-          </Button>
+          {user.isAuthenticated && (
+            <Button
+              leftIcon={<EditIcon />}
+              w={"100%"}
+              variant={"ghost"}
+              onClick={() => {
+                onOpenEditProfile();
+              }}
+            >
+              Completar Perfil
+            </Button>
+          )}
         </Alert>
       )}
     </Flex>

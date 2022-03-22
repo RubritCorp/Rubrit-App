@@ -119,7 +119,7 @@ const Map: React.FC<{ location?: ILocation; coverage?: number }> = ({
       //marker
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [Session]);
+  }, [Session, location.lat, location.lng, coverage]);
   useEffect(() => {
     if (mapObject) {
       if (marker.current) {
@@ -170,7 +170,7 @@ const Map: React.FC<{ location?: ILocation; coverage?: number }> = ({
       rangeCircle.current.setMap(mapObject);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mapObject, Session]);
+  }, [mapObject, Session, location.lat, location.lng, coverage]);
   return <div ref={googlemap} id="map" className={styles.map} />;
 };
 

@@ -1,142 +1,285 @@
+//from modules
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useToast } from "@chakra-ui/react";
 import * as Yup from "yup";
-import { useSession } from "next-auth/react";
-import { useCategories } from "../../../Provider/CategoriesProvider";
-import { useState } from "react";
+//from chakra
+import { useToast } from "@chakra-ui/react";
+//from configs
 import envConfig from "../../../../next-env-config";
+//types
+import { Session } from "next-auth/core/types";
+import { Types } from "mongoose";
+//from providers
+import { useCategories } from "Provider/CategoriesProvider";
 
-export const useHelper = () => {
-  const { categories } = useCategories();
-  const { data: session } = useSession();
+type Props = {
+  session: Session;
+};
+
+interface ServiceRange {
+  city: string;
+  addressName: string;
+  lat: number;
+  lng: number;
+  rangeCoverage: number;
+}
+
+export const useHelper = ({ session }: Props) => {
   const toast = useToast();
-  const [values, setValues] = useState<any>({
-    description: "",
+  const { categories } = useCategories();
+  const [loading, setLoading] = useState<boolean>(false);
+
+  false;
+  const [certificationImages, setCertificationImages] = useState<string[]>([]);
+  const [serviceImages, setServicesImages] = useState<string[]>([]);
+  const [userCategories, setUserCategories] = useState<any>({});
+  const [userCategoriesAsArray, setUserCategoriesAsArray] = useState<
+    { category: string; subcategories: string[] }[]
+  >([]);
+  const [serviceRange, setServiceRange] = useState<ServiceRange>({
+    addressName: session.address?.name ? session.address.name : "",
+    city:
+      session.address?.city && session.address?.country.length
+        ? `${session.address.city} ${session.address.country}`
+        : "",
+    lat: session.address?.lat > 0 ? session.address.lat : 0,
+    lng: session.address?.lng > 0 ? session.address.lng : 0,
     rangeCoverage: 0,
-    images: [],
-    categories: [],
-    certification: [],
   });
+
+  useEffect(() => {
+    interface catAsArray {
+      category: string;
+      subcategories: string[];
+    }
+
+    const aux: catAsArray[] = [];
+    Object.entries<[string, [string]]>(userCategories).map((m) => {
+      let obj: catAsArray = {
+        category: "",
+        subcategories: [],
+      };
+      categories.filter((f) => {
+        if (f._id.toString() === m[0]) {
+          obj.category = f.name;
+          f.subcategories.map((ms) => {
+            if (m[1] && m[1].includes(`${ms._id}`)) {
+              obj.subcategories.push(ms.name);
+            }
+          });
+        }
+      });
+      aux.push(obj);
+    });
+    setUserCategoriesAsArray([...aux]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userCategories]);
+
+  const reloadSession = () => {
+    const event = new Event("visibilitychange");
+    document.dispatchEvent(event);
+  };
 
   interface DataInitialValues {
     description: string;
-    rangeCoverage: number;
-    images?: string[];
-    categories: string[];
-    certification?: string[];
+    shortDescription: string;
   }
 
   const initialValues: DataInitialValues = {
     description: "",
-    rangeCoverage: 0,
-    images: [],
-    categories: [],
-    certification: [],
+    shortDescription: "",
   };
 
   const validationSchema = Yup.object({
-    description: Yup.string().required("Una descripcion es requerida"),
-    rangeCoverage: Yup.number()
-
-      .test({
-        message: "La distancia minima es de 5km",
-        test: (n: any) => n >= 5,
-      })
-      .required("El rango de cobertura es requerido"),
+    description: Yup.string()
+      .required("Una descripcion es requerida")
+      .min(
+        10,
+        "El mínimo de caracteres admitidos es de 10, pero esmerate un poco mas!"
+      )
+      .max(
+        250,
+        "Dispones de un máximo de 250 caracteres, usalos con sabiduria!"
+      ),
+    shortDescription: Yup.string()
+      .required("Una descripcion es requerida")
+      .min(
+        10,
+        "El mínimo de caracteres admitidos es de 10, pero esmerate un poco mas!"
+      )
+      .max(
+        100,
+        "Dispones de un máximo de 100 caracteres, usalos con sabiduria!"
+      ),
   });
 
-  const handleOnSubmit = async (event: any, values: any) => {
-    event.preventDefault();
-    let categoriesArray: any[] = [];
-    const { description, rangeCoverage, images, certification } = values;
-    for (let val in values) {
-      if (Array.isArray(values[val]) && val !== "images") {
-        let obj = { name: val, subcategories: values[val] };
-        if (obj.subcategories.length > 0) {
-          categoriesArray.push({ name: val, subcategories: values[val] });
-        }
-      }
-    }
+  const blobToFiles = async (images: string[], typeImages: string) => {
+    let blobImages: any = images.map(
+      async (m: string) =>
+        await fetch(m)
+          .then((r) => r.blob())
+          .then(
+            (blobFile) =>
+              new File(
+                [blobFile],
+                `${session._id}-${Math.floor(
+                  Math.random() * (1000 - 1) + 1
+                )}ceritification.png`,
+                {
+                  type: "image/png",
+                }
+              )
+          )
+    );
+    blobImages = await Promise.all(blobImages);
 
-    let finalValues = {
-      description,
-      rangeCoverage,
-      images,
-      categoriesArray,
-      certification,
-    };
-
-    const formData = new FormData();
-    formData.append("path", `users/${session!._id}/files/form/images`);
-    formData.append("title", "imagenes");
-
-    const formDataCertification = new FormData();
-    formDataCertification.append(
+    let formData = new FormData();
+    formData.append(
       "path",
-      `users/${session!._id}/files/form/certification`
+      `users/${session!._id}/files/form/${
+        typeImages === "certification" ? "certification" : "services"
+      }`
     );
-    formDataCertification.append("title", "certification");
+    formData.append(
+      "title",
+      `${typeImages === "certification" ? "certification" : "images"}`
+    );
 
-    if (finalValues.images) {
-      for (let i = 0; i < finalValues.images.length; i++) {
-        formData.append("files", finalValues.images[i] as any);
-      }
-    }
-    if (finalValues.certification) {
-      for (let i = 0; i < finalValues.certification.length; i++) {
-        formDataCertification.append(
-          "files",
-          finalValues.certification[i] as any
-        );
-      }
+    for (let i = 0; i < blobImages.length; i++) {
+      formData.append("files", blobImages[i] as any);
     }
 
-    const imagesWorks = await axios.post(
+    const { data } = await axios.post(
       `${envConfig?.apiUrl}/aws/upload-files`,
-      formData
+      formData,
+      {
+        headers: {
+          accept: "application/json",
+          "content-type": "multipart/form-data",
+        },
+      }
     );
+    return data.urls;
+  };
 
-    const imagesCertification = await axios.post(
-      `${envConfig?.apiUrl}/aws/upload-files`,
-      formDataCertification
-    );
+  const onSubmit = async (values: DataInitialValues) => {
+    setLoading(true);
+    if (values.description.length < 10 || values.shortDescription.length < 10) {
+      if (!toast.isActive("error-description")) {
+        toast({
+          title: "Debes rellenar las descripciones para poder continuar.",
+          status: "warning",
+          duration: 9000,
+          isClosable: true,
+          id: "error-description",
+        });
+      }
+      setLoading(false);
+      return;
+    }
+    if (Object.keys(userCategories).length < 1) {
+      if (!toast.isActive("error-categories")) {
+        toast({
+          title:
+            "Las categorias no pueden estar vacias, elige al menos una para continuar.",
+          status: "warning",
+          duration: 9000,
+          isClosable: true,
+          id: "error-categories",
+        });
+      }
+      setLoading(false);
+      return;
+    }
+    if (
+      Object.values(serviceRange).includes("") ||
+      Object.values(serviceRange).includes(0)
+    ) {
+      if (!toast.isActive("error-service-range")) {
+        toast({
+          title:
+            "El rango de cobertura esta incompleto, rellene el formulario antes de continuar.",
+          status: "warning",
+          duration: 9000,
+          isClosable: true,
+          id: "error-service-range",
+        });
+      }
+      setLoading(false);
+      return;
+    }
 
     try {
-      const data = await axios.put("/api/user/updateToProfessional", {
-        id: session!._id,
-        categories: finalValues.categoriesArray,
-        images: imagesWorks.data.urls,
-        description: finalValues.description,
-        rangeCoverage: finalValues.rangeCoverage,
-        certification: imagesCertification.data.urls,
-      });
+      interface DataFinalValues {
+        _id: Types.ObjectId;
+        certification?: string[];
+        services?: string[];
+        description: string;
+        shortDescription: string;
+        categories: any;
+        serviceRange: ServiceRange;
+      }
 
-      setValues({
+      const finalValues: DataFinalValues = {
+        _id: session._id,
+        description: values.description,
+        shortDescription: values.shortDescription,
+        categories: userCategories,
+        serviceRange,
+      };
+
+      if (certificationImages.length >= 1) {
+        let certUrls = await blobToFiles(certificationImages, "certification");
+        finalValues["certification"] = certUrls;
+      }
+      if (serviceImages.length >= 1) {
+        let certUrls = await blobToFiles(serviceImages, "images");
+        finalValues["services"] = certUrls;
+      }
+
+      await axios.put("/api/user/updateToProfessional", {
         ...finalValues,
-        images: imagesWorks.data.urls,
-        certification: imagesCertification.data.urls,
       });
-
       toast({
-        title: `¡Felicidades!`,
-        description: "Tu perfil como profesional fue creado con exito.",
+        title: "Felicitaciones, tu perfil profesional fue creado con exito.",
         status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
-    } catch (err) {
-      console.log(err);
-      toast({
-        title: "¡Lo Sentimos!.",
-        description: "Hubo un error en configurar la cuenta.",
-        status: "error",
         duration: 9000,
         isClosable: true,
       });
+      reloadSession();
+      setLoading(false);
+    } catch (err) {
+      if (!toast.isActive("error-sending-form")) {
+        toast({
+          title:
+            "Ocurrio un error al enviar el formulario, intentalo de nuevo, si el error persiste no dude en contactarnos.",
+          status: "warning",
+          duration: 9000,
+          isClosable: true,
+          id: "error-sending-form",
+        });
+      }
+      setLoading(false);
+      return;
     }
   };
 
-  return { initialValues, validationSchema, handleOnSubmit, values };
+  return {
+    loading,
+    categories,
+    serviceRange,
+    serviceImages,
+    initialValues,
+    userCategories,
+    validationSchema,
+    certificationImages,
+    userCategoriesAsArray,
+    setCertificationImages,
+    setUserCategories,
+    setServicesImages,
+    setServiceRange,
+    onSubmit,
+  };
 };
 
 export default useHelper;

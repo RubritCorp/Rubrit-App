@@ -10,6 +10,7 @@ const useHelper = (session: Session) => {
   const toast = useToast();
   const [show, setShow] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [disabled, setDisabled] = useState<boolean>(false);
 
   interface DataNewPassword {
     createPassword: string;
@@ -58,6 +59,7 @@ const useHelper = (session: Session) => {
           isClosable: true,
           position: "bottom",
         });
+        setDisabled(true);
       } else {
         toast({
           title: "¡Su contraseña fue modificada!",
@@ -86,6 +88,7 @@ const useHelper = (session: Session) => {
   return {
     show,
     loading,
+    disabled,
     initialValuesNewPassword,
     validationSchemaNewPassword,
     onSubmitCreatePassword,

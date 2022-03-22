@@ -14,6 +14,9 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useState } from "react";
+//assets
+import Premium from "assets/premium.png";
+import { CheckIcon, StarIcon } from "@chakra-ui/icons";
 
 interface CardFindProfesionalProps {
   img: string;
@@ -23,6 +26,7 @@ interface CardFindProfesionalProps {
   avatar: string;
   description: string;
   categories?: string[];
+  isPremium: boolean;
 }
 
 const CardProfesional: React.FC<CardFindProfesionalProps> = ({
@@ -33,11 +37,27 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
   city,
   description,
   categories,
+  isPremium,
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   return (
     <Container maxW={"container.xl"} centerContent py={2}>
-      <Flex>
+      <Flex position={"relative"}>
+        {isPremium === true && (
+          <Flex
+            position={"absolute"}
+            top={"0"}
+            right={"-15px"}
+            w={"3.5rem"}
+            h={"3.5rem"}
+            borderRadius={"50%"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            bg={"#efb810"}
+          >
+            <StarIcon color={"#fafafa"} boxSize={"2rem"} />
+          </Flex>
+        )}
         <Center py={6}>
           <Box
             key={name}
@@ -82,6 +102,9 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                     }}
                   >
                     {name}
+                    {isPremium === true && (
+                      <CheckIcon color={"medium_green"} ml={2} mb={1} />
+                    )}
                   </Heading>
                   <Text
                     color={"gray.500"}
@@ -97,7 +120,12 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                     {city}
                   </Text>
                 </Stack>
-                <Stack direction={"row"} justify={"center"} spacing={6} marginBottom={4}>
+                <Stack
+                  direction={"row"}
+                  justify={"center"}
+                  spacing={6}
+                  marginBottom={4}
+                >
                   <Stack spacing={0} align={"center"}>
                     <Text
                       align={"center"}
@@ -122,25 +150,35 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                   <>
                     <Divider mt={3} />
                     <Box minH={"80px"}>
-                    <Text textAlign={"center"} mt={1}>
-                      Rubros
-                    </Text>
-                    {categories.map((m: string, i: number) => (
-                      <Box
-                        key={i}
-                        bg={"green.100"}
-                        borderRadius={5}
-                        _hover={{
-                          textDecoration: "none",
-                          color: "green.400",
-                        }}
-                      >
-                        <Text textAlign={"center"} mt={1}>
-                          {m}
-                        </Text>
-                      </Box>
-                    ))}</Box>
+                      <Text textAlign={"center"} mt={1}>
+                        Rubros
+                      </Text>
+                      {categories.map((m: string, i: number) => (
+                        <Box
+                          key={i}
+                          bg={"green.100"}
+                          borderRadius={5}
+                          _hover={{
+                            textDecoration: "none",
+                            color: "green.400",
+                          }}
+                        >
+                          <Text textAlign={"center"} mt={1}>
+                            {m}
+                          </Text>
+                        </Box>
+                      ))}
+                    </Box>
                   </>
+                )}
+                {isPremium === true && (
+                  <Text
+                    textAlign={"center"}
+                    color={"gray.500"}
+                    fontSize={"small"}
+                  >
+                    Usuario Verificado por Rubrit App
+                  </Text>
                 )}
                 <Link href={`/professional/${_id}`} passHref>
                   <a>
