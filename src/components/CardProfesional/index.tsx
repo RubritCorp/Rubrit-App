@@ -62,7 +62,7 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
           <Box
             key={name}
             maxW={{ base: "250px", md: "350px" }}
-            w={"full"}
+            w={"100%"}
             bg={useColorModeValue("white", "gray.800")}
             boxShadow={"2xl"}
             rounded={"md"}
@@ -70,7 +70,7 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
           >
             <Image
               h={"120px"}
-              w={"full"}
+              w={"100%"}
               src={img}
               objectFit={"cover"}
               alt="bg"
@@ -150,16 +150,13 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                   <>
                     <Divider mt={3} />
                     <Box minH={"80px"}>
-
                       <Text textAlign={"center"} mt={5} color={"medium_green"}>
                         Rubros
                       </Text>
                       {categories.map((m: string, i: number) => (
                         <Box
                           key={i}
-
                           bg={"green.100"}
-
                           borderRadius={5}
                           _hover={{
                             textDecoration: "none",
@@ -186,7 +183,7 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                 <Link href={`/professional/${_id}`} passHref>
                   <a>
                     <Button
-                      w={"full"}
+                      w={"100%"}
                       mt={8}
                       bg={"medium_green"}
                       color={"white"}

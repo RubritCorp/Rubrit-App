@@ -196,7 +196,9 @@ const Offerservices: React.FC = () => {
           >
             <SignIn size={50} color="#6bdaae" weight="duotone" />
             <Heading fontSize={"lg"}>1. Sign Up</Heading>
-            <Text>Primero que nada, necesitamos que te registres en nuesta app.</Text>
+            <Text>
+              Primero que nada, necesitamos que te registres en nuesta app.
+            </Text>
           </Stack>
           <Stack
             spacing={2}
@@ -494,7 +496,7 @@ const Offerservices: React.FC = () => {
       </Stack>
 
       <Container maxW={"container.xl"} paddingBottom={20}>
-        <Box position={"relative"} width={"full"} overflow={"hidden"}>
+        <Box position={"relative"} width={"100%"} overflow={"hidden"}>
           <link
             rel="stylesheet"
             type="text/css"
@@ -564,7 +566,7 @@ const WhatTheySayCard: React.FC<WhatTheySayCardProps> = ({
     <Center py={12}>
       <Box
         maxW={"350px"}
-        w={"full"}
+        w={"100%"}
         bg={useColorModeValue("white", "gray.900")}
         boxShadow={"xl"}
         rounded={"md"}
@@ -583,8 +585,8 @@ const WhatTheySayCard: React.FC<WhatTheySayCardProps> = ({
             src={imagen}
             alt={name}
             objectFit={"fill"}
-            w={"full"}
-            h={"full"}
+            w={"100%"}
+            h={"100%"}
           />
         </Box>
         <Stack>

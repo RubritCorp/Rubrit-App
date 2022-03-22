@@ -29,6 +29,7 @@ import {
   PopoverTrigger,
   Image,
   AspectRatio,
+  SimpleGrid,
 } from "@chakra-ui/react";
 //import ModalImage from "react-modal-image";
 
@@ -45,7 +46,7 @@ const ImageModal: React.FC<any> = ({ url, title }) => {
 
   return (
     <>
-      <Flex maxW={"120px"} h={"120px"} m={"5px"}>
+      <Flex maxW={"100px"} m={"5px"} maxH={"120px"}>
         <Image
           src={url}
           alt={`img-solicitud ${title}`}
@@ -108,6 +109,23 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
     onClose();
   }
 
+  function checkState(state: any) {
+    for (let value in state) {
+      if (state[value] && value === "active") {
+        return <Text color={"medium_green"}>Activa</Text>;
+      }
+      if (state[value] && value === "pending") {
+        return <Text color={"yellow"}>Pendiente</Text>;
+      }
+      if (state[value] && value === "canceled") {
+        return <Text color={"red"}>Cancelada</Text>;
+      }
+      if (state[value] && value === "completed") {
+        return <Text color={"medium_green"}>Completada</Text>;
+      }
+    }
+  }
+
   return (
     <>
       <Grid
@@ -159,9 +177,7 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                 justifyContent={"center"}
               >
                 {request.category !== null ? (
-                  <>
-                    <Text>Publica</Text>
-                  </>
+                  <Text>Publica</Text>
                 ) : (
                   <Text>Privada</Text>
                 )}
@@ -198,15 +214,7 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                   </Text>
                   <Text>
                     {" "}
-                    {request.isActive ? (
-                      <Text color={"medium_green"} fontSize={"0.8rem"}>
-                        ACTIVA
-                      </Text>
-                    ) : (
-                      <Text color={"warning_red"} fontSize={"0.8rem"}>
-                        PENDIENTE
-                      </Text>
-                    )}
+                    {request.state ? checkState(request.state) : null}
                   </Text>
                 </Flex>
               </GridItem>
@@ -313,15 +321,16 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                       <Avatar src={modal.professionalId?.profilePic} />
                       <Box ml="3">
                         <Text fontWeight="bold">
-                          {modal.professionalId?.name || "CATEGORIA"}
+                          {modal.professionalId?.name || modal.category?.name}
                           <Badge ml="1" colorScheme="green">
                             {modal.professionalId?.isAuthenticated
                               ? "Autenticado"
-                              : "Normal"}
+                              : ""}
                           </Badge>
                         </Text>
                         <Text fontSize="sm">
-                          {modal.professionalId?.description || "SUBCATEGORIA"}
+                          {modal.professionalId?.description ||
+                            modal.subcategory?.name}
                         </Text>
                       </Box>
                     </Flex>
@@ -377,23 +386,35 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                 <Heading m={"0 auto"} fontSize={"1rem"} margin={"10px 0"}>
                   Imagenes
                 </Heading>
-                <Flex>
+
+                <SimpleGrid
+                  minChildWidth="120px"
+                  spacing="5px"
+                  m={"5px"}
+                  flexWrap={"wrap"}
+                  overflowY={"auto"}
+                  css={{
+                    "&::-webkit-scrollbar": {
+                      width: "4px",
+                    },
+                    "&::-webkit-scrollbar-track": {
+                      width: "6px",
+                    },
+                    "&::-webkit-scrollbar-thumb": {
+                      background: "#2eb67d",
+                      borderRadius: "24px",
+                    },
+                  }}
+                  maxH={"200px"}
+                >
                   {modal.images?.map((img: string, index: number) => {
                     return (
-                      // <Flex
-                      //   flexWrap={"wrap"}
-                      //   overflowY={"auto"}
-                      //   maxH={"200px"}
-                      //   key={`${index}`}
-                      // >
-                      //   <Flex maxW={"100px"} m={"5px"}>
-                      //     <Image src={img} />
-                      //   </Flex>
-                      // </Flex>
-                      <ImageModal url={img} title={modal.title} />
+                      <Box key={`${index}`}>
+                        <ImageModal url={img} title={modal.title} />
+                      </Box>
                     );
                   })}
-                </Flex>
+                </SimpleGrid>
               </Flex>
             </ModalBody>
 
