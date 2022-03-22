@@ -1,5 +1,5 @@
 import { Faders } from 'phosphor-react';
-import { Button, Flex, FlexProps, FormLabel, IconButton, Input, InputGroup, InputRightElement, Select, SelectField, Stack, Text, Wrap, WrapItem } from '@chakra-ui/react';
+import { Flex, FlexProps, FormLabel, IconButton, Select, Stack, Text, Wrap, WrapItem } from '@chakra-ui/react';
 import CardProfessional from '../CardProfesional';
 import SearchBarAutocomplete from 'components/CustomFormControls/SearchBarAutocomplete';
 import Loading from '../Loading';
