@@ -48,8 +48,8 @@ interface DataAccesDenied {
 const cases: ICases = {
   GET: async (req, res) => {
     const f = {
-      email: "elianasciclone@gmail.com",
-      name: "Eliana Sciclone",
+      email: "Mona@gmail.com",
+      name: "Mona Pasik",
       phone: {
         diallingCode: "+54",
         number: "1144362868",
@@ -63,7 +63,7 @@ const cases: ICases = {
       profilePic:
         "https://avatars.githubusercontent.com/u/79219062?v=4",
       isWorker: true,
-      isPremium: true,
+      isPremium: false,
       payerId: "",
       address: {
         name: "Arengreen 805, CABA, Argentina",
@@ -81,29 +81,7 @@ const cases: ICases = {
         language: "",
         hideAddress: false,
       },
-      rating: [
-        {
-          userComment: "6230c696ac761ce2feb45bd7",
-          description: "Hizo la remodelación completa de baño y cocina. Hermoso diseño. El presupuesto fue acorde y terminó la obra en el tiempo pautado. Muy recomendable.",
-          score: 4,
-        },
-        {
-          userComment: "6230b9925fbcf2faa5764432",
-          description: "Muy profesional, me gusto mucho como quedó la reforma. Los obreros fueron muy respetuosos y prolijos.",
-          score: 5,
-        },
-        {
-          userComment: "6230be538d79de54f8023075",
-          description: "Muy profesional, me gusto mucho como quedó la reforma. Los obreros fueron muy respetuosos y prolijos.",
-          score: 3,
-        },
-        {
-          userComment: "6230c6fa647ec9ae8d47e1c2",
-          description: "Muy profesional, me gusto mucho como quedó la reforma. Los obreros fueron muy respetuosos y prolijos.",
-          score: 4,
-        },
-        
-      ],
+      rating: [],
       workerData: {
         images: ["https://www.paperarquitectura.com.ar/wp-content/uploads/elementor/thumbs/DSC_0610-scaled-pd7py4uy3eqjm29qgbu45vpcu3oznbj0v4lpzgfp1k.jpg", "https://www.paperarquitectura.com.ar/wp-content/uploads/elementor/thumbs/IMG_20210817_173234_1-pd7s2j6pknbj93aqccohtlo2zj4z9otmp9gg735rbc.jpg"],
         certification: ["https://rubrit-development.s3.sa-east-1.amazonaws.com/users/6230aca0f6b78c97becf0794/files/form/certification/lt03109011_quantized.png"],
@@ -113,9 +91,7 @@ const cases: ICases = {
             category: "622648aff10679f2a1cc6a39",
             subcategories: [
               "62163cc34e1f963fce2d7b15",
-              "62163cc94e1f963fce2d7b17",
-              "62163ccd4e1f963fce2d7b19",
-              "62163cd14e1f963fce2d7b1b"
+              "62163cc94e1f963fce2d7b17"
             ],
           },
           {

@@ -149,7 +149,7 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                 {categories && (
                   <>
                     <Divider mt={3} />
-                    <Box minH={"80px"}>
+                    <Box minH={"80px"} >
                       <Text textAlign={"center"} mt={5} color={"medium_green"}>
                         Rubros
                       </Text>

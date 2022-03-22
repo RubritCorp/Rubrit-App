@@ -10,6 +10,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import CardProfesional from "components/CardProfesional";
+import CardProfesionalSmall from "components/CardProfesionalSmall";
 //native libraries
 import Link from "next/link";
 import { IUser, useUsers } from "Provider/UsersProvider";
@@ -144,15 +145,10 @@ const Services: NextPage<{ category: any; name: string }> = ({
 
         {nonPremiumUsers?.map((m: IUser, i: number) => (
           <GridItem key={i} w={"100%"}>
-            <CardProfesional
+            <CardProfesionalSmall
               _id={m._id}
-              // img={m.workerData.items[0].category.picture_small}
-              name={m.name}
-              // city={m.address.city}
-              // avatar={m.profilePic}
-              // description={m.description}
-              categories={m.workerData.items.map((m: any) => m.category.name)}
-              // isPremium={m.isPremium}
+              name={m.name}             
+              avatar={m.profilePic}  
             />
           </GridItem>
         ))}
