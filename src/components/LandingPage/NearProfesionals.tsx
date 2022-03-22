@@ -95,7 +95,7 @@ const NearProfesionals: React.FC = () => {
     <Box
       position={"relative"}
       height={"750px"}
-      width={"full"}
+      width={"100%"}
       overflow={"hidden"}
       mt={4}
     >
@@ -139,22 +139,25 @@ const NearProfesionals: React.FC = () => {
         ))}
 
       {/* Slider */}
-      <Slider {...settings} ref={(slider) => setSlider(slider)}>
-        {status === "true" || status === "false"
-          ? [1, 2, 3, 4, 5].map((m, i: number) => <Skeletons key={i} />)
-          : cardsToSlider?.map((item, index: number) => (
-              <CardProfesional
-                key={index}
-                _id={item._id}
-                name={item.name}
-                img={item.workerData.items[0]?.category.picture_small}
-                avatar={item.profilePic}
-                city={item.address.name}
-                description={item.description}
-                isPremium={item.isPremium}
-              />
-            ))}
-      </Slider>
+
+      {status === "true" || status === "false" ? (
+        <Loading />
+      ) : (
+        <Slider {...settings} ref={(slider) => setSlider(slider)}>
+          {cardsToSlider?.map((item, index: number) => (
+            <CardProfesional
+              key={index}
+              _id={item._id}
+              name={item.name}
+              img={item.workerData.items[0]?.category.picture_small}
+              avatar={item.profilePic}
+              city={item.address.name}
+              description={item.description}
+              isPremium={item.isPremium}
+            />
+          ))}
+        </Slider>
+      )}
     </Box>
   );
 };

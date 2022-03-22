@@ -129,7 +129,7 @@ const Password: React.FC = () => {
       >
         <Stack
           spacing={4}
-          w={"full"}
+          w={"100%"}
           maxW={"md"}
           // eslint-disable-next-line react-hooks/rules-of-hooks
           bg={useColorModeValue("white", "gray.700")}

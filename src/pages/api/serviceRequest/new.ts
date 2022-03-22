@@ -35,7 +35,7 @@ const cases: ICases = {
     try {
       let data;
       let locationObject = { formattedAddress: location, lat, lng };
-      professionalId ? data = { title, description, location: locationObject, images, userId, professionalId, isActive: true } : data = { category, subcategory, title, description, location: locationObject, images, userId, professionalId, isActive: true }
+      professionalId ? data = { title, description, location: locationObject, images, userId, professionalId} : data = { category, subcategory, title, description, location: locationObject, images, userId, professionalId}
       const serviceRequest = await ServiceRequest.create(data);
 
       await User.findByIdAndUpdate(userId, { $push: { "requests.sent": serviceRequest._id } });

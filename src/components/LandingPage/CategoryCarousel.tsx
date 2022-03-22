@@ -35,7 +35,7 @@ const CategoryCarousel: React.FC = () => {
           Encuentra todos los profesionales que necesitas para tu hogar
         </Heading>
       </Box>
-      <Box position={"relative"} width={"full"} overflow={"hidden"}>
+      <Box position={"relative"} width={"100%"} overflow={"hidden"}>
         <link
           rel="stylesheet"
           type="text/css"

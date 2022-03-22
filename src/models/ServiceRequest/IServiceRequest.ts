@@ -1,4 +1,12 @@
 import { Types } from "mongoose";
+
+interface IStates {
+  active: boolean;
+  pending: boolean;
+  completed: boolean;
+  canceled: boolean;
+  comment?: string;
+}
 export default interface IServiceRequest {
   title: string;
   description: string;
@@ -12,6 +20,6 @@ export default interface IServiceRequest {
   professionalId: Types.ObjectId;
   category: Types.ObjectId;
   subcategory: Types.ObjectId;
-  isActive: boolean;
+  state: IStates;
   contractID: Types.ObjectId;
 }

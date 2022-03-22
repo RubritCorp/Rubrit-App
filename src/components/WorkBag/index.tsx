@@ -181,11 +181,7 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
               {card?.map((item: any, index: number) => (
                 <Testimonial key={index}>
                   <TestimonialContent>
-                    <Flex
-                      marginTop={"-6"}
-                      marginRight={"-5"}
-                      justifyContent={"flex-end"}
-                    >
+                    <Box marginTop={"-6"} marginRight={"-5"} alignSelf={"end"}>
                       <Button
                         w={"5px"}
                         size={"xs"}
@@ -194,7 +190,7 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
                       >
                         x
                       </Button>
-                    </Flex>
+                    </Box>
                     {/* TESTIMONIAL HEADING */}
                     <Heading
                       as={"h3"}
