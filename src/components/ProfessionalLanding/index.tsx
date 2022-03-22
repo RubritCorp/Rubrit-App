@@ -50,7 +50,6 @@ const ProfessionalLanding: React.FC<any> = (props) => {
   //pagination states
   const [numberPage, setNumberPage] = useState<number>(0);
 
-
   if (!user) return <Loading />;
   return (
     <Layout>
@@ -96,7 +95,6 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 <Text>{user.address.name}</Text>
                 <Flex flexDirection={"column"}>
                   <Flex flexDirection={"row"}>
-
                     {scoreTotal &&
                       Array(scoreTotal)
                         .fill(null)
@@ -134,7 +132,6 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 </Flex>
               </Flex>
               <Flex flexDirection={"column"} alignItems={"center"}>
-
                 <Button
                   as={"button"}
                   width={{ base: "150px", md: "200px", lg: "250px" }}
@@ -170,7 +167,6 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                     });
                     setLoading(true);
                   }}
-
                 >
                   Pedir Cotizacion
                 </Button>
@@ -419,8 +415,8 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 flexWrap={{ base: "wrap", md: "wrap", lg: "wrap" }}
                 marginBottom={10}
               >
-
-                /*<Comments {...{ user }} />
+                /*
+                <Comments {...{ user }} />
               </Flex>
               <Box borderRadius={"10px"} margin={"2em"}>
                 <Flex
@@ -450,49 +446,52 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                         </Box>
                       </Flex>
                     );
-                  })}*/
+                  })}
 
-                <Flex maxH={"540px"} overflowY="auto">
-                  <Comments {...{ user }} />
-
-                </Flex>
-                <Box
-                  borderRadius={"10px"}
-                  margin={{ base: "2em", lg: "2em 0 0 10em" }}
-                >
-                  <Flex
-                    flexDirection={"column"}
-                    padding={{ base: "1em", lg: "2em" }}
-                    boxShadow={"lg"}
-                    overflowY={"auto"}
+                  <Flex maxH={"540px"} overflowY="auto">
+                    <Comments {...{ user }} />
+                  </Flex>
+                  <Box
+                    borderRadius={"10px"}
+                    margin={{ base: "2em", lg: "2em 0 0 10em" }}
                   >
-                    {workerData.items?.map((cat: any, index: number) => {
-                      return (
-                        <Flex flexDirection={"column"} key={cat.category.name}>
-                          <Heading
-                            fontSize={{
-                              base: "1rem",
-                              md: "1.2rem",
-                              lg: "1.5rem",
-                            }}
-                            color={"light_grey_sub"}
+                    <Flex
+                      flexDirection={"column"}
+                      padding={{ base: "1em", lg: "2em" }}
+                      boxShadow={"lg"}
+                      overflowY={"auto"}
+                    >
+                      {workerData.items?.map((cat: any, index: number) => {
+                        return (
+                          <Flex
+                            flexDirection={"column"}
                             key={cat.category.name}
                           >
-                            {cat.category.name}
-                          </Heading>
-                          <Box>
-                            {cat.subcategories?.map(
-                              (sub: any, index: number) => (
-                                <Text key={index}>{sub.name}</Text>
-                              )
-                            )}
-                          </Box>
-                        </Flex>
-                      );
-                    })}
-                  </Flex>
-                </Box>
-              </Flex>
+                            <Heading
+                              fontSize={{
+                                base: "1rem",
+                                md: "1.2rem",
+                                lg: "1.5rem",
+                              }}
+                              color={"light_grey_sub"}
+                              key={cat.category.name}
+                            >
+                              {cat.category.name}
+                            </Heading>
+                            <Box>
+                              {cat.subcategories?.map(
+                                (sub: any, index: number) => (
+                                  <Text key={index}>{sub.name}</Text>
+                                )
+                              )}
+                            </Box>
+                          </Flex>
+                        );
+                      })}
+                    </Flex>
+                  </Box>
+                </Flex>
+              </Box>
             </Container>
           </Flex>
         </Container>
