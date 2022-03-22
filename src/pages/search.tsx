@@ -2,6 +2,7 @@
 import { Box, useDisclosure } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import Footer from 'components/Footer';
 import Navbar from 'components/NavBar';
 import SearchResults from 'components/Search/SearchResults'
@@ -17,18 +18,37 @@ const Search: React.FC<{
   const [ filters, setFilters ] = useState({orderBy: 'DEF'});
   const [ results, setResults ] = useState([]);
   const [ initialResults, setInitialResults ] = useState([]);
+  const [ isLoading, setIsLoading ] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     // On first load
+    let { query: routerQuery } = router.query;
+    if (routerQuery && routerQuery !== '') {
+      routerQuery = routerQuery.toString();
+      setQuery(routerQuery);
+      search(routerQuery).then(res => setInitialResults(res.data.users));;
+    }
     if (query !== '') search(query).then(res => setInitialResults(res.data.users));
   },[])
 
   useEffect(() => {
     if (Object.keys(filters).length > 0 && initialResults.length > 0) onFilter();
+    if (initialResults.length === 0) setResults([]);;
   },[filters, initialResults])
 
-  function onSearch() {
-    search(query).then(res => setInitialResults(res.data.users));
+  function onSearch(value?: string) {
+    setIsLoading(true);
+    let searchQuery = query;
+    if (value && value !== '') {
+      searchQuery = value;
+      setQuery(value);
+    }
+    search(searchQuery).then(res => {
+      setInitialResults(res.data.users);
+      setIsLoading(false);
+    });
+    router.push(`/search`, `/search?query=${searchQuery}`, { shallow: true })
   }
 
   function onFilter() {
@@ -45,7 +65,7 @@ const Search: React.FC<{
       </Head>
       <Navbar />
       <SearchWithSideBar isOpen={isOpen} onClose={onClose} filters={filters} setFilters={setFilters}>
-        <SearchResults results={results} onOpen={onOpen} onFilter={onFilter} onSearch={onSearch} filters={filters} setFilters={setFilters} setQuery={setQuery} />
+        <SearchResults isLoading={isLoading} results={results} onOpen={onOpen} onFilter={onFilter} onSearch={onSearch} filters={filters} setFilters={setFilters} query={query} setQuery={setQuery} />
         <Footer />
       </SearchWithSideBar>
     </Box>

@@ -20,6 +20,7 @@ import {
   RangeSliderTrack,
   RangeSliderFilledTrack,
   RangeSliderThumb,
+  Button,
 } from '@chakra-ui/react';
 import { MapPin, Star } from 'phosphor-react';
 import { usePlacesWidget } from 'react-google-autocomplete';
@@ -106,15 +107,18 @@ const SidebarContent = ({ onClose, filters, setFilters, ...rest }: SidebarProps)
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       { /* NavItems (filters) */ }
-      <NavItem key='location' icon={MapPin}>
-        <Stack>
-          <Input placeholder='Lugar' ref={ref} size='sm' onChange={(e: any) => e.target.value == '' ? setFilters({ ...filters, location: null }) : null } />
+      <NavItem key='location' icon={MapPin} text='Ubicación'>
+        <Stack width='full'>
+          <Input placeholder='Lugar' ref={ref} size='sm' defaultValue={filters.location?.address} onChange={(e: any) => e.target.value == '' ? setFilters({ ...filters, location: null }) : null } />
           { filters.location ? <SliderInput filters={filters} setFilters={setFilters} /> : null}
         </Stack>
       </NavItem>
-      <NavItem key='rating' icon={Star}>
+      <NavItem key='rating' icon={Star} text='Puntuación'>
         <RangeSliderInput filters={filters} setFilters={setFilters} />
       </NavItem>
+      <Box textAlign='center'>
+        <Button display={{ base: 'inline', md: 'none' }} onClick={onClose}>Aplicar filtros</Button>
+      </Box>
     </Box>
   );
 };
@@ -122,30 +126,32 @@ const SidebarContent = ({ onClose, filters, setFilters, ...rest }: SidebarProps)
 interface NavItemProps extends FlexProps {
   icon: any;
   children: any;
+  text: string;
 }
-const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, text, children, ...rest }: NavItemProps) => {
   return (
-    <Flex
-      align='center'
-      p='4'
-      mx='4'
-      borderRadius='lg'
-      role='group'
-      {...rest}>
-      {icon && (
-        <Icon
-          mr='4'
-          fontSize='16'
-          as={icon}
-        />
-      )}
-      {children}
-    </Flex>
+    <Stack p='2' mx='2'>
+      <Text>{text}</Text>
+      <Flex
+        align='center'
+        borderRadius='lg'
+        role='group'
+        {...rest}>
+        {icon && (
+          <Icon
+            mr='4'
+            fontSize='16'
+            as={icon}
+          />
+        )}
+        {children}
+      </Flex>
+    </Stack>
   );
 };
 
 function SliderInput({ filters, setFilters }: { filters: any, setFilters: any }) {
-  const [value, setValue] = useState(20)
+  const [value, setValue] = useState(filters.location?.range || 20)
   const handleChange = (value: number) => setValue(value)
 
   useEffect(() => {
@@ -162,7 +168,7 @@ function SliderInput({ filters, setFilters }: { filters: any, setFilters: any })
         <SliderTrack>
           <SliderFilledTrack />
         </SliderTrack>
-        <SliderThumb fontSize='sm' boxSize='32px' color='black' title='Rango (km)' children={value} />
+        <SliderThumb fontSize='sm' boxSize={6} color='black' title='Rango (km)' children={value} />
       </Slider>
   )
 }
@@ -179,8 +185,8 @@ function RangeSliderInput({ filters, setFilters }: { filters: any, setFilters: a
       <RangeSliderTrack bg='red.100'>
         <RangeSliderFilledTrack bg='gold' />
       </RangeSliderTrack>
-      <RangeSliderThumb boxSize={6} index={0} children={value[0]} />
-      <RangeSliderThumb boxSize={6} index={1} children={value[1]} />
+      <RangeSliderThumb boxSize={6} color='black' index={0} children={value[0]} />
+      <RangeSliderThumb boxSize={6} color='black' index={1} children={value[1]} />
     </RangeSlider>
   );
 }

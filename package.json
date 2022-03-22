@@ -12,6 +12,7 @@
   "dependencies": {
     "@chakra-ui/icons": "^1.1.7",
     "@chakra-ui/react": "^1.8.5",
+    "@choc-ui/chakra-autocomplete": "^4.20.0",
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",
     "@googlemaps/js-api-loader": "^1.13.8",
