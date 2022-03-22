@@ -10,6 +10,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import CardProfesional from "components/CardProfesional";
+import CardProfesionalSmall from "components/CardProfesionalSmall";
 //native libraries
 import Link from "next/link";
 import { IUser, useUsers } from "Provider/UsersProvider";
@@ -34,8 +35,11 @@ const Services: NextPage<{ category: any; name: string }> = ({
   const [filteredUsers, setFilteredUsers] = useState<IUser[]>([]);
   const [cat, setCat] = useState<any>({});
 
-    //pagination states
+  const premiumUsers = filteredUsers.filter((f) => f.isPremium);
+  const nonPremiumUsers = filteredUsers.filter((f) => !f.isPremium);
+
     const [numberPage, setNumberPage] = useState<number>(0);
+
 
 
   useEffect(() => {
@@ -111,7 +115,8 @@ const Services: NextPage<{ category: any; name: string }> = ({
         }}
         gap={2}
       >
-        {filteredUsers?.map((m: IUser, i: number) => (
+
+        {premiumUsers?.map((m: IUser, i: number) => (
           <GridItem key={i} w={"100%"}>
             <CardProfesional
               _id={m._id}
@@ -121,6 +126,29 @@ const Services: NextPage<{ category: any; name: string }> = ({
               avatar={m.profilePic}
               description={m.description}
               categories={m.workerData.items.map((m: any) => m.category.name)}
+              isPremium={m.isPremium}
+            />
+          </GridItem>
+        ))}
+      </Grid>
+      <Grid
+        justifyContent="center"
+        templateColumns={{
+          base: "repeat(1,1fr)",
+          sm: "repeat(1,1fr)",
+          md: "repeat(2,1fr)",
+          xl: "repeat(3,1fr)",
+          "2xl": "repeat(4,1fr)",
+        }}
+        gap={2}
+      >
+
+        {nonPremiumUsers?.map((m: IUser, i: number) => (
+          <GridItem key={i} w={"100%"}>
+            <CardProfesionalSmall
+              _id={m._id}
+              name={m.name}             
+              avatar={m.profilePic}  
             />
           </GridItem>
         ))}

@@ -1,24 +1,17 @@
-import {
-  Box,
-  Heading,
-  Flex,
-  Text,
-  Button,
-  Stack
-} from "@chakra-ui/react";
+import { Box, Heading, Flex, Text, Button, Stack } from "@chakra-ui/react";
 import SearchBarAutocomplete from "components/CustomFormControls/SearchBarAutocomplete";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
 const Hero: React.FC = () => {
-  const [ loading, setLoading ] = useState<boolean>(false);
-  const [ query, setQuery ] = useState('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [query, setQuery] = useState("");
   const router = useRouter();
 
   return (
     <Flex
-      w="full"
+      w={"100%"}
       h={{ base: "430px", md: "calc(100vh - 60px)" }}
       backgroundImage="linear-gradient(rgba(0, 0, 0, 0.7),rgba(0, 0, 0, 0.6)), url(banner-image-1.jpg)"
       backgroundSize="cover"
@@ -49,7 +42,12 @@ const Hero: React.FC = () => {
         </Stack>
 
         <Stack as={Box} textAlign="center" alignSelf="center" spacing="1">
-          <SearchBarAutocomplete onSearch={(value) => router.push(`/search?query=${value || query}`)} query={query} setQuery={setQuery} isHero={true} />
+          <SearchBarAutocomplete
+            onSearch={(value) => router.push(`/search?query=${value || query}`)}
+            query={query}
+            setQuery={setQuery}
+            isHero={true}
+          />
           <Text>ó</Text>
           <Link href={{ pathname: "/request/new" }} passHref>
             <a>
