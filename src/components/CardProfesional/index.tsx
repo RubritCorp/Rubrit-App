@@ -97,7 +97,12 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                     {city}
                   </Text>
                 </Stack>
-                <Stack direction={"row"} justify={"center"} spacing={6} marginBottom={4}>
+                <Stack
+                  direction={"row"}
+                  justify={"center"}
+                  spacing={6}
+                  marginBottom={4}
+                >
                   <Stack spacing={0} align={"center"}>
                     <Text
                       align={"center"}
@@ -122,24 +127,24 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                   <>
                     <Divider mt={3} />
                     <Box minH={"80px"}>
-                    <Text textAlign={"center"} mt={1}>
-                      Rubros
-                    </Text>
-                    {categories.map((m: string, i: number) => (
-                      <Box
-                        key={i}
-                        bg={"green.100"}
-                        borderRadius={5}
-                        _hover={{
-                          textDecoration: "none",
-                          color: "green.400",
-                        }}
-                      >
-                        <Text textAlign={"center"} mt={1}>
-                          {m}
-                        </Text>
-                      </Box>
-                    ))}</Box>
+                      <Text textAlign={"center"} mt={5} color={"medium_green"}>
+                        Rubros
+                      </Text>
+                      {categories.map((m: string, i: number) => (
+                        <Box
+                          key={i}
+                          borderRadius={5}
+                          _hover={{
+                            textDecoration: "none",
+                            color: "green.400",
+                          }}
+                        >
+                          <Text textAlign={"center"} mt={1}>
+                            {m}
+                          </Text>
+                        </Box>
+                      ))}
+                    </Box>
                   </>
                 )}
                 <Link href={`/professional/${_id}`} passHref>
@@ -147,7 +152,7 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                     <Button
                       w={"full"}
                       mt={8}
-                      bg="green.500"
+                      bg={"medium_green"}
                       color={"white"}
                       rounded={"md"}
                       _hover={{

@@ -30,7 +30,7 @@ import {
   PopoverTrigger,
   Image,
 } from "@chakra-ui/react";
-import ModalImage from "react-modal-image";
+
 import axios from "axios";
 import { useState } from "react";
 
@@ -53,12 +53,12 @@ const RequestReceived: React.FC<IProps> = ({ requests }) => {
     // const deleteRequest = await axios.delete("/api/serviceRequest/new", {
     //   data: { id: id },
     // });
-    onClose();
   }
 
   function setIndexDelete(event: any, i: number) {
     const idRequest = received[i]._id;
     deleteRequest(idRequest);
+    onClose();
   }
 
   function setIndexModalOnClose() {
@@ -166,15 +166,6 @@ const RequestReceived: React.FC<IProps> = ({ requests }) => {
                     </Button>
                   </Box>
                   <Box m={"2px"} key={index}>
-                    {/* <Button
-                      onClick={setIndexModal}
-                      variant="outline"
-                      size="xs"
-                      id={`${index}`}
-                      bg={"warning_red"}
-                    >
-                      ELIMINAR
-                    </Button> */}
                     <Popover key={`${index}`}>
                       <PopoverTrigger>
                         <Button
@@ -315,9 +306,8 @@ const RequestReceived: React.FC<IProps> = ({ requests }) => {
                         maxH={"200px"}
                       >
                         <Flex w={"100px"} m={"5px"}>
-                          <ModalImage
-                            small={img}
-                            large={img}
+                          <Image
+                            src={img}
                             alt={`img-solicitud ${modal.title}`}
                           />
                         </Flex>

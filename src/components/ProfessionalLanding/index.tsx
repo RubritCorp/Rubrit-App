@@ -87,16 +87,17 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 <Text>{user.address.name}</Text>
                 <Flex flexDirection={"column"}>
                   <Flex flexDirection={"row"}>
-                    {Array(scoreTotal)
-                      .fill(null)
-                      .map((el: any, index: number) => (
-                        <Star
-                          key={index}
-                          size={20}
-                          weight="fill"
-                          color={theme.colors.medium_green}
-                        />
-                      ))}
+                    {scoreTotal &&
+                      Array(scoreTotal)
+                        .fill(null)
+                        .map((el: any, index: number) => (
+                          <Star
+                            key={index}
+                            size={20}
+                            weight="fill"
+                            color={theme.colors.medium_green}
+                          />
+                        ))}
                     <Text
                       ml={"0.5rem"}
                       fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
@@ -208,29 +209,31 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                     >
                       TRABAJOS REALIZADOS
                     </Heading>
-                    
+
                     <Container>
-                    <Flex
-                      flexWrap={"wrap"}
-                      justifyContent={"space-between"}
-                      w={"500px"}
-                    >
-                      {workerData.images?.slice(numberPage, numberPage + 4)
-                        .map((m: any, i: number) => (
-                          <Box
-                            key={i}
-                            position={"relative"}
-                            w={ "48%" }
-                            h={"150px"}
-                            bgGradient="linear(to-r, #ddd, #e8e8e8)"
-                            mt={7}
-                            backgroundImage={m}
-                            backgroundPosition={"center"}
-                            backgroundSize={"cover"}
-                            borderRadius={7}
-                          ></Box>
-                        ))}
-                    </Flex></Container>
+                      <Flex
+                        flexWrap={"wrap"}
+                        justifyContent={"space-between"}
+                        w={"500px"}
+                      >
+                        {workerData.images
+                          ?.slice(numberPage, numberPage + 4)
+                          .map((m: any, i: number) => (
+                            <Box
+                              key={i}
+                              position={"relative"}
+                              w={"48%"}
+                              h={"150px"}
+                              bgGradient="linear(to-r, #ddd, #e8e8e8)"
+                              mt={7}
+                              backgroundImage={m}
+                              backgroundPosition={"center"}
+                              backgroundSize={"cover"}
+                              borderRadius={7}
+                            ></Box>
+                          ))}
+                      </Flex>
+                    </Container>
 
                     <Flex
                       justifyContent={{ base: "center", md: "space-evenly" }}
@@ -315,26 +318,25 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   </Flex> */}
                     <Divider margin={"1em 0"}></Divider>
                   </Box>
-{/* DOCUMENTACION */}
+                  {/* DOCUMENTACION */}
                   <Heading
-                      fontSize={{
-                        base: "1rem",
-                        md: "1.2rem",
-                        lg: "1.5rem",
-                      }}
-                      color={"light_grey_sub"}
-                    >
-                      DOCUMENTACION
-                    </Heading>
-                    <Flex
-                      flexWrap={"wrap"}
-                      justifyContent={"space-between"}
-                      w={"500px"}
-                    >
-                      {workerData.certification
-                        .map((m: any, i: number) => {
-                          if (i < 2) {
-                            return (
+                    fontSize={{
+                      base: "1rem",
+                      md: "1.2rem",
+                      lg: "1.5rem",
+                    }}
+                    color={"light_grey_sub"}
+                  >
+                    DOCUMENTACION
+                  </Heading>
+                  <Flex
+                    flexWrap={"wrap"}
+                    justifyContent={"space-between"}
+                    w={"500px"}
+                  >
+                    {workerData.certification.map((m: any, i: number) => {
+                      if (i < 2) {
+                        return (
                           <Box
                             key={i}
                             position={"relative"}
@@ -344,12 +346,12 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                             mt={7}
                             backgroundImage={m}
                             backgroundPosition={"center"}
-                            backgroundSize={"cover"}  
-                          >
-                          </Box>)}
-                        })}
-                    </Flex>
-
+                            backgroundSize={"cover"}
+                          ></Box>
+                        );
+                      }
+                    })}
+                  </Flex>
 
                   <Divider margin={"1em 0"}></Divider>
                 </Flex>
@@ -357,7 +359,6 @@ const ProfessionalLanding: React.FC<any> = (props) => {
               <Flex
                 flexDirection={"column"}
                 margin={{ base: "0", md: "0", lg: "1rem" }}
-                
               >
                 <Box>
                   <Heading
