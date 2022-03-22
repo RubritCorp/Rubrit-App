@@ -409,44 +409,8 @@ const ProfessionalLanding: React.FC<any> = (props) => {
               </Flex>
             </Flex>
             <Container maxW={"container.lg"}>
-              <Flex
-                flexDirection={"row"}
-                justifyContent={"space-evenly"}
-                flexWrap={{ base: "wrap", md: "wrap", lg: "wrap" }}
-                marginBottom={10}
-              >
-                /*
-                <Comments {...{ user }} />
-              </Flex>
-              <Box borderRadius={"10px"} margin={"2em"}>
-                <Flex
-                  flexDirection={"column"}
-                  padding={"1em"}
-                  boxShadow={"lg"}
-                  overflowY={"auto"}
-                >
-                  {workerData.items?.map((cat: any, index: number) => {
-                    return (
-                      <Flex flexDirection={"column"} key={cat.category.name}>
-                        <Heading
-                          fontSize={{
-                            base: "1rem",
-                            md: "1.2rem",
-                            lg: "1.5rem",
-                          }}
-                          color={"light_grey_sub"}
-                          key={cat.category.name}
-                        >
-                          {cat.category.name}
-                        </Heading>
-                        <Box>
-                          {cat.subcategories?.map((sub: any, index: number) => (
-                            <Text key={index}>{sub.name}</Text>
-                          ))}
-                        </Box>
-                      </Flex>
-                    );
-                  })}
+              
+              
 
                   <Flex maxH={"540px"} overflowY="auto">
                     <Comments {...{ user }} />
@@ -490,8 +454,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                       })}
                     </Flex>
                   </Box>
-                </Flex>
-              </Box>
+             
             </Container>
           </Flex>
         </Container>
