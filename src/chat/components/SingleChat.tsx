@@ -18,7 +18,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { io } from "socket.io-client";
+import io from "socket.io-client";
 import envConfig from "../../../next-env-config";
 import { IMessage, useChat } from "../context/ChatProvider";
 import ProfileModal from "./miscellaneous/ProfileModal";
