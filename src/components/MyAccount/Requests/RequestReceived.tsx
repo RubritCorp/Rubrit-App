@@ -286,7 +286,7 @@ const RequestReceived: React.FC<IProps> = ({ requests }) => {
                   Imagenes
                 </Heading>
                 <Flex>
-                  {modal.images?.map((img: string) => {
+                  {modal.images?.map((img: string, index: number) => {
                     return (
                       <Flex
                         flexWrap={"wrap"}
@@ -306,10 +306,33 @@ const RequestReceived: React.FC<IProps> = ({ requests }) => {
                         maxH={"200px"}
                       >
                         <Flex w={"100px"} m={"5px"}>
-                          <Image
-                            src={img}
-                            alt={`img-solicitud ${modal.title}`}
-                          />
+                          <Button as="a" key={`${index}`} m={4}>
+                            <Image
+                              src={img}
+                              alt={`img-solicitud ${modal.title}`}
+                            />
+                          </Button>
+
+                          <Modal
+                            onClose={onClose}
+                            size={"full"}
+                            isOpen={isOpen}
+                          >
+                            <ModalOverlay />
+                            <ModalContent>
+                              <ModalHeader>Modal Title</ModalHeader>
+                              <ModalCloseButton />
+                              <ModalBody>
+                                <Image
+                                  src={img}
+                                  alt={`img-solicitud ${modal.title}`}
+                                />
+                              </ModalBody>
+                              <ModalFooter>
+                                <Button onClick={onClose}>Close</Button>
+                              </ModalFooter>
+                            </ModalContent>
+                          </Modal>
                         </Flex>
                       </Flex>
                     );

@@ -28,6 +28,7 @@ import {
   PopoverFooter,
   PopoverTrigger,
   Image,
+  AspectRatio,
 } from "@chakra-ui/react";
 //import ModalImage from "react-modal-image";
 
@@ -38,6 +39,44 @@ import { useState, useRef, useEffect } from "react";
 interface IProps {
   requests: any;
 }
+
+const ImageModal: React.FC<any> = ({ url, title }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  return (
+    <>
+      <Flex maxW={"120px"} h={"120px"} m={"5px"}>
+        <Image
+          src={url}
+          alt={`img-solicitud ${title}`}
+          objectFit="cover"
+          onClick={onOpen}
+          _hover={{ cursor: "zoom-in" }}
+        ></Image>
+      </Flex>
+      <Modal isOpen={isOpen} onClose={onClose} size="full">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <Text textAlign={"center"}>{title}</Text>
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Flex justifyContent={"center"}>
+              <Image src={url} alt={`img-solicitud ${title}`}></Image>
+            </Flex>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+};
 
 const RequestSent: React.FC<IProps> = ({ requests }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -169,7 +208,6 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                       </Text>
                     )}
                   </Text>
-                  {console.log(request)}
                 </Flex>
               </GridItem>
               <GridItem
@@ -342,19 +380,17 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                 <Flex>
                   {modal.images?.map((img: string, index: number) => {
                     return (
-                      <Flex
-                        flexWrap={"wrap"}
-                        overflowY={"auto"}
-                        maxH={"200px"}
-                        key={`${index}`}
-                      >
-                        <Flex maxW={"100px"} m={"5px"}>
-                          <Image
-                            src={img}
-                            alt={`img-solicitud ${modal.title}`}
-                          />
-                        </Flex>
-                      </Flex>
+                      // <Flex
+                      //   flexWrap={"wrap"}
+                      //   overflowY={"auto"}
+                      //   maxH={"200px"}
+                      //   key={`${index}`}
+                      // >
+                      //   <Flex maxW={"100px"} m={"5px"}>
+                      //     <Image src={img} />
+                      //   </Flex>
+                      // </Flex>
+                      <ImageModal url={img} title={modal.title} />
                     );
                   })}
                 </Flex>

@@ -32,7 +32,6 @@
     "react-easy-crop": "^4.0.2",
     "react-google-autocomplete": "^2.6.1",
     "react-google-recaptcha": "^2.1.0",
-    "react-modal-image": "^2.5.0",
     "react-slick": "^0.28.1",
     "yup": "^0.32.11"
   },
