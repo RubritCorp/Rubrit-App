@@ -7,6 +7,7 @@ import {
   Heading,
   Grid,
   GridItem,
+  Button,
 } from "@chakra-ui/react";
 import CardProfesional from "components/CardProfesional";
 //native libraries
@@ -87,7 +88,6 @@ const Services: NextPage<{ category: any; name: string }> = ({
               textAlign="center"
               marginBottom={5}
               color={"gray.800"}
-              
             >
               Chatea al instante con profesionales de confianza. No compartimos
               ni tu dirección ni tu teléfono con nadie.
@@ -97,7 +97,7 @@ const Services: NextPage<{ category: any; name: string }> = ({
       </Box>
 
       <Grid
-      justifyContent="center"
+        justifyContent="center"
         templateColumns={{
           base: "repeat(1,1fr)",
           sm: "repeat(1,1fr)",
@@ -109,7 +109,7 @@ const Services: NextPage<{ category: any; name: string }> = ({
       >
         {filteredUsers?.map((m: IUser, i: number) => (
           <GridItem key={i} w={"100%"}>
-            <CardProfesional 
+            <CardProfesional
               _id={m._id}
               img={m.workerData.items[0].category.picture_small}
               name={m.name}
@@ -121,6 +121,16 @@ const Services: NextPage<{ category: any; name: string }> = ({
           </GridItem>
         ))}
       </Grid>
+      {filteredUsers.length === 0 ? (
+        <Heading>SIN RESULTADO DE BUSQUEDA</Heading>
+      ) : null}
+      <Flex justifyContent={"center"} m={"10px"}>
+        <Link href={"/"}>
+          <a>
+            <Button>Volver</Button>
+          </a>
+        </Link>
+      </Flex>
     </Layout>
   );
 };

@@ -200,7 +200,7 @@ const FindServices: React.FC = () => {
                     onClick={() => setLoading(true)}
                     isLoading={loading}
                   >
-                    COMENZAR
+                    Comenzar
                   </Button>
                 </a>
               </Link>

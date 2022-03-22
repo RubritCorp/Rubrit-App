@@ -20,6 +20,7 @@ interface DataError {
 
 interface ICases {
   GET(req:NextApiRequest, res: NextApiResponse<DataError>): void;
+  DELETE(req:NextApiRequest, res: NextApiResponse<DataError>): void;
   POST(req: NextApiRequest, res: NextApiResponse<DataSuccess>): void;
   ERROR(req: NextApiRequest, res: NextApiResponse<DataError>): void;
 }
@@ -120,12 +121,12 @@ const cases: ICases = {
       {
         path:"requests.sent.professionalId",
           model: "User",
-          select: "name profilePic"
+          select: "name profilePic isAuthenticated description"
       },
       {
         path:"requests.received.professionalId",
           model: "User",
-          select: "name profilePic"
+          select: "name profilePic isAuthenticated description"
       }])
         
         if(requestsPop) {
@@ -140,6 +141,21 @@ const cases: ICases = {
     }
 
   },
+  DELETE: async (req,res) => {
+        
+        try {
+          const { id } = req.body
+          
+            const deletedRequest = await ServiceRequest.deleteOne({_id: id})
+
+          res.status(200).json({message: "Request deleted successfully", requests:  deletedRequest})
+        } catch(err) {
+            console.log(err)
+
+
+        }
+      },
+        
   ERROR: (_, res) => {
    
     res.status(400).json({ message: 'Invalid Method' });
@@ -151,7 +167,7 @@ export default function index(req: NextApiRequest, res: NextApiResponse) {
 
 
   
-  if (method && method === 'POST' || method === "GET") {
+  if (method && method === 'POST' || method === "GET" || method === "DELETE") {
     return cases[method](req, res);
   } else {
     return cases['ERROR'](req, res);

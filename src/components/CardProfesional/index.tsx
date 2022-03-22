@@ -150,13 +150,16 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                   <>
                     <Divider mt={3} />
                     <Box minH={"80px"}>
-                      <Text textAlign={"center"} mt={1}>
+
+                      <Text textAlign={"center"} mt={5} color={"medium_green"}>
                         Rubros
                       </Text>
                       {categories.map((m: string, i: number) => (
                         <Box
                           key={i}
+
                           bg={"green.100"}
+
                           borderRadius={5}
                           _hover={{
                             textDecoration: "none",
@@ -185,7 +188,7 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                     <Button
                       w={"full"}
                       mt={8}
-                      bg="green.500"
+                      bg={"medium_green"}
                       color={"white"}
                       rounded={"md"}
                       _hover={{
