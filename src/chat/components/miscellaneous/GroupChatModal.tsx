@@ -94,13 +94,23 @@ const GroupChatModal: React.FC = ({ children }) => {
       });
       return;
     }
-
+    if (selectedUsers.length < 2) {
+      toast({
+        title: "Por favor agregue 2 usuarios",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+      return;
+    }
     try {
       const config = {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
       };
+      console.log("selected", selectedUsers);
       const { data } = await axios.post(
         `${envConfig?.apiUrl}/chat/group`,
         {
@@ -111,6 +121,8 @@ const GroupChatModal: React.FC = ({ children }) => {
       );
       setChats([data, ...chats]);
       onClose();
+      setSelectedUsers([]);
+      setSearchResult([]);
       toast({
         title: "Nuevo Grupo Creado!",
         status: "success",
