@@ -59,9 +59,9 @@ function distance({ lat1, lon1, lat2, lon2, unit }: Props) {
 
 const cases: ICases = {
   GET: async (req, res) => {
-    const { city, lat, lng, searchRange } = req.query;
+    const { city, country, lat, lng, searchRange } = req.query;
 
-    if (!city || !lat || !lng || !searchRange)
+    if (!city || !country || !lat || !lng || !searchRange)
       return res.status(404).json({ message: "Data is required" });
 
     try {
@@ -69,12 +69,12 @@ const cases: ICases = {
       await Subcategory.find();
       const populateQuery = [
         {
-          path: "items.category",
+          path: "workerData.items.category",
           model: "Category",
           select: "_id name picture_small",
         },
         {
-          path: "items.subcategories",
+          path: "workerData.items.subcategories",
           model: "Subcategory",
           select: "_id name",
         },
@@ -83,6 +83,7 @@ const cases: ICases = {
       const users = await User.find({
         isWorker: true,
         isAuthenticated: true,
+        $regex: { "address.country": country, "address.city": city },
         "preferences.hideAddress": false,
       })
         .select(

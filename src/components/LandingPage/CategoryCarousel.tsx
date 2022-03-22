@@ -35,7 +35,7 @@ const CategoryCarousel: React.FC = () => {
           Encuentra todos los profesionales que necesitas para tu hogar
         </Heading>
       </Box>
-      <Box position={"relative"} width={"full"} overflow={"hidden"}>
+      <Box position={"relative"} width={"100%"} overflow={"hidden"}>
         <link
           rel="stylesheet"
           type="text/css"
@@ -102,28 +102,34 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ title, image }) => {
       }}
     >
       <Link href={`/services/${title}`} passHref>
-        <Image
-          src={image}
-          quality={50}
-          objectFit={"cover"}
-          layout={"fill"}
-          alt="cat-image"
-        />
+        <a>
+          <Image
+            src={image}
+            quality={50}
+            width="276px"
+            height="377px"
+            objectFit={"cover"}
+            // layout={"fill"}
+            alt="cat-image"
+          />
+        </a>
       </Link>
       <Link href={`/services/${title}`} passHref>
-        <Center>
-          <Heading
-            position={"absolute"}
-            top={"45%"}
-            textAlign={"center"}
-            zIndex={1}
-            color={"white"}
-            as="h3"
-            size="lg"
-          >
-            {title}
-          </Heading>
-        </Center>
+        <a>
+          <Center>
+            <Heading
+              position={"absolute"}
+              top={"45%"}
+              textAlign={"center"}
+              zIndex={1}
+              color={"white"}
+              as="h3"
+              size="lg"
+            >
+              {title}
+            </Heading>
+          </Center>
+        </a>
       </Link>
     </Box>
   );

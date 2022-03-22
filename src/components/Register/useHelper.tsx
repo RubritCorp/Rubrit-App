@@ -73,12 +73,28 @@ export const useHelper = ({ setIsLogin }: props) => {
     };
     try {
       const { data } = await axios.post("/api/auth/signup", user);
+
+      if (data.message === "User already exists") {
+        if (!toast.isActive("user-already-exist")) {
+          toast({
+            title: `¡Ya existe un usuario con el correo provisto!`,
+            description:
+              "Prueba iniciando sesión, si no recuerdas tu contraseña puedas recuperarla mediante tu correo electronico.",
+            status: "warning",
+            duration: 8000,
+            isClosable: true,
+            id: "user-already-exist",
+          });
+        }
+        return;
+      }
+
       toast({
         title: `¡Felicidades ${data.user.name}!`,
         description:
           "Tu cuenta fue creada con exito. Revise su casilla de correo electronico para verificar su cuenta",
         status: "success",
-        duration: 5000,
+        duration: 8000,
         isClosable: true,
       });
 

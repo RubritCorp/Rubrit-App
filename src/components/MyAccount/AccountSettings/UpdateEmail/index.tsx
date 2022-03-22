@@ -69,6 +69,16 @@ const UpdateEmail = ({ session }: Props) => {
                     autoComplete: "off",
                   }}
                 />
+                <InputControl
+                  name="confirmEmail"
+                  label="Confirmar la Dirección de Correo"
+                  onBlur={handleBlur}
+                  inputProps={{
+                    placeholder: "Email",
+                    autoComplete: "off",
+                  }}
+                  mt={4}
+                />
                 <FormLabel mt={4}>Contraseña</FormLabel>
                 <InputGroup>
                   <InputControl

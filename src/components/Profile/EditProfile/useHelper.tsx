@@ -78,6 +78,7 @@ const useHelper = ({ user, onCloseEditProfile }: Props) => {
   interface DataInitialValues {
     name: string;
     phone: string;
+    city: string;
     address: string;
     lat: number;
     lng: number;
@@ -117,7 +118,11 @@ const useHelper = ({ user, onCloseEditProfile }: Props) => {
   const initialValues: DataInitialValues = {
     name: user.name,
     phone: user.phone.number,
-    address: user.address.name ? user.address.name : "",
+    city:
+      user.address.city && user.address.country
+        ? `${user.address.city},${user.address.country}`
+        : " ",
+    address: user.address.name ? user.address.name : " ",
     lat: user.address.lat ? user.address.lat : 0,
     lng: user.address.lng ? user.address.lng : 0,
     searchRange: user.address.searchRange ? user.address.searchRange : 10,
@@ -130,7 +135,8 @@ const useHelper = ({ user, onCloseEditProfile }: Props) => {
       .required("El numero de telefono es requerido")
       .matches(/^[0-9,+]*$/, "Este campo solo acepta números")
       .min(8, "Número de teléfono invalido."),
-    address: Yup.string().required("La ciudad es requerida"),
+    city: Yup.string().required("La ciudad es requerida"),
+    address: Yup.string().required("La dirección es requerida"),
     searchRange: Yup.number(),
     timeZone: Yup.string().required("La Zona Horaria es Requerida"),
   });
@@ -142,7 +148,22 @@ const useHelper = ({ user, onCloseEditProfile }: Props) => {
 
   const onSubmit = async (values: DataInitialValues) => {
     setLoading(true);
-
+    if (!user?.isAuthenticated) {
+      if (!toast.isActive("no-authenticated")) {
+        toast({
+          title: "¡Aún no has verificado tu identidad!",
+          description:
+            "Hemos detectado que aún no has verificado tu correo electronico. Para realizar modificaciones en tu perfil debes confirmar tu identidad.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "bottom-left",
+          id: "no-authenticated",
+        });
+      }
+      setLoading(false);
+      return;
+    }
     try {
       interface UpdateData {
         name: string;
@@ -152,6 +173,8 @@ const useHelper = ({ user, onCloseEditProfile }: Props) => {
         };
         address: {
           name: string;
+          city: string;
+          country: string;
           lat: number;
           lng: number;
           searchRange: number;
@@ -167,6 +190,8 @@ const useHelper = ({ user, onCloseEditProfile }: Props) => {
         },
         address: {
           name: values.address,
+          city: values.city.split(",")[0],
+          country: values.city.split(",")[1],
           lat: values.lat,
           lng: values.lng,
           searchRange: values.searchRange,
@@ -199,6 +224,7 @@ const useHelper = ({ user, onCloseEditProfile }: Props) => {
   };
 
   return {
+    toast,
     image,
     loading,
     countries,

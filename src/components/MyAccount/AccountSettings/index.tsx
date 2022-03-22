@@ -120,7 +120,7 @@ const Settings: React.FC<{
     <Accordion
       allowToggle
       borderTop={"transparent"}
-      defaultIndex={isAuthenticated === "true" ? 0 : 99}
+      defaultIndex={isAuthenticated === "true" ? 1 : 99}
     >
       {/**/}
       <CreatePassword {...{ session }} />

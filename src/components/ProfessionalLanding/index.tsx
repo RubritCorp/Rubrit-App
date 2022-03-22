@@ -5,6 +5,14 @@ import {
   Divider,
   Flex,
   Text,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
   Center,
   Stack,
   Heading,
@@ -14,30 +22,45 @@ import {
   Image,
   Grid,
   GridItem,
+  useToast,
 } from "@chakra-ui/react";
-
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { Star, Check, Checks, CheckCircle } from "phosphor-react";
+
 //native libraries
 import Link from "next/link";
+import { useState } from "react";
+
 //components
 import Layout from "../layout";
 import Comments from "../Comments";
 import Loading from "../Loading";
-
-import { NextPage } from "next/types";
 import Map from "../Maps/Map";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 const ProfessionalLanding: React.FC<any> = (props) => {
   const theme = useTheme();
+  const router = useRouter();
+  const toast = useToast();
   const [loading, setLoading] = useState<boolean>(false);
+  const { data: Session } = useSession();
   const user = JSON.parse(props.user);
-  const { items } = user;
+  const { workerData } = user;
 
-  console.log(user);
+  //average rating
+
+  const scoreTotal = Math.ceil(
+    user.rating?.reduce((total: any, el: any) => (total += el.score), 0) /
+      user.rating.length
+  );
+
+  //pagination states
+  const [numberPage, setNumberPage] = useState<number>(0);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   if (!user) return <Loading />;
-
   return (
     <Layout>
       <Container maxW={"container.xl"}>
@@ -68,20 +91,35 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 <Heading fontSize={{ base: "1rem", md: "1.2rem", lg: "2rem" }}>
                   {user.name}
                 </Heading>
-
-                <Text color={"medium_green"}>Plomero</Text>
+                <Flex>
+                  {workerData.items?.map((cat: any, i: number) => {
+                    return (
+                      <Flex flexDirection={"column"} key={i}>
+                        <Text color={"medium_green"}>
+                          {`${cat.category.name}`}&nbsp;
+                        </Text>
+                      </Flex>
+                    );
+                  })}
+                </Flex>
                 <Text>{user.address.name}</Text>
-
                 <Flex flexDirection={"column"}>
                   <Flex flexDirection={"row"}>
-                    <Star size={20} weight="fill" />
-
+                    {scoreTotal &&
+                      Array(scoreTotal)
+                        .fill(null)
+                        .map((el: any, index: number) => (
+                          <Star
+                            key={index}
+                            size={20}
+                            weight="fill"
+                            color={theme.colors.medium_green}
+                          />
+                        ))}
                     <Text
                       ml={"0.5rem"}
                       fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
-                    >
-                      {/* {user.rating} */}
-                    </Text>
+                    ></Text>
                   </Flex>
                   <Flex flexDirection={"row"}>
                     <Check size={20} weight="fill" />
@@ -104,28 +142,45 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 </Flex>
               </Flex>
               <Flex flexDirection={"column"} alignItems={"center"}>
-                <Link
-                  href={{ pathname: "/request/new", query: { id: user._id } }}
-                  passHref
+                <Button
+                  as={"button"}
+                  width={{ base: "150px", md: "200px", lg: "250px" }}
+                  height={{ base: "45px", md: "45px", lg: "45px" }}
+                  borderRadius={"10px"}
+                  bg={"medium_green"}
+                  color={"white"}
+                  fontSize={{ base: "1rem", md: "1.2rem", lg: "1.4rem" }}
+                  _hover={{
+                    transform: "translateY(-2px)",
+                    boxShadow: "lg",
+                  }}
+                  isLoading={loading}
+                  onClick={() => {
+                    if (!Session?.isAuthenticated) {
+                      if (!toast.isActive("no-authenticated")) {
+                        toast({
+                          title: "¡Aún no has verificado tu identidad!",
+                          description:
+                            "Hemos detectado que aún no has verificado tu correo electronico, porfavor revisa tu casilla de correo, si no has recibido el codigo puedes reenviar el mail.",
+                          status: "error",
+                          duration: 9000,
+                          isClosable: true,
+                          position: "bottom-left",
+                          id: "no-authenticated",
+                        });
+                      }
+                      return;
+                    }
+                    router.push({
+                      pathname: "/request/new",
+                      query: { id: `${user._id}` },
+                    });
+                    setLoading(true);
+                  }}
                 >
-                  <Button
-                    as={"button"}
-                    width={{ base: "150px", md: "200px", lg: "250px" }}
-                    height={{ base: "30px", md: "35px", lg: "40px" }}
-                    borderRadius={"10px"}
-                    bg={"medium_green"}
-                    color={"white"}
-                    fontSize={{ base: "1rem", md: "1.2rem", lg: "1.4rem" }}
-                    _hover={{
-                      transform: "translateY(-2px)",
-                      boxShadow: "lg",
-                    }}
-                    isLoading={loading}
-                    onClick={() => setLoading(true)}
-                  >
-                    Pedir Cotizacion
-                  </Button>
-                </Link>
+                  Pedir Cotizacion
+                </Button>
+
                 <Flex
                   flexDirection={"row"}
                   justifyContent={"center"}
@@ -145,88 +200,177 @@ const ProfessionalLanding: React.FC<any> = (props) => {
             </Flex>
           </Flex>
         </Flex>
-        <Container maxW={"container.lg"} p={"0 "} margin={"0 1em"}>
-          <Flex margin={"1rem"} flexDirection={"column"} textAlign={"start"}>
-            <Heading fontSize={"1.5rem"} margin={"1rem"}>
-              {user.description}
-            </Heading>
-            <Text fontSize={"1rem"} margin={"0.5rem"}></Text>
-          </Flex>
-          <Divider margin={"1em 0"}></Divider>
-        </Container>
-        <Container maxW={"container.lg"} p={"0 "} margin={"0 1em"}>
+        <Container maxW={"container.xl"}>
           <Flex flexDirection={"column"}>
+            <Heading
+              fontSize={{
+                base: "1rem",
+                md: "1.2rem",
+                lg: "1.5rem",
+              }}
+              color={"light_grey_sub"}
+            >
+              DESCRIPCION
+            </Heading>
+            <Text fontSize={{ base: "0.9rem", md: "1.2rem", lg: "1.4rem" }}>
+              {user.description}
+            </Text>
+
+            <Divider margin={"1em 0"}></Divider>
             <Flex
+              w={"100%"}
               flexWrap={{
                 base: "wrap",
                 md: "wrap",
                 lg: "nowrap",
               }}
+              justifyContent={"space-between"}
             >
               <Stack>
-                <Box>
-                  <Heading
-                    fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
-                    color={"light_grey_sub"}
-                  >
-                    DESCRIPCION
-                  </Heading>
+                <Flex flexDirection={"column"} justifyContent={"space-between"}>
                   <Box>
-                    {items?.map((e: any, index: number) => (
-                      <Text key={index} margin={"1em"}>
-                        {e.description}
+                    <Heading
+                      fontSize={{
+                        base: "1rem",
+                        md: "1.2rem",
+                        lg: "1.5rem",
+                      }}
+                      color={"light_grey_sub"}
+                    >
+                      TRABAJOS REALIZADOS
+                    </Heading>
+
+                    <Container>
+                      <Flex
+                        flexWrap={"wrap"}
+                        justifyContent={"space-between"}
+                        w={"500px"}
+                      >
+                        {workerData.images
+                          ?.slice(numberPage, numberPage + 4)
+                          .map((m: any, i: number) => (
+                            <Box
+                              key={i}
+                              position={"relative"}
+                              w={"48%"}
+                              h={"150px"}
+                              bgGradient="linear(to-r, #ddd, #e8e8e8)"
+                              mt={7}
+                              backgroundImage={m}
+                              backgroundPosition={"center"}
+                              backgroundSize={"cover"}
+                              borderRadius={7}
+                              onClick={onOpen}
+                              objectFit="cover"
+                              _hover={{ cursor: "zoom-in" }}
+                            ></Box>
+                          ))}
+                           <Modal isOpen={isOpen} onClose={onClose} size="full">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalCloseButton />
+          <ModalBody>
+            <Flex justifyContent={"center"}>
+              <Image src={workerData.images} alt={`img-solicitud ${workerData.images}`}></Image>
+            </Flex>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+                          <Flex maxW={"120px"} h={"120px"} m={"5px"}>
+      </Flex>
+                      </Flex>
+                    </Container>
+
+                    <Flex
+                      justifyContent={{ base: "center", md: "space-evenly" }}
+                      flexDirection={{ base: "column", md: "row" }}
+                      mt={3}
+                    >
+                      <Text
+                        color="gray"
+                        fontSize={{ base: "sm", md: "lg" }}
+                        textAlign={{ base: "start", md: "start" }}
+                      >
+                        Mostrando{" "}
+                        {
+                          workerData.images.slice(numberPage, numberPage + 4)
+                            .length
+                        }{" "}
+                        de {workerData.images.length}{" "}
+                        {workerData.images.length === 1
+                          ? "Elemento"
+                          : "Elementos"}
                       </Text>
-                    ))}
-                  </Box>
-                </Box>
-                <Divider></Divider>
-                <Box margin={"1em 0"}>
-                  <Heading
-                    fontSize={{
-                      base: "1rem",
-                      md: "1.2rem",
-                      lg: "1.5rem",
-                    }}
-                    color={"light_grey_sub"}
-                  >
-                    TRABAJOS REALIZADOS
-                  </Heading>
-                  <Flex
+
+                      <Flex w={{ base: "100%", md: "50%" }}>
+                        {numberPage !== 0 ? (
+                          <Text
+                            cursor={"pointer"}
+                            onClick={() => {
+                              numberPage === 0
+                                ? ""
+                                : setNumberPage(numberPage - 4);
+                            }}
+                            width={"50%"}
+                            textAlign={"center"}
+                          >
+                            <ChevronLeftIcon w={6} h={6} />
+                            Anterior
+                          </Text>
+                        ) : (
+                          <Text width={"50%"}></Text>
+                        )}
+                        {numberPage / 4 + 1 !==
+                          Math.ceil(workerData.images.length / 4) &&
+                        workerData.images.length !== 0 ? (
+                          <Text
+                            cursor={"pointer"}
+                            onClick={() => {
+                              numberPage / 4 ===
+                              Math.ceil(workerData.images.length / 4) - 1
+                                ? ""
+                                : setNumberPage(numberPage + 4);
+                            }}
+                            width={"50%"}
+                            textAlign={"right"}
+                          >
+                            Siguiente
+                            <ChevronRightIcon w={6} h={6} />
+                          </Text>
+                        ) : (
+                          <Text width={"50%"}></Text>
+                        )}
+                      </Flex>
+                    </Flex>
+                    {/* <Flex
                     flexDirection={"row"}
                     flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}
                   >
-                    <Image
-                      maxW="100px"
-                      src="https://s03.s3c.es/imag/_v0/770x420/6/4/2/Google-maps-nueva-york.jpg"
-                      borderRadius={"0.3rem"}
-                      alt="Dan Abramov"
-                      margin={"1rem"}
-                    ></Image>
-                    <Image
-                      maxW="100px"
-                      src="https://s03.s3c.es/imag/_v0/770x420/6/4/2/Google-maps-nueva-york.jpg"
-                      borderRadius={"0.3rem"}
-                      alt="Dan Abramov"
-                      margin={"1rem"}
-                    ></Image>
-                    <Image
-                      maxW="100px"
-                      src="https://s03.s3c.es/imag/_v0/770x420/6/4/2/Google-maps-nueva-york.jpg"
-                      borderRadius={"0.3rem"}
-                      alt="Dan Abramov"
-                      margin={"1rem"}
-                    ></Image>
-                    <Image
-                      maxW="100px"
-                      src="https://s03.s3c.es/imag/_v0/770x420/6/4/2/Google-maps-nueva-york.jpg"
-                      borderRadius={"0.3rem"}
-                      alt="Dan Abramov"
-                      margin={"1rem"}
-                    ></Image>
-                  </Flex>
-                  <Divider margin={"1em 0"}></Divider>
-                </Box>
-                <Flex flexDirection={"column"} margin={"1rem"}>
+                    {user.workerData.images.map((n: any, i: number) => {
+                      if (i < 3) {
+                        return (
+                          <Image
+                            p={1.5}
+                            key={i}
+                            src={n}
+                            alt="jobs-pic"
+                            maxW="12em"
+                            borderRadius={"0.3rem"}
+                            marginTop={"1rem"}
+                          />
+                        );
+                      }
+                    })}
+                  </Flex> */}
+                    <Divider margin={"1em 0"}></Divider>
+                  </Box>
+                  {/* DOCUMENTACION */}
                   <Heading
                     fontSize={{
                       base: "1rem",
@@ -237,54 +381,93 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   >
                     DOCUMENTACION
                   </Heading>
-                  <Flex flexDirection={"row"}>
-                    <Image
-                      maxW="100px"
-                      src="https://www.mercurynews.com/wp-content/uploads/2019/06/SCHWARZENEGGER_DIPLOMAS_2_.jpg?w=1442"
-                      borderRadius="0.4rem"
-                      alt="Dan Abramov"
-                      margin={"1rem"}
-                    ></Image>
-                    <Image
-                      maxW="100px"
-                      src="https://m.media-amazon.com/images/I/81q4U2Jtg7L._AC_SL1500_.jpg"
-                      borderRadius="0.4rem"
-                      alt="Dan Abramov"
-                      margin={"1rem"}
-                    ></Image>
+                  <Flex
+                    flexWrap={"wrap"}
+                    justifyContent={"space-between"}
+                    w={"500px"}
+                  >
+                    {workerData.certification.map((m: any, i: number) => {
+                      if (i < 2) {
+                        return (
+                          <Box
+                            key={i}
+                            position={"relative"}
+                            w={"48%"}
+                            h={"150px"}
+                            bgGradient="linear(to-r, #ddd, #e8e8e8)"
+                            mt={7}
+                            backgroundImage={m}
+                            backgroundPosition={"center"}
+                            backgroundSize={"cover"}
+                          ></Box>
+                        );
+                      }
+                    })}
                   </Flex>
+
                   <Divider margin={"1em 0"}></Divider>
                 </Flex>
               </Stack>
-              <Box margin={"1rem"}>
-                <Heading
-                  fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
-                  color={"light_grey_sub"}
-                >
-                  UBICACION
-                </Heading>
-                <Map
-                  location={user.address}
-                  coverage={user.address.searchRange}
-                ></Map>
-              </Box>
-            </Flex>
-            <Flex flexWrap={{ base: "wrap", md: "wrap", lg: "nowrap" }}>
               <Flex
-                maxH={{ base: "550px", sm: "350px", md: "550px" }}
-                overflowY="auto"
+                flexDirection={"column"}
+                margin={{ base: "0", md: "0", lg: "1rem" }}
               >
-                <Comments />
+                <Box>
+                  <Heading
+                    fontSize={{ base: "1rem", md: "1.2rem", lg: "1.5rem" }}
+                    color={"light_grey_sub"}
+                    marginLeft="0.6em"
+                  >
+                    UBICACION
+                  </Heading>
+                  <Box
+                    height={{ base: "23em", md: "25em", lg: "27em" }}
+                    width={{ base: "26em", md: "36em", lg: "40em" }}
+                    margin={"1.3em 0 1.7em 1em"}
+                  >
+                    {user.address.lat && user.address.lng ? (
+                      <Map
+                        location={{
+                          lat: user.address.lat,
+                          lng: user.address.lng,
+                        }}
+                        coverage={user.address.searchRange}
+                      />
+                    ) : (
+                      <Map />
+                    )}
+                  </Box>
+                </Box>
               </Flex>
-              <Box borderRadius={"10px"} margin={"2em"}>
+            </Flex>
+            <Container maxW={"container.xl"}>
+              <Flex flexDirection={"row"} justifyContent={"space-evenly"} marginTop={"10"} marginBottom={"10"}>
+              <Flex
+                maxH={"450px"}
+                overflowY="auto"
+                css={{
+                  "&::-webkit-scrollbar": {
+                    width: "7px",
+                  },
+                  "&::-webkit-scrollbar-track": {
+                    width: "15px",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    background: "#38a169",
+                    borderRadius: "24px",
+                  },
+                }}
+              >
+                <Comments {...{ user }} /></Flex>
+              
+              <Box borderRadius={"10px"}>
                 <Flex
                   flexDirection={"column"}
-                  padding={"1em"}
+                  padding={{ base: "1em", lg: "2em" }}
                   boxShadow={"lg"}
                   overflowY={"auto"}
                 >
-                  {items?.map((cat: any, index: number) => {
-                    console.log(cat);
+                  {workerData.items?.map((cat: any, index: number) => {
                     return (
                       <Flex flexDirection={"column"} key={cat.category.name}>
                         <Heading
@@ -307,8 +490,8 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                     );
                   })}
                 </Flex>
-              </Box>
-            </Flex>
+              </Box></Flex>
+            </Container>
           </Flex>
         </Container>
       </Container>

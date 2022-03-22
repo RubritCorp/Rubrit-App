@@ -14,6 +14,9 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useState } from "react";
+//assets
+import Premium from "assets/premium.png";
+import { CheckIcon, StarIcon } from "@chakra-ui/icons";
 
 interface CardFindProfesionalProps {
   img: string;
@@ -23,6 +26,7 @@ interface CardFindProfesionalProps {
   avatar: string;
   description: string;
   categories?: string[];
+  isPremium: boolean;
 }
 
 const CardProfesional: React.FC<CardFindProfesionalProps> = ({
@@ -33,16 +37,32 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
   city,
   description,
   categories,
+  isPremium,
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   return (
-    <Container maxW={"container.xl"} centerContent py={10}>
-      <Flex>
+    <Container maxW={"container.xl"} centerContent py={2}>
+      <Flex position={"relative"}>
+        {isPremium === true && (
+          <Flex
+            position={"absolute"}
+            top={"0"}
+            right={"-15px"}
+            w={"3.5rem"}
+            h={"3.5rem"}
+            borderRadius={"50%"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            bg={"#efb810"}
+          >
+            <StarIcon color={"#fafafa"} boxSize={"2rem"} />
+          </Flex>
+        )}
         <Center py={6}>
           <Box
             key={name}
             maxW={{ base: "250px", md: "350px" }}
-            w={"full"}
+            w={"100%"}
             bg={useColorModeValue("white", "gray.800")}
             boxShadow={"2xl"}
             rounded={"md"}
@@ -50,7 +70,7 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
           >
             <Image
               h={"120px"}
-              w={"full"}
+              w={"100%"}
               src={img}
               objectFit={"cover"}
               alt="bg"
@@ -82,6 +102,9 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                     }}
                   >
                     {name}
+                    {isPremium === true && (
+                      <CheckIcon color={"medium_green"} ml={2} mb={1} />
+                    )}
                   </Heading>
                   <Text
                     color={"gray.500"}
@@ -97,16 +120,21 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                     {city}
                   </Text>
                 </Stack>
-                <Stack direction={"row"} justify={"center"} spacing={6}>
+                <Stack
+                  direction={"row"}
+                  justify={"center"}
+                  spacing={6}
+                  marginBottom={4}
+                >
                   <Stack spacing={0} align={"center"}>
                     <Text
                       align={"center"}
                       fontSize={{ base: "xs", md: "md" }}
-                      pl={5}
-                      pr={5}
+                      pl={8}
+                      pr={8}
                       color={"green.500"}
                       w={"296px"}
-                      h={"55px"}
+                      h={"50px"}
                       overflow="hidden"
                       css={{
                         display: "-webkit-box",
@@ -121,43 +149,55 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                 {categories && (
                   <>
                     <Divider mt={3} />
-                    <Text textAlign={"center"} mt={1}>
-                      Rubros
-                    </Text>
-
-                    {categories.map((m: string, i: number) => (
-                      <Box
-                        key={i}
-                        bg={"green.100"}
-                        borderRadius={5}
-                        _hover={{
-                          textDecoration: "none",
-                          color: "green.400",
-                        }}
-                      >
-                        <Text textAlign={"center"} mt={1}>
-                          {m}
-                        </Text>
-                      </Box>
-                    ))}
+                    <Box minH={"80px"} >
+                      <Text textAlign={"center"} mt={5} color={"medium_green"}>
+                        Rubros
+                      </Text>
+                      {categories.map((m: string, i: number) => (
+                        <Box
+                          key={i}
+                          bg={"green.100"}
+                          borderRadius={5}
+                          _hover={{
+                            textDecoration: "none",
+                            color: "green.400",
+                          }}
+                        >
+                          <Text textAlign={"center"} mt={1}>
+                            {m}
+                          </Text>
+                        </Box>
+                      ))}
+                    </Box>
                   </>
                 )}
-                <Link href={`/professional/${_id}`} passHref>
-                  <Button
-                    w={"full"}
-                    mt={8}
-                    bg="green.500"
-                    color={"white"}
-                    rounded={"md"}
-                    _hover={{
-                      transform: "translateY(-2px)",
-                      boxShadow: "lg",
-                    }}
-                    onClick={() => setLoading(true)}
-                    isLoading={loading}
+                {isPremium === true && (
+                  <Text
+                    textAlign={"center"}
+                    color={"gray.500"}
+                    fontSize={"small"}
                   >
-                    Contactar
-                  </Button>
+                    Usuario Verificado por Rubrit App
+                  </Text>
+                )}
+                <Link href={`/professional/${_id}`} passHref>
+                  <a>
+                    <Button
+                      w={"100%"}
+                      mt={8}
+                      bg={"medium_green"}
+                      color={"white"}
+                      rounded={"md"}
+                      _hover={{
+                        transform: "translateY(-2px)",
+                        boxShadow: "lg",
+                      }}
+                      onClick={() => setLoading(true)}
+                      isLoading={loading}
+                    >
+                      Contactar
+                    </Button>
+                  </a>
                 </Link>
               </Box>
             </>

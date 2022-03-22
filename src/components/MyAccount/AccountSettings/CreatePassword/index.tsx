@@ -29,6 +29,7 @@ const CreatePassword = ({ session }: Props) => {
   const {
     show,
     loading,
+    disabled,
     initialValuesNewPassword,
     validationSchemaNewPassword,
     onSubmitCreatePassword,
@@ -71,6 +72,7 @@ const CreatePassword = ({ session }: Props) => {
                       autoComplete: "off",
                     }}
                     name="createPassword"
+                    isDisabled={disabled}
                   />
                   <InputRightElement>
                     <Button
@@ -79,6 +81,7 @@ const CreatePassword = ({ session }: Props) => {
                         bg: "light_green_sub.700",
                       }}
                       onClick={() => setShow(!show)}
+                      isDisabled={disabled}
                     >
                       {show ? (
                         <ViewOffIcon color={"#fafafa"} />
@@ -94,6 +97,7 @@ const CreatePassword = ({ session }: Props) => {
                   <InputControl
                     name="confirmCreatePassword"
                     onBlur={handleBlur}
+                    isDisabled={disabled}
                     inputProps={{
                       placeholder: "Contraseña",
                       type: show ? "text" : "password",
@@ -107,6 +111,7 @@ const CreatePassword = ({ session }: Props) => {
                         bg: "light_green_sub.700",
                       }}
                       onClick={() => setShow(!show)}
+                      isDisabled={disabled}
                     >
                       {show ? (
                         <ViewOffIcon color={"#fafafa"} />

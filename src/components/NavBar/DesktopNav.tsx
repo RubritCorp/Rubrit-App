@@ -41,6 +41,9 @@ export default function DesktopNav() {
       <Box
         borderBottom={"2px solid transparent"}
         _hover={{ borderBottom: "2px solid #2EB67D" }}
+        d={"flex"}
+        alignItems={"center"}
+        justifyContent={"center"}
       >
         <Popover trigger="hover" placement={"bottom-start"}>
           <PopoverTrigger>
@@ -54,6 +57,7 @@ export default function DesktopNav() {
                 color: linkHoverColor,
               }}
               cursor="pointer"
+              textAlign={"center"}
             >
               Servicios
             </Text>
@@ -82,24 +86,26 @@ export default function DesktopNav() {
               <Box key={i}>
                 <Popover trigger={"hover"} placement={"bottom-start"}>
                   <Link passHref href={{ pathname: `/services/${m.name}` }}>
-                    <Text
-                      d={"flex"}
-                      justifyContent={"space-between"}
-                      borderRadius={5}
-                      w={"100%"}
-                      p={2}
-                      fontSize={"sm"}
-                      fontWeight={500}
-                      _hover={{
-                        textDecoration: "none",
-                        color: "green.400",
-                        bg: "green.50",
-                      }}
-                      cursor={"pointer"}
-                    >
-                      {m.name}
-                      <ChevronRightIcon />
-                    </Text>
+                    <a>
+                      <Text
+                        d={"flex"}
+                        justifyContent={"space-between"}
+                        borderRadius={5}
+                        w={"100%"}
+                        p={2}
+                        fontSize={"sm"}
+                        fontWeight={500}
+                        _hover={{
+                          textDecoration: "none",
+                          color: "green.400",
+                          bg: "green.50",
+                        }}
+                        cursor={"pointer"}
+                      >
+                        {m.name}
+                        <ChevronRightIcon />
+                      </Text>
+                    </a>
                   </Link>
                 </Popover>
               </Box>
@@ -117,19 +123,22 @@ export default function DesktopNav() {
       >
         <Popover trigger="hover" placement={"bottom-start"}>
           <Link href={"/findServices"} passHref>
-            <Text
-              p={2}
-              fontSize={{ base: "xs", xl: "sm" }}
-              fontWeight={500}
-              color={linkColor}
-              _hover={{
-                textDecoration: "none",
-                color: linkHoverColor,
-              }}
-              cursor="pointer"
-            >
-              Buscar Servicios
-            </Text>
+            <a>
+              <Text
+                p={2}
+                fontSize={{ base: "xs", xl: "sm" }}
+                fontWeight={500}
+                color={linkColor}
+                _hover={{
+                  textDecoration: "none",
+                  color: linkHoverColor,
+                }}
+                cursor="pointer"
+                textAlign={"center"}
+              >
+                Buscar Servicios
+              </Text>
+            </a>
           </Link>
         </Popover>
       </Box>
@@ -143,19 +152,22 @@ export default function DesktopNav() {
       >
         <Popover trigger="hover" placement={"bottom-start"}>
           <Link href={"/offerServices"} passHref>
-            <Text
-              p={2}
-              fontSize={{ base: "xs", xl: "sm" }}
-              fontWeight={500}
-              color={linkColor}
-              _hover={{
-                textDecoration: "none",
-                color: linkHoverColor,
-              }}
-              cursor="pointer"
-            >
-              Ofrece tus Servicios
-            </Text>
+            <a>
+              <Text
+                p={2}
+                fontSize={{ base: "xs", xl: "sm" }}
+                fontWeight={500}
+                color={linkColor}
+                _hover={{
+                  textDecoration: "none",
+                  color: linkHoverColor,
+                }}
+                cursor="pointer"
+                textAlign={"center"}
+              >
+                Ofrece tus Servicios
+              </Text>
+            </a>
           </Link>
         </Popover>
       </Box>
@@ -169,19 +181,22 @@ export default function DesktopNav() {
       >
         <Popover trigger="hover" placement={"bottom-start"}>
           <Link href={"/workbag"} passHref>
-            <Text
-              p={2}
-              fontSize={{ base: "xs", xl: "sm" }}
-              fontWeight={500}
-              color={linkColor}
-              _hover={{
-                textDecoration: "none",
-                color: linkHoverColor,
-              }}
-              cursor="pointer"
-            >
-              Bolsa de Trabajo
-            </Text>
+            <a>
+              <Text
+                p={2}
+                fontSize={{ base: "xs", xl: "sm" }}
+                fontWeight={500}
+                color={linkColor}
+                _hover={{
+                  textDecoration: "none",
+                  color: linkHoverColor,
+                }}
+                cursor="pointer"
+                textAlign={"center"}
+              >
+                Bolsa de Trabajo
+              </Text>
+            </a>
           </Link>
         </Popover>
       </Box>

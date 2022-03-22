@@ -7,8 +7,10 @@ import {
   Heading,
   Grid,
   GridItem,
+  Button,
 } from "@chakra-ui/react";
 import CardProfesional from "components/CardProfesional";
+import CardProfesionalSmall from "components/CardProfesionalSmall";
 //native libraries
 import Link from "next/link";
 import { IUser, useUsers } from "Provider/UsersProvider";
@@ -33,6 +35,13 @@ const Services: NextPage<{ category: any; name: string }> = ({
   const [filteredUsers, setFilteredUsers] = useState<IUser[]>([]);
   const [cat, setCat] = useState<any>({});
 
+  const premiumUsers = filteredUsers.filter((f) => f.isPremium);
+  const nonPremiumUsers = filteredUsers.filter((f) => !f.isPremium);
+
+    const [numberPage, setNumberPage] = useState<number>(0);
+
+
+
   useEffect(() => {
     if (users.length && Object.keys(category).length > 0) {
       var info = JSON.parse(category);
@@ -40,7 +49,7 @@ const Services: NextPage<{ category: any; name: string }> = ({
 
       setFilteredUsers(
         users.filter((f) =>
-          f.items.map((m) => m.category.name).includes(cat.name)
+          f.workerData.items.map((m) => m.category.name).includes(cat.name)
         )
       );
     }
@@ -80,10 +89,10 @@ const Services: NextPage<{ category: any; name: string }> = ({
               marginBottom={1}
               color={"gray.800"}
             >
-              {cat.name} en {Session ? Session.address.name : "Cordoba Capital"}
+              {cat.name} en {Session ? Session.address.city : "Cordoba Capital"}
             </Heading>
             <Text
-              fontSize={"xl"}
+              fontSize={{ base: "1rem", md: "1.2rem", lg: "1.3rem" }}
               textAlign="center"
               marginBottom={5}
               color={"gray.800"}
@@ -94,48 +103,68 @@ const Services: NextPage<{ category: any; name: string }> = ({
           </Flex>
         </Container>
       </Box>
-      <Flex justifyContent="center">
-        <Flex flexDirection="column">
-          <Link href="/" passHref>
-            <Box
-              mt={-6}
-              as="button"
-              width="16rem"
-              height="2.5rem"
-              borderRadius="10px"
-              bg={"medium_green"}
-              color="white"
-              fontSize="1.6rem"
-            >
-              Cotizá gratis
-            </Box>
-          </Link>
-        </Flex>
-      </Flex>
+
       <Grid
+        justifyContent="center"
         templateColumns={{
           base: "repeat(1,1fr)",
-          sm: "repeat(2,1fr)",
+          sm: "repeat(1,1fr)",
           md: "repeat(2,1fr)",
           xl: "repeat(3,1fr)",
           "2xl": "repeat(4,1fr)",
         }}
-        gap={6}
+        gap={2}
       >
-        {filteredUsers?.map((m: IUser, i: number) => (
+
+        {premiumUsers?.map((m: IUser, i: number) => (
           <GridItem key={i} w={"100%"}>
             <CardProfesional
               _id={m._id}
-              img={m.items[0].category.picture_small}
+              img={m.workerData.items[0].category.picture_small}
               name={m.name}
-              city={m.address.name}
+              city={m.address.city}
               avatar={m.profilePic}
               description={m.description}
-              categories={m.items.map((m: any) => m.category.name)}
+              categories={m.workerData.items.map((m: any) => m.category.name)}
+              isPremium={m.isPremium}
             />
           </GridItem>
         ))}
       </Grid>
+      <Grid
+        justifyContent="center"
+        templateColumns={{
+          base: "repeat(1,1fr)",
+          sm: "repeat(1,1fr)",
+          md: "repeat(2,1fr)",
+          xl: "repeat(3,1fr)",
+          "2xl": "repeat(4,1fr)",
+        }}
+        gap={2}
+      >
+
+        {nonPremiumUsers?.map((m: IUser, i: number) => (
+          <GridItem key={i} w={"100%"}>
+            <CardProfesionalSmall
+              _id={m._id}
+              name={m.name}             
+              avatar={m.profilePic}  
+            />
+          </GridItem>
+        ))}
+      </Grid>
+      
+      {filteredUsers.length === 0 ? (
+        <Heading>SIN RESULTADO DE BUSQUEDA</Heading>
+      ) : null}
+      
+      <Flex justifyContent={"center"} m={"10px"}>
+        <Link href={"/"}>
+          <a>
+            <Button>Volver</Button>
+          </a>
+        </Link>
+      </Flex>
     </Layout>
   );
 };

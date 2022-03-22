@@ -66,6 +66,12 @@ const userSchema = new Schema(
       name: {
         type: String,
       },
+      city: {
+        type: String,
+      },
+      country: {
+        type: String,
+      },
       lat: {
         type: Number,
       },
@@ -85,7 +91,6 @@ const userSchema = new Schema(
         type: Boolean,
         default: true,
       },
-
       notificationsNewOffer: {
         type: Boolean,
         default: true,
@@ -114,47 +119,50 @@ const userSchema = new Schema(
           type: String,
         },
         score: {
+          type: Number,
+        },
+        date: {
           type: String,
         },
       },
     ],
     workerData: {
-      companyName: {
+      shortDescription: {
         type: String,
       },
-      description: {
-        type: String,
-      },
-      images: [{
-        type: String,
-      }],
+      images: [
+        {
+          type: String,
+        },
+      ],
+      certification: [
+        {
+          type: String,
+        },
+      ],
       rangeCoverage: {
         type: Number,
       },
-  },
-    items: [
-      {
-        category: {
-          type: Types.ObjectId,
-          ref: "Category",
-        },
-        subcategories: [
-          {
+      items: [
+        {
+          category: {
             type: Types.ObjectId,
-            ref: "Subcategory",
+            ref: "Category",
           },
-        ],
-        description: {
-          type: String,
+          subcategories: [
+            {
+              type: Types.ObjectId,
+              ref: "Subcategory",
+            },
+          ],
         },
-        certification: [
-          {
-            type: String,
-          },
-        ],
-      },
-    ],
-    offers: [{ type: Types.ObjectId, ref: "ServiceRequest" }],
+      ],
+    },
+
+    requests: {
+      received: [{ type: Types.ObjectId, ref: "ServiceRequest" }],
+      sent: [{ type: Types.ObjectId, ref: "ServiceRequest" }],
+    },
   },
   {
     timestamps: true,
