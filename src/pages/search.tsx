@@ -37,13 +37,18 @@ const Search: React.FC<{
     if (initialResults.length === 0) setResults([]);;
   },[filters, initialResults])
 
-  function onSearch() {
+  function onSearch(value?: string) {
     setIsLoading(true);
-    search(query).then(res => {
+    let searchQuery = query;
+    if (value && value !== '') {
+      searchQuery = value;
+      setQuery(value);
+    }
+    search(searchQuery).then(res => {
       setInitialResults(res.data.users);
       setIsLoading(false);
     });
-    router.push(`/search`, `/search?query=${query}`, { shallow: true })
+    router.push(`/search`, `/search?query=${searchQuery}`, { shallow: true })
   }
 
   function onFilter() {

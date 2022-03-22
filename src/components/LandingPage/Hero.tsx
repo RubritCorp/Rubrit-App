@@ -49,7 +49,7 @@ const Hero: React.FC = () => {
         </Stack>
 
         <Stack as={Box} textAlign="center" alignSelf="center" spacing="1">
-          <SearchBarAutocomplete onSearch={() => router.push(`/search?query=${query}`)} query={query} setQuery={setQuery} isHero={true} />
+          <SearchBarAutocomplete onSearch={(value) => router.push(`/search?query=${value || query}`)} query={query} setQuery={setQuery} isHero={true} />
           <Text>ó</Text>
           <Link href={{ pathname: "/request/new" }} passHref>
             <a>
