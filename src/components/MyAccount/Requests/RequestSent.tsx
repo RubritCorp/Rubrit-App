@@ -18,7 +18,6 @@ import {
   Flex,
   Avatar,
   Badge,
-  Link,
   Popover,
   Portal,
   PopoverContent,
@@ -32,10 +31,9 @@ import {
 } from "@chakra-ui/react";
 //import ModalImage from "react-modal-image";
 
-import ModalImage from "react-modal-image";
-
+import Link from "next/link";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 interface IProps {
   requests: any;
@@ -44,8 +42,10 @@ interface IProps {
 const RequestSent: React.FC<IProps> = ({ requests }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modal, setModal] = useState<any>(null);
-
+  const initRef = useRef();
   const { sent } = requests;
+
+  useEffect(() => {}, [deleteRequest]);
 
   function setIndexModal(event: any) {
     const { id } = event.target;
@@ -53,11 +53,10 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
     onOpen();
   }
   async function deleteRequest(id: string) {
-    // const deleteRequest = await axios.delete("/api/serviceRequest/new", {
-    //   data: { id: id },
-    // });
+    const deleteRequest = await axios.delete("/api/serviceRequest/new", {
+      data: { id: id },
+    });
     onClose();
-    console.log(deleteRequest);
   }
 
   function setIndexDelete(event: any, i: number) {
@@ -79,16 +78,16 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
         fontWeight={600}
       >
         <GridItem w="100%" h="10">
-          Name
+          TITULO
         </GridItem>
         <GridItem w="100%" h="10">
-          <Text>Tipo</Text>
+          <Text>TIPO</Text>
         </GridItem>
         <GridItem w="100%" h="10" colSpan={2}>
-          <Text>Categoria - Descripcion</Text>
+          <Text>CATEGORIA - DESCRIPCION</Text>
         </GridItem>
         <GridItem w="100%" h="10">
-          FECHA
+          FECHA - ESTADO
         </GridItem>
         <GridItem w="100%" h="10"></GridItem>
       </Grid>
@@ -158,6 +157,19 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                   <Text fontSize={"0.7rem"}>
                     {request?.createdAt.substring(11, 16)}
                   </Text>
+                  <Text>
+                    {" "}
+                    {request.isActive ? (
+                      <Text color={"medium_green"} fontSize={"0.8rem"}>
+                        ACTIVA
+                      </Text>
+                    ) : (
+                      <Text color={"warning_red"} fontSize={"0.8rem"}>
+                        PENDIENTE
+                      </Text>
+                    )}
+                  </Text>
+                  {console.log(request)}
                 </Flex>
               </GridItem>
               <GridItem
@@ -190,43 +202,57 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                     >
                       ELIMINAR
                     </Button> */}
-                    <Popover key={`${index}`}>
-                      <PopoverTrigger>
-                        <Button
-                          variant="outline"
-                          size="xs"
-                          bg={"warning_red"}
-                          rightIcon={<DeleteIcon />}
-                        >
-                          Eliminar
-                        </Button>
-                      </PopoverTrigger>
-                      <Portal>
-                        <PopoverContent>
-                          <PopoverArrow />
-                          <PopoverHeader
-                            fontWeight={"800"}
-                            color={"warning_red"}
-                            textAlign={"center"}
-                          >
-                            AVISO IMPORTANTE
-                          </PopoverHeader>
-                          <PopoverCloseButton />
-                          <PopoverBody>
-                            Si aceptas las confirmacion, la solicitud se
-                            eliminara de la base de datos y no podras
-                            recuperarla.
-                          </PopoverBody>
-                          <PopoverFooter>
+
+                    <Popover
+                      closeOnBlur={false}
+                      placement="left"
+                      key={`${index}`}
+                    >
+                      {({ isOpen, onClose }) => (
+                        <>
+                          <PopoverTrigger>
                             <Button
-                              _hover={{ bg: "warning_red" }}
-                              onClick={(e: any) => setIndexDelete(e, index)}
+                              rightIcon={<DeleteIcon />}
+                              bg={"warning_red"}
+                              variant="outline"
+                              size="xs"
                             >
-                              CONFIRMAR
+                              Eliminar
                             </Button>
-                          </PopoverFooter>
-                        </PopoverContent>
-                      </Portal>
+                          </PopoverTrigger>
+                          <Portal>
+                            <PopoverContent>
+                              <PopoverHeader color={"warning_red"}>
+                                <Box textAlign={"center"}>AVISO IMPORTANTE</Box>
+                              </PopoverHeader>
+                              <PopoverCloseButton />
+                              <PopoverBody>
+                                <Box>
+                                  Si aceptas las confirmacion, la solicitud se
+                                  eliminara de la base de datos y no podras
+                                  recuperarla.
+                                </Box>
+                                <Flex
+                                  justifyContent={"space-between"}
+                                  alignItems={"center"}
+                                  m={"10px"}
+                                >
+                                  <Button
+                                    border={"2px solid #e74e2b"}
+                                    _hover={{ bg: "warning_red" }}
+                                    onClick={(e: any) =>
+                                      setIndexDelete(e, index)
+                                    }
+                                  >
+                                    CONFIRMAR
+                                  </Button>
+                                  <Button onClick={onClose}>Cancelar</Button>
+                                </Flex>
+                              </PopoverBody>
+                            </PopoverContent>
+                          </Portal>
+                        </>
+                      )}
                     </Popover>
                   </Box>
                 </Flex>
@@ -242,24 +268,28 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
           <ModalContent>
             <ModalCloseButton />
             <ModalBody>
-              <Box>
-                <Flex m={"10px"} justifyContent={"center"}>
-                  <Avatar src={modal.professionalId?.profilePic} />
-                  <Box ml="3">
-                    <Text fontWeight="bold">
-                      {modal.professionalId?.name || "CATEGORIA"}
-                      <Badge ml="1" colorScheme="green">
-                        {modal.professionalId?.isAuthenticated
-                          ? "Autenticado"
-                          : "Normal"}
-                      </Badge>
-                    </Text>
-                    <Text fontSize="sm">
-                      {modal.professionalId?.name || "SUBCATEGORIA"}
-                    </Text>
+              <Link href={`/professional/${modal.professionalId?._id}`}>
+                <a>
+                  <Box>
+                    <Flex m={"10px"} justifyContent={"center"}>
+                      <Avatar src={modal.professionalId?.profilePic} />
+                      <Box ml="3">
+                        <Text fontWeight="bold">
+                          {modal.professionalId?.name || "CATEGORIA"}
+                          <Badge ml="1" colorScheme="green">
+                            {modal.professionalId?.isAuthenticated
+                              ? "Autenticado"
+                              : "Normal"}
+                          </Badge>
+                        </Text>
+                        <Text fontSize="sm">
+                          {modal.professionalId?.description || "SUBCATEGORIA"}
+                        </Text>
+                      </Box>
+                    </Flex>
                   </Box>
-                </Flex>
-              </Box>
+                </a>
+              </Link>
               <Divider m={"10px auto"} />
               <Heading m={"0 auto"} fontSize={"1rem"} textAlign={"center"}>
                 {modal.title}
@@ -300,7 +330,7 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                   {modal.description}
                 </Text>
               </Flex>
-              <Divider />
+              <Divider m={"10px auto"} />
               <Flex
                 justifyContent={"space-between"}
                 flexDirection={"column"}
@@ -310,13 +340,17 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                   Imagenes
                 </Heading>
                 <Flex>
-                  {modal.images?.map((img: string) => {
+                  {modal.images?.map((img: string, index: number) => {
                     return (
-                      <Flex flexWrap={"wrap"} overflowY={"auto"} maxH={"200px"}>
+                      <Flex
+                        flexWrap={"wrap"}
+                        overflowY={"auto"}
+                        maxH={"200px"}
+                        key={`${index}`}
+                      >
                         <Flex maxW={"100px"} m={"5px"}>
-                          <ModalImage
-                            small={img}
-                            large={img}
+                          <Image
+                            src={img}
                             alt={`img-solicitud ${modal.title}`}
                           />
                         </Flex>
@@ -331,8 +365,12 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
               <Button colorScheme="blue" mr={3} onClick={setIndexModalOnClose}>
                 Close
               </Button>
-              <Link href={`/professional/${modal.professionalId?._id}`}>
-                <Button variant="ghost">Ir al perfil</Button>
+
+              <Link href={"/"}>
+                <Button variant="ghost">Chat</Button>
+              </Link>
+              <Link href={"/"}>
+                <Button variant="ghost">Finalizar</Button>
               </Link>
             </ModalFooter>
           </ModalContent>

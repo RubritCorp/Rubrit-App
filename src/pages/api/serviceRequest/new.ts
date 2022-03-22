@@ -121,12 +121,12 @@ const cases: ICases = {
       {
         path:"requests.sent.professionalId",
           model: "User",
-          select: "name profilePic isAuthenticated"
+          select: "name profilePic isAuthenticated description"
       },
       {
         path:"requests.received.professionalId",
           model: "User",
-          select: "name profilePic isAuthenticated "
+          select: "name profilePic isAuthenticated description"
       }])
         
         if(requestsPop) {

@@ -16,6 +16,7 @@ export interface Iitems {
 }
 
 declare var mongoose;
+
 declare module "next-auth" {
   interface Session {
     expires: string;
