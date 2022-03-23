@@ -16,15 +16,15 @@ import Signup from "./Authentication/Signup";
 const HomePage = () => {
   const router = useRouter();
 
-  useEffect(() => {
-    const info = localStorage.getItem("userInfo");
+  // useEffect(() => {
+  //   const info = localStorage.getItem("userInfo");
 
-    const userInfo = JSON.parse(info ? info : "null");
+  //   const userInfo = JSON.parse(info ? info : "null");
 
-    if (userInfo) {
-      router.push("/chat/chats");
-    }
-  }, [router]);
+  //   if (userInfo) {
+  //     router.push("/chat/chats");
+  //   }
+  // }, [router]);
   return (
     <Container maxW="xl" centerContent>
       <Box

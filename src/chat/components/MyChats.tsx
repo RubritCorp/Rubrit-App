@@ -2,6 +2,7 @@ import { AddIcon } from "@chakra-ui/icons";
 import { Box, Button, Stack, Text, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { getSender } from "chat/config/ChatLogic";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import envConfig from "../../../next-env-config";
 import {
@@ -20,6 +21,7 @@ const MyChats: React.FC<{ fetchAgain: boolean }> = ({ fetchAgain }) => {
   const { selectedChat, setSelectedChat, user, chats, setChats } = useChat();
 
   const toast = useToast();
+  const { data: session, status } = useSession();
 
   const fetchChats = async () => {
     // console.log(user._id);
@@ -46,10 +48,19 @@ const MyChats: React.FC<{ fetchAgain: boolean }> = ({ fetchAgain }) => {
   };
 
   useEffect(() => {
-    const info = localStorage.getItem("userInfo");
-    setLoggedUser(JSON.parse(info ? info : "{}"));
+    // const info = localStorage.getItem("userInfo");
+    // setLoggedUser(JSON.parse(info ? info : "{}"));
+    if (status === "authenticated") {
+      setLoggedUser({
+        _id: `${session._id}`,
+        email: session.email,
+        name: session.name,
+        profilePic: session.image,
+      });
+    }
     //user.token no esta cargado al recargar pagina
-    if (user.token) fetchChats();
+    // if (user.token) fetchChats();
+    fetchChats();
     // eslint-disable-next-line
   }, [fetchAgain, user.token]);
 

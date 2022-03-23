@@ -1,4 +1,6 @@
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { Session } from "next-auth/core/types";
 import {
   createContext,
   ReactNode,
@@ -19,10 +21,10 @@ export type IUserChat = {
   _id: string;
   name: string;
   email: string;
-  pic: string;
+  profilePic: string;
   token?: string;
 };
-interface IChat {
+export interface IChat {
   _id: string;
   chatName: string;
   isGroupChat: boolean;
@@ -44,7 +46,7 @@ type chatContextType = {
 };
 
 export const chatContextDefaultValues: chatContextType = {
-  user: { _id: "", name: "", email: "", pic: "" },
+  user: { _id: "", name: "", email: "", profilePic: "" },
   setUser: null,
   selectedChat: { _id: "", chatName: "", isGroupChat: false, users: [] },
   setSelectedChat: null,
@@ -64,17 +66,30 @@ const ChatProvider = ({ children }: Props) => {
   );
   const [chats, setChats] = useState<IChat[]>([]);
 
-  const router = useRouter();
+  // const router = useRouter();
+
+  // useEffect(() => {
+  //   const info = localStorage.getItem("userInfo");
+  //   const userInfo = JSON.parse(info ? info : '""');
+  //   setUser(userInfo);
+
+  //   // if (userInfo) {
+  //   //   router.push("/chat/chats");
+  //   // }
+  // }, [router]);
+  const { data: session, status } = useSession();
 
   useEffect(() => {
-    const info = localStorage.getItem("userInfo");
-    const userInfo = JSON.parse(info ? info : '""');
-    setUser(userInfo);
-
-    // if (userInfo) {
-    //   router.push("/chat/chats");
-    // }
-  }, [router]);
+    if (status === "authenticated") {
+      setUser({
+        _id: `${session._id}`,
+        email: session.email,
+        name: session.name,
+        profilePic: session.image,
+        token: session.token,
+      });
+    }
+  }, [status, session]);
   return (
     <ChatContext.Provider
       value={{ user, setUser, selectedChat, setSelectedChat, chats, setChats }}

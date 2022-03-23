@@ -110,7 +110,6 @@ const GroupChatModal: React.FC = ({ children }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      console.log("selected", selectedUsers);
       const { data } = await axios.post(
         `${envConfig?.apiUrl}/chat/group`,
         {
