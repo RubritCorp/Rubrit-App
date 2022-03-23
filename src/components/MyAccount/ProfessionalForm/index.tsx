@@ -278,7 +278,7 @@ const ProfessionalForm = ({ session }: Props) => {
                 </Text>
               )}
 
-              {!session.isPremium && (
+              {!session?.isPremium && (
                 <Alert
                   status={"info"}
                   textAlign={"center"}
@@ -360,7 +360,7 @@ const ProfessionalForm = ({ session }: Props) => {
                   </Text>
                 )}
               </Box>
-              {!session.isPremium && (
+              {!session?.isPremium && (
                 <Alert
                   status={"info"}
                   textAlign={"center"}

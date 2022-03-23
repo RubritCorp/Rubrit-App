@@ -289,6 +289,7 @@ const RequestReceived: React.FC<IProps> = ({ requests }) => {
                   {modal.images?.map((img: string, index: number) => {
                     return (
                       <Flex
+                        key={`${index}`}
                         flexWrap={"wrap"}
                         overflowY={"auto"}
                         css={{

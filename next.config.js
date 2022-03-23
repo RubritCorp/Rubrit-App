@@ -22,7 +22,7 @@ const nextConfig = {
     FACEBOOK_SECRET:process.env.FACEBOOK_SECRET
   },
   images: {
-    domains: ['cimacnoticias.com.mx',"rubrit-development.s3.sa-east-1.amazonaws.com","s3.amazonaws.com", "icon-library.com"],
+    domains: ['cimacnoticias.com.mx',"rubrit-development.s3.sa-east-1.amazonaws.com","s3.amazonaws.com"],
 
   }
 }

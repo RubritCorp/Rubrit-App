@@ -1,4 +1,4 @@
-import { Button, FormControl, InputGroup, InputRightElement } from '@chakra-ui/react';
+import { Button, FormControl, InputGroup, InputRightElement, useColorModeValue } from '@chakra-ui/react';
 import {
   AutoComplete,
   AutoCompleteGroup,
@@ -11,6 +11,7 @@ import { useCategories } from 'Provider/CategoriesProvider';
 
 export default function SearchBarAutocomplete({onSearch, query, setQuery, isHero = false}: {onSearch: (value?: string) => void, query: string, setQuery: (value: string) => void, isHero: boolean}) {
   const { categories } = useCategories();
+  let color = useColorModeValue('black', 'white');
 
   return (
     <InputGroup size='md' minW='320px' maxW={{ base: '500px', xl: '600px'}} w={isHero ? { base: '16rem', sm: '28rem', md: '30rem', lg: '30rem' } : '100%'}>
@@ -25,6 +26,7 @@ export default function SearchBarAutocomplete({onSearch, query, setQuery, isHero
               _hover={{
                 bg: 'green.500',
               }}
+              color='white'
               roundedLeft='none'
               onClick={() => onSearch()}
             >
@@ -34,7 +36,7 @@ export default function SearchBarAutocomplete({onSearch, query, setQuery, isHero
           <AutoCompleteList>
             {categories?.map((category) => (
               <AutoCompleteGroup key={category._id.toString()} showDivider>
-                <AutoCompleteGroupTitle textTransform='capitalize' color='black'>
+                <AutoCompleteGroupTitle textTransform='capitalize' color={color}>
                   {category.name}
                 </AutoCompleteGroupTitle>
                 {category.subcategories?.map((subcategory) => (
@@ -42,7 +44,7 @@ export default function SearchBarAutocomplete({onSearch, query, setQuery, isHero
                     key={subcategory._id.toString()}
                     value={subcategory.name}
                     textTransform='capitalize'
-                    color='black'
+                    color={color}
                     onClick={() => setQuery(subcategory.name)}
                   >
                     {subcategory.name}

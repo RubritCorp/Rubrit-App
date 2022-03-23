@@ -29,6 +29,7 @@ import {
   PopoverTrigger,
   Image,
   AspectRatio,
+  ButtonGroup,
 } from "@chakra-ui/react";
 //import ModalImage from "react-modal-image";
 
@@ -40,16 +41,98 @@ interface IProps {
   requests: any;
 }
 
+const ModalFinalizar: React.FC = () => {
+  const initialFocusRef: any = useRef();
+  return (
+    <Popover
+      initialFocusRef={initialFocusRef}
+      placement="bottom"
+      closeOnBlur={true}
+    >
+      <PopoverTrigger>
+        <Button>Finalizar</Button>
+      </PopoverTrigger>
+      <PopoverContent color="white" borderColor="blue.800">
+        <PopoverHeader pt={4} fontWeight="bold" border="0">
+          Manage Your Channels
+        </PopoverHeader>
+        <PopoverArrow />
+        <PopoverCloseButton />
+        <PopoverBody>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore.
+        </PopoverBody>
+        <PopoverFooter
+          border="0"
+          d="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          pb={4}
+        >
+          <ButtonGroup size="sm">
+            <Button colorScheme="green"></Button>
+            <Button colorScheme="blue" ref={initialFocusRef}>
+              Finalizar
+            </Button>
+          </ButtonGroup>
+        </PopoverFooter>
+      </PopoverContent>
+    </Popover>
+  );
+};
+const ModalDesactivar: React.FC = () => {
+  const initialFocusRef: any = useRef();
+  return (
+    <Popover
+      initialFocusRef={initialFocusRef}
+      placement="bottom"
+      closeOnBlur={true}
+    >
+      <PopoverTrigger>
+        <Button>Desactivar</Button>
+      </PopoverTrigger>
+      <PopoverContent color="white" borderColor="blue.800">
+        <PopoverHeader pt={4} fontWeight="bold" border="0">
+          Manage Your Channels
+        </PopoverHeader>
+        <PopoverArrow />
+        <PopoverCloseButton />
+        <PopoverBody>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore.
+        </PopoverBody>
+        <PopoverFooter
+          border="0"
+          d="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          pb={4}
+        >
+          <ButtonGroup size="sm">
+            <Button colorScheme="green"></Button>
+            <Button colorScheme="blue" ref={initialFocusRef}>
+              Finalizar
+            </Button>
+          </ButtonGroup>
+        </PopoverFooter>
+      </PopoverContent>
+    </Popover>
+  );
+};
+
 const ImageModal: React.FC<any> = ({ url, title }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-      <Flex maxW={"120px"} h={"120px"} m={"5px"}>
+      <Flex>
         <Image
           src={url}
           alt={`img-solicitud ${title}`}
+          maxW={"120px"}
+          maxH={"120px"}
           objectFit="cover"
+          m={"5px"}
           onClick={onOpen}
           _hover={{ cursor: "zoom-in" }}
         ></Image>
@@ -92,7 +175,7 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
     onOpen();
   }
   async function deleteRequest(id: string) {
-    const deleteRequest = await axios.delete("/api/serviceRequest/new", {
+    await axios.delete("/api/serviceRequest/new", {
       data: { id: id },
     });
     onClose();
@@ -305,26 +388,27 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
           <ModalOverlay />
           <ModalContent>
             <ModalCloseButton />
-            <ModalBody>
+            <ModalBody m={"10px"}>
               <Link href={`/professional/${modal.professionalId?._id}`}>
                 <a>
                   <Box>
-                    <Flex m={"10px"} justifyContent={"center"}>
-                      <Avatar src={modal.professionalId?.profilePic} />
-                      <Box ml="3">
-                        <Text fontWeight="bold">
-                          {modal.professionalId?.name || "CATEGORIA"}
-                          <Badge ml="1" colorScheme="green">
-                            {modal.professionalId?.isAuthenticated
-                              ? "Autenticado"
-                              : "Normal"}
-                          </Badge>
-                        </Text>
-                        <Text fontSize="sm">
-                          {modal.professionalId?.description || "SUBCATEGORIA"}
-                        </Text>
-                      </Box>
+                    <Flex justifyContent={"center"} alignItems={"center"}>
+                      <Avatar
+                        src={modal.professionalId?.profilePic}
+                        m={"10px"}
+                      />
+                      <Text fontWeight="bold">
+                        {modal.professionalId?.name || "CATEGORIA"}
+                        <Badge ml="1" colorScheme="green">
+                          {modal.professionalId?.isAuthenticated
+                            ? "Autenticado"
+                            : "Normal"}
+                        </Badge>
+                      </Text>
                     </Flex>
+                    <Text fontSize="sm" textAlign={"center"}>
+                      {modal.professionalId?.description || "SUBCATEGORIA"}
+                    </Text>
                   </Box>
                 </a>
               </Link>
@@ -377,38 +461,46 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                 <Heading m={"0 auto"} fontSize={"1rem"} margin={"10px 0"}>
                   Imagenes
                 </Heading>
-                <Flex>
+                <Flex
+                  flexWrap={"wrap"}
+                  overflowY={"auto"}
+                  maxH={"150px"}
+                  css={{
+                    "&::-webkit-scrollbar": {
+                      width: "5px",
+                    },
+                    "&::-webkit-scrollbar-track": {
+                      width: "10px",
+                    },
+                    "&::-webkit-scrollbar-thumb": {
+                      background: "#38a169",
+                      borderRadius: "24px",
+                    },
+                  }}>
                   {modal.images?.map((img: string, index: number) => {
                     return (
-                      // <Flex
-                      //   flexWrap={"wrap"}
-                      //   overflowY={"auto"}
-                      //   maxH={"200px"}
-                      //   key={`${index}`}
-                      // >
-                      //   <Flex maxW={"100px"} m={"5px"}>
-                      //     <Image src={img} />
-                      //   </Flex>
-                      // </Flex>
-                      <ImageModal url={img} title={modal.title} />
+                      <Box key={`${index}`}>
+                        <ImageModal url={img} title={modal.title} />
+                      </Box>
                     );
                   })}
                 </Flex>
               </Flex>
             </ModalBody>
 
-            <ModalFooter>
-              <Button colorScheme="blue" mr={3} onClick={setIndexModalOnClose}>
-                Close
-              </Button>
-
-              <Link href={"/"}>
-                <Button variant="ghost">Chat</Button>
-              </Link>
-              <Link href={"/"}>
-                <Button variant="ghost">Finalizar</Button>
-              </Link>
-            </ModalFooter>
+            <Flex justifyContent={"space-evenly"} m={"20px"}>
+              <Box>
+                <Button variant="ghost" size="md" bg={"medium_green"}>
+                  Iniciar Chat
+                </Button>
+              </Box>
+              <Box>
+                <ModalDesactivar />
+              </Box>
+              <Box>
+                <ModalFinalizar />
+              </Box>
+            </Flex>
           </ModalContent>
         </Modal>
       )}
