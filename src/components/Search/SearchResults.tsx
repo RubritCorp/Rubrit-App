@@ -24,7 +24,7 @@ const SearchResults: React.FC<{ isLoading: boolean; results?: any; onOpen: any; 
         <Text mt='10px'>{results?.length > 0 ? `${results.length} resultados encontrados` : isLoading ? null : 'No se encontraron resultados'}</Text>
       </Flex>
       <Wrap p='4' minH='100vh' spacing='10px' justify='center'>
-        {results?.length > 0 ? results?.map((prof: any) => <WrapItem key={prof._id}><CardProfessional _id={prof._id} name={prof.name} img={prof.workerData.items[0]?.category?.picture_small} avatar={prof.profilePic} city={prof.address.name} description={prof.description} /></WrapItem>) : isLoading ? <Loading /> : null}
+        {results?.length > 0 ? results?.map((prof: any) => <WrapItem key={prof._id}><CardProfessional _id={prof._id} name={prof.name} img={prof.workerData.items[0]?.category?.picture_small} avatar={prof.profilePic} city={prof.address.name} description={prof.description} isPremium={prof.isPremium} /></WrapItem>) : isLoading ? <Loading /> : null}
       </Wrap>
     </Stack>
   );
