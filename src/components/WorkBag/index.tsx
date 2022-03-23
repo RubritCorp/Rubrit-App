@@ -133,7 +133,6 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data: Session, status } = useSession();
   let [text, setText] = useState("");
-
   let handleInputChange = (e: any) => {
     let inputValue = e.target.value;
     setText(inputValue);
@@ -143,11 +142,11 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
     if (status === "authenticated" || status === "unauthenticated") {
       const cardworker = nearOffers?.map((item: any) => {
         return {
-          name: item.userId.name,
-          location: item.location.formattedAddress,
+          name: item.userId?.name,
+          location: item.location?.formattedAddress,
           title: item.title,
           testimonialWork: item.description,
-          src: item.userId.profilePic,
+          src: item.userId?.profilePic,
           _id: item._id,
         };
       });
@@ -160,7 +159,7 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
     setCard(newCard);
   };
 
-  if (nearOffers.lengt < 1) return <Text>No Hay Ofertas en Tu Zona</Text>;
+  if (nearOffers.length < 1) return <Text>No Hay Ofertas en Tu Zona</Text>;
 
   return (
     <Layout>
@@ -210,7 +209,11 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
                     <TestimonialText>{item.testimonialWork}</TestimonialText>
                     <Stack p={3} align={"center"}>
                       <Button
-                        onClick={onOpen}
+                        onClick={() => {
+                          status === "authenticated"
+                            ? onOpen()
+                            : document.getElementById("signInButton")?.click();
+                        }} //acaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                         bg={"green.500"}
                         _hover={{ bg: "green.400" }}
                         position={"absolute"}
@@ -239,27 +242,16 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
 
           <DrawerBody>
             <Stack spacing={4}>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none">
-                  <Phone size={30} color="#6bdaae" weight="light" />
-                </InputLeftElement>
-                <Input type="tel" placeholder="Phone number" />
-              </InputGroup>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none">
-                  <Envelope size={30} color="#6bdaae" weight="light" />
-                </InputLeftElement>
-                <Input type="email" placeholder="Email" />
-              </InputGroup>
               <Text color="#6bdaae" mb="8px">
                 {" "}
                 Detalle del trabajo a realizar:{" "}
               </Text>
               <Textarea
+                h={"450px"}
                 value={text}
                 onChange={handleInputChange}
                 placeholder="Realice su detalle aca ..."
-                size="sm"
+                size="xl"
               />
 
               <InputGroup>

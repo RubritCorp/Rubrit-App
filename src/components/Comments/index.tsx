@@ -11,87 +11,28 @@ import {
 } from "@chakra-ui/react";
 
 import { Star } from "phosphor-react";
+import { Session } from "next-auth/core/types";
 
-const testimonials = [
-  {
-    name: "Brandon P.",
-    role: "Chief Marketing Officer",
-    content:
-      "Wilson was fantastic! Easy to work with, efficient, and went above and beyond when the task ended up being much larger/longer than we ant...",
-    avatar:
-      "https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-    categorie: "Plomeria",
-  },
-  {
-    name: "Krysta B.",
-    role: "Entrepreneur",
-    content:
-      "Essra was a pleasure to work with. Punctual, friendly, helpful and really knows how to pack a storage unit for maximum efficiency. Will h...",
-    avatar:
-      "https://images.unsplash.com/photo-1598550874175-4d0ef436c909?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-    categorie: "Limpieza",
-  },
-  {
-    name: "Darcy L.",
-    role: "Movie star",
-    content:
-      "Hermann did a fantastic job installing a new AC unit in our house. His communication was excellent and he did really detailed work. I wil...",
-    avatar:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=334&q=80",
-    categorie: "Automotor",
-  },
-  {
-    name: "Daniel Td.",
-    role: "Musician",
-    content:
-      "Laura is AMAZING. She is, by far, the BEST we've found on TaskRabbit for cleaning jobs. She is extremely detailed and efficient. I defini...",
-    avatar:
-      "https://images.unsplash.com/photo-1606513542745-97629752a13b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-    categorie: "Limpieza",
-  },
-  {
-    name: "Daniel Ta.",
-    role: "Musician",
-    content:
-      "Dmitriy was great! Was fast to respond to the job, worked quickly but professionally, and had all the appropriate tools. Would recommend ",
-    avatar:
-      "https://images.unsplash.com/photo-1606513542745-97629752a13b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-    categorie: "Profesor",
-  },
-  {
-    name: "Daniel Te.",
-    role: "Musician",
-    content:
-      "Nick did an outstanding job assembling my patio heater, and he got it done faster than I could have imagined. He also has a very pleasan...",
-    avatar:
-      "https://images.unsplash.com/photo-1606513542745-97629752a13b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-    categorie: "Profesor",
-  },
-];
+type Props = { user: Session };
 
-interface TestimonialCardProps {
-  name: string;
-  role: string;
-  content: string;
-  avatar: string;
-  index: number;
-  categorie: string;
-}
-
-function TestmonialCard(props: TestimonialCardProps) {
-  const { name, role, content, avatar, categorie, index } = props;
-
+function TestimonialCard(props: any) {
+  const {
+    description,
+    score,
+    date,
+    userComment: { name, email, profilePic },
+  } = props;
   const theme = useTheme();
 
   return (
     <Flex
       boxShadow={"xl"}
-      maxW="100%"
-      margin={"0 "}
-      direction={{ base: "column-reverse", md: "row" }}
+      maxW="98%"
+      maxH="12rem"
+      direction={"row"}
       width={"full"}
       rounded={"xl"}
-      p={{ base: "1em 0em", lg: "1em 1em" }}
+      p={"1em"}
       justifyContent={"space-between"}
       position={"relative"}
       bg={useColorModeValue("white", "gray.800")}
@@ -110,7 +51,7 @@ function TestmonialCard(props: TestimonialCardProps) {
         direction={"row"}
         textAlign={"left"}
         justifyContent={"space-between"}
-        p={"1em 0"}
+        p={"1em"}
       >
         <Flex
           paddingRight={"1em"}
@@ -118,33 +59,31 @@ function TestmonialCard(props: TestimonialCardProps) {
           alignItems="center"
           justifyContent="space-evenly"
         >
-          <Box>
+          <Box minH="6rem">
             <Avatar
-              src={avatar}
+              src={profilePic}
               height={"80px"}
               width={"80px"}
               alignSelf={"center"}
             />
           </Box>
-          <Flex margin={"1em"}>
-            <Star size={12} weight="fill" color={theme.colors.medium_green} />
-            <Star size={12} weight="fill" color={theme.colors.medium_green} />
-            <Star size={12} weight="fill" color={theme.colors.medium_green} />
-            <Star size={12} weight="fill" color={theme.colors.medium_green} />
-            <Star size={12} weight="fill" color={theme.colors.medium_green} />
+          <Flex>   
+            {[...Array(score)].map((el: any, index: number) => {
+              return(
+              <Star
+                key={index}
+                size={12}
+                weight="fill"
+                color={theme.colors.medium_green}
+              />
+            )})}
           </Flex>
         </Flex>
-        <Flex flexDirection="column">
+        
+        <Flex flexDirection="column" >
+          <Box minH={"6.45rem"}>
           <chakra.p fontFamily={"Poppins"} fontWeight={"bold"}>
             {name}
-            <chakra.span
-              fontFamily={"Roboto"}
-              fontWeight={"medium"}
-              color={"gray.500"}
-            >
-              {" "}
-              - {role}
-            </chakra.span>
           </chakra.p>
           <chakra.p
             fontFamily={"Poppins"}
@@ -155,16 +94,30 @@ function TestmonialCard(props: TestimonialCardProps) {
               lg: "1rem",
             }}
             pb={4}
+            h={{ base: "60px", lg:"70px"}}
+            overflowY="auto"
+            css={{
+              "&::-webkit-scrollbar": {
+                width: "5px",
+              },
+              "&::-webkit-scrollbar-track": {
+                width: "12px",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                background: "#38a169",
+                borderRadius: "20px",
+              },
+            }}
           >
-            {content}
-          </chakra.p>
+            {description}
+          </chakra.p></Box>
           <chakra.p
             fontFamily={"Roboto"}
             fontWeight={600}
             pb={4}
             color={theme.colors.medium_green}
           >
-            {categorie}
+            {date}
           </chakra.p>
         </Flex>
       </Flex>
@@ -172,24 +125,29 @@ function TestmonialCard(props: TestimonialCardProps) {
   );
 }
 
-export default function GridBlurredBackdrop() {
+export default function GridBlurredBackdrop({ user }: any) {
   return (
     <Flex
       textAlign={"center"}
       justifyContent={"center"}
-      direction={"column"}
-      width={"full"}
+      width={"xl"}
     >
       <SimpleGrid
         columns={[1, null, 1]}
         spacing={"6"}
         mt={5}
         mb={10}
-        mx={"0"}
         minChildWidth={{ base: "300px", lg: "420px" }}
       >
-        {testimonials.map((cardInfo, index) => (
-          <TestmonialCard {...cardInfo} index={index} key={cardInfo.name} />
+        {!user?.rating.map((el: any, index: number) => (
+          <TestimonialCard
+            description={el.description}
+            score={el.score}
+            date={el.date}
+            userComment={el.userComment}
+            index={index}
+            key={index}
+          />
         ))}
       </SimpleGrid>
     </Flex>

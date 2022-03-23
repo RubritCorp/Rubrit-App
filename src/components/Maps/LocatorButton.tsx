@@ -46,7 +46,7 @@ const LocatorButton: React.FC<{ mapObject: any }> = ({ mapObject }) => {
             strokeColor: "#2EB67D",
             strokeWeight: 1,
           };
-          console.log("google", google);
+
           //marker
           if (marker.current) {
             marker.current.setMap(null);
@@ -63,7 +63,7 @@ const LocatorButton: React.FC<{ mapObject: any }> = ({ mapObject }) => {
           if (accuracyCircle.current) {
             accuracyCircle.current.setMap(null);
           }
-          console.log("error", errorRange);
+
           accuracyCircle.current = new google.maps.Circle({
             center: userLocation,
             fillColor: "#2EB67D",

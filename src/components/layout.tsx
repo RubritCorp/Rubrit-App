@@ -1,10 +1,12 @@
 // native libraries
 import Head from "next/head";
+import Script from "next/script";
 // components
 import Footer from "components/Footer";
 import Navbar from "components/NavBar";
 import { Box } from "@chakra-ui/react";
-// styles
+// variables
+import envConfig from "../../next-env-config";
 
 const Layout: React.FC<{
   title?: string;
@@ -17,9 +19,13 @@ const Layout: React.FC<{
         <title>{`Rubrit | ${title}`}</title>
         <meta name="description" content={description} />
       </Head>
-      <Navbar />
-      <main>{children}</main>
-      <Footer />
+      { /* To do: fix security issue (variable is exposed to browser) */ } 
+      <Script src={`https://maps.googleapis.com/maps/api/js?key=${envConfig?.mapsKey}&libraries=places`} strategy='beforeInteractive' />
+      <Box minH={"100vh"}>
+        <Navbar />
+        <main>{children}</main>
+        <Footer />
+      </Box>
     </Box>
   );
 };

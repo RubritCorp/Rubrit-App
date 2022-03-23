@@ -10,6 +10,7 @@ import Layout from "components/layout";
 import { Button, Flex, Text, useToast } from "@chakra-ui/react";
 import { CheckCircleIcon, EmailIcon } from "@chakra-ui/icons";
 import { useSession } from "next-auth/react";
+import envConfig from "../../../next-env-config";
 
 const Code: React.FC = () => {
   const toast = useToast();
@@ -24,13 +25,13 @@ const Code: React.FC = () => {
     const sessionCheck = async () => {
       if (!router.isReady) return;
       if (session && session.isAuthenticated === true) {
-        Router.push("http://localhost:3000/");
+        Router.push(`/`);
       } else {
         setIsAlreadyValid(false);
       }
     };
     sessionCheck();
-  }, [router, session]);
+  }, [router.isReady, session]);
 
   const resend = async () => {
     await axios.post("/api/auth/emailVerification", { email });
@@ -47,16 +48,17 @@ const Code: React.FC = () => {
       await axios.get(
         `/api/auth/emailVerification?code=${code}&email=${email}`
       );
+
+      setIsLoading(false);
+      setStatus("resolved");
+      reloadSession();
       toast({
         title: "¡La cuenta ha sido verificada!",
         status: "success",
         duration: 5000,
         isClosable: true,
-        position: "top-left",
+        position: "bottom-left",
       });
-      setIsLoading(false);
-      setStatus("resolved");
-      reloadSession();
     } catch (err) {
       console.log("Error ocurred in EMAIL_CODE VERIFICATION");
       toast({

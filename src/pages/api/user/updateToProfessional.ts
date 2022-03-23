@@ -28,30 +28,41 @@ interface DataAccesDenied {
 
 const cases: ICases = {
   PUT: async (req, res) => {
-    const { id, categories, images, rangeCoverage, description, companyName } =
-      req.body;
+    const {
+      _id,
+      certification,
+      services,
+      description,
+      shortDescription,
+      categories,
+      serviceRange,
+    } = req.body;
 
-    const user = await User.findOne({ _id: id });
+    const user = await User.findOne({ _id: _id });
 
     if (!user) return res.status(404).json({ message: "User not found" });
+
     user.isWorker = true;
-    let items = categories.map(async (m: any) => {
-      let category = await Category.findOne({ name: m.name }).select("_id");
-      return {
-        category: category._id,
-        subcategories: [...m.subcategories],
-      };
-    });
-
-    user.items = await Promise.all(items);
-
-    user.workerData = {
-      rangeCoverage: rangeCoverage,
-      description: description,
-      companyName: companyName,
-      images: images,
-    };
-
+    user.description = description;
+    user.workerData.shortDescription = shortDescription;
+    user.workerData.rangeCoverage = serviceRange.rangeCoverage;
+    user.address.city = serviceRange.city;
+    user.address.name = serviceRange.addressName;
+    user.address.lat = serviceRange.lat;
+    user.address.lng = serviceRange.lng;
+    if (certification.length) {
+      user.workerData.certification = [...certification];
+    }
+    if (services.length) {
+      user.workerData.images = [...services];
+    }
+    if (Object.keys(categories).length > 0) {
+      let formattedData: any = [];
+      for (let e in categories) {
+        formattedData.push({ category: e, subcategories: [...categories[e]] });
+      }
+      user.workerData.items = [...formattedData];
+    }
     user.save();
     res.status(200).json({ message: "Profile was modified", user });
   },

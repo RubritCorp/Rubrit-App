@@ -1,4 +1,15 @@
-import { Heading, Box, Alert, AlertIcon, Text, Button } from "@chakra-ui/react";
+import {
+  Heading,
+  Box,
+  Alert,
+  AlertIcon,
+  Text,
+  Button,
+  Stack,
+  Skeleton,
+  Flex,
+  Container,
+} from "@chakra-ui/react";
 import CardProfesional from "components/CardProfesional";
 import Loading from "components/Loading";
 import { useSession } from "next-auth/react";
@@ -6,70 +17,85 @@ import { useUsers } from "Provider/UsersProvider";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
 
-const settings = {
-  dots: true,
-  infinite: true,
-  autoplay: true,
-  speed: 500,
-  autoplaySpeed: 5000,
-  slidesToShow: 5,
-  slidesToScroll: 1,
-  responsive: [
-    {
-      breakpoint: 1950,
-      settings: {
-        centerMode: true,
-        centerPadding: "10px",
-        slidesToShow: 4,
-        dots: true,
-      },
-    },
-    {
-      breakpoint: 1640,
-      settings: {
-        centerMode: true,
-        centerPadding: "10px",
-        slidesToShow: 3,
-        dots: true,
-      },
-    },
-    {
-      breakpoint: 1150,
-      settings: {
-        centerMode: true,
-        centerPadding: "10px",
-        slidesToShow: 2,
-        dots: true,
-      },
-    },
-    {
-      breakpoint: 843,
-      settings: {
-        centerMode: true,
-        centerPadding: "1px",
-        slidesToShow: 1,
-        dots: true,
-      },
-    },
-  ],
-};
-
 const NearProfesionals: React.FC = () => {
   const { users, status } = useUsers();
   const { data: Session, status: auth } = useSession();
   const [slider, setSlider] = useState<Slider | null>(null);
 
+  const premiumUsers = users.filter((f) => f.isPremium);
+  const nonPremiumUsers = users.filter((f) => !f.isPremium);
+  const cardsToSlider = [...premiumUsers, ...nonPremiumUsers].slice(0, 10);
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    autoplay: true,
+    speed: 500,
+    autoplaySpeed: 5000,
+    slidesToShow: cardsToSlider.length <= 5 ? cardsToSlider.length : 5,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1950,
+        settings: {
+          centerMode: true,
+          centerPadding: "10px",
+          slidesToShow: cardsToSlider.length <= 4 ? cardsToSlider.length : 4,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 1640,
+        settings: {
+          centerMode: true,
+          centerPadding: "10px",
+          slidesToShow: cardsToSlider.length <= 3 ? cardsToSlider.length : 3,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 1150,
+        settings: {
+          centerMode: true,
+          centerPadding: "10px",
+          slidesToShow: 2,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 843,
+        settings: {
+          centerMode: true,
+          centerPadding: "1px",
+          slidesToShow: 1,
+          dots: true,
+        },
+      },
+    ],
+  };
   useEffect(() => {}, [Session]);
 
-  if (status === "true" || status === "false") {
-    return <Loading />;
-  }
+  const Skeletons = () => {
+    return (
+      <>
+        <Container
+          borderRadius={7}
+          height="420px"
+          maxW={"container.xl"}
+          centerContent
+          py={10}
+        >
+          <Skeleton w={"100%"} h={"100%"} />
+        </Container>
+      </>
+    );
+  };
 
   return (
     <Box
       position={"relative"}
       height={"750px"}
-      width={"full"}
+      width={"100%"}
       overflow={"hidden"}
       mt={4}
     >
@@ -87,8 +113,8 @@ const NearProfesionals: React.FC = () => {
       />
       <Heading fontSize={{ base: "lg", md: "2rem" }} textAlign={"center"} p={4}>
         Profesionales cerca de{" "}
-        {Session?.address.name && auth === "authenticated"
-          ? Session.address.name
+        {Session?.address.city && auth === "authenticated"
+          ? Session.address.city
           : "Cordoba Capital, Argentina"}
       </Heading>
       {!Session ||
@@ -113,19 +139,25 @@ const NearProfesionals: React.FC = () => {
         ))}
 
       {/* Slider */}
-      <Slider {...settings} ref={(slider) => setSlider(slider)}>
-        {users.slice(0, 10).map((item, index: number) => (
-          <CardProfesional
-            key={index}
-            _id={item._id}
-            name={item.name}
-            img={item.items[0].category.picture_small}
-            avatar={item.profilePic}
-            city={item.address.name}
-            description={item.description}
-          />
-        ))}
-      </Slider>
+
+      {status === "true" || status === "false" ? (
+        <Loading />
+      ) : (
+        <Slider {...settings} ref={(slider) => setSlider(slider)}>
+          {cardsToSlider?.map((item, index: number) => (
+            <CardProfesional
+              key={index}
+              _id={item._id}
+              name={item.name}
+              img={item.workerData.items[0]?.category.picture_small}
+              avatar={item.profilePic}
+              city={item.address.name}
+              description={item.description}
+              isPremium={item.isPremium}
+            />
+          ))}
+        </Slider>
+      )}
     </Box>
   );
 };

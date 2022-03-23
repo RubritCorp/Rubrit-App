@@ -148,6 +148,9 @@ const styles: Styles = {
       color: mode("gray.800", "whiteAlpha.900")(props),
       bg: mode("gray.100", "gray.700")(props),
     },
+    [".pac-container"]: {
+      zIndex: "999999 !important",
+    },
   }),
 };
 //bg={useColorModeValue("gray.100", "gray.700")}

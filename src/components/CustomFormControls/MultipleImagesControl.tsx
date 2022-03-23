@@ -6,14 +6,62 @@ import {
   FormErrorMessage,
   Flex,
   Image,
+  SimpleGrid,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  ModalFooter,
+  Text,
 } from "@chakra-ui/react";
 import { FieldHookConfig, useField } from "formik";
 import { ChangeEvent, useState, useRef } from "react";
 import type CustomFieldProps from "./ICustomFieldProps";
 
+const ImageModal: React.FC<any> = ({ url, title }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  return (
+    <>
+      <Flex maxW={"120px"} m={"5px"} maxH={"120px"}>
+        <Image
+          src={url}
+          alt={`img-solicitud ${title}`}
+          objectFit="cover"
+          onClick={onOpen}
+          _hover={{ cursor: "zoom-in" }}
+        ></Image>
+      </Flex>
+      <Modal isOpen={isOpen} onClose={onClose} size="xl">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <Text textAlign={"center"}>{title}</Text>
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Flex justifyContent={"center"}>
+              <Image src={url} alt={`img-solicitud ${title}`}></Image>
+            </Flex>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+};
+
 export const MultipleImagesControl: React.FC<
   FieldHookConfig<string> & CustomFieldProps
-> = ({ label, ...props }) => {
+> = ({ label, title, ...props }) => {
   // useField documentation: https://formik.org/docs/api/useField
   const [field, meta, helpers] = useField(props);
   const { setValue } = helpers;
@@ -75,36 +123,58 @@ export const MultipleImagesControl: React.FC<
       });
 
       return (
-        <Flex>
+        <SimpleGrid
+          minChildWidth="100px"
+          spacing="5px"
+          maxW={"750px"}
+          minH={"150px"}
+          m={"10px"}
+          flexWrap={"wrap"}
+          overflowY={"auto"}
+          css={{
+            "&::-webkit-scrollbar": {
+              width: "4px",
+            },
+            "&::-webkit-scrollbar-track": {
+              width: "6px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "#2eb67d",
+              borderRadius: "24px",
+            },
+          }}
+        >
           {selectedFiles.map((image: string, index: number) => (
-            <Flex flexDirection={"column"} key={image}>
-              <Box position={"relative"} top={"20px"}>
+            <Flex key={`${index}`}>
+              <Box position={"relative"} top={"5px"} left={"122px"}>
                 <Button
                   size="xs"
-                  bgColor="red"
                   onClick={handleDeletePhoto}
                   value={image}
                   key={image}
+                  _hover={{ bg: "warning_red" }}
                 >
-                  X
+                  x
                 </Button>
               </Box>
-              <Image
+              <ImageModal url={image} title={`img-request ${index}`} />
+              {/* <Image
                 key={index}
                 src={image}
-                maxW={"150px"}
+                boxSize={"120px"}
+                objectFit="cover"
                 alt={`image${index}`}
-              />
+              /> */}
             </Flex>
           ))}
-        </Flex>
+        </SimpleGrid>
       );
     }
   }
 
   return (
     <FormControl isInvalid={meta.touched && !!meta.error}>
-      <FormLabel>Trabajos realizados</FormLabel>
+      <FormLabel>{title}</FormLabel>
       <Button onClick={handleClick} backgroundColor={"warning_red"}>
         Subir Imagenes
       </Button>

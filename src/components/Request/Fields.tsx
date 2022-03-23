@@ -1,20 +1,33 @@
 import { InputControl, SelectControl, TextareaControl } from "formik-chakra-ui";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LocationControl } from "components/CustomFormControls/LocationControl";
 import { MultipleImagesControl } from "components/CustomFormControls/MultipleImagesControl";
 import { useCategories } from "Provider/CategoriesProvider";
 import type { ISubcategory } from "models/Subcategory/ISubcategory";
 
-export const StepOneFields: React.FC = () => {
+export const StepOneFields: React.FC<{ selectedCategory: any }> = ({
+  selectedCategory,
+}) => {
   const [subcategories, setSubcategories] = useState<ISubcategory[]>([]);
   const { categories, loading } = useCategories();
 
   function handleSelect(event: React.ChangeEvent<HTMLSelectElement>) {
-    let category = categories.find(
-      (cat) => cat._id.toString() === event.target.value.toString()
-    );
-    if (category) setSubcategories(category.subcategories);
+    let subcategories = getSubcategories(event.target.value.toString());
+    if (subcategories) setSubcategories(subcategories);
   }
+
+  function getSubcategories(category_id: string) {
+    let category = categories.find((cat) => cat._id.toString() === category_id);
+    if (category) return category.subcategories;
+  }
+
+  useEffect(() => {
+    // Show subcategories in case user clicks 'back' button on StepTwoFields
+    if (selectedCategory) {
+      let subcategories = getSubcategories(selectedCategory);
+      if (subcategories) setSubcategories(subcategories);
+    }
+  }, [getSubcategories, selectedCategory]);
 
   return (
     <>
@@ -26,7 +39,7 @@ export const StepOneFields: React.FC = () => {
           margin: "0 0 8px 0",
         }}
         selectProps={{
-          placeholder: "Ver categorías",
+          placeholder: loading ? "Cargando..." : "Ver categorías",
         }}
       >
         {loading
@@ -47,7 +60,7 @@ export const StepOneFields: React.FC = () => {
           margin: "8px 0 8px 0",
         }}
         selectProps={{
-          placeholder: "Ver subcategorías",
+          placeholder: loading ? "Cargando..." : "Ver subcategorías",
         }}
       >
         {subcategories?.map((subcategory) => (

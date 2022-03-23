@@ -1,8 +1,22 @@
 //from modules
 import NextAuth from "next-auth";
 import { Types } from "mongoose";
+type Category = {
+  _id: string;
+  name: string;
+  ["picture_small"]: string;
+};
+type Subcategory = {
+  _id: string;
+  name: string;
+};
+export interface Iitems {
+  category: Category;
+  subcategories: Subcategory[];
+}
 
 declare var mongoose;
+
 declare module "next-auth" {
   interface Session {
     expires: string;
@@ -17,14 +31,30 @@ declare module "next-auth" {
     description: string;
     address: {
       name: string;
+      city: string;
+      country: string;
       lat: number;
       lng: number;
       searchRange: number;
       timeZone: string;
     };
+    isPremium: boolean;
     isAuthenticated: boolean;
     withProvider: boolean;
     isWorker: boolean;
+    workerData: {
+      images: string[];
+      certification: string[];
+      rangeCoverage: number;
+      items: {
+        category: {
+          _id: string;
+          name: string;
+          ["picture_small"]: string;
+        };
+        subcategories: { _id: string; name: string }[];
+      }[];
+    };
     preferences: {
       notificationsMessages: boolean;
       notificationsNewOffer: boolean;
@@ -32,8 +62,10 @@ declare module "next-auth" {
       language: string;
       hideAddress: boolean;
     };
-    items: any;
-    offers: any;
+    requests: {
+      received: Types.ObjectId[];
+      send: Types.ObjectId[];
+    };
     payerId: string;
   }
 }

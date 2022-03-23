@@ -23,10 +23,10 @@ import { IUser } from "models/User/IUser";
 //db
 import "utils/db";
 import { TrendUp } from "phosphor-react";
+import { hashPassword } from "utils/verifyPassword";
 
 interface ICases {
   GET(req: NextApiRequest, res: NextApiResponse<DataUser>): void;
-  ERROR(req: NextApiRequest, res: NextApiResponse<DataError>): void;
 }
 
 interface DataUser {
@@ -45,778 +45,529 @@ interface DataError {
 interface DataAccesDenied {
   message: string;
 }
+const date = new Date();
 
 const cases: ICases = {
   GET: async (req, res) => {
-    const user = [
+    const f = [
       {
-        email: "Josecarloss@gmail.com",
-        name: "Juan Jose Cito",
+        email: "franciscoRuiz@gmail.com",
+        name: "Francisco Ruiz",
         phone: {
-          diallingCode: "54011",
-          number: "34567890",
+          diallingCode: "+54",
+          number: "3541584265",
         },
-        password: "frdgsgdvwd",
-        description: "Instalaciones sanitarias integrales",
+        password: "12345678Ac",
+        description:
+          "Soy un profesional de la albañileria, sin embargo me dedico tambien a la reparación de aires acondicionados y a la tapiceria de muebles.",
         authCode: "",
-        withProvider: true,
-        isAuthenticated: true,
-        profilePic:
-          "https://rubrit-development.s3.sa-east-1.amazonaws.com/assets/profile-pics/hombre_3.jpg",
-        isWorker: true,
-        isPremium: true,
-        payerId: "",
-        address: {
-          name: "Avenida Vélez Sarsfield, Córdoba, Argentina",
-          lat: -31.4198303,
-          lng: -64.1903709,
-          searchRange: 25,
-          timeZone: "GTM 03",
-        },
-        preferences: {
-          notificationsMessages: true,
-          notificationsNewOffer: true,
-          showAllChats: true,
-          language: "",
-          hideAddress: false,
-        },
-        rating: [
-          {
-            userComment: "6228a29573a25fac4658ef8e",
-            description:
-              "Cambió los desagues del baño. Cumplidor y prolijo para trabajar",
-            score: "",
-          },
-        ],
-        items: [
-          {
-            category: "62254be64f48774b0a18a88d",
-            subcategories: [
-              "62163e5b4e1f963fce2d7b93",
-              "62163e604e1f963fce2d7b95",
-            ],
-            description:
-              "Instalaciones domicilarias y empresariales. Reparaciones e instalaciones en general. Cambio de desagues, cañerias de agua fría y caliente",
-            certification: [""],
-          },
-        ],
-        offers: ["622a9f3ed4d886b45ace0141"],
-      },
-
-      {
-        email: "jjuanpeeepee@gmail.com",
-        name: "Julian Pepe par",
-        phone: {
-          diallingCode: "0342",
-          number: "45887890",
-        },
-        password: "soyelmejor45",
-        description: "Aire Acondicionado y Climatización",
-        authCode: "",
-        withProvider: true,
-        isAuthenticated: true,
-        profilePic:
-          "https://rubrit-development.s3.sa-east-1.amazonaws.com/assets/profile-pics/hombre_1.jpg",
-        isWorker: true,
-        isPremium: true,
-        payerId: "",
-        address: {
-          name: "Avenida Vélez Sarsfield, Córdoba, Argentina",
-          lat: -31.4198303,
-          lng: -64.1903709,
-          searchRange: 25,
-          timeZone: "GTM 03",
-        },
-        preferences: {
-          notificationsMessages: true,
-          notificationsNewOffer: true,
-          showAllChats: true,
-          language: "Ingles",
-          hideAddress: false,
-        },
-        rating: [
-          {
-            userComment: "6228a29573a25fac4658ef8e",
-            description: "Instaló 2 split. Muy recomendable",
-            score: "",
-          },
-        ],
-        items: [
-          {
-            category: "622648ac45463523440a7604",
-            subcategories: ["62163c604e1f963fce2d7af9"],
-            description: "Sistemas de refrigeración y calefacción",
-            certification: [""],
-          },
-        ],
-        offers: ["622a9f3ed4d886b45ace0141"],
-      },
-
-      {
-        email: "joaquinffffernandez@gmail.com",
-        name: "Joaquin Fernandez",
-        phone: {
-          diallingCode: "54011",
-          number: "23459902",
-        },
-        password: "joaco5467",
-        description: "Albañil de oficio, hago reparaciones y reformas",
-        authCode: "",
-        withProvider: true,
-        isAuthenticated: true,
-        profilePic:
-          "https://rubrit-development.s3.sa-east-1.amazonaws.com/assets/profile-pics/hombre_9.jpg",
-        isWorker: true,
-        isPremium: true,
-        payerId: "",
-        address: {
-          name: "Avenida Vélez Sarsfield, Córdoba, Argentina",
-          lat: -31.4198303,
-          lng: -64.1903709,
-          searchRange: 25,
-          timeZone: "GTM 03",
-        },
-        preferences: {
-          notificationsMessages: true,
-          notificationsNewOffer: true,
-          showAllChats: true,
-          language: "Guarani",
-          hideAddress: false,
-        },
-        rating: [
-          {
-            userComment: "6228a29573a25fac4658ef8e",
-            description:
-              "Demolió una pared y levantó 2 nuevas. Colocó una puerta. Hizo bien el trabajo aunque tardó mucho",
-            score: "",
-          },
-        ],
-        items: [
-          {
-            category: "622516a44f48774b0a18a864",
-            subcategories: [
-              "62163c704e1f963fce2d7afd",
-              "62163c7d4e1f963fce2d7aff",
-            ],
-            description: "Arreglo y construccion de todo tipo de obras",
-            certification: [""],
-          },
-        ],
-        offers: ["622a9f3ed4d886b45ace0141"],
-      },
-      {
-        email: "amalia_kkakaatz@gmail.com",
-        name: "Amalia Katz",
-        phone: {
-          diallingCode: "0345",
-          number: "11139902",
-        },
-        password: "malina567",
-        description: "Interiorismo y decoración. Diseños personalizados",
-        authCode: "",
-        withProvider: true,
-        isAuthenticated: true,
-        profilePic:
-          "https://rubrit-development.s3.sa-east-1.amazonaws.com/assets/profile-pics/mujer_1.jpg",
-        isWorker: true,
-        isPremium: true,
-        payerId: "",
-        address: {
-          name: "Avenida Vélez Sarsfield, Córdoba, Argentina",
-          lat: -31.4198303,
-          lng: -64.1903709,
-          searchRange: 25,
-          timeZone: "GTM 03",
-        },
-        preferences: {
-          notificationsMessages: true,
-          notificationsNewOffer: true,
-          showAllChats: true,
-          language: "Ingles",
-          hideAddress: false,
-        },
-        rating: [
-          {
-            userComment: "6228a29573a25fac4658ef8e",
-            description:
-              "Remodeló mi monoambiente. Quedé muy contenta con el trabajo",
-            score: "",
-          },
-        ],
-        items: [
-          {
-            category: "62256f724f48774b0a18a8bf",
-            subcategories: [
-              "62163dfa4e1f963fce2d7b67",
-              "62163e044e1f963fce2d7b6b",
-            ],
-            description: "Diseñadora de interiores",
-            certification: [""],
-          },
-        ],
-        offers: ["622a9f3ed4d886b45ace0141"],
-      },
-      {
-        email: "juana_mariajauan@gmail.com",
-        name: "Juana Maria Borg",
-        phone: {
-          diallingCode: "54011",
-          number: "39367577",
-        },
-        password: "juanima27",
-        description: "Yoga y Terapia armonizante",
-        authCode: "",
-        withProvider: true,
-        isAuthenticated: true,
-        profilePic:
-          "https://rubrit-development.s3.sa-east-1.amazonaws.com/assets/profile-pics/mujer_2.jpg",
-        isWorker: true,
-        isPremium: true,
-        payerId: "",
-        address: {
-          name: "Avenida Vélez Sarsfield, Córdoba, Argentina",
-          lat: -31.4198303,
-          lng: -64.1903709,
-          searchRange: 25,
-          timeZone: "GTM 03",
-        },
-        preferences: {
-          notificationsMessages: true,
-          notificationsNewOffer: true,
-          showAllChats: true,
-          language: "",
-          hideAddress: false,
-        },
-        rating: [
-          {
-            userComment: "6228a29573a25fac4658ef8e",
-            description: "Hice terapia de cuencos y Reiki. Me gustó",
-            score: "",
-          },
-        ],
-        items: [
-          {
-            category: "6226574645463523440a7605",
-            subcategories: ["62163d024e1f963fce2d7b2d"],
-            description: "Profesora de Yoga terapias corporales",
-            certification: [""],
-          },
-        ],
-        offers: ["622a9f3ed4d886b45ace0141"],
-      },
-
-      {
-        email: "tumudanza_ceressstz@gmail.com",
-        name: "Ignacio Ceretz",
-        phone: {
-          diallingCode: "54011",
-          number: "11234576",
-        },
-        password: "nacho2250",
-        description: "Servicios de mudanzas llave en mano",
-        authCode: "",
-        withProvider: true,
-        isAuthenticated: true,
-        profilePic:
-          "https://rubrit-development.s3.sa-east-1.amazonaws.com/assets/profile-pics/hombre_13.jpg",
-        isWorker: true,
-        isPremium: true,
-        payerId: "",
-        address: {
-          name: "Avenida Vélez Sarsfield, Córdoba, Argentina",
-          lat: -31.4198303,
-          lng: -64.1903709,
-          searchRange: 25,
-          timeZone: "GTM 03",
-        },
-        preferences: {
-          notificationsMessages: true,
-          notificationsNewOffer: true,
-          showAllChats: true,
-          language: "",
-          hideAddress: false,
-        },
-        rating: [
-          {
-            userComment: "6228a29573a25fac4658ef8e",
-            description: "Muy atentos en los detalles. Los recomiendo.",
-            score: "",
-          },
-        ],
-        items: [
-          {
-            category: "622561e14f48774b0a18a8a8",
-            subcategories: [
-              "621640ca4e1f963fce2d7bf3",
-              "621640ca4e1f963fce2d7bf1",
-              "621640ca4e1f963fce2d7bf2",
-            ],
-            description:
-              "Traslados y mudanzas de muebles. Fletes. Equipo de trabajo 24 hs. Atendemos urgencias",
-            certification: [""],
-          },
-        ],
-        offers: ["622a9f3ed4d886b45ace0141"],
-      },
-      {
-        email: "elvira_eveveventos@gmail.com",
-        name: "Elvira Masdad",
-        phone: {
-          diallingCode: "0341",
-          number: "15674776",
-        },
-        password: "elvimas88",
-        description: "Eventos y Catering",
-        authCode: "",
-        withProvider: true,
-        isAuthenticated: true,
-        profilePic:
-          "https://rubrit-development.s3.sa-east-1.amazonaws.com/assets/profile-pics/mujer_10.jpg",
-        isWorker: true,
-        isPremium: false,
-        payerId: "",
-        address: {
-          name: "Avenida Vélez Sarsfield, Córdoba, Argentina",
-          lat: -31.4198303,
-          lng: -64.1903709,
-          searchRange: 25,
-          timeZone: "GTM 03",
-        },
-        preferences: {
-          notificationsMessages: true,
-          notificationsNewOffer: true,
-          showAllChats: true,
-          language: "",
-          hideAddress: false,
-        },
-        rating: [
-          {
-            userComment: "6228a29573a25fac4658ef8e",
-            description:
-              "Muy profesional, organizó perfectamente el Bar Mitzvá de mi hijo.",
-            score: "",
-          },
-        ],
-        items: [
-          {
-            category: "622558314f48774b0a18a8a0",
-            subcategories: [
-              "62163e214e1f963fce2d7b75",
-              "62163e3b4e1f963fce2d7b83",
-              "62163e314e1f963fce2d7b7d",
-            ],
-            description:
-              "Organizamos tu evento. Todo lo que necesitas para tu fiesta. Cumpleaños, casamientos, Bar Mitzvá. Servicio de catering",
-            certification: [""],
-          },
-        ],
-        offers: ["622a9f3ed4d886b45ace0141"],
-      },
-      {
-        email: "juan_berazasategui@gmail.com",
-        name: "Juan Antonio Berazategui",
-        phone: {
-          diallingCode: "54011",
-          number: "19854776",
-        },
-        password: "beraza6754",
-        description: "Herrero artístico y de obra",
-        authCode: "",
-        withProvider: true,
-        isAuthenticated: true,
-        profilePic:
-          "https://rubrit-development.s3.sa-east-1.amazonaws.com/assets/profile-pics/hombre_14.jpg",
-        isWorker: true,
-        isPremium: false,
-        payerId: "",
-        address: {
-          name: "Avenida Vélez Sarsfield, Córdoba, Argentina",
-          lat: -31.4198303,
-          lng: -64.1903709,
-          searchRange: 25,
-          timeZone: "GTM 03",
-        },
-        preferences: {
-          notificationsMessages: true,
-          notificationsNewOffer: true,
-          showAllChats: true,
-          language: "",
-          hideAddress: false,
-        },
-        rating: [
-          {
-            userComment: "6228a29573a25fac4658ef8e",
-            description: "Hizo un portón para mi casa. Trabajo muy prolijo",
-            score: "",
-          },
-        ],
-        items: [
-          {
-            category: "622551f54f48774b0a18a898",
-            subcategories: [
-              "62163ed64e1f963fce2d7bb1",
-              "62163ede4e1f963fce2d7bb3",
-              "62163ee84e1f963fce2d7bb7",
-            ],
-            description:
-              "Trabajos profesionales.Asesoramiento y presupuestos para profesionales de la construcción y particulares. Rejas, portones, trabajos a medida, herrería decorativa",
-            certification: [""],
-          },
-        ],
-        offers: ["622a9f3ed4d886b45ace0141"],
-      },
-      {
-        email: "juliana_dosssminguez@gmail.com",
-        name: "Giuliana Dominguez",
-        phone: {
-          diallingCode: "54011",
-          number: "23450098",
-        },
-        password: "giuli8976",
-        description: "Tratamientos estéticos y corporales",
-        authCode: "",
-        withProvider: true,
-        isAuthenticated: true,
-        profilePic:
-          "https://rubrit-development.s3.sa-east-1.amazonaws.com/assets/profile-pics/mujer_3",
-        isWorker: true,
-        isPremium: true,
-        payerId: "",
-        address: {
-          name: "Avenida Vélez Sarsfield, Córdoba, Argentina",
-          lat: -31.4198303,
-          lng: -64.1903709,
-          searchRange: 25,
-          timeZone: "GTM 03",
-        },
-        preferences: {
-          notificationsMessages: true,
-          notificationsNewOffer: true,
-          showAllChats: true,
-          language: "",
-          hideAddress: false,
-        },
-        rating: [
-          {
-            userComment: "6228a29573a25fac4658ef8e",
-            description:
-              "Realicé un tratamiento de peeling. Pero tuve una reacción alérgica",
-            score: "",
-          },
-        ],
-        items: [
-          {
-            category: "622544764f48774b0a18a884",
-            subcategories: [
-              "62163cd64e1f963fce2d7b1d",
-              "62163ce04e1f963fce2d7b1f",
-              "62163ced4e1f963fce2d7b25",
-            ],
-            description:
-              "Belleza integral. Ambos sexos. Tratamientos estéticos faciales y corporales, peeling, dermoabrasión, limpieza de cutis, ondas rusas, electrodos.",
-            certification: [""],
-          },
-        ],
-        offers: ["622a9f3ed4d886b45ace0141"],
-      },
-
-      {
-        email: "guau_wassssh@gmail.com",
-        name: "Milo Reznik",
-        phone: {
-          diallingCode: "54011",
-          number: "23453345",
-        },
-        password: "milomano2345",
-        description: "Atendemos a tu mascota con amor",
-        authCode: "",
-        withProvider: true,
-        isAuthenticated: true,
-        profilePic:
-          "https://rubrit-development.s3.sa-east-1.amazonaws.com/assets/profile-pics/hombre_5.jpg",
-        isWorker: true,
-        isPremium: true,
-        payerId: "",
-        address: {
-          name: "Avenida Vélez Sarsfield, Córdoba, Argentina",
-          lat: -31.4198303,
-          lng: -64.1903709,
-          searchRange: 25,
-          timeZone: "GTM 03",
-        },
-        preferences: {
-          notificationsMessages: true,
-          notificationsNewOffer: true,
-          showAllChats: true,
-          language: "",
-          hideAddress: false,
-        },
-        rating: [
-          {
-            userComment: "6228a29573a25fac4658ef8e",
-            description:
-              "Llevé a mi perro Tango a la peluquería canina. Excelente atención y quedó divino!",
-            score: "",
-          },
-        ],
-        items: [
-          {
-            category: "622555b24f48774b0a18a89e",
-            subcategories: [
-              "621640ca4e1f963fce2d7beb",
-              "621640ca4e1f963fce2d7bec",
-              "621640ca4e1f963fce2d7bed",
-            ],
-            description:
-              "Todo para tu mascota, peluqueria canina, petshop. Atendemos de 9 a 20hs. comunicate y pedi tu presupuesto!",
-            certification: [""],
-          },
-        ],
-        offers: ["622a9f3ed4d886b45ace0141"],
-      },
-      {
-        email: "silvinoparaaaaguay@gmail.com",
-        name: "Silvino Avalos",
-        phone: {
-          diallingCode: "54011",
-          number: "33456789",
-        },
-        password: "paragua4533",
-        description: "Pinto casas",
-        authCode: "",
-        withProvider: true,
-        isAuthenticated: true,
-        profilePic:
-          "https://rubrit-development.s3.sa-east-1.amazonaws.com/assets/profile-pics/hombre_4.jpg",
-        isWorker: true,
-        isPremium: false,
-        payerId: "",
-        address: {
-          name: "Avenida Vélez Sarsfield, Córdoba, Argentina",
-          lat: -31.4198303,
-          lng: -64.1903709,
-          searchRange: 25,
-          timeZone: "GTM 03",
-        },
-        preferences: {
-          notificationsMessages: true,
-          notificationsNewOffer: true,
-          showAllChats: true,
-          language: "",
-          hideAddress: false,
-        },
-        rating: [
-          {
-            userComment: "6228a29573a25fac4658ef8e",
-            description:
-              "Llevé a mi perro Tango a la peluquería canina. Excelente atención y quedó divino!",
-            score: "",
-          },
-        ],
-        items: [
-          {
-            category: "622555b24f48774b0a18a89e",
-            subcategories: [
-              "621640ca4e1f963fce2d7beb",
-              "621640ca4e1f963fce2d7bec",
-              "621640ca4e1f963fce2d7bed",
-            ],
-            description:
-              "Todo para tu mascota, peluqueria canina, petshop. Atendemos de 9 a 20hs. comunicate y pedi tu presupuesto!",
-            certification: [""],
-          },
-        ],
-        offers: ["622a9f3ed4d886b45ace0141"],
-      },
-      {
-        email: "tujardinnnn@gmail.com",
-        name: "Etelvina Rodriguez",
-        phone: {
-          diallingCode: "54011",
-          number: "87665123",
-        },
-        password: "ethelrojo22",
-        description: "Vivi a pleno tu espacio verde. Si no existe, crealo",
-        authCode: "",
-        withProvider: true,
-        isAuthenticated: true,
-        profilePic:
-          "https://rubrit-development.s3.sa-east-1.amazonaws.com/assets/profile-pics/mujer_4.jpg",
-        isWorker: true,
-        isPremium: true,
-        payerId: "",
-        address: {
-          name: "Avenida Vélez Sarsfield, Córdoba, Argentina",
-          lat: -31.4198303,
-          lng: -64.1903709,
-          searchRange: 25,
-          timeZone: "GTM 03",
-        },
-        preferences: {
-          notificationsMessages: true,
-          notificationsNewOffer: true,
-          showAllChats: true,
-          language: "",
-          hideAddress: false,
-        },
-        rating: [
-          {
-            userComment: "6228a29573a25fac4658ef8e",
-            description:
-              "Rediseñó mi triste balcón y ahora es el ambiente de mi casa que más disfruto!",
-            score: "",
-          },
-        ],
-        items: [
-          {
-            category: "62255a3d4f48774b0a18a8a2",
-            subcategories: [
-              "621640ca4e1f963fce2d7bdc",
-              "62163d7c4e1f963fce2d7b49",
-              "621640ca4e1f963fce2d7bde",
-            ],
-            description:
-              "Tu jardin o terraza es unico. Dejalo en nuestras manos. Rediseñamos y creamos espacio verde. Llamanos, podemos asesorarte",
-            certification: [""],
-          },
-        ],
-        offers: ["622a9f3ed4d886b45ace0141"],
-      },
-      {
-        email: "tapiceeeeeros3344@gmail.com",
-        name: "Omar Sanchez",
-        phone: {
-          diallingCode: "54011",
-          number: "83577123",
-        },
-        password: "omiythar",
-        description: "Renova tus sillas y sillones",
-        authCode: "",
-        withProvider: true,
-        isAuthenticated: true,
-        profilePic:
-          "https://rubrit-development.s3.sa-east-1.amazonaws.com/assets/profile-pics/hombre_15.jpg",
-        isWorker: true,
-        isPremium: true,
-        payerId: "",
-        address: {
-          name: "Avenida Vélez Sarsfield, Córdoba, Argentina",
-          lat: -31.4198303,
-          lng: -64.1903709,
-          searchRange: 25,
-          timeZone: "GTM 03",
-        },
-        preferences: {
-          notificationsMessages: true,
-          notificationsNewOffer: true,
-          showAllChats: true,
-          language: "",
-          hideAddress: false,
-        },
-        rating: [
-          {
-            userComment: "6228a29573a25fac4658ef8e",
-            description: "Retapizó mis sillas, quedaron muy lindas",
-            score: "",
-          },
-        ],
-        items: [
-          {
-            category: "622568214f48774b0a18a8ae",
-            subcategories: ["621640ca4e1f963fce2d7c03"],
-            description:
-              "Ahora podes renovar tu muebles. Llamame. Trabajamos con cuero ecologico y las mejores telas de tapiceria. Surtidos de colores y terminaciones. Enviame fotos de lo que quieras renovar y te brindare mi asesoramiento",
-            certification: [""],
-          },
-        ],
-        offers: ["622a9f3ed4d886b45ace0141"],
-      },
-      {
-        email: "plagaaaa_control@gmail.com",
-        name: "Julio Minio",
-        phone: {
-          diallingCode: "54011",
-          number: "21340967",
-        },
-        password: "pie_talo78",
-        description: "Fumigaciones y control de plagas. Atendemos a consorcios",
-        authCode: "",
-        withProvider: true,
+        withProvider: false,
         isAuthenticated: true,
         profilePic:
           "https://rubrit-development.s3.sa-east-1.amazonaws.com/assets/profile-pics/hombre_16.jpg",
         isWorker: true,
-        isPremium: false,
+        isPremium: true,
         payerId: "",
         address: {
-          name: "Avenida Vélez Sarsfield, Córdoba, Argentina",
-          lat: -31.4198303,
-          lng: -64.1903709,
-          searchRange: 25,
+          name: "Av. Vélez Sarsfield, Córdoba, Argentina",
+          city: "Córdoba",
+          country: "Argentina",
+          lat: -31.4198349,
+          lng: -64.1881822,
+          searchRange: 30,
           timeZone: "GTM 03",
         },
         preferences: {
           notificationsMessages: true,
           notificationsNewOffer: true,
           showAllChats: true,
-          language: "",
+          language: "Español",
           hideAddress: false,
         },
         rating: [
           {
-            userComment: "6228a29573a25fac4658ef8e",
-            description:
-              "Eliminó la colonia de cucarachas que tenía en mi cocina",
-            score: "",
+            userComment: "6230b9925fbcf2faa5764432",
+            description: "Increible Resolución de problemas, un gran albañil.",
+            score: 4,
+            date: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
           },
         ],
-        items: [
+        workerData: {
+          images: [
+            "https://relubquim.com.ec/wp-content/uploads/2019/11/C01.jpg",
+            "https://i.ytimg.com/vi/V6yZ8i3qyVo/hqdefault.jpg",
+            "https://i.pinimg.com/originals/d5/72/29/d57229598b64b80f4c50ddd23e53dddd.jpg",
+            "https://www.tapicerobarato.com/wp-content/gallery/trabajos-de-tapiceria/trabajos-de-tapiceria-37.jpg",
+            "http://tapisseriarapit.com.otrarroba.com/sites/default/files/Tapisseria_Rapit-funda-sofa_01.jpg",
+            "https://imagenes.cordobavende.com/medianas/3c43fab0d0b03fad4712a70f6ec1a034-1.jpg",
+            "https://http2.mlstatic.com/D_NQ_NP_863179-MLA29071459315_122018-O.jpg",
+          ],
+          certification: [
+            "https://i.pinimg.com/474x/e7/6d/a9/e76da988b07eaac05eda92daa82b78b8.jpg",
+            "https://relubquim.com.ec/wp-content/uploads/2019/11/C01.jpg",
+            "https://i.ytimg.com/vi/V6yZ8i3qyVo/hqdefault.jpg",
+          ],
+          rangeCoverage: 50,
+          items: [
+            {
+              category: "622516a44f48774b0a18a864",
+              subcategories: [
+                "62163eed4e1f963fce2d7bb9",
+                "62163ef44e1f963fce2d7bbb",
+                "62163ef84e1f963fce2d7bbd",
+              ],
+            },
+            {
+              category: "622544764f48774b0a18a884",
+              subcategories: [
+                "62163cd64e1f963fce2d7b1d",
+                "62163ce04e1f963fce2d7b1f",
+                "62163ce74e1f963fce2d7b21",
+              ],
+            },
+            {
+              category: "622539704f48774b0a18a876",
+              subcategories: [
+                "62163eed4e1f963fce2d7bb9",
+                "62163ef44e1f963fce2d7bbb",
+                "62163ef84e1f963fce2d7bbd",
+              ],
+            },
+          ],
+        },
+        requests: {
+          received: [],
+          send: [],
+        },
+      },
+      /**/
+      {
+        email: "joaquinsaad@gmail.com",
+        name: "Joaquin Saad",
+        phone: {
+          diallingCode: "+54",
+          number: "3541661100",
+        },
+        password: "12345678Ac",
+        description:
+          "Me ocupo de muchos rubros, sin embargo me especializo en el hurto de objetos de valor.",
+        authCode: "",
+        withProvider: false,
+        isAuthenticated: true,
+        profilePic:
+          "http://nexofm.com.ar/download/multimedia.normal.ace6928d052364a8.6564756172646f5f6e6f726d616c2e706e67.png",
+        isWorker: true,
+        isPremium: true,
+        payerId: "",
+        address: {
+          name: "Blvd. San juan, Córdoba, Argentina",
+          city: "Córdoba",
+          country: "Argentina",
+          lat: -31.4202819,
+          lng: -64.1893823,
+          searchRange: 15,
+          timeZone: "GTM 03",
+        },
+        preferences: {
+          notificationsMessages: true,
+          notificationsNewOffer: true,
+          showAllChats: true,
+          language: "Español",
+          hideAddress: false,
+        },
+        rating: [
           {
-            category: "62256a754f48774b0a18a8b5",
-            subcategories: ["62163d8b4e1f963fce2d7b4d"],
-            description:
-              "Desratizacion y fumigacion. Efectividad garantizada o le devolvemos su dinero",
-            certification: [""],
+            userComment: "6230b9925fbcf2faa5764432",
+            description: "Increible Resolución de problemas, un gran ladron.",
+            score: 4,
+            date: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
           },
         ],
-        offers: ["622a9f3ed4d886b45ace0141"],
+        workerData: {
+          images: [
+            "https://relubquim.com.ec/wp-content/uploads/2019/11/C01.jpg",
+            "https://i.ytimg.com/vi/V6yZ8i3qyVo/hqdefault.jpg",
+            "https://i.pinimg.com/originals/d5/72/29/d57229598b64b80f4c50ddd23e53dddd.jpg",
+            "https://www.tapicerobarato.com/wp-content/gallery/trabajos-de-tapiceria/trabajos-de-tapiceria-37.jpg",
+            "http://tapisseriarapit.com.otrarroba.com/sites/default/files/Tapisseria_Rapit-funda-sofa_01.jpg",
+            "https://imagenes.cordobavende.com/medianas/3c43fab0d0b03fad4712a70f6ec1a034-1.jpg",
+            "https://http2.mlstatic.com/D_NQ_NP_863179-MLA29071459315_122018-O.jpg",
+          ],
+          certification: [
+            "https://i.pinimg.com/474x/e7/6d/a9/e76da988b07eaac05eda92daa82b78b8.jpg",
+            "https://relubquim.com.ec/wp-content/uploads/2019/11/C01.jpg",
+            "https://i.ytimg.com/vi/V6yZ8i3qyVo/hqdefault.jpg",
+          ],
+          rangeCoverage: 50,
+          items: [
+            {
+              category: "622544764f48774b0a18a884",
+              subcategories: [
+                "62163cd64e1f963fce2d7b1d",
+                "62163ce04e1f963fce2d7b1f",
+                "62163ce74e1f963fce2d7b21",
+              ],
+            },
+            {
+              category: "622548b44f48774b0a18a889",
+              subcategories: [
+                "62163d074e1f963fce2d7b2f",
+                "62163d0c4e1f963fce2d7b31",
+                "62163d114e1f963fce2d7b33",
+              ],
+            },
+          ],
+        },
+        requests: {
+          received: [],
+          send: [],
+        },
+      },
+      /**/
+      {
+        email: "nicolasTornau@gmail.com",
+        name: "Nicolas Tornau",
+        phone: {
+          diallingCode: "+54",
+          number: "3541885566",
+        },
+        password: "12345678Ac",
+        description:
+          "Me ocupo de muchas cosas en realidad, espero que nadie vea esto!.",
+        authCode: "",
+        withProvider: false,
+        isAuthenticated: true,
+        profilePic: "https://www.dxtcarlospaz.com/fotos/tornau.jpg",
+        isWorker: true,
+        isPremium: true,
+        payerId: "",
+        address: {
+          name: "Blvd. San juan, Córdoba, Argentina",
+          city: "Córdoba",
+          country: "Argentina",
+          lat: -31.4213107,
+          lng: -64.1891867,
+          searchRange: 15,
+          timeZone: "GTM 03",
+        },
+        preferences: {
+          notificationsMessages: true,
+          notificationsNewOffer: true,
+          showAllChats: true,
+          language: "Español",
+          hideAddress: false,
+        },
+        rating: [
+          {
+            userComment: "6230b9925fbcf2faa5764432",
+            description:
+              "Increible Resolución de problemas, un hacedor de cosas.",
+            score: 5,
+            date: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
+          },
+        ],
+        workerData: {
+          images: [
+            "https://relubquim.com.ec/wp-content/uploads/2019/11/C01.jpg",
+            "https://i.ytimg.com/vi/V6yZ8i3qyVo/hqdefault.jpg",
+            "https://i.pinimg.com/originals/d5/72/29/d57229598b64b80f4c50ddd23e53dddd.jpg",
+            "https://www.tapicerobarato.com/wp-content/gallery/trabajos-de-tapiceria/trabajos-de-tapiceria-37.jpg",
+            "http://tapisseriarapit.com.otrarroba.com/sites/default/files/Tapisseria_Rapit-funda-sofa_01.jpg",
+            "https://imagenes.cordobavende.com/medianas/3c43fab0d0b03fad4712a70f6ec1a034-1.jpg",
+            "https://http2.mlstatic.com/D_NQ_NP_863179-MLA29071459315_122018-O.jpg",
+          ],
+          certification: [
+            "https://i.pinimg.com/474x/e7/6d/a9/e76da988b07eaac05eda92daa82b78b8.jpg",
+            "https://relubquim.com.ec/wp-content/uploads/2019/11/C01.jpg",
+            "https://i.ytimg.com/vi/V6yZ8i3qyVo/hqdefault.jpg",
+          ],
+          rangeCoverage: 50,
+          items: [
+            {
+              category: "62254ab24f48774b0a18a88b",
+              subcategories: [
+                "62163d4e4e1f963fce2d7b3d",
+                "62163d514e1f963fce2d7b3f",
+                "62163d554e1f963fce2d7b41",
+              ],
+            },
+            {
+              category: "62254e324f48774b0a18a88f",
+              subcategories: [
+                "621640ca4e1f963fce2d7bf4",
+                "621640ca4e1f963fce2d7bf5",
+                "621640ca4e1f963fce2d7bf6",
+              ],
+            },
+          ],
+        },
+        requests: {
+          received: [],
+          send: [],
+        },
+      },
+      /**/
+      {
+        email: "maikolAlvarezBerrio@gmail.com",
+        name: "Maikol Berrio",
+        phone: {
+          diallingCode: "+54",
+          number: "3541986532",
+        },
+        password: "12345678Ac",
+        description: "Soy colombiano, eso significa mucho!.",
+        authCode: "",
+        withProvider: false,
+        isAuthenticated: true,
+        profilePic:
+          "https://i1.sndcdn.com/avatars-000258854941-8iyicg-t240x240.jpg",
+        isWorker: true,
+        isPremium: true,
+        payerId: "",
+        address: {
+          name: "Obispo Trejo, Córdoba, Argentina",
+          city: "Córdoba",
+          country: "Argentina",
+          lat: -31.4219514,
+          lng: -64.188064,
+          searchRange: 15,
+          timeZone: "GTM 03",
+        },
+        preferences: {
+          notificationsMessages: true,
+          notificationsNewOffer: true,
+          showAllChats: true,
+          language: "Español",
+          hideAddress: false,
+        },
+        rating: [
+          {
+            userComment: "6230b9925fbcf2faa5764432",
+            description:
+              "Increible Colombiano, nunca vi un colombiano tan colombiano.",
+            score: 5,
+            date: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
+          },
+        ],
+        workerData: {
+          images: [
+            "https://relubquim.com.ec/wp-content/uploads/2019/11/C01.jpg",
+            "https://i.ytimg.com/vi/V6yZ8i3qyVo/hqdefault.jpg",
+            "https://i.pinimg.com/originals/d5/72/29/d57229598b64b80f4c50ddd23e53dddd.jpg",
+            "https://www.tapicerobarato.com/wp-content/gallery/trabajos-de-tapiceria/trabajos-de-tapiceria-37.jpg",
+            "http://tapisseriarapit.com.otrarroba.com/sites/default/files/Tapisseria_Rapit-funda-sofa_01.jpg",
+            "https://imagenes.cordobavende.com/medianas/3c43fab0d0b03fad4712a70f6ec1a034-1.jpg",
+            "https://http2.mlstatic.com/D_NQ_NP_863179-MLA29071459315_122018-O.jpg",
+          ],
+          certification: [
+            "https://i.pinimg.com/474x/e7/6d/a9/e76da988b07eaac05eda92daa82b78b8.jpg",
+            "https://relubquim.com.ec/wp-content/uploads/2019/11/C01.jpg",
+            "https://i.ytimg.com/vi/V6yZ8i3qyVo/hqdefault.jpg",
+          ],
+          rangeCoverage: 50,
+          items: [
+            {
+              category: "622551f54f48774b0a18a898",
+              subcategories: [
+                "62163ed64e1f963fce2d7bb1",
+                "62163ede4e1f963fce2d7bb3",
+                "62163ee34e1f963fce2d7bb5",
+              ],
+            },
+            {
+              category: "622555b24f48774b0a18a89e",
+              subcategories: [
+                "621640ca4e1f963fce2d7beb",
+                "621640ca4e1f963fce2d7bec",
+                "621640ca4e1f963fce2d7bed",
+              ],
+            },
+          ],
+        },
+        requests: {
+          received: [],
+          send: [],
+        },
+      },
+      /**/
+      {
+        email: "mateoBoutet@gmail.com",
+        name: "Mateo Boutet",
+        phone: {
+          diallingCode: "+54",
+          number: "35418799525",
+        },
+        password: "12345678Ac",
+        description:
+          'Soy organiz<ador de eventos desde que naci, mi primera palabra fue "Fiesta de 15!"!.',
+        authCode: "",
+        withProvider: false,
+        isAuthenticated: true,
+        profilePic:
+          "https://i0.wp.com/racal.es/imagenes/academicos/academicos/sahuquillo-letra-m.jpg",
+        isWorker: true,
+        isPremium: true,
+        payerId: "",
+        address: {
+          name: "Duarte Quiros, Córdoba, Argentina",
+          city: "Córdoba",
+          country: "Argentina",
+          lat: -31.4195929,
+          lng: -64.1860238,
+          searchRange: 15,
+          timeZone: "GTM 03",
+        },
+        preferences: {
+          notificationsMessages: true,
+          notificationsNewOffer: true,
+          showAllChats: true,
+          language: "Español",
+          hideAddress: false,
+        },
+        rating: [
+          {
+            userComment: "6230b9925fbcf2faa5764432",
+            description: "Increible Eventero.",
+            score: 1,
+            date: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
+          },
+        ],
+        workerData: {
+          images: [
+            "https://relubquim.com.ec/wp-content/uploads/2019/11/C01.jpg",
+            "https://i.ytimg.com/vi/V6yZ8i3qyVo/hqdefault.jpg",
+            "https://i.pinimg.com/originals/d5/72/29/d57229598b64b80f4c50ddd23e53dddd.jpg",
+            "https://www.tapicerobarato.com/wp-content/gallery/trabajos-de-tapiceria/trabajos-de-tapiceria-37.jpg",
+            "http://tapisseriarapit.com.otrarroba.com/sites/default/files/Tapisseria_Rapit-funda-sofa_01.jpg",
+            "https://imagenes.cordobavende.com/medianas/3c43fab0d0b03fad4712a70f6ec1a034-1.jpg",
+            "https://http2.mlstatic.com/D_NQ_NP_863179-MLA29071459315_122018-O.jpg",
+          ],
+          certification: [
+            "https://i.pinimg.com/474x/e7/6d/a9/e76da988b07eaac05eda92daa82b78b8.jpg",
+            "https://relubquim.com.ec/wp-content/uploads/2019/11/C01.jpg",
+            "https://i.ytimg.com/vi/V6yZ8i3qyVo/hqdefault.jpg",
+          ],
+          rangeCoverage: 50,
+          items: [
+            {
+              category: "622558314f48774b0a18a8a0",
+              subcategories: [
+                "62163e214e1f963fce2d7b75",
+                "62163e254e1f963fce2d7b77",
+                "62163e2a4e1f963fce2d7b79",
+              ],
+            },
+            {
+              category: "62255a3d4f48774b0a18a8a2",
+              subcategories: [
+                "621640ca4e1f963fce2d7bdc",
+                "62163d7c4e1f963fce2d7b49",
+                "621640ca4e1f963fce2d7bde",
+              ],
+            },
+            {
+              category: "622561e14f48774b0a18a8a8",
+              subcategories: [
+                "621640ca4e1f963fce2d7bef",
+                "621640ca4e1f963fce2d7bf0",
+                "621640ca4e1f963fce2d7bf1",
+              ],
+            },
+          ],
+        },
+        requests: {
+          received: [],
+          send: [],
+        },
       },
     ];
 
     try {
-      user.forEach(
-        async (f: any) =>
-          await User.create({
+      f.map(async (f) => {
+        await User.findOneAndUpdate(
+          {
             email: f.email,
+          },
+          {
             name: f.name,
             phone: {
               diallingCode: f.phone.diallingCode,
               number: f.phone.number,
             },
-            password: f.password,
+            password: await hashPassword(f.password),
             description: f.description,
             authCode: f.authCode,
-            withProvider: true,
-            isAuthenticated: true,
+            withProvider: f.withProvider,
+            isAuthenticated: f.isAuthenticated,
             profilePic: f.profilePic,
-            isWorker: true,
+            isWorker: f.isWorker,
             isPremium: f.isPremium,
             payerId: f.payerId,
             address: { ...f.address },
             preferences: { ...f.preferences },
-            rating: { ...f.rating },
-            items: [...f.items],
-            offers: [...f.offers],
-          })
-      );
+            rating: [...f.rating],
+            workerData: { ...f.workerData },
+            requests: { ...f.requests },
+          }
+        );
+      });
+
+      /* const user = await User.findOneAndUpdate(
+        { email: "workeraguscastro2014.ac@gmail.com" },
+        {
+          ["workerData.images"]: [
+            "https://relubquim.com.ec/wp-content/uploads/2019/11/C01.jpg",
+            "https://i.ytimg.com/vi/V6yZ8i3qyVo/hqdefault.jpg",
+            "https://i.pinimg.com/originals/d5/72/29/d57229598b64b80f4c50ddd23e53dddd.jpg",
+            "https://www.tapicerobarato.com/wp-content/gallery/trabajos-de-tapiceria/trabajos-de-tapiceria-37.jpg",
+            "http://tapisseriarapit.com.otrarroba.com/sites/default/files/Tapisseria_Rapit-funda-sofa_01.jpg",
+            "https://imagenes.cordobavende.com/medianas/3c43fab0d0b03fad4712a70f6ec1a034-1.jpg",
+            "https://http2.mlstatic.com/D_NQ_NP_863179-MLA29071459315_122018-O.jpg",
+          ],
+          ["workerData.certification"]: [
+            "https://i.pinimg.com/474x/e7/6d/a9/e76da988b07eaac05eda92daa82b78b8.jpg",
+          ],
+        }
+      ); */
+
+      /* const user = await User.findOneAndUpdate(
+        { email: "workeraguscastro2014.ac@gmail.com" },
+        {
+          rating: [
+            {
+              userComment: "6230b9925fbcf2faa5764432",
+              description:
+                "Increible Resolución de problemas, un gran albañil.",
+              score: "4",
+            },
+          ],
+        }
+      ); */
+
+      /*  const user = await User.findOneAndUpdate(
+        { email: "workeraguscastro2014.ac@gmail.com" },
+        {
+          ["workerData.certification"]: [
+            "https://i.pinimg.com/474x/e7/6d/a9/e76da988b07eaac05eda92daa82b78b8.jpg",
+            "https://relubquim.com.ec/wp-content/uploads/2019/11/C01.jpg",
+            "https://i.ytimg.com/vi/V6yZ8i3qyVo/hqdefault.jpg",
+            "https://i.pinimg.com/originals/d5/72/29/d57229598b64b80f4c50ddd23e53dddd.jpg",
+            "https://www.tapicerobarato.com/wp-content/gallery/trabajos-de-tapiceria/trabajos-de-tapiceria-37.jpg",
+            "http://tapisseriarapit.com.otrarroba.com/sites/default/files/Tapisseria_Rapit-funda-sofa_01.jpg",
+            "https://imagenes.cordobavende.com/medianas/3c43fab0d0b03fad4712a70f6ec1a034-1.jpg",
+            "https://http2.mlstatic.com/D_NQ_NP_863179-MLA29071459315_122018-O.jpg",
+            "https://i.pinimg.com/474x/d3/65/50/d36550ea1b17394f63c2dff243fe636d.jpg",
+            "http://pm1.narvii.com/7119/b0abdf491cffde4bdf95850956c1b15a5591a4b5r1-712-707v2_uhq.jpg",
+          ],
+        }
+      ); */
+
       res.status(200).json({ message: "El Tomy se la come" });
     } catch (error) {
+      console.log(error);
+
       res.status(404);
     }
-  },
-
-  ERROR: (_, res) => {
-    res.status(400).json({ message: "Error, method is invalid!" });
   },
 };
 
@@ -828,5 +579,4 @@ export default async function index(
   if (method && method === "GET") {
     return cases[method](req, res);
   }
-  return cases["ERROR"](req, res);
 }

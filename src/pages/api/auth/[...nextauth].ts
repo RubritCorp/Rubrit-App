@@ -68,7 +68,7 @@ export default NextAuth({
     },
   },
   callbacks: {
-    async signIn({ user, credentials }) {
+    async signIn({ user }) {
       try {
         const userSession = await User.findOne({
           email: user.email,
@@ -91,9 +91,21 @@ export default NextAuth({
     },
     async session({ session }) {
       if (session) {
+        const populateQuery = [
+          {
+            path: "workerData.items.category",
+            model: "Category",
+            select: "_id name picture_small",
+          },
+          {
+            path: "workerData.items.subcategories",
+            model: "Subcategory",
+            select: "_id name",
+          },
+        ];
         const userSession = await User.findOne({
           email: session.user?.email,
-        });
+        }).populate(populateQuery);
         const newSession = {
           expires: session.expires,
           _id: userSession._id,
@@ -106,11 +118,12 @@ export default NextAuth({
           description: userSession.description,
           address: userSession.address,
           withProvider: userSession.withProvider,
+          isPremium: userSession.isPremium,
           isAuthenticated: userSession.isAuthenticated,
           isWorker: userSession.isWorker,
           preferences: userSession.preferences,
-          items: userSession.items,
-          offers: userSession.offers,
+          workerData: userSession.workerData,
+          requests: userSession.requests,
           payerId: userSession.payerId,
         };
         return newSession;
@@ -128,7 +141,7 @@ export default NextAuth({
   pages: {
     signIn: envConfig?.signIn,
     signOut: envConfig?.signOut,
-    newUser: "http://localhost:3000/COMPLETARPERFIL",
-    error: "http://localhost:3000/",
+    newUser: `${envConfig?.host}/COMPLETARPERFIL`,
+    error: `${envConfig?.host}`,
   },
 });

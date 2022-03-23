@@ -1,5 +1,12 @@
 import { Types } from "mongoose";
 
+interface IRating {
+  userComment: Types.ObjectId;
+  description: string;
+  score: number;
+  date: string;
+}
+
 interface HItems {
   category: Types.ObjectId;
   subcategories: Types.ObjectId[];
@@ -32,6 +39,8 @@ export interface IUser {
   payerId: string;
   address: {
     name: string;
+    city: string;
+    country: string;
     lat: number;
     lng: number;
     searchRange: number;
@@ -39,18 +48,15 @@ export interface IUser {
   };
   preferences: {
     notificationsMessages: boolean;
-
     notificationsNewOffer: boolean;
     showAllChats: boolean;
     language: string;
     hideAddress: boolean;
   };
-  rating: {
-    userComment: Types.ObjectId;
-    description: string;
-    score: string;
-  };
+  rating: IRating[];
   workerData: IWorkerData;
   items: HItems[];
-  offers: Types.ObjectId[];
-}
+  requests: {
+    received: Types.ObjectId[];
+    sent: Types.ObjectId[];
+}}

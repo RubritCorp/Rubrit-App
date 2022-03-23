@@ -15,12 +15,14 @@ import {
   MenuItem,
   MenuList,
   MenuDivider,
+  useToast,
 } from "@chakra-ui/react";
 import {
   EditIcon,
   DragHandleIcon,
   StarIcon,
   ExternalLinkIcon,
+  CheckIcon,
 } from "@chakra-ui/icons";
 //interfaces
 import { Session } from "next-auth";
@@ -34,6 +36,7 @@ import Link from "next/link";
 const MiPerfil: React.FC<{
   user: Session;
 }> = ({ user }) => {
+  const toast = useToast();
   const {
     isOpen: isOpenUpdateDescription,
     onOpen: onOpenUpdateDescription,
@@ -57,24 +60,35 @@ const MiPerfil: React.FC<{
       alignItems={"center"}
       flexDirection={"column"}
       h={"max-content"}
-      w={"40rem"}
+      w={"100%"}
     >
       <Avatar
         src={user.image}
         name={user.name}
         borderRadius={10}
-        w={180}
-        h={180}
-        marginTop={10}
+        w={220}
+        h={220}
+        marginTop={3}
       />
+
       <Text
         marginTop={5}
         fontWeight={700}
         fontSize={{ base: "md", md: "lg" }}
         textTransform={"capitalize"}
+        position={"relative"}
       >
         {user.name}
+        {user.isPremium && (
+          <CheckIcon
+            ml={2}
+            color={"medium_green"}
+            position={"absolute"}
+            top={1}
+          />
+        )}
       </Text>
+
       <Text
         textAlign={"center"}
         marginTop={5}
@@ -89,7 +103,24 @@ const MiPerfil: React.FC<{
           flexDirection={"column"}
           w={"33%"}
           cursor={"pointer"}
-          onClick={onOpenUpdateDescription}
+          onClick={() => {
+            if (!user?.isAuthenticated) {
+              if (!toast.isActive("no-authenticated")) {
+                toast({
+                  title: "¡Aún no has verificado tu identidad!",
+                  description:
+                    "Hemos detectado que aún no has verificado tu correo electronico. Para realizar modificacion en tu perfil debes confirmar tu identidad.",
+                  status: "error",
+                  duration: 9000,
+                  isClosable: true,
+                  position: "bottom-left",
+                  id: "no-authenticated",
+                });
+              }
+              return;
+            }
+            onOpenUpdateDescription();
+          }}
         >
           <Button leftIcon={<StarIcon />} iconSpacing={0} w={"max-content"} />
           <Text
@@ -143,11 +174,29 @@ const MiPerfil: React.FC<{
             />
             <MenuList>
               <Link href={"myAccount"} passHref>
-                <MenuItem icon={<ExternalLinkIcon />}>
-                  Ajustes De La Cuenta
-                </MenuItem>
+                <a>
+                  <MenuItem icon={<ExternalLinkIcon />}>
+                    Ajustes De La Cuenta
+                  </MenuItem>
+                </a>
               </Link>
               <MenuDivider />
+              {user.isPremium && (
+                <>
+                  <Link
+                    href={{
+                      pathname: "myAccount",
+                      query: { site: "becomePremium" },
+                    }}
+                    passHref
+                  >
+                    <MenuItem icon={<ExternalLinkIcon />}>
+                      Ver Estado De la Suscripción
+                    </MenuItem>
+                  </Link>
+                  <MenuDivider />
+                </>
+              )}
               <MenuItem onClick={onOpenPreferences}>Preferencias</MenuItem>
               <MenuDivider />
               {/* */}
@@ -159,7 +208,9 @@ const MiPerfil: React.FC<{
                 href={{ pathname: "myAccount", query: { site: "myfiles" } }}
                 passHref
               >
-                <MenuItem>Ver Tus Archivos</MenuItem>
+                <a>
+                  <MenuItem>Ver Tus Archivos</MenuItem>
+                </a>
               </Link>
             </MenuList>
           </Menu>
@@ -188,11 +239,17 @@ const MiPerfil: React.FC<{
         <Text color="gray" marginTop={5} fontSize={{ base: "sm", lg: "md" }}>
           Tipo De Usuario
         </Text>
-        <Text>{user.isWorker ? "Profesional" : "Contratista"}</Text>
+        <Text>
+          {user.isWorker ? "Profesional" : "Contratista"}{" "}
+          {user.isPremium && (
+            <span style={{ color: "#2EB67D" }}>- Cuenta Premium</span>
+          )}
+        </Text>
         <Text color="gray" fontSize={{ base: "sm", lg: "md" }} marginTop={5}>
           Zona Horaria
         </Text>
         <Text>{user.address.timeZone ? user.address.timeZone : "-"}</Text>
+
         <Text color="gray" fontSize={{ base: "sm", lg: "md" }} marginTop={5}>
           Dirección
         </Text>
@@ -205,21 +262,30 @@ const MiPerfil: React.FC<{
         </Text>
       </Box>
 
-      {(!user.address.name || !user.phone.number) && (
+      {(!user.address.name ||
+        !user.phone.number ||
+        !user.address.city ||
+        !user.address.country ||
+        !user.address.searchRange) && (
         <Alert status="warning" flexDirection={"column"} borderRadius={10}>
           <Flex>
             <AlertIcon />
-            Recordá que debes completar tu perfil antes de poder disfrutar todo
-            lo que tenemos para ofrecerte
+            {!user.isAuthenticated
+              ? "Recordá que debes verificar tu identidad, revisa tu casilla de correo, si aún no has recibido el correo puedes reenviarlo."
+              : "Recordá que debes completar tu perfil antes de poder disfrutar todo lo que tenemos para ofrecerte"}
           </Flex>
-          <Button
-            leftIcon={<EditIcon />}
-            w={"100%"}
-            variant={"ghost"}
-            onClick={() => onOpenEditProfile()}
-          >
-            Completar Perfil
-          </Button>
+          {user.isAuthenticated && (
+            <Button
+              leftIcon={<EditIcon />}
+              w={"100%"}
+              variant={"ghost"}
+              onClick={() => {
+                onOpenEditProfile();
+              }}
+            >
+              Completar Perfil
+            </Button>
+          )}
         </Alert>
       )}
     </Flex>

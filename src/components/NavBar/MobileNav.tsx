@@ -121,7 +121,7 @@ const MobileNav: React.FC<{ payerId: string }> = ({ payerId }) => {
                         href={`/services?service=${child.name}`}
                         passHref
                       >
-                        <>
+                        <a>
                           <Flex
                             w={"100%"}
                             borderRadius={5}
@@ -148,7 +148,7 @@ const MobileNav: React.FC<{ payerId: string }> = ({ payerId }) => {
                             <ChevronRightIcon />
                           </Flex>
                           <Divider />
-                        </>
+                        </a>
                       </Link>
                     ))}
                 </Stack>
@@ -157,13 +157,19 @@ const MobileNav: React.FC<{ payerId: string }> = ({ payerId }) => {
 
             <Stack spacing={4} fontWeight={600} fontSize={"md"} marginTop={2}>
               <Link href="/findServices" passHref>
-                <Text cursor={"pointer"}>Buscar Servicios</Text>
+                <a>
+                  <Text cursor={"pointer"}>Buscar Servicios</Text>
+                </a>
               </Link>
               <Link href="/offerServices" passHref>
-                <Text cursor={"pointer"}>Ofrecer tus Servicios</Text>
+                <a>
+                  <Text cursor={"pointer"}>Ofrecer tus Servicios</Text>
+                </a>
               </Link>
               <Link href="/workbag" passHref>
-                <Text cursor={"pointer"}>Bolsa de Trabajo</Text>
+                <a>
+                  <Text cursor={"pointer"}>Bolsa de Trabajo</Text>
+                </a>
               </Link>
             </Stack>
 
@@ -177,26 +183,38 @@ const MobileNav: React.FC<{ payerId: string }> = ({ payerId }) => {
                   marginTop={6}
                 >
                   <Link href="myAccount?site=accountSettings" passHref>
-                    <Text cursor={"pointer"}>Ajustes De La Cuenta</Text>
+                    <a>
+                      <Text cursor={"pointer"}>Ajustes De La Cuenta</Text>
+                    </a>
                   </Link>
                   <Link href="myAccount?site=myfiles" passHref>
-                    <Text cursor={"pointer"}>Ver Tus Archivos</Text>
+                    <a>
+                      <Text cursor={"pointer"}>Ver Tus Archivos</Text>
+                    </a>
                   </Link>
                   <Link href="myAccount?site=myRequest" passHref>
-                    <Text cursor={"pointer"}>Solicitudes</Text>
+                    <a>
+                      <Text cursor={"pointer"}>Solicitudes</Text>
+                    </a>
                   </Link>
                   <Link href="myAccount?site=offerServices" passHref>
-                    <Text cursor={"pointer"}>Ofrece Tus Servicios</Text>
+                    <a>
+                      <Text cursor={"pointer"}>Ofrece Tus Servicios</Text>
+                    </a>
                   </Link>
 
                   <Text>Notificaciones</Text>
                   {payerId.length === 0 ? (
                     <Link href="myAccount?site=becomePremium" passHref>
-                      <Text cursor={"pointer"}>Hacerse Premium</Text>
+                      <a>
+                        <Text cursor={"pointer"}>Hacerse Premium</Text>
+                      </a>
                     </Link>
                   ) : (
                     <Link href="myAccount?site=premiumDetails" passHref>
-                      <Text cursor={"pointer"}>Detalles Premium</Text>
+                      <a>
+                        <Text cursor={"pointer"}>Detalles Premium</Text>
+                      </a>
                     </Link>
                   )}
                 </Stack>

@@ -15,8 +15,9 @@ import {
 //assets
 import { TwitterLogo, YoutubeLogo, InstagramLogo } from "phosphor-react";
 
-import DarkModeSwitch from "components/DarkModeSwitch";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
@@ -57,6 +58,8 @@ const SocialButton = ({
 };
 
 const Footer: React.FC = () => {
+  const { status } = useSession();
+  const router = useRouter();
   return (
     <Box
       bg={useColorModeValue("medium_grey", "dark_green")}
@@ -66,24 +69,51 @@ const Footer: React.FC = () => {
         <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={8}>
           <Stack align={"flex-start"}>
             <ListHeader>Rubrit</ListHeader>
-            <Link href={"#"}>Inicio</Link>
-            <Link href={"/findServices"}>Como Buscar Servicios</Link>
-            <Link href={"/offerServices"}>Como Ofrecer Servicios</Link>
-            <Link href={"/aboutUs"}>Sobre Nosotros</Link>
-            <Link href={"#"}>Registrate como Profesional</Link>
+            <Link href={"/"}>
+              <a>Inicio</a>
+            </Link>
+            <Link href={"/findServices"}>
+              <a>Como Buscar Servicios</a>
+            </Link>
+            <Link href={"/offerServices"}>
+              <a>Como Ofrecer Servicios</a>
+            </Link>
+            <Link href={"/aboutUs"}>
+              <a>Sobre Nosotros</a>
+            </Link>
+            <Text
+              cursor={"pointer"}
+              onClick={() => {
+                status === "authenticated"
+                  ? router.push("/myAccount?site=offerServices")
+                  : document.getElementById("signInButton")?.click();
+              }}
+            >
+              Registrate como Profesional
+            </Text>
           </Stack>
 
           <Stack align={"flex-start"}>
             <ListHeader>Soporte</ListHeader>
-            <Link href={"/faqs"}>FAQs</Link>
-            <Link href={"/comunityPrinciply"}>Principios de la Comunidad</Link>
+            <Link href={"/faqs"}>
+              <a>FAQs</a>
+            </Link>
+            <Link href={"/comunityPrinciply"}>
+              <a>Principios de la Comunidad</a>
+            </Link>
           </Stack>
 
           <Stack align={"flex-start"}>
             <ListHeader>Legales</ListHeader>
-            <Link href={"/cookiesPolicy"}>Politica de Cookies</Link>
-            <Link href={"/privacyPolicy"}>Politicas de Privacidad</Link>
-            <Link href={"/termService"}>Terminos del Servicio</Link>
+            <Link href={"/cookiesPolicy"}>
+              <a>Politica de Cookies</a>
+            </Link>
+            <Link href={"/privacyPolicy"}>
+              <a>Politicas de Privacidad</a>
+            </Link>
+            <Link href={"/termService"}>
+              <a>Terminos del Servicio</a>
+            </Link>
           </Stack>
         </SimpleGrid>
       </Container>

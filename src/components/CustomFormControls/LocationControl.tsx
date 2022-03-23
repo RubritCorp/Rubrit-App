@@ -21,23 +21,18 @@ export const LocationControl: React.FC<
 
   // PlacesSearchBox documentation: https://developers.google.com/maps/documentation/javascript/places-autocomplete#typescript
   const { ref }: any = usePlacesWidget({
-    apiKey: envConfig?.mapsKey, // To do: fix security issue (variable is exposed to browser)
     options: {
       types: ["address"],
     },
     onPlaceSelected: (place: any) => {
-      setValue(place.formatted_address);
-      setUserInput(place.formatted_address);
-      setFieldValue("lat", place.geometry.location.lat());
-      setFieldValue("lng", place.geometry.location.lng());
+      if (place?.formatted_address) {
+        setValue(place.formatted_address);
+        setUserInput(place.formatted_address);
+        setFieldValue("lat", place.geometry.location.lat());
+        setFieldValue("lng", place.geometry.location.lng());
+      }
     },
   });
-
-  // Bug fix: always show pacContainer
-  if (typeof window !== "undefined") {
-    let pacContainer: any = document.querySelector(".pac-container");
-    if (pacContainer) pacContainer.style.zIndex = "99999999";
-  }
 
   // Check if user tries to change address after onPlaceSelected
   useEffect(() => {
@@ -58,6 +53,7 @@ export const LocationControl: React.FC<
         {...field}
         autoComplete="off"
         placeholder="Escribe una dirección"
+        onKeyDown={(e: any) => (e.keyCode == 13 ? e.preventDefault() : null)}
       />
       <Field type="hidden" name="lat" />
       <Field type="hidden" name="lng" />
