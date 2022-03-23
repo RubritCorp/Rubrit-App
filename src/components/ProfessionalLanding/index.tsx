@@ -5,6 +5,14 @@ import {
   Divider,
   Flex,
   Text,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
   Center,
   Stack,
   Heading,
@@ -49,6 +57,8 @@ const ProfessionalLanding: React.FC<any> = (props) => {
 
   //pagination states
   const [numberPage, setNumberPage] = useState<number>(0);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   if (!user) return <Loading />;
   return (
@@ -250,8 +260,30 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                               backgroundPosition={"center"}
                               backgroundSize={"cover"}
                               borderRadius={7}
+                              onClick={onOpen}
+                              objectFit="cover"
+                              _hover={{ cursor: "zoom-in" }}
                             ></Box>
                           ))}
+                           <Modal isOpen={isOpen} onClose={onClose} size="full">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalCloseButton />
+          <ModalBody>
+            <Flex justifyContent={"center"}>
+              <Image src={workerData.images} alt={`img-solicitud ${workerData.images}`}></Image>
+            </Flex>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+                          <Flex maxW={"120px"} h={"120px"} m={"5px"}>
+      </Flex>
                       </Flex>
                     </Container>
 
@@ -408,19 +440,31 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 </Box>
               </Flex>
             </Flex>
-            <Container maxW={"container.lg"}>
+            <Container maxW={"container.xl"}>
+              <Flex flexDirection={"row"} justifyContent={"space-evenly"} marginTop={"10"} marginBottom={"10"}>
               <Flex
-                flexDirection={"row"}
-                justifyContent={"space-evenly"}
-                flexWrap={{ base: "wrap", md: "wrap", lg: "wrap" }}
-                marginBottom={10}
+                maxH={"450px"}
+                overflowY="auto"
+                css={{
+                  "&::-webkit-scrollbar": {
+                    width: "7px",
+                  },
+                  "&::-webkit-scrollbar-track": {
+                    width: "15px",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    background: "#38a169",
+                    borderRadius: "24px",
+                  },
+                }}
               >
+
                 <Comments {...{ user }} />
               </Flex>
               <Box borderRadius={"10px"} margin={"2em"}>
                 <Flex
                   flexDirection={"column"}
-                  padding={"1em"}
+                  padding={{ base: "1em", lg: "2em" }}
                   boxShadow={"lg"}
                   overflowY={"auto"}
                 >
@@ -446,51 +490,8 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                       </Flex>
                     );
                   })}
-
-                  <Flex maxH={"540px"} overflowY="auto">
-                    <Comments {...{ user }} />
-                  </Flex>
-                  <Box
-                    borderRadius={"10px"}
-                    margin={{ base: "2em", lg: "2em 0 0 10em" }}
-                  >
-                    <Flex
-                      flexDirection={"column"}
-                      padding={{ base: "1em", lg: "2em" }}
-                      boxShadow={"lg"}
-                      overflowY={"auto"}
-                    >
-                      {workerData.items?.map((cat: any, index: number) => {
-                        return (
-                          <Flex
-                            flexDirection={"column"}
-                            key={cat.category.name}
-                          >
-                            <Heading
-                              fontSize={{
-                                base: "1rem",
-                                md: "1.2rem",
-                                lg: "1.5rem",
-                              }}
-                              color={"light_grey_sub"}
-                              key={cat.category.name}
-                            >
-                              {cat.category.name}
-                            </Heading>
-                            <Box>
-                              {cat.subcategories?.map(
-                                (sub: any, index: number) => (
-                                  <Text key={index}>{sub.name}</Text>
-                                )
-                              )}
-                            </Box>
-                          </Flex>
-                        );
-                      })}
-                    </Flex>
-                  </Box>
                 </Flex>
-              </Box>
+              </Box></Flex>
             </Container>
           </Flex>
         </Container>

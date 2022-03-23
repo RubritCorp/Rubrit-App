@@ -27,7 +27,7 @@ function TestimonialCard(props: any) {
   return (
     <Flex
       boxShadow={"xl"}
-      maxW="100%"
+      maxW="98%"
       maxH="12rem"
       direction={"row"}
       width={"full"}
@@ -95,12 +95,19 @@ function TestimonialCard(props: any) {
             }}
             pb={4}
             h={{ base: "60px", lg:"70px"}}
-            overflow="hidden"
-                      css={{
-                        display: "-webkit-box",
-                        ["WebkitBoxOrient"]: "vertical",
-                        ["WebkitLineClamp"]: "2",
-                      }}
+            overflowY="auto"
+            css={{
+              "&::-webkit-scrollbar": {
+                width: "5px",
+              },
+              "&::-webkit-scrollbar-track": {
+                width: "12px",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                background: "#38a169",
+                borderRadius: "20px",
+              },
+            }}
           >
             {description}
           </chakra.p></Box>
@@ -132,7 +139,7 @@ export default function GridBlurredBackdrop({ user }: any) {
         mb={10}
         minChildWidth={{ base: "300px", lg: "420px" }}
       >
-        {user?.rating.map((el: any, index: number) => (
+        {!user?.rating.map((el: any, index: number) => (
           <TestimonialCard
             description={el.description}
             score={el.score}
