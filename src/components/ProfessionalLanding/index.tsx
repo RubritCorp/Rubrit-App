@@ -458,9 +458,10 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   },
                 }}
               >
-                <Comments {...{ user }} /></Flex>
-              
-              <Box borderRadius={"10px"}>
+
+                <Comments {...{ user }} />
+              </Flex>
+              <Box borderRadius={"10px"} margin={"2em"}>
                 <Flex
                   flexDirection={"column"}
                   padding={{ base: "1em", lg: "2em" }}
