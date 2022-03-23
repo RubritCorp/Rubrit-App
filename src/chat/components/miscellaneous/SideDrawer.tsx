@@ -146,17 +146,17 @@ const SideDrawer = () => {
         <Text fontSize="2xl" color={"black"}>
           Rubrit Chat
         </Text>
-        <div>
+        {/* <div>
           <Menu>
             <MenuButton p={1}>
               {/* <NotificationBadge
                 count={notification.length}
                 effect={Effect.SCALE}
-              /> */}
+              /> 
               <BellIcon fontSize="2xl" m={1} />
             </MenuButton>
             <MenuList pl={2}>
-              {/* {!notification.length && "No New Messages"}
+               {!notification.length && "No New Messages"}
               {notification.map((notif) => (
                 <MenuItem
                   key={notif._id}
@@ -169,7 +169,7 @@ const SideDrawer = () => {
                     ? `New Message in ${notif.chat.chatName}`
                     : `New Message from ${getSender(user, notif.chat.users)}`}
                 </MenuItem>
-              ))} */}
+              ))} 
             </MenuList>
           </Menu>
           <Menu>
@@ -193,7 +193,7 @@ const SideDrawer = () => {
               <MenuItem onClick={logoutHandler}>Logout</MenuItem>
             </MenuList>
           </Menu>
-        </div>
+        </div> */}
       </Box>
 
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>

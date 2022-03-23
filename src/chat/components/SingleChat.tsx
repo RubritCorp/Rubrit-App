@@ -150,7 +150,7 @@ const SingleChat: React.FC<{
     setNewMessage(e.target.value);
 
     if (!socketConnected) return;
-
+    console.log("typing");
     if (!typing) {
       setTyping(true);
       socket.emit("typing", selectedChat._id);

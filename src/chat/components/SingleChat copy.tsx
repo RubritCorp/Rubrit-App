@@ -133,16 +133,16 @@ const SingleChat: React.FC<{
     // socket.emit("setup", user);
     // socket.on("connected", () => setSocketConnected(true));
     initiateSocket(user, setSocketConnected);
-
+    //
     // socket.on("typing", () => setIsTyping(true));
     onTyping(setIsTyping);
     // socket.on("stop typing", () => setIsTyping(false));
     onStopTyping(setIsTyping);
     // console.log("onMessage");
+
     onMessageRecieved(selectedChatCompare, (message: IMessage) => {
       setMessages((old: IMessage[]) => [...old, message]);
     });
-
     // eslint-disable-next-line
   }, []);
 
@@ -169,6 +169,7 @@ const SingleChat: React.FC<{
     //   }
     // });
   });
+
   // const typingHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
   const typingHandler = (e: any) => {
     setNewMessage(e.target.value);
