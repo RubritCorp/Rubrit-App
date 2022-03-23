@@ -31,7 +31,7 @@ interface ICases {
 
 interface DataUser {
   message: string;
-  user?: IUser;
+  user?: any;
 }
 
 interface DataDeleteUser {
@@ -483,7 +483,7 @@ const cases: ICases = {
     ];
 
     try {
-      f.map(async (f) => {
+      /* f.map(async (f) => {
         await User.findOneAndUpdate(
           {
             email: f.email,
@@ -510,8 +510,7 @@ const cases: ICases = {
             requests: { ...f.requests },
           }
         );
-      });
-
+      }); */
       /* const user = await User.findOneAndUpdate(
         { email: "workeraguscastro2014.ac@gmail.com" },
         {
@@ -529,7 +528,6 @@ const cases: ICases = {
           ],
         }
       ); */
-
       /* const user = await User.findOneAndUpdate(
         { email: "workeraguscastro2014.ac@gmail.com" },
         {
@@ -543,7 +541,6 @@ const cases: ICases = {
           ],
         }
       ); */
-
       /*  const user = await User.findOneAndUpdate(
         { email: "workeraguscastro2014.ac@gmail.com" },
         {
@@ -562,7 +559,24 @@ const cases: ICases = {
         }
       ); */
 
-      res.status(200).json({ message: "El Tomy se la come" });
+      /*  const user = await User.find().updateMany({}, [
+        {
+          $unset: ["userType"],
+        },
+      ]); */
+
+      const user = await User.find().updateMany(
+        {},
+        {
+          statusAccount: "ACTIVE",
+        }
+      );
+
+      /* user.map(async (m) => {
+        m.role = "USER";
+        m.save();
+      }); */
+      res.status(200).json({ message: "El Tomy se la come", user });
     } catch (error) {
       console.log(error);
 

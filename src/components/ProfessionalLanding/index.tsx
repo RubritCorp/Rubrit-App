@@ -22,21 +22,23 @@ import {
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { Star, Check, Checks, CheckCircle } from "phosphor-react";
 
-//native libraries
+//from modules
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 //components
 import Layout from "../layout";
 import Comments from "../Comments";
 import Loading from "../Loading";
 import Map from "../Maps/Map";
-import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+import ReportProfile from "./ReportProfile";
+
 
 const ImageModal: React.FC<any> = ({ url, title }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  console.log(url);
+
   return (
     <>
       <Flex>
@@ -84,7 +86,12 @@ const ProfessionalLanding: React.FC<any> = (props) => {
   const { data: Session } = useSession();
   const user = JSON.parse(props.user);
   const { workerData } = user;
-
+  const {
+    onOpen: onOpenReportProfile,
+    onClose: onCloseReportProfile,
+    isOpen: isOpenReportProfile,
+  } = useDisclosure();
+  
   //average rating
 
   const scoreTotal = Math.ceil(
@@ -216,7 +223,20 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 >
                   Pedir Cotizacion
                 </Button>
-
+                 <Button
+                  variant={"outline"}
+                  colorScheme={"red"}
+                  width={{ base: "150px", md: "200px", lg: "250px" }}
+                  height={{ base: "45px", md: "45px", lg: "45px" }}
+                  borderRadius={7}
+                  mt={4}
+                  onClick={onOpenReportProfile}
+                >
+                  Reportar Perfil
+                </Button>
+                <ReportProfile
+                  {...{ isOpenReportProfile, onCloseReportProfile }}
+                />
                 <Flex
                   flexDirection={"row"}
                   justifyContent={"center"}
