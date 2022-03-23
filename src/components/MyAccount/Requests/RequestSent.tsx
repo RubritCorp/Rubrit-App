@@ -30,7 +30,6 @@ import {
   Image,
   AspectRatio,
   ButtonGroup,
-  SimpleGrid,
 } from "@chakra-ui/react";
 //import ModalImage from "react-modal-image";
 
@@ -48,10 +47,49 @@ const ModalFinalizar: React.FC = () => {
     <Popover
       initialFocusRef={initialFocusRef}
       placement="bottom"
-      closeOnBlur={false}
+      closeOnBlur={true}
     >
       <PopoverTrigger>
         <Button>Finalizar</Button>
+      </PopoverTrigger>
+      <PopoverContent color="white" borderColor="blue.800">
+        <PopoverHeader pt={4} fontWeight="bold" border="0">
+          Manage Your Channels
+        </PopoverHeader>
+        <PopoverArrow />
+        <PopoverCloseButton />
+        <PopoverBody>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore.
+        </PopoverBody>
+        <PopoverFooter
+          border="0"
+          d="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          pb={4}
+        >
+          <ButtonGroup size="sm">
+            <Button colorScheme="green"></Button>
+            <Button colorScheme="blue" ref={initialFocusRef}>
+              Finalizar
+            </Button>
+          </ButtonGroup>
+        </PopoverFooter>
+      </PopoverContent>
+    </Popover>
+  );
+};
+const ModalDesactivar: React.FC = () => {
+  const initialFocusRef: any = useRef();
+  return (
+    <Popover
+      initialFocusRef={initialFocusRef}
+      placement="bottom"
+      closeOnBlur={true}
+    >
+      <PopoverTrigger>
+        <Button>Desactivar</Button>
       </PopoverTrigger>
       <PopoverContent color="white" borderColor="blue.800">
         <PopoverHeader pt={4} fontWeight="bold" border="0">
@@ -87,8 +125,7 @@ const ImageModal: React.FC<any> = ({ url, title }) => {
 
   return (
     <>
-      <Flex maxW={"100px"} m={"5px"} maxH={"120px"}>
-
+      <Flex>
         <Image
           src={url}
           alt={`img-solicitud ${title}`}
@@ -154,23 +191,6 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
     onClose();
   }
 
-  function checkState(state: any) {
-    for (let value in state) {
-      if (state[value] && value === "active") {
-        return <Text color={"medium_green"}>Activa</Text>;
-      }
-      if (state[value] && value === "pending") {
-        return <Text color={"yellow"}>Pendiente</Text>;
-      }
-      if (state[value] && value === "canceled") {
-        return <Text color={"red"}>Cancelada</Text>;
-      }
-      if (state[value] && value === "completed") {
-        return <Text color={"medium_green"}>Completada</Text>;
-      }
-    }
-  }
-
   return (
     <>
       <Grid
@@ -222,7 +242,9 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                 justifyContent={"center"}
               >
                 {request.category !== null ? (
-                  <Text>Publica</Text>
+                  <>
+                    <Text>Publica</Text>
+                  </>
                 ) : (
                   <Text>Privada</Text>
                 )}
@@ -259,7 +281,15 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                   </Text>
                   <Text>
                     {" "}
-                    {request.state ? checkState(request.state) : null}
+                    {request.isActive ? (
+                      <Text color={"medium_green"} fontSize={"0.8rem"}>
+                        ACTIVA
+                      </Text>
+                    ) : (
+                      <Text color={"warning_red"} fontSize={"0.8rem"}>
+                        PENDIENTE
+                      </Text>
+                    )}
                   </Text>
                 </Flex>
               </GridItem>
@@ -358,27 +388,27 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
           <ModalOverlay />
           <ModalContent>
             <ModalCloseButton />
-            <ModalBody>
+            <ModalBody m={"10px"}>
               <Link href={`/professional/${modal.professionalId?._id}`}>
                 <a>
                   <Box>
-                    <Flex m={"10px"} justifyContent={"center"}>
-                      <Avatar src={modal.professionalId?.profilePic} />
-                      <Box ml="3">
-                        <Text fontWeight="bold">
-                          {modal.professionalId?.name || modal.category?.name}
-                          <Badge ml="1" colorScheme="green">
-                            {modal.professionalId?.isAuthenticated
-                              ? "Autenticado"
-                              : ""}
-                          </Badge>
-                        </Text>
-                        <Text fontSize="sm">
-                          {modal.professionalId?.description ||
-                            modal.subcategory?.name}
-                        </Text>
-                      </Box>
+                    <Flex justifyContent={"center"} alignItems={"center"}>
+                      <Avatar
+                        src={modal.professionalId?.profilePic}
+                        m={"10px"}
+                      />
+                      <Text fontWeight="bold">
+                        {modal.professionalId?.name || "CATEGORIA"}
+                        <Badge ml="1" colorScheme="green">
+                          {modal.professionalId?.isAuthenticated
+                            ? "Autenticado"
+                            : "Normal"}
+                        </Badge>
+                      </Text>
                     </Flex>
+                    <Text fontSize="sm" textAlign={"center"}>
+                      {modal.professionalId?.description || "SUBCATEGORIA"}
+                    </Text>
                   </Box>
                 </a>
               </Link>
@@ -447,7 +477,7 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                       borderRadius: "24px",
                     },
                   }}
-
+                >
                   {modal.images?.map((img: string, index: number) => {
                     return (
                       <Box key={`${index}`}>
@@ -455,29 +485,23 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                       </Box>
                     );
                   })}
-             
+                </Flex>
               </Flex>
             </ModalBody>
 
-            <ModalFooter>
-              <Button colorScheme="blue" mr={3} onClick={setIndexModalOnClose}>
-                Close
-              </Button>
-
-              <Link href={"/"} passHref>
+            <Flex justifyContent={"space-evenly"} m={"20px"}>
+              <Box>
                 <Button variant="ghost" size="md" bg={"medium_green"}>
                   Iniciar Chat
                 </Button>
-              </Link>
-              <Link href={"/"} passHref>
-                <Button size="md" variant="outline" bg={"yellow"}>
-                  Desactivar
-                </Button>
-              </Link>
-              <Link href={"/"} passHref>
+              </Box>
+              <Box>
+                <ModalDesactivar />
+              </Box>
+              <Box>
                 <ModalFinalizar />
-              </Link>
-            </ModalFooter>
+              </Box>
+            </Flex>
           </ModalContent>
         </Modal>
       )}
