@@ -476,8 +476,7 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                       background: "#38a169",
                       borderRadius: "24px",
                     },
-                  }}
-                >
+                  }}>
                   {modal.images?.map((img: string, index: number) => {
                     return (
                       <Box key={`${index}`}>
