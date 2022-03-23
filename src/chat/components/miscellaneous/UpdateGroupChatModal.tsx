@@ -106,10 +106,6 @@ const UpdateGroupChatModal: React.FC<{
     }
     setGroupChatName("");
   };
-  useEffect(() => {
-    console.log("add", selectedChat.groupAdmin?._id, user._id);
-    console.log("user", user);
-  }, [selectedChat, user]);
 
   //handleAddUser
   const handleAddUser = async (user1: IUserChat) => {
@@ -124,7 +120,6 @@ const UpdateGroupChatModal: React.FC<{
       return;
     }
     if (selectedChat.groupAdmin?._id !== user._id) {
-      console.log("handle", selectedChat.groupAdmin?._id, user._id);
       toast({
         title: "Solo los administradores pueden agregar a alguien!",
         status: "error",

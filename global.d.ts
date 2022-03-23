@@ -66,5 +66,6 @@ declare module "next-auth" {
       send: Types.ObjectId[];
     };
     payerId: string;
+    token: string;
   }
 }

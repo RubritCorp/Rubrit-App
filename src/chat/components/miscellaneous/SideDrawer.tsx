@@ -44,7 +44,7 @@ const SideDrawer = () => {
   const toast = useToast();
   //logoutHandler
   const logoutHandler = () => {
-    localStorage.removeItem("userInfo");
+    // localStorage.removeItem("userInfo");
     router.push("/chat");
   };
   //handleSearch
@@ -182,7 +182,7 @@ const SideDrawer = () => {
                 size="sm"
                 cursor="pointer"
                 name={user?.name}
-                src={user?.pic}
+                src={user?.profilePic}
               />
             </MenuButton>
             <MenuList>

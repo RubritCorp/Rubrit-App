@@ -29,7 +29,7 @@ const UserListItem: React.FC<{ user: IUserChat; handleFunction: any }> = ({
         size="sm"
         cursor="pointer"
         name={user.name}
-        src={user.pic}
+        src={user.profilePic}
       />
       <Box>
         <Text>{user.name}</Text>

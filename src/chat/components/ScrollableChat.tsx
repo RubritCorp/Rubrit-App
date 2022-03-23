@@ -9,12 +9,14 @@ import ScrollableFeed from "react-scrollable-feed";
 import { IMessage, useChat } from "../context/ChatProvider";
 const ScrollableChat: React.FC<{ messages: IMessage[] }> = ({ messages }) => {
   const { user } = useChat();
-  console.log("scroll", user._id);
   return (
     <ScrollableFeed>
       {messages &&
         messages.map((m, i) => (
-          <div style={{ display: "flex" }} key={m._id}>
+          <div
+            style={{ display: "flex" }}
+            key={`${m.sender._id}${m.content}${m._id}`}
+          >
             {(isSameSender(messages, m, i, user._id) ||
               isLastMessage(messages, i, user._id)) && (
               <Tooltip label={m.sender.name} placement="bottom-start" hasArrow>
@@ -24,7 +26,7 @@ const ScrollableChat: React.FC<{ messages: IMessage[] }> = ({ messages }) => {
                   size="sm"
                   cursor="pointer"
                   name={m.sender.name}
-                  src={m.sender.pic}
+                  src={m.sender.profilePic}
                 />
               </Tooltip>
             )}

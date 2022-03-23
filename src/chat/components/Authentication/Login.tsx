@@ -58,7 +58,7 @@ const Login = () => {
         isClosable: true,
         position: "bottom",
       });
-      localStorage.setItem("userInfo", JSON.stringify(data));
+      // localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
       router.push("/chat/chats");
     } catch (error: any) {

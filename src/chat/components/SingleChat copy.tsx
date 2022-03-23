@@ -24,8 +24,19 @@ import { IMessage, useChat } from "../context/ChatProvider";
 import ProfileModal from "./miscellaneous/ProfileModal";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import ScrollableChat from "./ScrollableChat";
+import {
+  emitJoinChat,
+  emitnewMessage,
+  emitStopTyping,
+  emitTyping,
+  initiateSocket,
+  onMessageRecieved,
+  onStopTyping,
+  onTyping,
+} from "../config/socket";
 
-var socket: any, selectedChatCompare: any;
+// var socket: any;
+var selectedChatCompare: any;
 
 const SingleChat: React.FC<{
   fetchAgain: boolean;
@@ -66,7 +77,8 @@ const SingleChat: React.FC<{
       setMessages(data);
       setLoading(false);
 
-      socket.emit("join chat", selectedChat._id);
+      // socket.emit("join chat", selectedChat._id);
+      emitJoinChat(selectedChat._id);
     } catch (error) {
       toast({
         title: "Ocurrió un Error!",
@@ -81,7 +93,8 @@ const SingleChat: React.FC<{
   // const sendMessage = async (event: React.KeyboardEvent) => {
   const sendMessage = async (event: any) => {
     if (event.key === "Enter" && newMessage) {
-      socket.emit("stop typing", selectedChat._id);
+      // socket.emit("stop typing", selectedChat._id);
+      emitStopTyping(selectedChat._id);
       try {
         const config = {
           headers: {
@@ -98,7 +111,9 @@ const SingleChat: React.FC<{
           },
           config
         );
-        socket.emit("new message", data);
+        // socket.emit("new message", data);
+        //
+        emitnewMessage(data);
         setMessages([...messages, data]);
       } catch (error) {
         toast({
@@ -114,36 +129,45 @@ const SingleChat: React.FC<{
   };
 
   useEffect(() => {
-    socket = io(`${envConfig?.apiUrl}`);
-    socket.emit("setup", user);
-    socket.on("connected", () => setSocketConnected(true));
-    socket.on("typing", () => setIsTyping(true));
-    socket.on("stop typing", () => setIsTyping(false));
+    // socket = io(`${envConfig?.apiUrl}`);
+    // socket.emit("setup", user);
+    // socket.on("connected", () => setSocketConnected(true));
+    initiateSocket(user, setSocketConnected);
+
+    // socket.on("typing", () => setIsTyping(true));
+    onTyping(setIsTyping);
+    // socket.on("stop typing", () => setIsTyping(false));
+    onStopTyping(setIsTyping);
+    // console.log("onMessage");
+    onMessageRecieved(selectedChatCompare, (message: IMessage) => {
+      setMessages((old: IMessage[]) => [...old, message]);
+    });
 
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     if (selectedChat._id) fetchMessages();
-    //
+
     selectedChatCompare = selectedChat;
     // eslint-disable-next-line
   }, [selectedChat]);
 
   useEffect(() => {
-    socket.on("message recieved", (newMessageRecieved: IMessage) => {
-      if (
-        !selectedChatCompare || // if chat is not selected or doesn't match current chat
-        selectedChatCompare._id !== newMessageRecieved.chat._id
-      ) {
-        // if (!notification.includes(newMessageRecieved)) {
-        //   setNotification([newMessageRecieved, ...notification]);
-        //   setFetchAgain(!fetchAgain);
-        // }
-      } else {
-        setMessages([...messages, newMessageRecieved]);
-      }
-    });
+    // onMessageRecieved(selectedChatCompare, setMessages);
+    // socket.on("message recieved", (newMessageRecieved: IMessage) => {
+    //   if (
+    //     !selectedChatCompare || // if chat is not selected or doesn't match current chat
+    //     selectedChatCompare._id !== newMessageRecieved.chat._id
+    //   ) {
+    //     // if (!notification.includes(newMessageRecieved)) {
+    //     //   setNotification([newMessageRecieved, ...notification]);
+    //     //   setFetchAgain(!fetchAgain);
+    //     // }
+    //   } else {
+    //     setMessages([...messages, newMessageRecieved]);
+    //   }
+    // });
   });
   // const typingHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
   const typingHandler = (e: any) => {
@@ -153,7 +177,8 @@ const SingleChat: React.FC<{
 
     if (!typing) {
       setTyping(true);
-      socket.emit("typing", selectedChat._id);
+      // socket.emit("typing", selectedChat._id);
+      emitTyping(selectedChat._id);
     }
     let lastTypingTime = new Date().getTime();
     var timerLength = 3000;
@@ -161,7 +186,8 @@ const SingleChat: React.FC<{
       var timeNow = new Date().getTime();
       var timeDiff = timeNow - lastTypingTime;
       if (timeDiff >= timerLength && typing) {
-        socket.emit("stop typing", selectedChat._id);
+        // socket.emit("stop typing", selectedChat._id);
+        emitStopTyping(selectedChat._id);
         setTyping(false);
       }
     }, timerLength);
