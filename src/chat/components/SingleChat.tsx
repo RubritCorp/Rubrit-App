@@ -125,7 +125,7 @@ const SingleChat: React.FC<{
 
   useEffect(() => {
     if (selectedChat._id) fetchMessages();
-
+    //
     selectedChatCompare = selectedChat;
     // eslint-disable-next-line
   }, [selectedChat]);
