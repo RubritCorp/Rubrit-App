@@ -31,6 +31,13 @@ interface IChat {
   latestMessage?: IMessage;
 }
 
+export type INotification = {
+  _id: string;
+  sender: IUserChat;
+  content: string;
+  chat: IChat;
+}
+
 type chatContextType = {
   user: IUserChat;
   // setUser: Dispatch<SetStateAction<IUserChat>>;
@@ -41,6 +48,8 @@ type chatContextType = {
   chats: IChat[];
   // setChats: Dispatch<SetStateAction<IChat[]>>;
   setChats: any;
+  notification: INotification[];
+  setNotification: any;
 };
 
 export const chatContextDefaultValues: chatContextType = {
@@ -50,6 +59,8 @@ export const chatContextDefaultValues: chatContextType = {
   setSelectedChat: null,
   chats: [],
   setChats: null,
+  notification: [],
+  setNotification: null,
 };
 
 const ChatContext = createContext<chatContextType>(chatContextDefaultValues);
@@ -63,6 +74,7 @@ const ChatProvider = ({ children }: Props) => {
     chatContextDefaultValues.selectedChat
   );
   const [chats, setChats] = useState<IChat[]>([]);
+  const [notification, setNotification] = useState([])
 
   const router = useRouter();
 
@@ -77,7 +89,7 @@ const ChatProvider = ({ children }: Props) => {
   }, [router]);
   return (
     <ChatContext.Provider
-      value={{ user, setUser, selectedChat, setSelectedChat, chats, setChats }}
+      value={{ user, setUser, selectedChat, setSelectedChat, chats, setChats, notification, setNotification }}
     >
       {children}
     </ChatContext.Provider>
