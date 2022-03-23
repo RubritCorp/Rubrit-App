@@ -1,4 +1,4 @@
-import { Button, FormControl, InputGroup, InputRightElement } from '@chakra-ui/react';
+import { Button, FormControl, InputGroup, InputRightElement, useColorModeValue } from '@chakra-ui/react';
 import {
   AutoComplete,
   AutoCompleteGroup,
@@ -25,6 +25,7 @@ export default function SearchBarAutocomplete({onSearch, query, setQuery, isHero
               _hover={{
                 bg: 'green.500',
               }}
+              color='white'
               roundedLeft='none'
               onClick={() => onSearch()}
             >
@@ -34,7 +35,7 @@ export default function SearchBarAutocomplete({onSearch, query, setQuery, isHero
           <AutoCompleteList>
             {categories?.map((category) => (
               <AutoCompleteGroup key={category._id.toString()} showDivider>
-                <AutoCompleteGroupTitle textTransform='capitalize' color='black'>
+                <AutoCompleteGroupTitle textTransform='capitalize' color={useColorModeValue('black', 'white')}>
                   {category.name}
                 </AutoCompleteGroupTitle>
                 {category.subcategories?.map((subcategory) => (
@@ -42,7 +43,7 @@ export default function SearchBarAutocomplete({onSearch, query, setQuery, isHero
                     key={subcategory._id.toString()}
                     value={subcategory.name}
                     textTransform='capitalize'
-                    color='black'
+                    color={useColorModeValue('black', 'white')}
                     onClick={() => setQuery(subcategory.name)}
                   >
                     {subcategory.name}
