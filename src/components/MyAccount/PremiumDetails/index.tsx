@@ -88,7 +88,7 @@ const PremiumDetails: React.FC<{ payerId: string; email: string }> = ({
   };
   useEffect(() => {
     getPayer();
-  }, [payerId]);
+  }, [payerId, getPayer]);
 
   useEffect(() => {
     let fieldTrial: any[] = [];

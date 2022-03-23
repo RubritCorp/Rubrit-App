@@ -117,6 +117,7 @@ const Services: NextPage<{ category: any; name: string }> = ({
               avatar={m.profilePic}
               description={m.description}
               categories={m.workerData.items.map((m: any) => m.category.name)}
+              isPremium={m.isPremium}
             />
           </GridItem>
         ))}

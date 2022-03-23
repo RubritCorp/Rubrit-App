@@ -415,7 +415,6 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 flexWrap={{ base: "wrap", md: "wrap", lg: "wrap" }}
                 marginBottom={10}
               >
-                /*
                 <Comments {...{ user }} />
               </Flex>
               <Box borderRadius={"10px"} margin={"2em"}>
