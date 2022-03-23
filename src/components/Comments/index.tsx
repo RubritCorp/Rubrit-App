@@ -30,7 +30,7 @@ function TestimonialCard(props: any) {
       maxW="98%"
       maxH="12rem"
       direction={"row"}
-      width={"full"}
+      width={"100%"}
       rounded={"xl"}
       p={"1em"}
       justifyContent={"space-between"}
@@ -131,15 +131,16 @@ export default function GridBlurredBackdrop({ user }: any) {
       textAlign={"center"}
       justifyContent={"center"}
       width={"xl"}
+      flexWrap={"wrap"}
     >
       <SimpleGrid
         columns={[1, null, 1]}
         spacing={"6"}
         mt={5}
         mb={10}
-        minChildWidth={{ base: "300px", lg: "420px" }}
+        minChildWidth={{ base: "80%", lg: "420px" }}
       >
-        {!user?.rating.map((el: any, index: number) => (
+        {user?.rating.map((el: any, index: number) => (
           <TestimonialCard
             description={el.description}
             score={el.score}
