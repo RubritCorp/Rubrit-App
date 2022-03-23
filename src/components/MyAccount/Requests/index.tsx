@@ -36,7 +36,7 @@ const Requests: React.FC = () => {
 
   useEffect(() => {
     fetchRequest();
-  }, []);
+  }, [fetchRequest]);
 
   return (
     <Tabs
