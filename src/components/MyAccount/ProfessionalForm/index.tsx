@@ -36,7 +36,6 @@ import { ChevronDownIcon, EditIcon, MinusIcon } from "@chakra-ui/icons";
 //types
 import { Session } from "next-auth/core/types";
 import UploadRange from "./UploadRange";
-import { useRouter } from "next/router";
 
 type Props = {
   session: Session;

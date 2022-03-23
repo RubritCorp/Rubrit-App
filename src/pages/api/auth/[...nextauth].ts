@@ -111,6 +111,8 @@ export default NextAuth({
           _id: userSession._id,
           email: userSession.email,
           name: userSession.name,
+          role: userSession.role,
+          statusAccount: userSession.statusAccount,
           image: userSession.profilePic,
           phone: userSession.phone
             ? userSession.phone

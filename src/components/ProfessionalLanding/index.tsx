@@ -15,21 +15,24 @@ import {
   Grid,
   GridItem,
   useToast,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
 } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { Star, Check, Checks, CheckCircle } from "phosphor-react";
 
 //native libraries
-import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 //components
 import Layout from "../layout";
 import Comments from "../Comments";
 import Loading from "../Loading";
 import Map from "../Maps/Map";
-import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+import ReportProfile from "./ReportProfile";
 
 const ProfessionalLanding: React.FC<any> = (props) => {
   const theme = useTheme();
@@ -39,6 +42,11 @@ const ProfessionalLanding: React.FC<any> = (props) => {
   const { data: Session } = useSession();
   const user = JSON.parse(props.user);
   const { workerData } = user;
+  const {
+    onOpen: onOpenReportProfile,
+    onClose: onCloseReportProfile,
+    isOpen: isOpenReportProfile,
+  } = useDisclosure();
 
   //average rating
 
@@ -49,7 +57,6 @@ const ProfessionalLanding: React.FC<any> = (props) => {
 
   //pagination states
   const [numberPage, setNumberPage] = useState<number>(0);
-
 
   if (!user) return <Loading />;
   return (
@@ -96,7 +103,6 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 <Text>{user.address.name}</Text>
                 <Flex flexDirection={"column"}>
                   <Flex flexDirection={"row"}>
-
                     {scoreTotal &&
                       Array(scoreTotal)
                         .fill(null)
@@ -134,12 +140,11 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 </Flex>
               </Flex>
               <Flex flexDirection={"column"} alignItems={"center"}>
-
                 <Button
                   as={"button"}
                   width={{ base: "150px", md: "200px", lg: "250px" }}
                   height={{ base: "45px", md: "45px", lg: "45px" }}
-                  borderRadius={"10px"}
+                  borderRadius={7}
                   bg={"medium_green"}
                   color={"white"}
                   fontSize={{ base: "1rem", md: "1.2rem", lg: "1.4rem" }}
@@ -170,11 +175,23 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                     });
                     setLoading(true);
                   }}
-
                 >
                   Pedir Cotizacion
                 </Button>
-
+                <Button
+                  variant={"outline"}
+                  colorScheme={"red"}
+                  width={{ base: "150px", md: "200px", lg: "250px" }}
+                  height={{ base: "45px", md: "45px", lg: "45px" }}
+                  borderRadius={7}
+                  mt={4}
+                  onClick={onOpenReportProfile}
+                >
+                  Reportar Perfil
+                </Button>
+                <ReportProfile
+                  {...{ isOpenReportProfile, onCloseReportProfile }}
+                />
                 <Flex
                   flexDirection={"row"}
                   justifyContent={"center"}
@@ -412,54 +429,33 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 </Box>
               </Flex>
             </Flex>
-            <Container maxW={"container.lg"}>
+            <Container maxW={"container.xl"}>
               <Flex
                 flexDirection={"row"}
                 justifyContent={"space-evenly"}
-                flexWrap={{ base: "wrap", md: "wrap", lg: "wrap" }}
-                marginBottom={10}
+                marginTop={"10"}
+                marginBottom={"10"}
               >
-
-                /*<Comments {...{ user }} />
-              </Flex>
-              <Box borderRadius={"10px"} margin={"2em"}>
                 <Flex
-                  flexDirection={"column"}
-                  padding={"1em"}
-                  boxShadow={"lg"}
-                  overflowY={"auto"}
+                  maxH={"450px"}
+                  overflowY="auto"
+                  css={{
+                    "&::-webkit-scrollbar": {
+                      width: "7px",
+                    },
+                    "&::-webkit-scrollbar-track": {
+                      width: "15px",
+                    },
+                    "&::-webkit-scrollbar-thumb": {
+                      background: "#38a169",
+                      borderRadius: "24px",
+                    },
+                  }}
                 >
-                  {workerData.items?.map((cat: any, index: number) => {
-                    return (
-                      <Flex flexDirection={"column"} key={cat.category.name}>
-                        <Heading
-                          fontSize={{
-                            base: "1rem",
-                            md: "1.2rem",
-                            lg: "1.5rem",
-                          }}
-                          color={"light_grey_sub"}
-                          key={cat.category.name}
-                        >
-                          {cat.category.name}
-                        </Heading>
-                        <Box>
-                          {cat.subcategories?.map((sub: any, index: number) => (
-                            <Text key={index}>{sub.name}</Text>
-                          ))}
-                        </Box>
-                      </Flex>
-                    );
-                  })}*/
-
-                <Flex maxH={"540px"} overflowY="auto">
                   <Comments {...{ user }} />
-
                 </Flex>
-                <Box
-                  borderRadius={"10px"}
-                  margin={{ base: "2em", lg: "2em 0 0 10em" }}
-                >
+
+                <Box borderRadius={"10px"}>
                   <Flex
                     flexDirection={"column"}
                     padding={{ base: "1em", lg: "2em" }}
