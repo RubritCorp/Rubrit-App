@@ -35,7 +35,6 @@ import Loading from "../Loading";
 import Map from "../Maps/Map";
 import ReportProfile from "./ReportProfile";
 
-
 const ImageModal: React.FC<any> = ({ url, title }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -91,7 +90,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
     onClose: onCloseReportProfile,
     isOpen: isOpenReportProfile,
   } = useDisclosure();
-  
+
   //average rating
 
   const scoreTotal = Math.ceil(
@@ -223,7 +222,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                 >
                   Pedir Cotizacion
                 </Button>
-                 <Button
+                <Button
                   variant={"outline"}
                   colorScheme={"red"}
                   width={{ base: "150px", md: "200px", lg: "250px" }}
@@ -303,7 +302,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                     {workerData.images
                       ?.slice(numberPage, numberPage + 4)
                       .map((m: any, i: number) => (
-                        <ImageModal url={m} title={m}>
+                        <ImageModal url={m} title={m} key={i}>
                           <Box key={i} backgroundImage={m}></Box>
                         </ImageModal>
                       ))}

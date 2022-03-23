@@ -234,7 +234,9 @@ const MiPerfil: React.FC<{
           Número De Teléfono
         </Text>
         <Text>
-          {user.phone ? `${user.phone.diallingCode} ${user.phone.number}` : "-"}
+          {user.phone && user.phone.diallingCode && user.phone.number
+            ? `${user.phone.diallingCode} ${user.phone.number}`
+            : "-"}
         </Text>
         <Text color="gray" marginTop={5} fontSize={{ base: "sm", lg: "md" }}>
           Tipo De Usuario

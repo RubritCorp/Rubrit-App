@@ -126,7 +126,8 @@ const cases: ICases = {
           res.status(404).json({ message: "Error sending email" });
         }
       );
-      await User.deleteOne({ email: email });
+      user.statusAccount = "DISABLED";
+      user.save();
       res.status(200).json({ message: "User was deleted" });
     } catch (err) {
       console.log("Error ocurred in DELETE USER");

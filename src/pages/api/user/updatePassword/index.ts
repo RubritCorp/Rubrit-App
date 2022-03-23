@@ -92,7 +92,8 @@ const cases: ICases = {
     try {
       const user = await User.findOne({ email: email });
 
-      if (!user) return res.status(404);
+      if (!user)
+        return res.status(404).json({ message: "Error, user does not exist" });
 
       var code = createCode().toString();
 
