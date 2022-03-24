@@ -1,4 +1,10 @@
-import { Avatar, Tooltip } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Tooltip,
+  useColorModeValue,
+  VStack,
+} from "@chakra-ui/react";
 import {
   isLastMessage,
   isSameSender,
@@ -10,7 +16,7 @@ import { IMessage, useChat } from "../context/ChatProvider";
 const ScrollableChat: React.FC<{ messages: IMessage[] }> = ({ messages }) => {
   const { user } = useChat();
   return (
-    <ScrollableFeed>
+    <Box>
       {messages &&
         messages.map((m, i) => (
           <div
@@ -35,6 +41,7 @@ const ScrollableChat: React.FC<{ messages: IMessage[] }> = ({ messages }) => {
                 backgroundColor: `${
                   m.sender._id === user._id ? "#BEE3F8" : "#B9F5D0"
                 }`,
+                color: "black",
                 marginLeft: isSameSenderMargin(messages, m, i, user._id),
                 marginTop: isSameUser(messages, m, i) ? 3 : 10,
                 borderRadius: "20px",
@@ -46,7 +53,7 @@ const ScrollableChat: React.FC<{ messages: IMessage[] }> = ({ messages }) => {
             </span>
           </div>
         ))}
-    </ScrollableFeed>
+    </Box>
   );
 };
 

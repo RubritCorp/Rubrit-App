@@ -23,6 +23,7 @@ import UserListItem from "../userAvatar/UserListItem";
 import axios from "axios";
 import envConfig from "../../../../next-env-config";
 
+var socket: any;
 const UpdateGroupChatModal: React.FC<{
   fetchMessages: any;
   fetchAgain: boolean;
@@ -92,6 +93,7 @@ const UpdateGroupChatModal: React.FC<{
 
       setSelectedChat(data);
       setFetchAgain(!fetchAgain);
+      socket.emit("change name");
       setRenameLoading(false);
     } catch (error: any) {
       toast({

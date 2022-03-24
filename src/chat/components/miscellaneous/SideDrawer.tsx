@@ -23,7 +23,7 @@ import {
 } from "@chakra-ui/react";
 import { useChat } from "chat/context/ChatProvider";
 import { MagnifyingGlass } from "phosphor-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProfileModal from "./ProfileModal";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -31,7 +31,9 @@ import envConfig from "../../../../next-env-config";
 import ChatLoading from "../ChatLoading";
 import { IUserChat } from "../../context/ChatProvider";
 import UserListItem from "../userAvatar/UserListItem";
+import { io } from "socket.io-client";
 
+var socket: any;
 const SideDrawer = () => {
   const [search, setSearch] = useState<string>("");
   const [searchResult, setSearchResult] = useState([]);
@@ -87,6 +89,12 @@ const SideDrawer = () => {
       });
     }
   };
+  useEffect(() => {
+    socket = io(`${envConfig?.apiUrl}`);
+    socket.emit("setup", user);
+
+    // eslint-disable-next-line
+  }, []);
   //accessChat
   const accessChat = async (userId: string) => {
     try {
@@ -103,7 +111,10 @@ const SideDrawer = () => {
         config
       );
 
-      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+      if (!chats.find((c) => c._id === data._id)) {
+        socket.emit("new chat", data);
+        setChats([data, ...chats]);
+      }
       setSelectedChat(data);
       setLoadingChat(false);
       onClose();

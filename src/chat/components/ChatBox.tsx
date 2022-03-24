@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, useColorModeValue } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
 import { useChat } from "../context/ChatProvider";
 import SingleChat from "./SingleChat";
@@ -15,10 +15,12 @@ const Chatbox: React.FC<{
       alignItems="center"
       flexDir="column"
       p={3}
-      bg="#fafafa"
+      // bg="#fafafa"
       w={{ base: "100%", md: "68%" }}
       borderRadius="lg"
       borderWidth="1px"
+      color={useColorModeValue("dark_green", "medium_green")}
+      bg={useColorModeValue("#fafafa", "#1A202C")}
     >
       <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
     </Box>
