@@ -84,15 +84,19 @@ const Form: React.FC<any> = ({
 
     setForm({
       ...form,
-      userComment: userId._id,
+      userComment: profId._id,
       date: formatedDate,
-      user: profId._id,
+      user: userId._id,
     });
     onClose();
     setReload(!load);
     areaRef.current.value = "";
 
-    await axios.put(`/api/user/commentReceived`, { ...form });
+    const submitComment = await axios.put(`/api/user/commentReceived`, {
+      data: {
+        data: form,
+      },
+    });
   }
   return (
     <Flex justifyContent={"center"}>
@@ -254,7 +258,7 @@ const ModalActivar: React.FC<any> = ({
           {request?.state?.active ? "Desactivar" : "Activar"}
         </Button>
       </PopoverTrigger>
-      <PopoverContent borderColor="blue.800">
+      <PopoverContent  borderColor="blue.800">
         <PopoverHeader pt={4} fontWeight="bold" border="0">
           <Text m={"0 auto"}>Aviso</Text>
         </PopoverHeader>
