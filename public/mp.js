@@ -1,6 +1,6 @@
 const mp = new MercadoPago("APP_USR-8ac18576-c585-4bfe-be23-e79462e260c4");
 // Step #getIdentificationTypes
-
+import { apiUrl } from '../next-env-config.ts';
 // Helper function to append option elements to a select input
 function createSelectOptions(
   elem,
@@ -152,7 +152,7 @@ const createCardToken = async (event) => {
       const email = document.getElementById(
         "form-checkout__cardholderEmail"
       ).value;
-      const res = await fetch("http://localhost:8080/subs/payer", {
+      const res = await fetch(`${apiUrl}/subs/payer`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
