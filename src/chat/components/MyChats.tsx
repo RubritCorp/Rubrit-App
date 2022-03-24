@@ -41,7 +41,7 @@ const MyChats: React.FC<{ fetchAgain: boolean }> = ({ fetchAgain }) => {
   useEffect(() => {
     // const info = localStorage.getItem("userInfo");
     // setLoggedUser(JSON.parse(info ? info : "{}"));
-    if (status === "authenticated") {
+    if (session && status === "authenticated") {
       setLoggedUser({
         _id: `${session._id}`,
         email: session.email,

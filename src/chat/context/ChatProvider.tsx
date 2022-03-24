@@ -38,7 +38,7 @@ export type INotification = {
   sender: IUserChat;
   content: string;
   chat: IChat;
-}
+};
 
 type chatContextType = {
   user: IUserChat;
@@ -76,23 +76,12 @@ const ChatProvider = ({ children }: Props) => {
     chatContextDefaultValues.selectedChat
   );
   const [chats, setChats] = useState<IChat[]>([]);
-  const [notification, setNotification] = useState([])
+  const [notification, setNotification] = useState([]);
 
-  // const router = useRouter();
-
-  // useEffect(() => {
-  //   const info = localStorage.getItem("userInfo");
-  //   const userInfo = JSON.parse(info ? info : '""');
-  //   setUser(userInfo);
-
-  //   // if (userInfo) {
-  //   //   router.push("/chat/chats");
-  //   // }
-  // }, [router]);
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    if (status === "authenticated") {
+    if (session && status === "authenticated") {
       setUser({
         _id: `${session._id}`,
         email: session.email,
@@ -104,7 +93,16 @@ const ChatProvider = ({ children }: Props) => {
   }, [status, session]);
   return (
     <ChatContext.Provider
-      value={{ user, setUser, selectedChat, setSelectedChat, chats, setChats, notification, setNotification }}
+      value={{
+        user,
+        setUser,
+        selectedChat,
+        setSelectedChat,
+        chats,
+        setChats,
+        notification,
+        setNotification,
+      }}
     >
       {children}
     </ChatContext.Provider>

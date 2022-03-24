@@ -54,6 +54,7 @@ interface IProps {
   requests: any;
   load: boolean;
   setReload(value: boolean): void;
+  accessChat(userId: string): Promise<void>;
 }
 
 const Form: React.FC<any> = ({
@@ -358,7 +359,12 @@ const ImageModal: React.FC<any> = ({ url, title }) => {
   );
 };
 
-const RequestReceived: React.FC<IProps> = ({ requests, load, setReload }) => {
+const RequestReceived: React.FC<IProps> = ({
+  requests,
+  load,
+  setReload,
+  accessChat,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modal, setModal] = useState<any>(null);
   const toast = useToast();
@@ -750,6 +756,16 @@ const RequestReceived: React.FC<IProps> = ({ requests, load, setReload }) => {
                 <Text color={"medium_green"}>Solicitud finalizada</Text>
               ) : (
                 <>
+                  {modal.category === null && (
+                    <Box>
+                      <Button
+                        colorScheme={"yellow"}
+                        onClick={() => accessChat(modal.userId._id)}
+                      >
+                        Chat
+                      </Button>
+                    </Box>
+                  )}
                   <Box>
                     <ModalActivar
                       id={modal._id}

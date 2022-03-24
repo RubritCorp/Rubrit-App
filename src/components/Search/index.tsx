@@ -222,8 +222,8 @@ function RangeSliderInput({
   }, [value]);
 
   return (
-    // eslint-disable-next-line jsx-a11y/aria-proptypes
     <RangeSlider
+      // eslint-disable-next-line jsx-a11y/aria-proptypes
       aria-label={["min", "max"]}
       defaultValue={[1, 5]}
       min={1}

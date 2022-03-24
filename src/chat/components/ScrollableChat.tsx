@@ -11,7 +11,6 @@ import {
   isSameSenderMargin,
   isSameUser,
 } from "chat/config/ChatLogic";
-import ScrollableFeed from "react-scrollable-feed";
 import { IMessage, useChat } from "../context/ChatProvider";
 const ScrollableChat: React.FC<{ messages: IMessage[] }> = ({ messages }) => {
   const { user } = useChat();
