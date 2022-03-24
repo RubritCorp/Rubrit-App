@@ -180,7 +180,7 @@ const ModalFinalizar: React.FC<any> = ({
       <PopoverTrigger>
         <Button colorScheme="yellow">Finalizar</Button>
       </PopoverTrigger>
-      <PopoverContent color="white" borderColor="blue.800">
+      <PopoverContent borderColor="blue.800">
         <PopoverHeader pt={4} fontWeight="bold" border="0">
           Opciones para terminar una solicitud
         </PopoverHeader>
@@ -258,7 +258,7 @@ const ModalActivar: React.FC<any> = ({
           {request?.state?.active ? "Desactivar" : "Activar"}
         </Button>
       </PopoverTrigger>
-      <PopoverContent color="white" borderColor="blue.800">
+      <PopoverContent borderColor="blue.800">
         <PopoverHeader pt={4} fontWeight="bold" border="0">
           <Text m={"0 auto"}>Aviso</Text>
         </PopoverHeader>
