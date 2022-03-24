@@ -108,7 +108,6 @@ export const useHelper = ({ setIsLogin }: props) => {
         duration: 9000,
         isClosable: true,
       });
-      //console.log(err);
     }
   };
 

@@ -9,6 +9,7 @@ import { IUser } from "models/User/IUser";
 import "utils/db";
 import { verifyPassword } from "utils/verifyPassword";
 import { SMTPClient } from "emailjs";
+import envConfig from "../../../../next-env-config";
 
 interface ICases {
   POST(req: NextApiRequest, res: NextApiResponse<DataUser>): void;
@@ -59,7 +60,7 @@ const cases: ICases = {
   PUT: async (req, res) => {
     const { email, name, address, phone, image } = req.body;
 
-    console.log(req.body)
+    console.log(req.body);
     if (!email) return res.status(404).json({ message: "Email is required" });
 
     try {
@@ -100,8 +101,8 @@ const cases: ICases = {
       }
 
       const client: any = new SMTPClient({
-        user: process.env.EMAIL_SENDER,
-        password: process.env.EMAIL_PASSWORD,
+        user: envConfig?.EMAIL_SENDER,
+        password: envConfig?.EMAIL_PASSWORD,
         host: "smtp.gmail.com",
         ssl: true,
       });
@@ -110,7 +111,7 @@ const cases: ICases = {
         {
           text: "¡Hoy es un día triste!",
           from: email,
-          to: process.env.EMAIL_SENDER,
+          to: envConfig?.EMAIL_SENDER,
           subject: "Un usuario ha eliminado su cuenta de nuestros servidores",
           attachment: [
             {

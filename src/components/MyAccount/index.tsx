@@ -252,39 +252,7 @@ const Content: React.FC<{ payerId: string; user: Session }> = ({
             </Flex>
           </a>
         </Link>
-        <Link href="myAccount?site=myfiles" passHref>
-          <a>
-            <Flex alignItems={"center"} flexDirection={"column"}>
-              <Flex
-                h={10}
-                w={"100%"}
-                justifyContent={"space-between"}
-                alignItems={"center"}
-                p={3}
-                mb={3}
-                _hover={{
-                  textDecoration: "none",
-                  color: "green.400",
-                  bg: useColorModeValue("#ebe8e8", "#1e242e"),
-                }}
-              >
-                <Flex alignItems={"center"}>
-                  <Image
-                    src={Folder}
-                    alt="user-image"
-                    width={"30px"}
-                    height={"30px"}
-                  />
-                  <Text cursor={"pointer"} ml={3}>
-                    Ver Tus Archivos
-                  </Text>
-                </Flex>
-                <ChevronRightIcon />
-              </Flex>
-              <Divider w={"90%"} />
-            </Flex>
-          </a>
-        </Link>
+
         <Link href="myAccount?site=myRequest" passHref>
           <a>
             <Flex alignItems={"center"} flexDirection={"column"}>

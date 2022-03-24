@@ -22,7 +22,6 @@ import User from "assets/user.png";
 import CreatePassword from "./CreatePassword";
 import UpdatePassword from "./UpdatePassword";
 import UpdateEmail from "./UpdateEmail";
-import Address from "./Address";
 import DeleteUser from "./DeleteUser";
 
 const AccountSettings: React.FC<{ session: Session }> = ({ session }) => {
@@ -132,8 +131,6 @@ const Settings: React.FC<{
       />
       {/**/}
       <UpdateEmail {...{ session }} />
-      {/**/}
-      <Address />
       {/**/}
       <DeleteUser {...{ session }} />
       {/**/}

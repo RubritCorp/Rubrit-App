@@ -88,7 +88,8 @@ export default async function getNearServices({
             )
         )
       );
-
+             
+                  
       services = categoriesMatch.filter((f) => f !== null);
 
       if (services.length < 1) return [];

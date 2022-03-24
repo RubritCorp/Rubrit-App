@@ -64,6 +64,7 @@ const Footer: React.FC = () => {
     <Box
       bg={useColorModeValue("medium_grey", "dark_green")}
       color={useColorModeValue("dark_green", "medium_grey")}
+      // h="30vh"
     >
       <Container as={Stack} maxW={"6xl"} py={10}>
         <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={8}>
@@ -131,6 +132,7 @@ const Footer: React.FC = () => {
           spacing={4}
           justify={{ md: "space-between" }}
           align={{ md: "center" }}
+          // h="6vh"
         >
           <Text>© 2022 Rubrit. All rights reserved</Text>
           <Stack direction={"row"} spacing={6}>

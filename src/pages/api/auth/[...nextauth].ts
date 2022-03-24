@@ -11,6 +11,7 @@ import { verifyPassword } from "utils/verifyPassword";
 //models
 import User from "models/User";
 import envConfig from "../../../../next-env-config";
+import axios from "axios";
 
 export default NextAuth({
   session: {
@@ -58,7 +59,7 @@ export default NextAuth({
       clientSecret: `${process.env.GITHUB_SECRET}`,
     }), */
   ],
-  secret: process.env.SECRET,
+  secret: envConfig?.secret,
   events: {
     async signIn(message) {
       "Inicio de sesión exitoso";
@@ -109,6 +110,9 @@ export default NextAuth({
         const userSession = await User.findOne({
           email: session.user?.email,
         }).populate(populateQuery);
+        const { data } = await axios.post(`${envConfig?.apiUrl}/user/token`, {
+          id: userSession._id,
+        });
         const newSession = {
           expires: session.expires,
           _id: userSession._id,
@@ -130,6 +134,7 @@ export default NextAuth({
           workerData: userSession.workerData,
           requests: userSession.requests,
           payerId: userSession.payerId,
+          token: data.token,
         };
         return newSession;
       }
@@ -149,4 +154,5 @@ export default NextAuth({
     newUser: `${envConfig?.host}/COMPLETARPERFIL`,
     error: `${envConfig?.host}`,
   },
+  debug: true,
 });

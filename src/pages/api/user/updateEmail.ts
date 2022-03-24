@@ -9,6 +9,7 @@ import { IUser } from "models/User/IUser";
 import "utils/db";
 import { hashCode, verifyPassword } from "utils/verifyPassword";
 import { SMTPClient } from "emailjs";
+import envConfig from "../../../../next-env-config";
 
 interface ICases {
   PUT(req: NextApiRequest, res: NextApiResponse<DataUpdate>): void;
@@ -57,8 +58,8 @@ const cases: ICases = {
       const createCode = () => {
         return Math.floor(
           Math.random() *
-            (Number(process.env.MAX) - Number(process.env.MIN) + 1) +
-            Number(process.env.MIN)
+            (Number(envConfig?.MAX) - Number(envConfig?.MIN) + 1) +
+            Number(envConfig?.MIN)
         );
       };
 
@@ -70,8 +71,8 @@ const cases: ICases = {
       user.save();
 
       const client: any = new SMTPClient({
-        user: process.env.EMAIL_SENDER,
-        password: process.env.EMAIL_PASSWORD,
+        user: envConfig?.EMAIL_SENDER,
+        password: envConfig?.EMAIL_PASSWORD,
         host: "smtp.gmail.com",
         ssl: true,
       });
@@ -79,7 +80,7 @@ const cases: ICases = {
       client.send(
         {
           text: "¡Cambio de Correo Electronico!",
-          from: process.env.EMAIL_SENDER,
+          from: envConfig?.EMAIL_SENDER,
           to: newEmail,
           subject: "Verificacion de la cuenta",
           attachment: [
@@ -101,7 +102,7 @@ const cases: ICases = {
         <p style="text-align:center">Hemos detectado que decidio modificar su correo electronico!. Porfavor confirma tu identidad clickeando en el siguiente link!</p>
         <div style="width: 100%;display: flex;justify-content: center;height: 3rem;align-items: center;" >
           <div style="width: max-content;height: 2.5rem;border-radius: 8px;background-color: #2EB67D;display: flex;justify-content: center;align-items: center;margin:auto;">
-          <a href=${process.env.CALLBACK_REDIRECT_EMAIL_AUTH}code=${code}&email=${newEmail} style="color: #fafafa;text-decoration: none;margin:auto;padding-left:1rem;padding-right:1rem;">¡Verifiquemos tu nuevo mail!</a>
+          <a href=${envConfig?.forgotPasswordAuthenticated}code=${code}&email=${newEmail} style="color: #fafafa;text-decoration: none;margin:auto;padding-left:1rem;padding-right:1rem;">¡Verifiquemos tu nuevo mail!</a>
           </div>
         </div>
       </div>

@@ -10,6 +10,7 @@ import {
   useColorModeValue,
   Icon,
   useTheme,
+  useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
@@ -17,9 +18,13 @@ import RequestReceived from "./RequestReceived";
 import RequestSent from "./RequestSent";
 import axios from "axios";
 import { Article } from "phosphor-react";
+import { useRouter } from "next/router";
+import envConfig from "../../../../next-env-config";
 
 const Requests: React.FC = () => {
+  const toast = useToast();
   const session = useSession();
+  const router = useRouter();
   const theme = useTheme();
   const [requests, setRequests] = useState({});
   const [load, setReload] = useState<boolean>(false);
@@ -34,8 +39,46 @@ const Requests: React.FC = () => {
     setRequests(requests);
   }
 
+  const accessChat = async (userId: string) => {
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${session.data?.token}`,
+        },
+      };
+
+      const { data } = await axios.post(
+        `${envConfig?.apiUrl}/chat`,
+        { userId },
+        config
+      );
+
+      if (data) router.push("/chat");
+      else
+        toast({
+          title: "Error al obtener el chat",
+          description: "Chat no devuelto por el back",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom-left",
+        });
+    } catch (error: any) {
+      toast({
+        title: "Error al obtener el chat",
+        description: error.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
+  };
+
   useEffect(() => {
     fetchRequest();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [load]);
 
   return (
@@ -106,7 +149,7 @@ const Requests: React.FC = () => {
           borderBottomLeftRadius={5}
           borderBottomRightRadius={5}
         >
-          <RequestSent requests={requests} setReload={setReload} load={load} />
+          <RequestSent {...{ requests, setReload, load, accessChat }} />
         </TabPanel>
         <TabPanel
           bg={useColorModeValue("#fafafa", "#1A202C")}
@@ -115,11 +158,7 @@ const Requests: React.FC = () => {
           borderBottomLeftRadius={5}
           borderBottomRightRadius={5}
         >
-          <RequestReceived
-            requests={requests}
-            setReload={setReload}
-            load={load}
-          />
+          <RequestReceived {...{ requests, setReload, load, accessChat }} />
         </TabPanel>
       </TabPanels>
     </Tabs>

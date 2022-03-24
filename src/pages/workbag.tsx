@@ -22,7 +22,6 @@ export default WorkbagPage;
 
 export async function getServerSideProps(context: any) {
   const session = await getSession(context);
-  // console.log(session);
   if (session) {
     const workBag = await getNearServices({
       categories: session.workerData.items.map((m: any) => m.category),

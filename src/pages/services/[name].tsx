@@ -35,12 +35,10 @@ const Services: NextPage<{ category: any; name: string }> = ({
   const [filteredUsers, setFilteredUsers] = useState<IUser[]>([]);
   const [cat, setCat] = useState<any>({});
 
- console.log(users,'userssssss')
-
   const premiumUsers = filteredUsers.filter((f) => f.isPremium);
   const nonPremiumUsers = filteredUsers.filter((f) => !f.isPremium);
 
-    const [numberPage, setNumberPage] = useState<number>(0);
+  const [numberPage, setNumberPage] = useState<number>(0);
 
   useEffect(() => {
     if (users.length && Object.keys(category).length > 0) {
@@ -49,7 +47,7 @@ const Services: NextPage<{ category: any; name: string }> = ({
 
       setFilteredUsers(
         users.filter((f) =>
-        f.workerData.items.map((m) => m.category.name).includes(cat.name)
+          f.workerData.items.map((m) => m.category.name).includes(cat.name)
         )
       );
     }
@@ -114,7 +112,6 @@ const Services: NextPage<{ category: any; name: string }> = ({
         }}
         gap={2}
       >
-
         {premiumUsers?.map((m: IUser, i: number) => (
           <GridItem key={i} w={"100%"}>
             <CardProfesional
@@ -141,22 +138,21 @@ const Services: NextPage<{ category: any; name: string }> = ({
         }}
         gap={2}
       >
-
         {nonPremiumUsers?.map((m: IUser, i: number) => (
           <GridItem key={i} w={"100%"}>
             <CardProfesionalSmall
               _id={m._id}
-              name={m.name}             
-              avatar={m.profilePic}  
+              name={m.name}
+              avatar={m.profilePic}
             />
           </GridItem>
         ))}
       </Grid>
-      
+
       {filteredUsers.length === 0 ? (
         <Heading>SIN RESULTADO DE BUSQUEDA</Heading>
       ) : null}
-      
+
       <Flex justifyContent={"center"} m={"10px"}>
         <Link href={"/"}>
           <a>
