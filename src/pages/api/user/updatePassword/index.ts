@@ -29,8 +29,8 @@ interface DataError {
 
 const createCode = () => {
   return Math.floor(
-    Math.random() * (Number(process.env.MAX) - Number(process.env.MIN) + 1) +
-      Number(process.env.MIN)
+    Math.random() * (Number(envConfig?.MAX) - Number(envConfig?.MIN) + 1) +
+      Number(envConfig?.MIN)
   );
 };
 
@@ -101,8 +101,8 @@ const cases: ICases = {
       user.save();
 
       const client: any = new SMTPClient({
-        user: process.env.EMAIL_SENDER,
-        password: process.env.EMAIL_PASSWORD,
+        user: envConfig?.EMAIL_SENDER,
+        password: envConfig?.EMAIL_PASSWORD,
         host: "smtp.gmail.com",
         ssl: true,
       });
@@ -110,7 +110,7 @@ const cases: ICases = {
       client.send(
         {
           text: "¡Gracias por registrarse en Rubrit App!",
-          from: process.env.EMAIL_SENDER,
+          from: envConfig?.EMAIL_SENDER,
           to: email,
           subject: "Cambio de contraseña",
           attachment: [
