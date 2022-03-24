@@ -180,7 +180,7 @@ const ModalFinalizar: React.FC<any> = ({
       <PopoverTrigger>
         <Button colorScheme="yellow">Finalizar</Button>
       </PopoverTrigger>
-      <PopoverContent color="white" borderColor="blue.800">
+      <PopoverContent borderColor="blue.800">
         <PopoverHeader pt={4} fontWeight="bold" border="0">
           Opciones para terminar una solicitud
         </PopoverHeader>
