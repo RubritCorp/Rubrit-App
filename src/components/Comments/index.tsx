@@ -20,7 +20,7 @@ function TestimonialCard(props: any) {
     description,
     score,
     date,
-    userComment: { name, email, profilePic },
+    userComment: { name, profilePic },
   } = props;
   const theme = useTheme();
 
@@ -68,7 +68,7 @@ function TestimonialCard(props: any) {
             />
           </Box>
           <Flex>
-            {[...Array(score)].map((el: any, index: number) => {
+            {[...Array(score)].fill(undefined).map((el: any, index: number) => {
               return (
                 <Star
                   key={index}
@@ -127,9 +127,7 @@ function TestimonialCard(props: any) {
   );
 }
 
-export default function GridBlurredBackdrop({ user }: any) {
-  console.log(user?.rating);
-
+export default function Comments({ user }: any) {
   return (
     <Flex
       textAlign={"center"}
@@ -147,7 +145,7 @@ export default function GridBlurredBackdrop({ user }: any) {
         {user?.rating.map((el: any, index: number) => (
           <TestimonialCard
             description={el.description}
-            score={el.score}
+            score={Math.floor(el.score)}
             date={el.date}
             userComment={el.userComment}
             index={index}

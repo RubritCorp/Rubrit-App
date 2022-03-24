@@ -149,7 +149,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                   <Flex flexDirection={"row"}>
                     {scoreTotal &&
                       Array(scoreTotal)
-                        .fill(null)
+                        .fill(undefined)
                         .map((el: any, index: number) => (
                           <Star
                             key={index}
@@ -157,7 +157,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                             weight="fill"
                             color={theme.colors.medium_green}
                           />
-                        ))} 
+                        ))}
                     <Text
                       ml={"0.5rem"}
                       fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
@@ -169,7 +169,8 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                       ml={"0.5rem"}
                       fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
                     >
-                      {Math.floor(Math.random() * (99 - 2)) + 2} Trabajos realizados
+                      {Math.floor(Math.random() * (99 - 2)) + 2} Trabajos
+                      realizados
                     </Text>
                   </Flex>
                   <Flex flexDirection={"row"}>
@@ -178,7 +179,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                       ml={"0.5rem"}
                       fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
                     >
-                       Más del {Math.floor((scoreTotal) * 20)} % de satisfacción
+                      Más del {Math.floor(scoreTotal * 20)} % de satisfacción
                     </Text>
                   </Flex>
                 </Flex>
