@@ -22,7 +22,7 @@ const Requests: React.FC = () => {
   const session = useSession();
   const theme = useTheme();
   const [requests, setRequests] = useState({});
-
+  const [load, setReload] = useState<boolean>(false);
   async function fetchRequest() {
     const {
       data: { requests },
@@ -36,7 +36,7 @@ const Requests: React.FC = () => {
 
   useEffect(() => {
     fetchRequest();
-  }, [fetchRequest]);
+  }, [load]);
 
   return (
     <Tabs
@@ -106,7 +106,7 @@ const Requests: React.FC = () => {
           borderBottomLeftRadius={5}
           borderBottomRightRadius={5}
         >
-          <RequestSent requests={requests} />
+          <RequestSent requests={requests} setReload={setReload} load={load} />
         </TabPanel>
         <TabPanel
           bg={useColorModeValue("#fafafa", "#1A202C")}
@@ -115,7 +115,11 @@ const Requests: React.FC = () => {
           borderBottomLeftRadius={5}
           borderBottomRightRadius={5}
         >
-          <RequestReceived requests={requests} />
+          <RequestReceived
+            requests={requests}
+            setReload={setReload}
+            load={load}
+          />
         </TabPanel>
       </TabPanels>
     </Tabs>

@@ -59,6 +59,7 @@ const cases: ICases = {
   PUT: async (req, res) => {
     const { email, name, address, phone, image } = req.body;
 
+    console.log(req.body)
     if (!email) return res.status(404).json({ message: "Email is required" });
 
     try {
