@@ -92,7 +92,6 @@ const Form: React.FC<any> = ({
     setReload(!load);
     areaRef.current.value = "";
 
-   
     const submitComment = await axios.put(`/api/user/commentReceived`, {
       data: {
         data: form,
@@ -181,7 +180,7 @@ const ModalFinalizar: React.FC<any> = ({
       <PopoverTrigger>
         <Button colorScheme="yellow">Finalizar</Button>
       </PopoverTrigger>
-      <PopoverContent borderColor="blue.800">
+      <PopoverContent color="white" borderColor="blue.800">
         <PopoverHeader pt={4} fontWeight="bold" border="0">
           Opciones para terminar una solicitud
         </PopoverHeader>
@@ -259,7 +258,7 @@ const ModalActivar: React.FC<any> = ({
           {request?.state?.active ? "Desactivar" : "Activar"}
         </Button>
       </PopoverTrigger>
-      <PopoverContent borderColor="blue.800">
+      <PopoverContent color="white" borderColor="blue.800">
         <PopoverHeader pt={4} fontWeight="bold" border="0">
           <Text m={"0 auto"}>Aviso</Text>
         </PopoverHeader>
