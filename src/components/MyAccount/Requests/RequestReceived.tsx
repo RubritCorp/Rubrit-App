@@ -65,9 +65,14 @@ const Form: React.FC<any> = ({
   setReload,
   onClose,
 }) => {
+  const date = new Date();
+  const formatedDate = date.toISOString().split("T")[0];
   const [form, setForm] = useState<any>({
     score: 0,
     comment: "",
+    userComment: profId._id,
+    date: formatedDate,
+    user: userId._id,
   });
   const areaRef = useRef<any>();
   const numRef = useRef<any>();
@@ -82,22 +87,16 @@ const Form: React.FC<any> = ({
   }
 
   async function handleOnSubmit() {
-    const date = new Date();
-    const formatedDate = date.toISOString().split("T")[0];
-
-    setForm({
+    const finalData = {
       ...form,
-      userComment: profId._id,
-      date: formatedDate,
-      user: userId._id,
-    });
+    };
     onClose();
     setReload(!load);
     areaRef.current.value = "";
 
-    const submitComment = await axios.put(`/api/user/commentReceived`, {
+    await axios.put(`/api/user/commentReceived`, {
       data: {
-        data: form,
+        data: finalData,
       },
     });
     toast({
