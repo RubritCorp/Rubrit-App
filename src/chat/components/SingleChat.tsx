@@ -47,6 +47,41 @@ const SingleChat: React.FC<{
     // notification, setNotification
   } = useChat();
 
+  useEffect(() => {
+    socket = io(`${envConfig?.apiUrl}`);
+    socket.emit("setup", user);
+    socket.on("connected", () => setSocketConnected(true));
+    socket.on("typing", () => setIsTyping(true));
+    socket.on("stop typing", () => setIsTyping(false));
+
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    if (selectedChat._id) fetchMessages();
+    //
+    selectedChatCompare = selectedChat;
+    // eslint-disable-next-line
+  }, [selectedChat]);
+
+  useEffect(() => {
+    socket.on("message recieved", (newMessageRecieved: IMessage) => {
+      console.log("message recieved");
+      if (
+        !selectedChatCompare || // if chat is not selected or doesn't match current chat
+        selectedChatCompare._id !== newMessageRecieved.chat._id
+      ) {
+        // if (!notification.includes(newMessageRecieved)) {
+        //   setNotification([newMessageRecieved, ...notification]);
+        setFetchAgain(!fetchAgain);
+        // }
+      } else {
+        setMessages([...messages, newMessageRecieved]);
+        scrollBottom();
+        setFetchAgain(!fetchAgain);
+      }
+    });
+  });
   const fetchMessages = async () => {
     if (!selectedChat) return;
 
@@ -115,41 +150,6 @@ const SingleChat: React.FC<{
     }
   };
 
-  useEffect(() => {
-    socket = io(`${envConfig?.apiUrl}`);
-    socket.emit("setup", user);
-    socket.on("connected", () => setSocketConnected(true));
-    socket.on("typing", () => setIsTyping(true));
-    socket.on("stop typing", () => setIsTyping(false));
-
-    // eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
-    if (selectedChat._id) fetchMessages();
-    //
-    selectedChatCompare = selectedChat;
-    // eslint-disable-next-line
-  }, [selectedChat]);
-
-  useEffect(() => {
-    socket.on("message recieved", (newMessageRecieved: IMessage) => {
-      console.log("message recieved");
-      if (
-        !selectedChatCompare || // if chat is not selected or doesn't match current chat
-        selectedChatCompare._id !== newMessageRecieved.chat._id
-      ) {
-        // if (!notification.includes(newMessageRecieved)) {
-        //   setNotification([newMessageRecieved, ...notification]);
-        setFetchAgain(!fetchAgain);
-        // }
-      } else {
-        setMessages([...messages, newMessageRecieved]);
-        scrollBottom();
-        setFetchAgain(!fetchAgain);
-      }
-    });
-  });
   // const typingHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
   const typingHandler = (e: any) => {
     setNewMessage(e.target.value);
@@ -200,7 +200,7 @@ const SingleChat: React.FC<{
             {messages &&
               (!selectedChat.isGroupChat ? (
                 <>
-                  <Text>{getSender(user, selectedChat.users)}</Text>
+                  <span>{getSender(user, selectedChat.users)}</span>
                   <ProfileModal
                     user={getSenderFull(user, selectedChat.users)}
                   />
@@ -227,7 +227,7 @@ const SingleChat: React.FC<{
             borderRadius="lg"
             overflowY="hidden"
             // eslint-disable-next-line react-hooks/rules-of-hooks
-            bg={useColorModeValue("gray.100", "gray.700")}
+            // bg={useColorModeValue("gray.100", "gray.700")}
           >
             {loading ? (
               <Spinner
@@ -264,7 +264,7 @@ const SingleChat: React.FC<{
                 variant="filled"
                 // bg="#E0E0E0"
                 // eslint-disable-next-line react-hooks/rules-of-hooks
-                bg={useColorModeValue("#fafafa", "#1A202C")}
+                // bg={useColorModeValue("#fafafa", "#1A202C")}
                 placeholder="Ingrese un mensaje.."
                 value={newMessage}
                 onChange={typingHandler}

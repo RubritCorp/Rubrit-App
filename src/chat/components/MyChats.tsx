@@ -32,6 +32,38 @@ const MyChats: React.FC<{ fetchAgain: boolean }> = ({ fetchAgain }) => {
   const toast = useToast();
   const { data: session, status } = useSession();
 
+  useEffect(() => {
+    socket = io(`${envConfig?.apiUrl}`);
+    socket.emit("setup", user);
+
+    // eslint-disable-next-line
+  }, []);
+  useEffect(() => {
+    // const info = localStorage.getItem("userInfo");
+    // setLoggedUser(JSON.parse(info ? info : "{}"));
+    if (status === "authenticated") {
+      setLoggedUser({
+        _id: `${session._id}`,
+        email: session.email,
+        name: session.name,
+        profilePic: session.image,
+      });
+    }
+    //user.token no esta cargado al recargar pagina
+    // if (user.token) fetchChats();
+    console.log("fetch");
+    fetchChats();
+
+    // eslint-disable-next-line
+  }, [fetchAgain, user.token]);
+
+  useEffect(() => {
+    socket.on("chat received", (chat: any) => {
+      console.log("chat received");
+      fetchChats();
+    });
+  });
+
   const fetchChats = async () => {
     // console.log(user._id);
     try {
@@ -55,58 +87,7 @@ const MyChats: React.FC<{ fetchAgain: boolean }> = ({ fetchAgain }) => {
       });
     }
   };
-  useEffect(() => {
-    socket = io(`${envConfig?.apiUrl}`);
-    socket.emit("setup", user);
 
-    // eslint-disable-next-line
-  }, []);
-  useEffect(() => {
-    // const info = localStorage.getItem("userInfo");
-    // setLoggedUser(JSON.parse(info ? info : "{}"));
-    if (status === "authenticated") {
-      setLoggedUser({
-        _id: `${session._id}`,
-        email: session.email,
-        name: session.name,
-        profilePic: session.image,
-      });
-    }
-    //user.token no esta cargado al recargar pagina
-    // if (user.token) fetchChats();
-    fetchChats();
-
-    // eslint-disable-next-line
-  }, [fetchAgain, user.token]);
-
-  useEffect(() => {
-    socket.on("chat received", (chat: any) => {
-      console.log("chat received");
-      fetchChats();
-    });
-  });
-
-  // var colorMode = useColorModeValue(
-  //   selectedChat === chat ? "gray.100" : "",
-  //   "gray.700"
-  // );
-  const changeColor = (bool: boolean) => {
-    let color;
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    if (bool) color = useColorModeValue("#e2e2e2", "#222834");
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    else color = useColorModeValue("#fafafa", "#1A202C");
-    return color;
-  };
-  const changeColorText = (bool: boolean) => {
-    // let color;
-    // // eslint-disable-next-line react-hooks/rules-of-hooks
-    // if (bool) color = useColorModeValue("#e2e2e2", "#222834");
-    // // eslint-disable-next-line react-hooks/rules-of-hooks
-    // else color = useColorModeValue("#fafafa", "#1A202C");
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    return useColorModeValue("dark_green", "medium_green");
-  };
   return (
     <Box
       d={{ base: selectedChat ? "none" : "flex", md: "flex" }}
@@ -171,13 +152,11 @@ const MyChats: React.FC<{ fetchAgain: boolean }> = ({ fetchAgain }) => {
                 onClick={() => setSelectedChat(chat)}
                 cursor="pointer"
                 bg={
-                  selectedChat === chat ? changeColor(true) : changeColor(false)
-                }
-                color={
                   selectedChat === chat
-                    ? changeColorText(true)
-                    : changeColorText(false)
+                    ? "medium_green_sub.400"
+                    : "medium_green_sub.100"
                 }
+                color={selectedChat === chat ? "white" : "black"}
                 px={3}
                 py={2}
                 borderRadius="lg"
