@@ -36,7 +36,6 @@ const Login = () => {
       return;
     }
 
-    // console.log(email, password);
     try {
       const config = {
         headers: {
@@ -50,7 +49,6 @@ const Login = () => {
         config
       );
 
-      // console.log(JSON.stringify(data));
       toast({
         title: "Inicio de sesión correcto",
         status: "success",

@@ -51,7 +51,6 @@ const MyChats: React.FC<{ fetchAgain: boolean }> = ({ fetchAgain }) => {
     }
     //user.token no esta cargado al recargar pagina
     // if (user.token) fetchChats();
-    console.log("fetch");
     fetchChats();
 
     // eslint-disable-next-line
@@ -59,13 +58,11 @@ const MyChats: React.FC<{ fetchAgain: boolean }> = ({ fetchAgain }) => {
 
   useEffect(() => {
     socket.on("chat received", (chat: any) => {
-      console.log("chat received");
       fetchChats();
     });
   });
 
   const fetchChats = async () => {
-    // console.log(user._id);
     try {
       const config = {
         headers: {
@@ -74,7 +71,6 @@ const MyChats: React.FC<{ fetchAgain: boolean }> = ({ fetchAgain }) => {
       };
 
       const { data } = await axios.get(`${envConfig?.apiUrl}/chat`, config);
-
       setChats(data);
     } catch (error) {
       toast({

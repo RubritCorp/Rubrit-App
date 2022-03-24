@@ -56,7 +56,6 @@ const UpdateGroupChatModal: React.FC<{
         `${envConfig?.apiUrl}/user?search=${query}`,
         config
       );
-      // console.log(data);
       setLoading(false);
       setSearchResult(data);
     } catch (error) {

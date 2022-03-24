@@ -66,7 +66,6 @@ const SingleChat: React.FC<{
 
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved: IMessage) => {
-      console.log("message recieved");
       if (
         !selectedChatCompare || // if chat is not selected or doesn't match current chat
         selectedChatCompare._id !== newMessageRecieved.chat._id
@@ -155,7 +154,6 @@ const SingleChat: React.FC<{
     setNewMessage(e.target.value);
 
     if (!socketConnected) return;
-    console.log("typing");
     if (!typing) {
       setTyping(true);
       socket.emit("typing", selectedChat._id);

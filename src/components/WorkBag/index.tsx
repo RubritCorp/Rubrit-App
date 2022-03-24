@@ -31,12 +31,16 @@ import {
   ModalBody,
   ModalFooter,
   Link,
+  useToast,
 } from "@chakra-ui/react";
 //from modules
 import React, { ReactNode, useEffect, useState } from "react";
 //icons
 import { CurrencyDollarSimple, Envelope, Phone } from "phosphor-react";
 import { useSession } from "next-auth/react";
+import axios from "axios";
+import envConfig from "../../../next-env-config";
+import { useRouter } from "next/router";
 
 const Testimonial = ({ children }: { children: ReactNode }) => {
   return <Box>{children}</Box>;
@@ -194,10 +198,13 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
     setText(inputValue);
   };
 
+  const toast = useToast();
+  const router = useRouter();
   useEffect(() => {
     if (status === "authenticated" || status === "unauthenticated") {
       const cardworker = nearOffers?.map((item: any) => {
         return {
+          userId: item.userId?._id,
           name: item.userId?.name,
           location: item.location?.formattedAddress,
           title: item.title,
@@ -217,6 +224,42 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
 
   if (nearOffers.length < 1) return <Text>No Hay Ofertas en Tu Zona</Text>;
 
+  const accessChat = async (userId: string) => {
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${Session?.token}`,
+        },
+      };
+
+      const { data } = await axios.post(
+        `${envConfig?.apiUrl}/chat`,
+        { userId },
+        config
+      );
+
+      if (data) router.push("/chat");
+      else
+        toast({
+          title: "Error al obtener el chat",
+          description: "Chat no devuelto por el back",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom-left",
+        });
+    } catch (error: any) {
+      toast({
+        title: "Error al obtener el chat",
+        description: error.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
+  };
   return (
     <Layout>
       {/* eslint-disable-next-line react-hooks/rules-of-hooks*/}
@@ -267,8 +310,9 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
                       <Button
                         onClick={() => {
                           status === "authenticated"
-                            ? onOpen()
-                            : document.getElementById("signInButton")?.click();
+                            ? accessChat(item.userId)
+                            : // ? onOpen()
+                              document.getElementById("signInButton")?.click();
                         }} //acaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                         bg={"green.500"}
                         _hover={{ bg: "green.400" }}

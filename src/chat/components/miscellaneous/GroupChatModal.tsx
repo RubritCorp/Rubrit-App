@@ -117,7 +117,6 @@ const GroupChatModal: React.FC = ({ children }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      console.log("groupchatmodal1");
 
       const { data } = await axios.post(
         `${envConfig?.apiUrl}/chat/group`,
@@ -131,9 +130,7 @@ const GroupChatModal: React.FC = ({ children }) => {
       onClose();
       setSelectedUsers([]);
       setSearchResult([]);
-      console.log("groupchatmodal2");
       socket.emit("new chat", data);
-      console.log("groupchatmodal3");
 
       toast({
         title: "Nuevo Grupo Creado!",
