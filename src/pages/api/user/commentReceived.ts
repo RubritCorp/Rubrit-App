@@ -28,21 +28,21 @@ interface DataAccesDenied {
 
 const cases: ICases = {
   PUT: async (req, res) => {
-    const {
-      data: { score, user, date, comment, userComment },
-    } = req.body.data;
+    const { score, user, date, comment, userComment } = req.body;
 
     try {
       const ratingModel = {
-        score,
-        date,
         userComment,
         description: comment,
+        score,
+        date,
       };
       const fetchUser = await User.findOneAndUpdate(
         { _id: user },
-        { $push: { rating: ratingModel } }
+        { $push: { rating: { ...ratingModel } } }
       );
+
+      console.log(fetchUser);
 
       res.status(200).json({ message: "Comments updated" });
     } catch (err) {
