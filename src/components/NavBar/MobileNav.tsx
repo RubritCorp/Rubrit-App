@@ -187,11 +187,7 @@ const MobileNav: React.FC<{ payerId: string }> = ({ payerId }) => {
                       <Text cursor={"pointer"}>Ajustes De La Cuenta</Text>
                     </a>
                   </Link>
-                  <Link href="myAccount?site=myfiles" passHref>
-                    <a>
-                      <Text cursor={"pointer"}>Ver Tus Archivos</Text>
-                    </a>
-                  </Link>
+
                   <Link href="myAccount?site=myRequest" passHref>
                     <a>
                       <Text cursor={"pointer"}>Solicitudes</Text>
