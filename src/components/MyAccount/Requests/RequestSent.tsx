@@ -92,6 +92,7 @@ const Form: React.FC<any> = ({
     setReload(!load);
     areaRef.current.value = "";
 
+   
     const submitComment = await axios.put(`/api/user/commentReceived`, {
       data: {
         data: form,
