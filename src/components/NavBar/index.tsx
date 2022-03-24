@@ -271,6 +271,17 @@ const WithSubnavigation: React.FC = () => {
                       </a>
                     </Link>
                     <MenuDivider />
+                    <Link
+                      href={{
+                        pathname: "/chat",
+                      }}
+                      passHref
+                    >
+                      <a>
+                        <MenuItem>Mis Chats</MenuItem>
+                      </a>
+                    </Link>
+                    <MenuDivider />
 
                     <Link href={{ pathname: "/request/new" }} passHref>
                       <a>

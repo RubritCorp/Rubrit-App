@@ -7,5 +7,5 @@ export interface ICategory {
   picture: string;
   icon: string;
   description: string;
-  subcategories: Types.ObjectId[]
+  subcategories: Types.ObjectId[];
 }
