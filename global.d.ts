@@ -24,6 +24,8 @@ declare module "next-auth" {
     name: string;
     email: string;
     image: string;
+    role: string;
+    statusAccount: string;
     phone: {
       diallingCode: string;
       number: string;

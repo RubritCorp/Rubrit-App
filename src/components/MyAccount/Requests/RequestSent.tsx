@@ -28,8 +28,20 @@ import {
   PopoverFooter,
   PopoverTrigger,
   Image,
-  AspectRatio,
   ButtonGroup,
+  Stack,
+  IconButton,
+  Input,
+  Textarea,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+  RangeSlider,
+  RangeSliderTrack,
+  RangeSliderFilledTrack,
+  RangeSliderThumb,
 } from "@chakra-ui/react";
 //import ModalImage from "react-modal-image";
 
@@ -39,10 +51,126 @@ import { useState, useRef, useEffect } from "react";
 
 interface IProps {
   requests: any;
+  load: boolean;
+  setReload(value: boolean): void;
 }
 
-const ModalFinalizar: React.FC = () => {
+const Form: React.FC<any> = ({
+  firstFieldRef,
+  onCancel,
+  userId,
+  profId,
+  load,
+  setReload,
+  onClose,
+}) => {
+  const [form, setForm] = useState<any>({
+    score: 0,
+    comment: "",
+  });
+  const areaRef = useRef<any>();
+  const numRef = useRef<any>();
+  function handleInputOnChange(event: any) {
+    if (typeof event === "string") {
+      setForm({ ...form, score: Number(event) });
+    } else {
+      setForm({ ...form, comment: event.target.value });
+    }
+  }
+
+  async function handleOnSubmit() {
+    const date = new Date();
+    const formatedDate = date.toISOString().split("T")[0];
+
+    setForm({
+      ...form,
+      userComment: userId._id,
+      date: formatedDate,
+      user: profId._id,
+    });
+    onClose();
+    setReload(!load);
+    areaRef.current.value = "";
+
+    const submitComment = await axios.put(`/api/user/commentReceived`, {
+      data: {
+        data: form,
+      },
+    });
+  }
+  return (
+    <Flex justifyContent={"center"}>
+      <Stack spacing={5} h={"350px"}>
+        <Flex justifyContent={"center"}>
+          <Text fontWeight={800} m={"10px"}>
+            Comentario
+          </Text>
+        </Flex>
+        <Textarea
+          placeholder="Dejar un comentario al usuario."
+          onChange={handleInputOnChange}
+          name={"textarea"}
+          ref={areaRef}
+        />
+        <Flex justifyContent={"center"}>
+          <Text fontWeight={800} m={"5px"}>
+            Puntuacion
+          </Text>
+        </Flex>
+        <NumberInput
+          name={"numberInput"}
+          min={0}
+          max={5}
+          size="md"
+          step={0.25}
+          onChange={handleInputOnChange}
+          ref={numRef}
+        >
+          <NumberInputField />
+          <NumberInputStepper>
+            <NumberIncrementStepper />
+            <NumberDecrementStepper />
+          </NumberInputStepper>
+        </NumberInput>
+        <ButtonGroup d="flex" justifyContent="flex-end">
+          <Button variant="outline" onClick={onCancel}>
+            Cancel
+          </Button>
+          <Button bg={"medium_green"} onClick={handleOnSubmit}>
+            Submit
+          </Button>
+        </ButtonGroup>
+      </Stack>
+    </Flex>
+  );
+};
+
+const ModalFinalizar: React.FC<any> = ({
+  id,
+  request,
+  close,
+  load,
+  setReload,
+}) => {
   const initialFocusRef: any = useRef();
+
+  async function changeState(id: any, reason: string) {
+    const updateRequest = await axios.put("api/serviceRequest/new", {
+      data: {
+        params: id,
+        state: reason === "Completada" ? "Completada" : "Finalizada",
+      },
+    });
+
+    setReload(!load);
+  }
+
+  const handleChangeActive = (event: any) => {
+    const { value } = event.target;
+    changeState(id, value);
+    close();
+  };
+
   return (
     <Popover
       initialFocusRef={initialFocusRef}
@@ -50,17 +178,19 @@ const ModalFinalizar: React.FC = () => {
       closeOnBlur={true}
     >
       <PopoverTrigger>
-        <Button>Finalizar</Button>
+        <Button colorScheme="yellow">Finalizar</Button>
       </PopoverTrigger>
       <PopoverContent color="white" borderColor="blue.800">
         <PopoverHeader pt={4} fontWeight="bold" border="0">
-          Manage Your Channels
+          Opciones para terminar una solicitud
         </PopoverHeader>
         <PopoverArrow />
         <PopoverCloseButton />
         <PopoverBody>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore.
+          Si finalizas la publicacion no vas a poder modificarla y se dara como
+          finalizada. El trabajo quedara registrado como finalizado pero no
+          completado. Para poder dar por completado la solicitud debe seleccion
+          la opcion de Completar.
         </PopoverBody>
         <PopoverFooter
           border="0"
@@ -70,9 +200,21 @@ const ModalFinalizar: React.FC = () => {
           pb={4}
         >
           <ButtonGroup size="sm">
-            <Button colorScheme="green"></Button>
-            <Button colorScheme="blue" ref={initialFocusRef}>
-              Finalizar
+            <Button
+              colorScheme="green"
+              bg={"medium_green"}
+              onClick={handleChangeActive}
+              value="Completada"
+            >
+              Completada
+            </Button>
+            <Button
+              ref={initialFocusRef}
+              onClick={handleChangeActive}
+              bg={"warning_red"}
+              value="Finalizada"
+            >
+              Cancelar solicitud
             </Button>
           </ButtonGroup>
         </PopoverFooter>
@@ -80,8 +222,31 @@ const ModalFinalizar: React.FC = () => {
     </Popover>
   );
 };
-const ModalDesactivar: React.FC = () => {
+const ModalActivar: React.FC<any> = ({
+  id,
+  request,
+  close,
+  load,
+  setReload,
+}) => {
   const initialFocusRef: any = useRef();
+
+  async function changeState(id: any) {
+    const updateRequest = await axios.put("api/serviceRequest/new", {
+      data: {
+        params: id,
+        state: request?.state?.active ? "Desactivar" : "Activar",
+      },
+    });
+
+    setReload(!load);
+  }
+
+  const handleChangeActive = () => {
+    changeState(id);
+    close();
+  };
+
   return (
     <Popover
       initialFocusRef={initialFocusRef}
@@ -89,17 +254,19 @@ const ModalDesactivar: React.FC = () => {
       closeOnBlur={true}
     >
       <PopoverTrigger>
-        <Button>Desactivar</Button>
+        <Button colorScheme="yellow">
+          {request?.state?.active ? "Desactivar" : "Activar"}
+        </Button>
       </PopoverTrigger>
       <PopoverContent color="white" borderColor="blue.800">
         <PopoverHeader pt={4} fontWeight="bold" border="0">
-          Manage Your Channels
+          <Text m={"0 auto"}>Aviso</Text>
         </PopoverHeader>
         <PopoverArrow />
         <PopoverCloseButton />
         <PopoverBody>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore.
+          Al desactivar la solicitud, el estado de la misma se cambiara a
+          pendiente.
         </PopoverBody>
         <PopoverFooter
           border="0"
@@ -109,9 +276,12 @@ const ModalDesactivar: React.FC = () => {
           pb={4}
         >
           <ButtonGroup size="sm">
-            <Button colorScheme="green"></Button>
-            <Button colorScheme="blue" ref={initialFocusRef}>
-              Finalizar
+            <Button
+              colorScheme="yellow"
+              ref={initialFocusRef}
+              onClick={handleChangeActive}
+            >
+              {request?.state?.active ? "Desactivar" : "Activar"}
             </Button>
           </ButtonGroup>
         </PopoverFooter>
@@ -137,7 +307,7 @@ const ImageModal: React.FC<any> = ({ url, title }) => {
           _hover={{ cursor: "zoom-in" }}
         ></Image>
       </Flex>
-      <Modal isOpen={isOpen} onClose={onClose} size="full">
+      <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
@@ -161,13 +331,13 @@ const ImageModal: React.FC<any> = ({ url, title }) => {
   );
 };
 
-const RequestSent: React.FC<IProps> = ({ requests }) => {
+const RequestSent: React.FC<IProps> = ({ requests, load, setReload }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modal, setModal] = useState<any>(null);
-  const initRef = useRef();
+
   const { sent } = requests;
 
-  useEffect(() => {}, [deleteRequest]);
+  useEffect(() => {}, [requests]);
 
   function setIndexModal(event: any) {
     const { id } = event.target;
@@ -175,15 +345,20 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
     onOpen();
   }
   async function deleteRequest(id: string) {
-    await axios.delete("/api/serviceRequest/new", {
-      data: { id: id },
-    });
-    onClose();
+    try {
+      await axios.delete("/api/serviceRequest/new", {
+        data: { id: id },
+      });
+      setReload(!load);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   function setIndexDelete(event: any, i: number) {
     const idRequest = sent[i]._id;
     deleteRequest(idRequest);
+    onClose();
   }
 
   function setIndexModalOnClose() {
@@ -191,6 +366,22 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
     onClose();
   }
 
+  const requestState = (state: any) => {
+    for (let val in state) {
+      if (state[val] && val === "active") {
+        return <Text color={"medium_green"}>Activa</Text>;
+      }
+      if (state[val] && val === "pending") {
+        return <Text color="yellow">Pendiente</Text>;
+      }
+      if (state[val] && val === "canceled") {
+        return <Text color="red">Cancelada</Text>;
+      }
+      if (state[val] && val === "completed") {
+        return <Text color={"medium_green"}>Completada</Text>;
+      }
+    }
+  };
   return (
     <>
       <Grid
@@ -214,107 +405,113 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
         <GridItem w="100%" h="10"></GridItem>
       </Grid>
       <Divider />
-      {sent?.map((request: any, index: number) => {
-        return (
-          <Box key={index}>
-            <Grid
-              templateColumns="repeat(6, 1fr)"
-              gap={6}
-              textAlign={"center"}
-              alignItems={"center"}
-            >
-              <GridItem
-                w="100%"
-                h="10"
-                d={"flex"}
+      <Box
+        m={"10px"}
+        overflowY={"auto"}
+        maxH={"450px"}
+        css={{
+          "&::-webkit-scrollbar": {
+            width: "5px",
+          },
+          "&::-webkit-scrollbar-track": {
+            width: "10px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            background: "#38a169",
+            borderRadius: "24px",
+          },
+        }}
+      >
+        {sent?.map((request: any, index: number) => {
+          return (
+            <Box key={index} m={"5px"}>
+              <Grid
+                templateColumns="repeat(6, 1fr)"
+                gap={6}
                 textAlign={"center"}
                 alignItems={"center"}
-                justifyContent={"center"}
               >
-                <Text>{request.title}</Text>
-              </GridItem>
-              <GridItem
-                w="100%"
-                h="10"
-                d={"flex"}
-                alignItems={"center"}
-                textAlign={"center"}
-                justifyContent={"center"}
-              >
-                {request.category !== null ? (
-                  <>
-                    <Text>Publica</Text>
-                  </>
-                ) : (
-                  <Text>Privada</Text>
-                )}
-              </GridItem>
-              <GridItem
-                w="100%"
-                maxH={"100px"}
-                d={"flex"}
-                fontSize={"0.8rem"}
-                alignItems={"center"}
-                textAlign={"justify"}
-                overflowY="auto"
-                m={"5px"}
-                colSpan={2}
-              >
-                <Flex flexDirection={"column"}>
-                  <Text fontWeight={600}>{request.category?.name}</Text>
-                  <Text> {request.description}</Text>
-                </Flex>
-              </GridItem>
-              <GridItem
-                w="100%"
-                h="10"
-                d={"flex"}
-                alignItems={"center"}
-                justifyContent={"center"}
-              >
-                <Flex flexDirection={"column"}>
-                  <Text fontSize={"0.8rem"}>
-                    {request?.createdAt.substring(0, 10)}
-                  </Text>
-                  <Text fontSize={"0.7rem"}>
-                    {request?.createdAt.substring(11, 16)}
-                  </Text>
-                  <Text>
-                    {" "}
-                    {request.isActive ? (
-                      <Text color={"medium_green"} fontSize={"0.8rem"}>
-                        ACTIVA
-                      </Text>
-                    ) : (
-                      <Text color={"warning_red"} fontSize={"0.8rem"}>
-                        PENDIENTE
-                      </Text>
-                    )}
-                  </Text>
-                </Flex>
-              </GridItem>
-              <GridItem
-                w="100%"
-                h="10"
-                minH={"100px"}
-                d={"flex"}
-                alignItems={"center"}
-                justifyContent={"center"}
-              >
-                <Flex flexDirection={"column"}>
-                  <Box m={"2px"}>
-                    <Button
-                      onClick={setIndexModal}
-                      variant="outline"
-                      size="xs"
-                      id={`${index}`}
-                      bg={"medium_green"}
-                    >
-                      Detalle
-                    </Button>
-                  </Box>
-                  <Box m={"2px"} key={index}>
-                    {/* <Button
+                <GridItem
+                  w="100%"
+                  h="10"
+                  d={"flex"}
+                  textAlign={"center"}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                >
+                  <Text>{request.title}</Text>
+                </GridItem>
+                <GridItem
+                  w="100%"
+                  h="10"
+                  d={"flex"}
+                  alignItems={"center"}
+                  textAlign={"center"}
+                  justifyContent={"center"}
+                >
+                  {request.category !== null ? (
+                    <>
+                      <Text>Publica</Text>
+                    </>
+                  ) : (
+                    <Text>Privada</Text>
+                  )}
+                </GridItem>
+                <GridItem
+                  w="100%"
+                  maxH={"100px"}
+                  d={"flex"}
+                  fontSize={"0.8rem"}
+                  alignItems={"center"}
+                  textAlign={"justify"}
+                  overflowY="auto"
+                  m={"5px"}
+                  colSpan={2}
+                >
+                  <Flex flexDirection={"column"}>
+                    <Text fontWeight={600}>{request.category?.name}</Text>
+                    <Text> {request.description}</Text>
+                  </Flex>
+                </GridItem>
+                <GridItem
+                  w="100%"
+                  h="10"
+                  d={"flex"}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                >
+                  <Flex flexDirection={"column"}>
+                    <Text fontSize={"0.8rem"}>
+                      {request?.createdAt.substring(0, 10)}
+                    </Text>
+                    <Text fontSize={"0.7rem"}>
+                      {request?.createdAt.substring(11, 16)}
+                    </Text>
+                    {requestState(request.state)}
+                  </Flex>
+                </GridItem>
+                <GridItem
+                  w="100%"
+                  h="10"
+                  minH={"100px"}
+                  d={"flex"}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                >
+                  <Flex flexDirection={"column"}>
+                    <Box m={"2px"}>
+                      <Button
+                        onClick={setIndexModal}
+                        variant="outline"
+                        size="xs"
+                        id={`${index}`}
+                        bg={"medium_green"}
+                      >
+                        Detalle
+                      </Button>
+                    </Box>
+                    <Box m={"2px"} key={index}>
+                      {/* <Button
                       onClick={setIndexModal}
                       variant="outline"
                       size="xs"
@@ -324,94 +521,120 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                       ELIMINAR
                     </Button> */}
 
-                    <Popover
-                      closeOnBlur={false}
-                      placement="left"
-                      key={`${index}`}
-                    >
-                      {({ isOpen, onClose }) => (
-                        <>
-                          <PopoverTrigger>
-                            <Button
-                              rightIcon={<DeleteIcon />}
-                              bg={"warning_red"}
-                              variant="outline"
-                              size="xs"
-                            >
-                              Eliminar
-                            </Button>
-                          </PopoverTrigger>
-                          <Portal>
-                            <PopoverContent>
-                              <PopoverHeader color={"warning_red"}>
-                                <Box textAlign={"center"}>AVISO IMPORTANTE</Box>
-                              </PopoverHeader>
-                              <PopoverCloseButton />
-                              <PopoverBody>
-                                <Box>
-                                  Si aceptas las confirmacion, la solicitud se
-                                  eliminara de la base de datos y no podras
-                                  recuperarla.
-                                </Box>
-                                <Flex
-                                  justifyContent={"space-between"}
-                                  alignItems={"center"}
-                                  m={"10px"}
-                                >
+                      <Popover
+                        closeOnBlur={false}
+                        placement="left"
+                        key={`${index}`}
+                      >
+                        {request.state.active || request.state.pending
+                          ? ({ isOpen, onClose }) => (
+                              <>
+                                <PopoverTrigger>
                                   <Button
-                                    border={"2px solid #e74e2b"}
-                                    _hover={{ bg: "warning_red" }}
-                                    onClick={(e: any) =>
-                                      setIndexDelete(e, index)
-                                    }
+                                    rightIcon={<DeleteIcon />}
+                                    bg={"warning_red"}
+                                    variant="outline"
+                                    size="xs"
                                   >
-                                    CONFIRMAR
+                                    Eliminar
                                   </Button>
-                                  <Button onClick={onClose}>Cancelar</Button>
-                                </Flex>
-                              </PopoverBody>
-                            </PopoverContent>
-                          </Portal>
-                        </>
-                      )}
-                    </Popover>
-                  </Box>
-                </Flex>
-              </GridItem>
-            </Grid>
-            <Divider />
-          </Box>
-        );
-      })}
+                                </PopoverTrigger>
+                                <Portal>
+                                  <PopoverContent>
+                                    <PopoverHeader color={"warning_red"}>
+                                      <Box textAlign={"center"}>
+                                        AVISO IMPORTANTE
+                                      </Box>
+                                    </PopoverHeader>
+                                    <PopoverCloseButton />
+                                    <PopoverBody>
+                                      <Box>
+                                        Si aceptas las confirmacion, la
+                                        solicitud se eliminara de la base de
+                                        datos y no podras recuperarla.
+                                      </Box>
+                                      <Flex
+                                        justifyContent={"space-between"}
+                                        alignItems={"center"}
+                                        m={"10px"}
+                                      >
+                                        <Button
+                                          border={"2px solid #e74e2b"}
+                                          _hover={{ bg: "warning_red" }}
+                                          onClick={(e: any) =>
+                                            setIndexDelete(e, index)
+                                          }
+                                        >
+                                          CONFIRMAR
+                                        </Button>
+                                        <Button onClick={onClose}>
+                                          Cerrar
+                                        </Button>
+                                      </Flex>
+                                    </PopoverBody>
+                                  </PopoverContent>
+                                </Portal>
+                              </>
+                            )
+                          : request.state.completed && request.category === null
+                          ? ({ isOpen, onClose }) => (
+                              <>
+                                <PopoverTrigger>
+                                  <Button
+                                    //rightIcon={<DeleteIcon />}
+                                    bg={"light_blue"}
+                                    variant="outline"
+                                    size="xs"
+                                  >
+                                    Comentar
+                                  </Button>
+                                </PopoverTrigger>
+                                <Portal>
+                                  <PopoverContent>
+                                    <Form
+                                      userId={request.userId}
+                                      profId={request.professionalId}
+                                      onCancel={onClose}
+                                      onClose={onClose}
+                                      {...{ load, setReload }}
+                                    />
+                                  </PopoverContent>
+                                </Portal>
+                              </>
+                            )
+                          : null}
+                      </Popover>
+                    </Box>
+                  </Flex>
+                </GridItem>
+              </Grid>
+              <Divider />
+            </Box>
+          );
+        })}
+      </Box>
       {modal !== null && (
         <Modal isOpen={isOpen} onClose={setIndexModalOnClose}>
           <ModalOverlay />
           <ModalContent>
             <ModalCloseButton />
             <ModalBody m={"10px"}>
-              <Link href={`/professional/${modal.professionalId?._id}`}>
-                <a>
-                  <Box>
-                    <Flex justifyContent={"center"} alignItems={"center"}>
-                      <Avatar
-                        src={modal.professionalId?.profilePic}
-                        m={"10px"}
-                      />
-                      <Text fontWeight="bold">
-                        {modal.professionalId?.name || "CATEGORIA"}
-                        <Badge ml="1" colorScheme="green">
-                          {modal.professionalId?.isAuthenticated
-                            ? "Autenticado"
-                            : "Normal"}
-                        </Badge>
-                      </Text>
-                    </Flex>
-                    <Text fontSize="sm" textAlign={"center"}>
-                      {modal.professionalId?.description || "SUBCATEGORIA"}
-                    </Text>
-                  </Box>
-                </a>
-              </Link>
+              <Box>
+                <Flex justifyContent={"center"} alignItems={"center"}>
+                  <Avatar src={modal.professionalId?.profilePic} m={"10px"} />
+                  <Text fontWeight="bold">
+                    {modal.professionalId?.name || modal.category.name}
+                    <Badge ml="1" colorScheme="green">
+                      {modal.professionalId?.isAuthenticated
+                        ? "Autenticado"
+                        : "Normal"}
+                    </Badge>
+                  </Text>
+                </Flex>
+                <Text fontSize="sm" textAlign={"center"}>
+                  {modal.professionalId?.description || modal.subcategory.name}
+                </Text>
+              </Box>
               <Divider m={"10px auto"} />
               <Heading m={"0 auto"} fontSize={"1rem"} textAlign={"center"}>
                 {modal.title}
@@ -476,7 +699,8 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
                       background: "#38a169",
                       borderRadius: "24px",
                     },
-                  }}>
+                  }}
+                >
                   {modal.images?.map((img: string, index: number) => {
                     return (
                       <Box key={`${index}`}>
@@ -489,17 +713,28 @@ const RequestSent: React.FC<IProps> = ({ requests }) => {
             </ModalBody>
 
             <Flex justifyContent={"space-evenly"} m={"20px"}>
-              <Box>
-                <Button variant="ghost" size="md" bg={"medium_green"}>
-                  Iniciar Chat
-                </Button>
-              </Box>
-              <Box>
-                <ModalDesactivar />
-              </Box>
-              <Box>
-                <ModalFinalizar />
-              </Box>
+              {modal.state.completed || modal.state.canceled ? (
+                <Text color={"medium_green"}>Solicitud finalizada</Text>
+              ) : (
+                <>
+                  <Box>
+                    <ModalActivar
+                      id={modal._id}
+                      request={modal}
+                      close={onClose}
+                      {...{ load, setReload }}
+                    />
+                  </Box>
+                  <Box>
+                    <ModalFinalizar
+                      id={modal._id}
+                      request={modal}
+                      close={onClose}
+                      {...{ load, setReload }}
+                    />
+                  </Box>
+                </>
+              )}
             </Flex>
           </ModalContent>
         </Modal>

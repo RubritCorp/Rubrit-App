@@ -27,8 +27,11 @@ export default NextAuth({
         password: { type: "text" },
       },
       async authorize(credentials) {
-        const user = await User.findOne({ email: credentials?.email });
-        if (!user) {
+        const user = await User.findOne({
+          email: credentials?.email.toLowerCase(),
+        });
+
+        if (!user || user.statusAccount === "DISABLED") {
           return null;
         }
         const isValid = await verifyPassword(
@@ -111,6 +114,8 @@ export default NextAuth({
           _id: userSession._id,
           email: userSession.email,
           name: userSession.name,
+          role: userSession.role,
+          statusAccount: userSession.statusAccount,
           image: userSession.profilePic,
           phone: userSession.phone
             ? userSession.phone

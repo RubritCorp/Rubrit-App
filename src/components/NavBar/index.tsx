@@ -16,6 +16,10 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
+  ModalContent,
+  ModalBody,
+  ModalHeader,
+  ModalFooter,
 } from "@chakra-ui/react";
 import {
   BellIcon,
@@ -89,6 +93,36 @@ const WithSubnavigation: React.FC = () => {
 
   return (
     <Box position={"sticky"} top={0} zIndex={10}>
+      {session?.statusAccount === "BANNED" && (
+        <Modal isOpen={true} onClose={() => null}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader
+              fontSize={"md"}
+              color={"warning_red"}
+              textAlign={"center"}
+            >
+              ¡Esto nos duele mas a nosotros que a tí!
+            </ModalHeader>
+            <ModalBody>
+              <Text>
+                Debido a diversos motivos hemos decidido suspender su cuenta y
+                restringirle el acceso a la aplicación.
+              </Text>
+              <Text mt={2}>
+                Esta desición no fue tomada a la ligera y es el fruto de una
+                acumulación de denuncias por parte de la comunidad.
+              </Text>
+              <Text mt={2}>
+                Si consideras que esto es un error puedes contactarnos a nuestro
+                correo de servicio
+              </Text>
+              <Text color="medium_green">rubritapp@gmail.com</Text>
+              <ModalFooter></ModalFooter>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      )}
       <Flex
         bg={useColorModeValue("white", "gray.800")}
         color={useColorModeValue("gray.600", "white")}
@@ -237,10 +271,8 @@ const WithSubnavigation: React.FC = () => {
                       </a>
                     </Link>
                     <MenuDivider />
-                    <Link
-                      href={{ pathname: "/myAccount", query: { site: "" } }}
-                      passHref
-                    >
+
+                    <Link href={{ pathname: "/request/new" }} passHref>
                       <a>
                         <MenuItem>Solicita Cotización</MenuItem>
                       </a>
@@ -254,10 +286,35 @@ const WithSubnavigation: React.FC = () => {
                       passHref
                     >
                       <a>
-                        <MenuItem>Ofrecé tus Servicios</MenuItem>
+                        <MenuItem>
+                          {!session?.isWorker
+                            ? "Ofrecé tus Servicios"
+                            : "Modificar Perfil Profesional"}
+                        </MenuItem>
                       </a>
                     </Link>
                     <MenuDivider />
+
+                    {session?.role === "ADMIN" && (
+                      <>
+                        <Link
+                          href={{
+                            pathname: "/adminDashboard",
+                            query: {
+                              filter: "allUsers",
+                              sort: "alphOrd",
+                            },
+                          }}
+                          passHref
+                        >
+                          <a>
+                            <MenuItem>Panel de Administrador</MenuItem>
+                          </a>
+                        </Link>
+                        <MenuDivider />
+                      </>
+                    )}
+
                     <MenuItem d={{ base: "inline", md: "none" }}>
                       Notificaciones
                     </MenuItem>

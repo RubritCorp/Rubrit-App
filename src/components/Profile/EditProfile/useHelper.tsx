@@ -18,7 +18,7 @@ interface Props {
 const useHelper = ({ user, onCloseEditProfile }: Props) => {
   const toast = useToast();
   const [countryCode, setCountryCode] = useState<string>(
-    user.phone.diallingCode
+    user.phone.diallingCode ? user.phone.diallingCode : "País"
   );
   const [image, setImage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);

@@ -62,8 +62,9 @@ export const useHelper = ({ setIsLogin }: props) => {
 
   const onSubmit = async (values: DataInitialValues) => {
     const user = {
-      name: values.firstName + " " + values.lastName,
-      email: values.email,
+      name:
+        values.firstName.toLowerCase() + " " + values.lastName.toLowerCase(),
+      email: values.email.toLowerCase(),
       password: values.password,
       phone: {
         diallingCode: countryCode,

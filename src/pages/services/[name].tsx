@@ -35,12 +35,12 @@ const Services: NextPage<{ category: any; name: string }> = ({
   const [filteredUsers, setFilteredUsers] = useState<IUser[]>([]);
   const [cat, setCat] = useState<any>({});
 
+ console.log(users,'userssssss')
+
   const premiumUsers = filteredUsers.filter((f) => f.isPremium);
   const nonPremiumUsers = filteredUsers.filter((f) => !f.isPremium);
 
     const [numberPage, setNumberPage] = useState<number>(0);
-
-
 
   useEffect(() => {
     if (users.length && Object.keys(category).length > 0) {
@@ -49,12 +49,11 @@ const Services: NextPage<{ category: any; name: string }> = ({
 
       setFilteredUsers(
         users.filter((f) =>
-          f.workerData.items.map((m) => m.category.name).includes(cat.name)
+        f.workerData.items.map((m) => m.category.name).includes(cat.name)
         )
       );
     }
   }, [cat.name, category, name, users]);
-
   if (!cat || Object.keys(users).length < 1)
     return (
       <Layout>

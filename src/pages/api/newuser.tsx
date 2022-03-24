@@ -48,8 +48,8 @@ interface DataAccesDenied {
 const cases: ICases = {
   GET: async (req, res) => {
     const f = {
-      email: "Mona@gmail.com",
-      name: "Mona Pasik",
+      email: "Monarodriguez@gmail.com",
+      name: "Mona Rodriguez",
       phone: {
         diallingCode: "+54",
         number: "1144362868",
@@ -67,7 +67,7 @@ const cases: ICases = {
       payerId: "",
       address: {
         name: "Arengreen 805, CABA, Argentina",
-        city: "CABA",
+        city: "Ciudad Autonoma de Buenos Aires",
         country: "Argentina",
         lat: -34.6111947,
         lng:-58.4461956,
