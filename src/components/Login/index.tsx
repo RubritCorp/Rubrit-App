@@ -20,7 +20,7 @@ import { useTheme } from "@chakra-ui/react";
 
 //from modules
 import { useState } from "react";
-import { signIn, SignInResponse } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 //assets
 import facebook from "assets/facebook.png";

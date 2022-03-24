@@ -271,10 +271,8 @@ const WithSubnavigation: React.FC = () => {
                       </a>
                     </Link>
                     <MenuDivider />
-                    <Link
-                      href={{ pathname: "/myAccount", query: { site: "" } }}
-                      passHref
-                    >
+
+                    <Link href={{ pathname: "/request/new" }} passHref>
                       <a>
                         <MenuItem>Solicita Cotización</MenuItem>
                       </a>
@@ -288,7 +286,11 @@ const WithSubnavigation: React.FC = () => {
                       passHref
                     >
                       <a>
-                        <MenuItem>Ofrecé tus Servicios</MenuItem>
+                        <MenuItem>
+                          {!session?.isWorker
+                            ? "Ofrecé tus Servicios"
+                            : "Modificar Perfil Profesional"}
+                        </MenuItem>
                       </a>
                     </Link>
                     <MenuDivider />
