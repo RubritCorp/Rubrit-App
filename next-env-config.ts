@@ -12,6 +12,11 @@ const envConfig = {
     signIn: `${process.env.DEVELOPMENT_HOST}`,
     signOut: `${process.env.DEVELOPMENT_HOST}`,
     secret: `${process.env.SECRET}`,
+    NEXTAUTH_URL: `${process.env.NEXTAUTH_URL}`,
+    EMAIL_SENDER: `${process.env.EMAIL_SENDER}`,
+    EMAIL_PASSWORD: `${process.env.EMAIL_PASSWORD}`,
+    MAX: `${process.env.MAX}`,
+    MIN: `${process.env.MIN}`,
   },
   production: {
     apiUrl: process.env.NEXT_PUBLIC_PRODUCTION_API_URL,
@@ -24,6 +29,11 @@ const envConfig = {
     signIn: `${process.env.PRODUCTION_HOST}`,
     signOut: `${process.env.PRODUCTION_HOST}`,
     secret: `${process.env.SECRET}`,
+    NEXTAUTH_URL: `${process.env.PRODUCTION_HOST}`,
+    EMAIL_SENDER: `${process.env.EMAIL_SENDER}`,
+    EMAIL_PASSWORD: `${process.env.EMAIL_PASSWORD}`,
+    MAX: `${process.env.MAX}`,
+    MIN: `${process.env.MIN}`,
   },
 }[env];
 
