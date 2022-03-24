@@ -8,6 +8,7 @@ import {
   useToast,
   FormControl,
   Stack,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { getSender, getSenderFull } from "chat/config/ChatLogic";
@@ -46,6 +47,41 @@ const SingleChat: React.FC<{
     // notification, setNotification
   } = useChat();
 
+  useEffect(() => {
+    socket = io(`${envConfig?.apiUrl}`);
+    socket.emit("setup", user);
+    socket.on("connected", () => setSocketConnected(true));
+    socket.on("typing", () => setIsTyping(true));
+    socket.on("stop typing", () => setIsTyping(false));
+
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    if (selectedChat._id) fetchMessages();
+    //
+    selectedChatCompare = selectedChat;
+    // eslint-disable-next-line
+  }, [selectedChat]);
+
+  useEffect(() => {
+    socket.on("message recieved", (newMessageRecieved: IMessage) => {
+      console.log("message recieved");
+      if (
+        !selectedChatCompare || // if chat is not selected or doesn't match current chat
+        selectedChatCompare._id !== newMessageRecieved.chat._id
+      ) {
+        // if (!notification.includes(newMessageRecieved)) {
+        //   setNotification([newMessageRecieved, ...notification]);
+        setFetchAgain(!fetchAgain);
+        // }
+      } else {
+        setMessages([...messages, newMessageRecieved]);
+        scrollBottom();
+        setFetchAgain(!fetchAgain);
+      }
+    });
+  });
   const fetchMessages = async () => {
     if (!selectedChat) return;
 
@@ -65,7 +101,7 @@ const SingleChat: React.FC<{
 
       setMessages(data);
       setLoading(false);
-
+      scrollBottom();
       socket.emit("join chat", selectedChat._id);
     } catch (error) {
       toast({
@@ -100,6 +136,7 @@ const SingleChat: React.FC<{
         );
         socket.emit("new message", data);
         setMessages([...messages, data]);
+        scrollBottom();
       } catch (error) {
         toast({
           title: "Ocurrió un Error!",
@@ -113,44 +150,12 @@ const SingleChat: React.FC<{
     }
   };
 
-  useEffect(() => {
-    socket = io(`${envConfig?.apiUrl}`);
-    socket.emit("setup", user);
-    socket.on("connected", () => setSocketConnected(true));
-    socket.on("typing", () => setIsTyping(true));
-    socket.on("stop typing", () => setIsTyping(false));
-
-    // eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
-    if (selectedChat._id) fetchMessages();
-    //
-    selectedChatCompare = selectedChat;
-    // eslint-disable-next-line
-  }, [selectedChat]);
-
-  useEffect(() => {
-    socket.on("message recieved", (newMessageRecieved: IMessage) => {
-      if (
-        !selectedChatCompare || // if chat is not selected or doesn't match current chat
-        selectedChatCompare._id !== newMessageRecieved.chat._id
-      ) {
-        // if (!notification.includes(newMessageRecieved)) {
-        //   setNotification([newMessageRecieved, ...notification]);
-        //   setFetchAgain(!fetchAgain);
-        // }
-      } else {
-        setMessages([...messages, newMessageRecieved]);
-      }
-    });
-  });
   // const typingHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
   const typingHandler = (e: any) => {
     setNewMessage(e.target.value);
 
     if (!socketConnected) return;
-
+    console.log("typing");
     if (!typing) {
       setTyping(true);
       socket.emit("typing", selectedChat._id);
@@ -167,6 +172,12 @@ const SingleChat: React.FC<{
     }, timerLength);
   };
 
+  const scrollBottom = () => {
+    var messageBody = document.querySelector("#messageBody");
+    if (messageBody)
+      messageBody.scrollTop =
+        messageBody.scrollHeight - messageBody.clientHeight;
+  };
   return (
     <>
       {selectedChat && selectedChat.users.length > 0 ? (
@@ -189,7 +200,7 @@ const SingleChat: React.FC<{
             {messages &&
               (!selectedChat.isGroupChat ? (
                 <>
-                  {getSender(user, selectedChat.users)}
+                  <span>{getSender(user, selectedChat.users)}</span>
                   <ProfileModal
                     user={getSenderFull(user, selectedChat.users)}
                   />
@@ -210,11 +221,13 @@ const SingleChat: React.FC<{
             flexDir="column"
             justifyContent="flex-end"
             p={3}
-            bg="#E8E8E8"
+            // bg="#E8E8E8"
             w="100%"
             h="100%"
             borderRadius="lg"
             overflowY="hidden"
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            // bg={useColorModeValue("gray.100", "gray.700")}
           >
             {loading ? (
               <Spinner
@@ -226,6 +239,7 @@ const SingleChat: React.FC<{
               />
             ) : (
               <Box
+                id="messageBody"
                 overflowY="auto"
                 css={{
                   "&::-webkit-scrollbar": {
@@ -248,7 +262,9 @@ const SingleChat: React.FC<{
               {istyping ? <div>Escribiendo...</div> : <></>}
               <Input
                 variant="filled"
-                bg="#E0E0E0"
+                // bg="#E0E0E0"
+                // eslint-disable-next-line react-hooks/rules-of-hooks
+                // bg={useColorModeValue("#fafafa", "#1A202C")}
                 placeholder="Ingrese un mensaje.."
                 value={newMessage}
                 onChange={typingHandler}

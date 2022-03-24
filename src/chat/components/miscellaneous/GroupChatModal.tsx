@@ -14,12 +14,14 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { io } from "socket.io-client";
 import envConfig from "../../../../next-env-config";
 import { useChat, IUserChat } from "../../context/ChatProvider";
 import UserBadgeItem from "../userAvatar/UserBadgeItem";
 import UserListItem from "../userAvatar/UserListItem";
 
+var socket: any;
 const GroupChatModal: React.FC = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState<string>("");
@@ -82,7 +84,12 @@ const GroupChatModal: React.FC = ({ children }) => {
       selectedUsers.filter((sel: IUserChat) => sel._id !== delUser._id)
     );
   };
+  useEffect(() => {
+    socket = io(`${envConfig?.apiUrl}`);
+    socket.emit("setup", user);
 
+    // eslint-disable-next-line
+  }, []);
   const handleSubmit = async () => {
     if (!groupChatName || !selectedUsers) {
       toast({
@@ -110,6 +117,8 @@ const GroupChatModal: React.FC = ({ children }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
+      console.log("groupchatmodal1");
+
       const { data } = await axios.post(
         `${envConfig?.apiUrl}/chat/group`,
         {
@@ -122,6 +131,10 @@ const GroupChatModal: React.FC = ({ children }) => {
       onClose();
       setSelectedUsers([]);
       setSearchResult([]);
+      console.log("groupchatmodal2");
+      socket.emit("new chat", data);
+      console.log("groupchatmodal3");
+
       toast({
         title: "Nuevo Grupo Creado!",
         status: "success",
@@ -132,7 +145,7 @@ const GroupChatModal: React.FC = ({ children }) => {
     } catch (error: any) {
       toast({
         title: "Error al crear el chat!",
-        description: error.response.data,
+        description: error.message,
         status: "error",
         duration: 5000,
         isClosable: true,

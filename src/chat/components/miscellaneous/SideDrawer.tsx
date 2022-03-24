@@ -23,7 +23,7 @@ import {
 } from "@chakra-ui/react";
 import { useChat } from "chat/context/ChatProvider";
 import { MagnifyingGlass } from "phosphor-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProfileModal from "./ProfileModal";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -31,10 +31,10 @@ import envConfig from "../../../../next-env-config";
 import ChatLoading from "../ChatLoading";
 import { IUserChat } from "../../context/ChatProvider";
 import UserListItem from "../userAvatar/UserListItem";
+import { io } from "socket.io-client";
 import { getSender } from "chat/config/ChatLogic";
 
-
-
+var socket: any;
 const SideDrawer = () => {
   const [search, setSearch] = useState<string>("");
   const [searchResult, setSearchResult] = useState([]);
@@ -90,6 +90,12 @@ const SideDrawer = () => {
       });
     }
   };
+  useEffect(() => {
+    socket = io(`${envConfig?.apiUrl}`);
+    socket.emit("setup", user);
+
+    // eslint-disable-next-line
+  }, []);
   //accessChat
   const accessChat = async (userId: string) => {
     try {
@@ -106,7 +112,10 @@ const SideDrawer = () => {
         config
       );
 
-      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+      if (!chats.find((c) => c._id === data._id)) {
+        socket.emit("new chat", data);
+        setChats([data, ...chats]);
+      }
       setSelectedChat(data);
       setLoadingChat(false);
       onClose();
@@ -149,19 +158,27 @@ const SideDrawer = () => {
         <Text fontSize="2xl" color={"black"}>
           Rubrit Chat
         </Text>
-        <div>
+        {/* <div>
           <Menu>
             <MenuButton p={1}>
             {/*    <NotificationBadge
                 count={notification.length}
                 effect={Effect.SCALE}
-              />  */}
+
+              /> 
+
+              />  
+
               <BellIcon fontSize="2xl" m={1} />
               
             </MenuButton>
             <MenuList pl={2}>
+
+               {!notification.length && "No New Messages"}
+
               {!notification.length && "No New Messages"}
                
+
               {notification.map((notif) => (
                 <MenuItem
                   key={notif._id}
@@ -198,7 +215,7 @@ const SideDrawer = () => {
               <MenuItem onClick={logoutHandler}>Logout</MenuItem>
             </MenuList>
           </Menu>
-        </div>
+        </div> */}
       </Box>
 
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
