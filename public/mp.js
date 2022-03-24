@@ -151,7 +151,7 @@ const createCardToken = async (event) => {
       const email = document.getElementById(
         "form-checkout__cardholderEmail"
       ).value;
-      const res = await fetch("http://localhost:8080/subs/payer", {
+    const res = await fetch("https://rubrit-backend.herokuapp.com/subs/payer", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
