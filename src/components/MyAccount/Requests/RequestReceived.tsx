@@ -42,6 +42,7 @@ import {
   RangeSliderTrack,
   RangeSliderFilledTrack,
   RangeSliderThumb,
+  useToast,
 } from "@chakra-ui/react";
 //import ModalImage from "react-modal-image";
 
@@ -70,6 +71,8 @@ const Form: React.FC<any> = ({
   });
   const areaRef = useRef<any>();
   const numRef = useRef<any>();
+  const toast = useToast();
+
   function handleInputOnChange(event: any) {
     if (typeof event === "string") {
       setForm({ ...form, score: Number(event) });
@@ -96,6 +99,13 @@ const Form: React.FC<any> = ({
       data: {
         data: form,
       },
+    });
+    toast({
+      title: "Comentario enviado",
+      description: "Se envio tu comentario y puntuacion al usuario",
+      status: "success",
+      duration: 9000,
+      isClosable: true,
     });
   }
   return (
@@ -153,7 +163,7 @@ const ModalFinalizar: React.FC<any> = ({
   setReload,
 }) => {
   const initialFocusRef: any = useRef();
-
+  const toast = useToast();
   async function changeState(id: any, reason: string) {
     const updateRequest = await axios.put("api/serviceRequest/new", {
       data: {
@@ -163,6 +173,15 @@ const ModalFinalizar: React.FC<any> = ({
     });
 
     setReload(!load);
+    toast({
+      title: "Cambio de estado",
+      description: `Tu solicitud se cambio al estado de ${
+        reason === "Completada" ? "completada" : "finalizada"
+      }`,
+      status: "success",
+      duration: 9000,
+      isClosable: true,
+    });
   }
 
   const handleChangeActive = (event: any) => {
@@ -230,7 +249,7 @@ const ModalActivar: React.FC<any> = ({
   setReload,
 }) => {
   const initialFocusRef: any = useRef();
-
+  const toast = useToast();
   async function changeState(id: any) {
     const updateRequest = await axios.put("api/serviceRequest/new", {
       data: {
@@ -240,6 +259,15 @@ const ModalActivar: React.FC<any> = ({
     });
 
     setReload(!load);
+    toast({
+      title: "Cambio de estado",
+      description: `Tu solicitud se cambio al estado de ${
+        request?.state?.active ? "pendiente" : "activa"
+      }`,
+      status: "success",
+      duration: 9000,
+      isClosable: true,
+    });
   }
 
   const handleChangeActive = () => {
@@ -258,7 +286,7 @@ const ModalActivar: React.FC<any> = ({
           {request?.state?.active ? "Desactivar" : "Activar"}
         </Button>
       </PopoverTrigger>
-      <PopoverContent  borderColor="blue.800">
+      <PopoverContent borderColor="blue.800">
         <PopoverHeader pt={4} fontWeight="bold" border="0">
           <Text m={"0 auto"}>Aviso</Text>
         </PopoverHeader>
@@ -334,6 +362,7 @@ const ImageModal: React.FC<any> = ({ url, title }) => {
 const RequestReceived: React.FC<IProps> = ({ requests, load, setReload }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modal, setModal] = useState<any>(null);
+  const toast = useToast();
 
   const { received } = requests;
 
@@ -359,6 +388,13 @@ const RequestReceived: React.FC<IProps> = ({ requests, load, setReload }) => {
     const idRequest = received[i]._id;
     deleteRequest(idRequest);
     onClose();
+    toast({
+      title: "Solicitud eliminada",
+      description: `Tu solicitud se elimino de la base de datos`,
+      status: "info",
+      duration: 9000,
+      isClosable: true,
+    });
   }
 
   function setIndexModalOnClose() {
