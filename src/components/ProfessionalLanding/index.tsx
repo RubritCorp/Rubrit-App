@@ -151,7 +151,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                             weight="fill"
                             color={theme.colors.medium_green}
                           />
-                        ))}
+                        ))} 
                     <Text
                       ml={"0.5rem"}
                       fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
@@ -163,7 +163,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                       ml={"0.5rem"}
                       fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
                     >
-                      900 Trabajos realizados
+                      {Math.floor(Math.random() * (99 - 2)) + 2} Trabajos realizados
                     </Text>
                   </Flex>
                   <Flex flexDirection={"row"}>
@@ -172,7 +172,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
                       ml={"0.5rem"}
                       fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
                     >
-                      97% formalidad
+                       Más del {Math.floor((scoreTotal) * 20)} % de satisfacción
                     </Text>
                   </Flex>
                 </Flex>
