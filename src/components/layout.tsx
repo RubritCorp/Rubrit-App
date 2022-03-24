@@ -4,7 +4,7 @@ import Script from "next/script";
 // components
 import Footer from "components/Footer";
 import Navbar from "components/NavBar";
-import { Box } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 // variables
 import envConfig from "../../next-env-config";
 
@@ -19,13 +19,20 @@ const Layout: React.FC<{
         <title>{`Rubrit | ${title}`}</title>
         <meta name="description" content={description} />
       </Head>
-      { /* To do: fix security issue (variable is exposed to browser) */ } 
-      <Script src={`https://maps.googleapis.com/maps/api/js?key=${envConfig?.mapsKey}&libraries=places`} strategy='beforeInteractive' />
-      <Box minH={"100vh"}>
+      {/* To do: fix security issue (variable is exposed to browser) */}
+      <Script
+        src={`https://maps.googleapis.com/maps/api/js?key=${envConfig?.mapsKey}&libraries=places`}
+        strategy="beforeInteractive"
+      />
+      <Flex
+        minH={"100vh"}
+        flexDirection={"column"}
+        justifyContent="space-between"
+      >
         <Navbar />
         <main>{children}</main>
         <Footer />
-      </Box>
+      </Flex>
     </Box>
   );
 };

@@ -30,6 +30,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Link,
 } from "@chakra-ui/react";
 //from modules
 import React, { ReactNode, useEffect, useState } from "react";
@@ -126,12 +127,67 @@ const TestimonialText = ({ children }: { children: ReactNode }) => {
   );
 };
 
+const Paginate: React.FC<{
+  cardslength: number;
+  indexOfLastCard: number;
+  paginate: any;
+  cardsPerPage: number;
+}> = ({ cardslength, indexOfLastCard, paginate, cardsPerPage }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  function setNumbermas() {
+    if (
+      indexOfLastCard - 1 === cardslength ||
+      indexOfLastCard === cardslength ||
+      indexOfLastCard + 1 === cardslength
+    ) {
+    } else {
+      setCurrentPage(currentPage + 1);
+    }
+  }
+
+  function setNumbermenos() {
+    if (currentPage > 1) {
+      setCurrentPage(1);
+    }
+    if (currentPage >= 2) {
+      setCurrentPage(currentPage - 1);
+    }
+  }
+
+  return (
+    <Container maxW={"lg"}>
+      <SimpleGrid columns={[3, 3]} mb={10} spacing={8}>
+        {currentPage === 1 ? (
+          <span> </span>
+        ) : (
+          <Button onClick={() => setNumbermenos()}> {"<<<"} </Button>
+        )}
+
+        <span onClick={paginate(currentPage)} />
+        {currentPage === Math.ceil(cardslength / cardsPerPage) ? (
+          <span> </span>
+        ) : (
+          <Button onClick={() => setNumbermas()}> {">>>"} </Button>
+        )}
+      </SimpleGrid>
+    </Container>
+  );
+};
+
 const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
   const [card, setCard] = useState([{}]);
   const [value, setValue] = React.useState("");
   const handleChange = (event: any) => setValue(event.target.value);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data: Session, status } = useSession();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [cardsPerPage, setCardsPerPage] = useState(3);
+  const indexOfLastCard = currentPage * cardsPerPage;
+  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+  const currentCards = card.slice(indexOfFirstCard, indexOfLastCard);
+  const length: any = card.length;
+
   let [text, setText] = useState("");
   let handleInputChange = (e: any) => {
     let inputValue = e.target.value;
@@ -178,7 +234,7 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
             spacing={{ base: 10, md: 4, lg: 10 }}
           >
             <SimpleGrid columns={[1, null, 3]} spacing="40px">
-              {card?.map((item: any, index: number) => (
+              {currentCards?.map((item: any, index: number) => (
                 <Testimonial key={index}>
                   <TestimonialContent>
                     <Box marginTop={"-6"} marginRight={"-5"} alignSelf={"end"}>
@@ -213,7 +269,7 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
                           status === "authenticated"
                             ? onOpen()
                             : document.getElementById("signInButton")?.click();
-                        }} //acaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                        }} //acaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                         bg={"green.500"}
                         _hover={{ bg: "green.400" }}
                         position={"absolute"}
@@ -234,6 +290,14 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
           </Stack>
         </Container>
       </Box>
+      <Paginate
+        cardsPerPage={cardsPerPage}
+        cardslength={length}
+        indexOfLastCard={indexOfLastCard}
+        paginate={(pageNumber: React.SetStateAction<number>) =>
+          setCurrentPage(pageNumber)
+        }
+      />
       <Drawer size={"md"} isOpen={isOpen} placement="right" onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent>
