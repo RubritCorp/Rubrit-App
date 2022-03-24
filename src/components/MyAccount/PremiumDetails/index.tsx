@@ -88,7 +88,8 @@ const PremiumDetails: React.FC<{ payerId: string; email: string }> = ({
   };
   useEffect(() => {
     getPayer();
-  }, [payerId, getPayer]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [payerId]);
 
   useEffect(() => {
     let fieldTrial: any[] = [];

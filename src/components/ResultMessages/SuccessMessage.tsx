@@ -1,6 +1,6 @@
-import { Box, Button, Heading, Link, Text } from "@chakra-ui/react";
+import { Box, Button, Heading, Text } from "@chakra-ui/react";
 import { CheckCircleIcon } from "@chakra-ui/icons";
-
+import Link from "next/link";
 const SuccessMessage: React.FC = () => {
   return (
     <Box textAlign="center" py={10} px={6}>
@@ -9,8 +9,10 @@ const SuccessMessage: React.FC = () => {
         Tu solicitud fue enviada
       </Heading>
       <Text color={"gray.500"}>Ahora puedes ir a tomarte un matecito.</Text>
-      <Link href={"/myAccount?site=myRequest"}>
-        <Button mt="1rem">Ir a solicitud</Button>
+      <Link href={"/myAccount?site=myRequest"} passHref>
+        <Button as="a" mt="1rem">
+          Ir a solicitud
+        </Button>
       </Link>
     </Box>
   );

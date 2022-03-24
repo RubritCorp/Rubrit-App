@@ -20,7 +20,7 @@ function TestimonialCard(props: any) {
     description,
     score,
     date,
-    userComment: { name, email, profilePic },
+    userComment: { name, profilePic },
   } = props;
   const theme = useTheme();
 
@@ -30,7 +30,7 @@ function TestimonialCard(props: any) {
       maxW="98%"
       maxH="12rem"
       direction={"row"}
-      width={"full"}
+      width={"100%"}
       rounded={"xl"}
       p={"1em"}
       justifyContent={"space-between"}
@@ -67,50 +67,52 @@ function TestimonialCard(props: any) {
               alignSelf={"center"}
             />
           </Box>
-          <Flex>   
-            {[...Array(score)].map((el: any, index: number) => {
-              return(
-              <Star
-                key={index}
-                size={12}
-                weight="fill"
-                color={theme.colors.medium_green}
-              />
-            )})}
+          <Flex>
+            {[...Array(score)].fill(undefined).map((el: any, index: number) => {
+              return (
+                <Star
+                  key={index}
+                  size={12}
+                  weight="fill"
+                  color={theme.colors.medium_green}
+                />
+              );
+            })}
           </Flex>
         </Flex>
-        
-        <Flex flexDirection="column" >
+
+        <Flex flexDirection="column">
           <Box minH={"6.45rem"}>
-          <chakra.p fontFamily={"Poppins"} fontWeight={"bold"}>
-            {name}
-          </chakra.p>
-          <chakra.p
-            fontFamily={"Poppins"}
-            fontSize={{
-              base: "0.7rem",
-              sm: "0.8rem",
-              md: "0.9rem",
-              lg: "1rem",
-            }}
-            pb={4}
-            h={{ base: "60px", lg:"70px"}}
-            overflowY="auto"
-            css={{
-              "&::-webkit-scrollbar": {
-                width: "5px",
-              },
-              "&::-webkit-scrollbar-track": {
-                width: "12px",
-              },
-              "&::-webkit-scrollbar-thumb": {
-                background: "#38a169",
-                borderRadius: "20px",
-              },
-            }}
-          >
-            {description}
-          </chakra.p></Box>
+            <chakra.p fontFamily={"Poppins"} fontWeight={"bold"}>
+              {name}
+            </chakra.p>
+            <chakra.p
+              fontFamily={"Poppins"}
+              fontSize={{
+                base: "0.7rem",
+                sm: "0.8rem",
+                md: "0.9rem",
+                lg: "1rem",
+              }}
+              pb={4}
+              h={{ base: "60px", lg: "70px" }}
+              overflowY="auto"
+              css={{
+                "&::-webkit-scrollbar": {
+                  width: "5px",
+                },
+                "&::-webkit-scrollbar-track": {
+                  width: "12px",
+                },
+                "&::-webkit-scrollbar-thumb": {
+                  background: "#38a169",
+                  borderRadius: "20px",
+                },
+              }}
+            >
+              {description}
+            </chakra.p>
+          </Box>
           <chakra.p
             fontFamily={"Roboto"}
             fontWeight={600}
@@ -125,24 +127,25 @@ function TestimonialCard(props: any) {
   );
 }
 
-export default function GridBlurredBackdrop({ user }: any) {
+export default function Comments({ user }: any) {
   return (
     <Flex
       textAlign={"center"}
       justifyContent={"center"}
       width={"xl"}
+      flexWrap={"wrap"}
     >
       <SimpleGrid
         columns={[1, null, 1]}
         spacing={"6"}
         mt={5}
         mb={10}
-        minChildWidth={{ base: "300px", lg: "420px" }}
+        minChildWidth={{ base: "80%", lg: "420px" }}
       >
-        {!user?.rating.map((el: any, index: number) => (
+        {user?.rating.map((el: any, index: number) => (
           <TestimonialCard
             description={el.description}
-            score={el.score}
+            score={Math.floor(el.score)}
             date={el.date}
             userComment={el.userComment}
             index={index}

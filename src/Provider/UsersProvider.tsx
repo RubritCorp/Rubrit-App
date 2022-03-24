@@ -37,10 +37,15 @@ export interface IUser {
   _id: string;
   name: string;
   email: string;
-  phone: string;
+  phone: {
+    diallingCode: string;
+    number: string;
+  };
   description: string;
   profilePic: string;
   isPremium: boolean;
+  role: string;
+  statusAccount: string;
   address: {
     name: string;
     city: string;
@@ -48,6 +53,7 @@ export interface IUser {
     lat: number;
     lng: number;
   };
+  isAuthenticated: boolean;
   preferences: {
     hideAddres: boolean;
   };

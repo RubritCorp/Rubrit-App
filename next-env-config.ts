@@ -11,6 +11,7 @@ const envConfig = {
     host: `${process.env.DEVELOPMENT_HOST}`,
     signIn: `${process.env.DEVELOPMENT_HOST}`,
     signOut: `${process.env.DEVELOPMENT_HOST}`,
+    secret: `${process.env.SECRET}`,
   },
   production: {
     apiUrl: process.env.NEXT_PUBLIC_PRODUCTION_API_URL,
@@ -22,6 +23,7 @@ const envConfig = {
     host: `${process.env.PRODUCTION_HOST}`,
     signIn: `${process.env.PRODUCTION_HOST}`,
     signOut: `${process.env.PRODUCTION_HOST}`,
+    secret: `${process.env.SECRET}`,
   },
 }[env];
 

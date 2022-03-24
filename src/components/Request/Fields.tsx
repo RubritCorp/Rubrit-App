@@ -1,5 +1,5 @@
 import { InputControl, SelectControl, TextareaControl } from "formik-chakra-ui";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { LocationControl } from "components/CustomFormControls/LocationControl";
 import { MultipleImagesControl } from "components/CustomFormControls/MultipleImagesControl";
 import { useCategories } from "Provider/CategoriesProvider";
@@ -16,10 +16,15 @@ export const StepOneFields: React.FC<{ selectedCategory: any }> = ({
     if (subcategories) setSubcategories(subcategories);
   }
 
-  function getSubcategories(category_id: string) {
-    let category = categories.find((cat) => cat._id.toString() === category_id);
-    if (category) return category.subcategories;
-  }
+  const getSubcategories = useCallback(
+    function (category_id: string) {
+      let category = categories.find(
+        (cat) => cat._id.toString() === category_id
+      );
+      if (category) return category.subcategories;
+    },
+    [categories]
+  );
 
   useEffect(() => {
     // Show subcategories in case user clicks 'back' button on StepTwoFields

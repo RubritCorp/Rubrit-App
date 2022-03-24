@@ -37,13 +37,13 @@ export const useHelper = ({ session }: Props) => {
     { category: string; subcategories: string[] }[]
   >([]);
   const [serviceRange, setServiceRange] = useState<ServiceRange>({
-    addressName: session?.address ? session.address?.name : "",
+    addressName: session?.address?.name ? session.address?.name : "",
     city:
-      session?.address && session.address?.country.length
-        ? `${session.address} ${session.address?.country}`
+      session?.address?.city && session.address?.country.length
+        ? `${session.address.city} ${session.address?.country}`
         : "",
-    lat: session?.address ? session.address?.lat : 0,
-    lng: session?.address ? session.address?.lng : 0,
+    lat: session?.address?.lat ? session.address?.lat : 0,
+    lng: session?.address?.lng ? session.address?.lng : 0,
     rangeCoverage: 0,
   });
 

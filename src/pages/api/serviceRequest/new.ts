@@ -20,6 +20,7 @@ interface DataError {
 
 interface ICases {
   GET(req:NextApiRequest, res: NextApiResponse<DataError>): void;
+  PUT(req:NextApiRequest, res: NextApiResponse<DataError>): void;
   DELETE(req:NextApiRequest, res: NextApiResponse<DataError>): void;
   POST(req: NextApiRequest, res: NextApiResponse<DataSuccess>): void;
   ERROR(req: NextApiRequest, res: NextApiResponse<DataError>): void;
@@ -111,12 +112,12 @@ const cases: ICases = {
       {
         path:"requests.sent.userId",
           model: "User",
-          select: "name profilePic"
+          select: "name profilePic isAuthenticated"
       },
       {
         path:"requests.received.userId",
           model: "User",
-          select: "name profilePic"
+          select: "name profilePic isAuthenticated"
       },
       {
         path:"requests.sent.professionalId",
@@ -140,6 +141,29 @@ const cases: ICases = {
       res.status(400).json({message: `${err}`})
     }
 
+  },
+  PUT : async (req,res) => {
+
+    try{
+        const { params, state } = req.body.data;
+
+            const update = {
+              active: state === "Activar" ? true : false,
+              pending: state === "Desactivar" ? true : false,
+              completed: state === "Completada" ? true : false,
+              canceled: state === "Finalizada" ? true : false,
+            } 
+           
+        const requestUpdate =  await ServiceRequest.findByIdAndUpdate({_id : params}, update, {
+          returnOriginal: false
+        })
+
+        requestUpdate.state = update
+        await requestUpdate.save();
+        res.status(200).json({message: "Request updated", requests: requestUpdate})
+    } catch(err) {
+
+    }
   },
   DELETE: async (req,res) => {
         
@@ -167,7 +191,7 @@ export default function index(req: NextApiRequest, res: NextApiResponse) {
 
 
   
-  if (method && method === 'POST' || method === "GET" || method === "DELETE") {
+  if (method && method === 'POST' || method === "GET" || method === "DELETE" ||  method === "PUT") {
     return cases[method](req, res);
   } else {
     return cases['ERROR'](req, res);

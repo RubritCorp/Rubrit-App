@@ -24,7 +24,6 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  Avatar,
 } from "@chakra-ui/react";
 import { InputControl, ResetButton, SubmitButton } from "formik-chakra-ui";
 import {
@@ -38,7 +37,7 @@ import {
 import { useState } from "react";
 import { Formik } from "formik";
 import ReCAPTCHA from "react-google-recaptcha";
-import Image from "next/image";
+
 //helper
 import { useHelper } from "./useHelper";
 //assets
