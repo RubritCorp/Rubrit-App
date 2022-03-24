@@ -31,7 +31,7 @@ const cases: ICases = {
     const {
       data: { score, user, date, comment, userComment },
     } = req.body.data;
-
+    
     try {
       const ratingModel = {
         score,
@@ -43,9 +43,9 @@ const cases: ICases = {
         { _id: user },
         { $push: { rating: ratingModel } }
       );
-
       res.status(200).json({ message: "Comments updated" });
     } catch (err) {
+      console.log(err)
       res.status(404).json({ message: "Error ocurred " });
     }
   },
