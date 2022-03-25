@@ -13,8 +13,6 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-// import RequestReceived from "./RequestReceived";
-// import RequestSent from "./RequestSent";
 import RequestDetail from "./RequestDetail";
 import axios from "axios";
 import { Article } from "phosphor-react";
