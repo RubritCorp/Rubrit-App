@@ -13,8 +13,9 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import RequestReceived from "./RequestReceived";
-import RequestSent from "./RequestSent";
+// import RequestReceived from "./RequestReceived";
+// import RequestSent from "./RequestSent";
+import RequestDetail from "./RequestDetail";
 import axios from "axios";
 import { Article } from "phosphor-react";
 
@@ -107,7 +108,12 @@ const Requests: React.FC = () => {
           borderBottomLeftRadius={5}
           borderBottomRightRadius={5}
         >
-          <RequestSent requests={requests} setReload={setReload} load={load} />
+          <RequestDetail
+            requests={requests}
+            format={"sent"}
+            setReload={setReload}
+            load={load}
+          />
         </TabPanel>
         <TabPanel
           bg={useColorModeValue("#fafafa", "#1A202C")}
@@ -116,8 +122,9 @@ const Requests: React.FC = () => {
           borderBottomLeftRadius={5}
           borderBottomRightRadius={5}
         >
-          <RequestReceived
+          <RequestDetail
             requests={requests}
+            format={"received"}
             setReload={setReload}
             load={load}
           />
