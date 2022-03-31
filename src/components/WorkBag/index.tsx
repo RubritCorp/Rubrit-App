@@ -272,15 +272,12 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
               tu presupuesto
             </Text>
           </Stack>
-          <Stack
-            direction={{ base: "column", md: "row" }}
-            spacing={{ base: 10, md: 4, lg: 10 }}
-          >
-            <SimpleGrid columns={[1, null, 3]} spacing="40px">
+       
+            <SimpleGrid justifyContent={"center"} columns={[1, null, 3]} spacing="40px">
               {currentCards?.map((item: any, index: number) => (
                 <Testimonial key={index}>
                   <TestimonialContent>
-                    <Box marginTop={"-6"} marginRight={"-5"} alignSelf={"end"}>
+                    <Flex  marginTop={"-6"} marginRight={"-5"} justifyContent={"flex-end"}>
                       <Button
                         w={"5px"}
                         size={"xs"}
@@ -289,7 +286,7 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
                       >
                         x
                       </Button>
-                    </Box>
+                    </Flex>
                     {/* TESTIMONIAL HEADING */}
                     <Heading
                       as={"h3"}
@@ -331,7 +328,7 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
                 </Testimonial>
               ))}
             </SimpleGrid>
-          </Stack>
+         
         </Container>
       </Box>
       <Paginate
@@ -341,55 +338,8 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
         paginate={(pageNumber: React.SetStateAction<number>) =>
           setCurrentPage(pageNumber)
         }
-      />
-      <Drawer size={"md"} isOpen={isOpen} placement="right" onClose={onClose}>
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>Presupuesto A Enviar</DrawerHeader>
-
-          <DrawerBody>
-            <Stack spacing={4}>
-              <Text color="#6bdaae" mb="8px">
-                {" "}
-                Detalle del trabajo a realizar:{" "}
-              </Text>
-              <Textarea
-                h={"450px"}
-                value={text}
-                onChange={handleInputChange}
-                placeholder="Realice su detalle aca ..."
-                size="xl"
-              />
-
-              <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  color="gray.300"
-                  fontSize="1.2em"
-                >
-                  <CurrencyDollarSimple
-                    size={30}
-                    color="#6bdaae"
-                    weight="light"
-                  />
-                </InputLeftElement>
-                <Input placeholder="Enter amount" />
-              </InputGroup>
-            </Stack>
-          </DrawerBody>
-
-          <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Cancelar
-            </Button>
-            <Button colorScheme="green" mr={3}>
-              Enviar
-            </Button>
-            <Button colorScheme="red">Guardar</Button>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
+       />
+     
     </Layout>
   );
 };
