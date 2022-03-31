@@ -27,12 +27,12 @@ function TestimonialCard(props: any) {
   return (
     <Flex
       boxShadow={"xl"}
-      maxW="98%"
+      maxW="100%"
       maxH="12rem"
       direction={"row"}
       width={"100%"}
       rounded={"xl"}
-      p={"1em"}
+      p={"0.7em"}
       justifyContent={"space-between"}
       position={"relative"}
       bg={useColorModeValue("white", "gray.800")}
@@ -96,19 +96,6 @@ function TestimonialCard(props: any) {
               }}
               pb={4}
               h={{ base: "60px", lg: "70px" }}
-              overflowY="auto"
-              css={{
-                "&::-webkit-scrollbar": {
-                  width: "5px",
-                },
-                "&::-webkit-scrollbar-track": {
-                  width: "12px",
-                },
-                "&::-webkit-scrollbar-thumb": {
-                  background: "#38a169",
-                  borderRadius: "20px",
-                },
-              }}
             >
               {description}
             </chakra.p>
@@ -132,8 +119,9 @@ export default function Comments({ user }: any) {
     <Flex
       textAlign={"center"}
       justifyContent={"center"}
-      width={"xl"}
+      maxW={"700px"}
       flexWrap={"wrap"}
+      m={"15px"}
     >
       <SimpleGrid
         columns={[1, null, 1]}

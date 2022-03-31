@@ -450,7 +450,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
               overflow={{ base: "hidden", lg: "auto" }}
               css={{
                 "&::-webkit-scrollbar": {
-                  width: "7px",
+                  width: "3px",
                 },
                 "&::-webkit-scrollbar-track": {
                   width: "15px",
