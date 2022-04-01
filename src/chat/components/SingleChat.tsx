@@ -44,7 +44,8 @@ const SingleChat: React.FC<{
     selectedChat,
     setSelectedChat,
     user,
-    // notification, setNotification
+    notification,
+    setNotification,
   } = useChat();
 
   useEffect(() => {
@@ -70,10 +71,10 @@ const SingleChat: React.FC<{
         !selectedChatCompare || // if chat is not selected or doesn't match current chat
         selectedChatCompare._id !== newMessageRecieved.chat._id
       ) {
-        // if (!notification.includes(newMessageRecieved)) {
-        //   setNotification([newMessageRecieved, ...notification]);
+         if (!notification.includes(newMessageRecieved)) {
+           setNotification([newMessageRecieved, ...notification]);
         setFetchAgain(!fetchAgain);
-        // }
+        }
       } else {
         setMessages([...messages, newMessageRecieved]);
         scrollBottom();
@@ -81,6 +82,9 @@ const SingleChat: React.FC<{
       }
     });
   });
+ 
+  console.log(notification, 'jdhasjkhdjashdkjahsjhdjashdjkahsja');
+
   const fetchMessages = async () => {
     if (!selectedChat) return;
 

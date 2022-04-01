@@ -227,10 +227,9 @@ const WithSubnavigation: React.FC = () => {
                 <MenuList pl={2}>
                   {!notification.length && "No New Messages"}
 
-                  {!notification.length && "No New Messages"}
-
-                  {notification.map((notif) => (
-                    <MenuItem d={{ base: "inline", md: "none" }}
+                  {notification.map((notif) => {
+              
+                    <MenuItem 
                       key={notif._id}
                       onClick={() => {
                         setSelectedChat(notif.chat);
@@ -241,7 +240,7 @@ const WithSubnavigation: React.FC = () => {
                         ? `New Message in ${notif.chat.chatName}`
                         : `New Message from ${getSender(user, notif.chat.users)}`}
                     </MenuItem>
-                  ))}
+          })}
                 </MenuList>
               </Menu>
               <Menu isLazy>
