@@ -18,7 +18,6 @@ import {
 import Layout from "../layout";
 
 const CommunityPrinciples: React.FC = () => {
-  const theme = useTheme();
   return (
     <Layout>
       <Box
