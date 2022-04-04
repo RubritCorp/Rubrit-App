@@ -8,7 +8,6 @@ import {
   Flex,
   Text,
   useColorModeValue,
-  Icon,
   useTheme,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";

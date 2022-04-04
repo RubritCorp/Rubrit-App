@@ -50,9 +50,12 @@ const RequestDetail: React.FC<IProps> = ({
 
   useEffect(() => {}, [requests]);
 
-  function setIndexModal(event: any, format: string) {
-    const { id } = event.target;
-    setModal(requests[format][id]);
+  function setIndexModal(
+    event: React.MouseEvent<HTMLButtonElement>,
+    format: string,
+    index: number
+  ) {
+    setModal(requests[format][index]);
     onOpen();
   }
   async function deleteRequest(id: string) {
@@ -66,7 +69,11 @@ const RequestDetail: React.FC<IProps> = ({
     }
   }
 
-  function setIndexDelete(event: any, i: number, format: string) {
+  function setIndexDelete(
+    event: React.MouseEvent<HTMLButtonElement>,
+    i: number,
+    format: string
+  ) {
     const idRequest = requests[format][i]._id;
     deleteRequest(idRequest);
     onClose();
@@ -85,6 +92,7 @@ const RequestDetail: React.FC<IProps> = ({
   }
 
   const requestState = (state: any) => {
+    console.log(state);
     for (let val in state) {
       if (state[val] && val === "active") {
         return <Text color={"medium_green"}>Activa</Text>;
@@ -220,10 +228,9 @@ const RequestDetail: React.FC<IProps> = ({
                     <Flex flexDirection={"column"}>
                       <Box m={"2px"}>
                         <Button
-                          onClick={(e: any) => setIndexModal(e, format)}
+                          onClick={(e: any) => setIndexModal(e, format, index)}
                           variant="outline"
                           size="xs"
-                          id={`${index}`}
                           bg={"medium_green"}
                         >
                           Detalle
