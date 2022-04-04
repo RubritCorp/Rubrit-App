@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import PropTypes from "prop-types";
+
 import { useRef } from "react";
 
 const LocatorButton: React.FC<{ mapObject: any }> = ({ mapObject }) => {

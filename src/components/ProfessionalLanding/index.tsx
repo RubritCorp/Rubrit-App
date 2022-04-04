@@ -22,8 +22,10 @@ import {
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { Star, Check, Checks, CheckCircle } from "phosphor-react";
 
+//interfaces
+import { IUser } from "../../Provider/UsersProvider";
+
 //from modules
-import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
@@ -35,7 +37,12 @@ import Loading from "../Loading";
 import Map from "../Maps/Map";
 import ReportProfile from "./ReportProfile";
 
-const ImageModal: React.FC<any> = ({ url, title }) => {
+interface ImageModal {
+  url: string;
+  title: string;
+}
+
+const ImageModal: React.FC<ImageModal> = ({ url, title }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -77,14 +84,20 @@ const ImageModal: React.FC<any> = ({ url, title }) => {
   );
 };
 
-const ProfessionalLanding: React.FC<any> = (props) => {
+interface IUserProps {
+  user: string;
+}
+
+const ProfessionalLanding: React.FC<IUserProps> = (props) => {
   const theme = useTheme();
   const router = useRouter();
   const toast = useToast();
   const [loading, setLoading] = useState<boolean>(false);
   const { data: Session } = useSession();
-  const user = JSON.parse(props.user);
+  const user: IUser = JSON.parse(props.user);
+
   const { workerData } = user;
+
   const {
     onOpen: onOpenReportProfile,
     onClose: onCloseReportProfile,
@@ -93,7 +106,7 @@ const ProfessionalLanding: React.FC<any> = (props) => {
 
   //average rating
 
-  const scoreTotal = Math.ceil(
+  const scoreTotal: number = Math.ceil(
     user.rating?.reduce((total: any, el: any) => (total += el.score), 0) /
       user.rating.length
   );

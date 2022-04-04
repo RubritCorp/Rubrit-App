@@ -4,10 +4,7 @@ import {
   Alert,
   AlertIcon,
   Text,
-  Button,
-  Stack,
   Skeleton,
-  Flex,
   Container,
 } from "@chakra-ui/react";
 import CardProfesional from "components/CardProfesional";

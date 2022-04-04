@@ -1,4 +1,3 @@
-
-import TermServices from '../components/TermService/termService';
+import TermServices from "../components/TermService";
 
 export default TermServices;

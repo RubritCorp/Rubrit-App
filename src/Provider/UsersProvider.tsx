@@ -52,6 +52,7 @@ export interface IUser {
     country: string;
     lat: number;
     lng: number;
+    searchRange: number;
   };
   isAuthenticated: boolean;
   preferences: {

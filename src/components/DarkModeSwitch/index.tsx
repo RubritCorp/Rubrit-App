@@ -1,9 +1,10 @@
 import { useColorMode, Switch, Box, Button } from "@chakra-ui/react";
+//icons
 import { Moon, Sun } from "phosphor-react";
 
 const DarkModeSwitch = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const isDark = colorMode === "dark";
+  const isDark: boolean = colorMode === "dark";
   return (
     <Box>
       <Switch

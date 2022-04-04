@@ -1,3 +1,3 @@
-import Faqs from '../components/Faqs/faqs';
+import Faqs from "../components/Faqs";
 
 export default Faqs;

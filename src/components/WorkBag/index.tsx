@@ -272,63 +272,70 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
               tu presupuesto
             </Text>
           </Stack>
-       
-            <SimpleGrid justifyContent={"center"} columns={[1, null, 3]} spacing="40px">
-              {currentCards?.map((item: any, index: number) => (
-                <Testimonial key={index}>
-                  <TestimonialContent>
-                    <Flex  marginTop={"-6"} marginRight={"-5"} justifyContent={"flex-end"}>
-                      <Button
-                        w={"5px"}
-                        size={"xs"}
-                        variant="outline"
-                        onClick={() => handleOnCloseCard(item._id)}
-                      >
-                        x
-                      </Button>
-                    </Flex>
-                    {/* TESTIMONIAL HEADING */}
-                    <Heading
-                      as={"h3"}
-                      fontSize={"xl"}
-                      textAlign={"center"}
-                      overflow="hidden"
-                      css={{
-                        display: "-webkit-box",
-                        ["WebkitBoxOrient"]: "vertical",
-                        ["WebkitLineClamp"]: "2",
-                      }}
-                    >
-                      {item.title}
-                    </Heading>
 
-                    <TestimonialText>{item.testimonialWork}</TestimonialText>
-                    <Stack p={3} align={"center"}>
-                      <Button
-                        onClick={() => {
-                          status === "authenticated"
-                            ? accessChat(item.userId)
-                            : // ? onOpen()
-                              document.getElementById("signInButton")?.click();
-                        }} //acaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                        bg={"green.500"}
-                        _hover={{ bg: "green.400" }}
-                        position={"absolute"}
-                        bottom={8}
-                      >
-                        <Text color={"white"}>Enviar Presupuesto</Text>
-                      </Button>
-                    </Stack>
-                  </TestimonialContent>
-                  <TestimonialAvatar
-                    src={item.src}
-                    name={item.name}
-                    location={item.location}
-                  />
-                </Testimonial>
-              ))}
-            </SimpleGrid>
-         
+          <SimpleGrid
+            justifyContent={"center"}
+            columns={[1, null, 3]}
+            spacing="40px"
+          >
+            {currentCards?.map((item: any, index: number) => (
+              <Testimonial key={index}>
+                <TestimonialContent>
+                  <Flex
+                    marginTop={"-6"}
+                    marginRight={"-5"}
+                    justifyContent={"flex-end"}
+                  >
+                    <Button
+                      w={"5px"}
+                      size={"xs"}
+                      variant="outline"
+                      onClick={() => handleOnCloseCard(item._id)}
+                    >
+                      x
+                    </Button>
+                  </Flex>
+                  {/* TESTIMONIAL HEADING */}
+                  <Heading
+                    as={"h3"}
+                    fontSize={"xl"}
+                    textAlign={"center"}
+                    overflow="hidden"
+                    css={{
+                      display: "-webkit-box",
+                      ["WebkitBoxOrient"]: "vertical",
+                      ["WebkitLineClamp"]: "2",
+                    }}
+                  >
+                    {item.title}
+                  </Heading>
+
+                  <TestimonialText>{item.testimonialWork}</TestimonialText>
+                  <Stack p={3} align={"center"}>
+                    <Button
+                      onClick={() => {
+                        status === "authenticated"
+                          ? accessChat(item.userId)
+                          : // ? onOpen()
+                            document.getElementById("signInButton")?.click();
+                      }} //acaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                      bg={"green.500"}
+                      _hover={{ bg: "green.400" }}
+                      position={"absolute"}
+                      bottom={8}
+                    >
+                      <Text color={"white"}>Enviar Presupuesto</Text>
+                    </Button>
+                  </Stack>
+                </TestimonialContent>
+                <TestimonialAvatar
+                  src={item.src}
+                  name={item.name}
+                  location={item.location}
+                />
+              </Testimonial>
+            ))}
+          </SimpleGrid>
         </Container>
       </Box>
       <Paginate
@@ -338,8 +345,7 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
         paginate={(pageNumber: React.SetStateAction<number>) =>
           setCurrentPage(pageNumber)
         }
-       />
-     
+      />
     </Layout>
   );
 };

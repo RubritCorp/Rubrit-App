@@ -99,7 +99,7 @@ const Footer: React.FC = () => {
             <Link href={"/faqs"}>
               <a>FAQs</a>
             </Link>
-            <Link href={"/comunityPrinciply"}>
+            <Link href={"/communityPrinciples"}>
               <a>Principios de la Comunidad</a>
             </Link>
           </Stack>

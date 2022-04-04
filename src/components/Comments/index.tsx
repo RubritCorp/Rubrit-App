@@ -2,28 +2,30 @@ import {
   Avatar,
   Box,
   chakra,
-  Container,
   Flex,
-  Icon,
   SimpleGrid,
   useColorModeValue,
   useTheme,
 } from "@chakra-ui/react";
 
+//icons
 import { Star } from "phosphor-react";
-import { Session } from "next-auth/core/types";
 
-type Props = { user: Session };
-
-function TestimonialCard(props: any) {
-  const {
-    description,
-    score,
-    date,
-    userComment: { name, profilePic },
-  } = props;
+interface ITestimonialCard {
+  description: string;
+  score: number;
+  date: string;
+  index: number;
+  userComment?: {
+    name: string;
+    profilePic: string;
+  };
+}
+function TestimonialCard(props: ITestimonialCard) {
+  const { description, score, date, userComment } = props;
   const theme = useTheme();
 
+  if (!userComment?.name && !userComment?.profilePic) return null;
   return (
     <Flex
       boxShadow={"xl"}
@@ -61,30 +63,32 @@ function TestimonialCard(props: any) {
         >
           <Box minH="6rem">
             <Avatar
-              src={profilePic}
+              src={userComment?.profilePic}
               height={"80px"}
               width={"80px"}
               alignSelf={"center"}
             />
           </Box>
           <Flex>
-            {[...Array(score)].fill(undefined).map((el: any, index: number) => {
-              return (
-                <Star
-                  key={index}
-                  size={12}
-                  weight="fill"
-                  color={theme.colors.medium_green}
-                />
-              );
-            })}
+            {[...Array(score)]
+              .fill(undefined)
+              ?.map((el: any, index: number) => {
+                return (
+                  <Star
+                    key={index}
+                    size={12}
+                    weight="fill"
+                    color={theme.colors.medium_green}
+                  />
+                );
+              })}
           </Flex>
         </Flex>
 
         <Flex flexDirection="column">
           <Box minH={"6.45rem"}>
             <chakra.p fontFamily={"Poppins"} fontWeight={"bold"}>
-              {name}
+              {userComment.name}
             </chakra.p>
             <chakra.p
               fontFamily={"Poppins"}

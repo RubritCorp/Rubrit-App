@@ -1,3 +1,3 @@
-import CookiesPolicy from '../components/CookiesPolicy/cookiesPolicy';
+import CookiesPolicy from "../components/CookiesPolicy";
 
 export default CookiesPolicy;

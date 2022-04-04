@@ -15,7 +15,6 @@ import {
 import Link from "next/link";
 import { useState } from "react";
 //assets
-import Premium from "assets/premium.png";
 import { CheckIcon, StarIcon } from "@chakra-ui/icons";
 
 interface CardFindProfesionalProps {
@@ -40,6 +39,7 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
   isPremium,
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
+
   return (
     <Container maxW={"container.xl"} centerContent py={2}>
       <Flex position={"relative"}>
@@ -149,7 +149,7 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                 {categories && (
                   <>
                     <Divider mt={3} />
-                    <Box minH={"80px"} >
+                    <Box minH={"80px"}>
                       <Text textAlign={"center"} mt={5} color={"medium_green"}>
                         Rubros
                       </Text>

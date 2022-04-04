@@ -8,10 +8,8 @@ import {
   Text,
   Stack,
   StackDivider,
-  Icon,
   useColorModeValue,
   Divider,
-  Select,
   Box,
   Button,
   Avatar,
@@ -25,7 +23,6 @@ import {
   PopoverCloseButton,
   PopoverBody,
   PopoverFooter,
-  ButtonGroup,
 } from "@chakra-ui/react";
 
 import { useRef, useState } from "react";

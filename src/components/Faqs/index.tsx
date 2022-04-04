@@ -19,7 +19,6 @@ import {
 import Layout from "../layout";
 
 const Faqs: React.FC = () => {
-  const theme = useTheme();
   return (
     <Layout>
       <Box
@@ -40,7 +39,7 @@ const Faqs: React.FC = () => {
         <Heading
           size="lg"
           padding={"1rem 0"}
-          color={theme.colors.medium_green}
+          color={"medium_green"}
           fontWeight={"lighter"}
         >
           Soy Usuario
@@ -70,9 +69,7 @@ const Faqs: React.FC = () => {
           </AccordionItem>
           <AccordionItem>
             <h2>
-              <AccordionButton
-                _expanded={{ color: "medium_green" }}
-              >
+              <AccordionButton _expanded={{ color: "medium_green" }}>
                 <Box flex="1" textAlign="left">
                   ¿Como me Registro?
                 </Box>
@@ -88,9 +85,7 @@ const Faqs: React.FC = () => {
 
           <AccordionItem>
             <h2>
-              <AccordionButton
-                _expanded={{  color: "medium_green" }}
-              >
+              <AccordionButton _expanded={{ color: "medium_green" }}>
                 <Box flex="1" textAlign="left">
                   ¿Como veo mis datos?
                 </Box>
@@ -105,9 +100,7 @@ const Faqs: React.FC = () => {
           </AccordionItem>
           <AccordionItem>
             <h2>
-              <AccordionButton
-                _expanded={{  color: "medium_green" }}
-              >
+              <AccordionButton _expanded={{ color: "medium_green" }}>
                 <Box flex="1" textAlign="left">
                   ¿Puedo editar mi informacion de perfil?
                 </Box>
@@ -121,9 +114,7 @@ const Faqs: React.FC = () => {
           </AccordionItem>
           <AccordionItem>
             <h2>
-              <AccordionButton
-                _expanded={{ color: "medium_green" }}
-              >
+              <AccordionButton _expanded={{ color: "medium_green" }}>
                 <Box flex="1" textAlign="left">
                   ¿Cómo cambio mi email?
                 </Box>
@@ -137,9 +128,7 @@ const Faqs: React.FC = () => {
           </AccordionItem>
           <AccordionItem>
             <h2>
-              <AccordionButton
-                _expanded={{ color: "medium_green" }}
-              >
+              <AccordionButton _expanded={{ color: "medium_green" }}>
                 <Box flex="1" textAlign="left">
                   ¿Cuánto cuesta hacer una solicitud de presupuesto?
                 </Box>
@@ -154,9 +143,7 @@ const Faqs: React.FC = () => {
           </AccordionItem>
           <AccordionItem>
             <h2>
-              <AccordionButton
-                _expanded={{ color: "medium_green" }}
-              >
+              <AccordionButton _expanded={{ color: "medium_green" }}>
                 <Box flex="1" textAlign="left">
                   Cómo hacer una solicitud
                 </Box>
@@ -175,9 +162,7 @@ const Faqs: React.FC = () => {
           </AccordionItem>
           <AccordionItem>
             <h2>
-              <AccordionButton
-                _expanded={{ color: "medium_green" }}
-              >
+              <AccordionButton _expanded={{ color: "medium_green" }}>
                 <Box flex="1" textAlign="left">
                   ¿Qué información tengo que añadir en mi solicitud?
                 </Box>
@@ -198,9 +183,7 @@ const Faqs: React.FC = () => {
           </AccordionItem>
           <AccordionItem>
             <h2>
-              <AccordionButton
-                _expanded={{  color: "medium_green" }}
-              >
+              <AccordionButton _expanded={{ color: "medium_green" }}>
                 <Box flex="1" textAlign="left">
                   ¿Cuántas cuentas puedo tener en Rubrit?
                 </Box>
@@ -219,9 +202,7 @@ const Faqs: React.FC = () => {
           </AccordionItem>
           <AccordionItem>
             <h2>
-              <AccordionButton
-                _expanded={{color: "medium_green" }}
-              >
+              <AccordionButton _expanded={{ color: "medium_green" }}>
                 <Box flex="1" textAlign="left">
                   Quiero darme de baja
                 </Box>
@@ -241,7 +222,7 @@ const Faqs: React.FC = () => {
         <Heading
           size="lg"
           padding={"1rem 0"}
-          color={theme.colors.medium_green}
+          color={"medium_green"}
           fontWeight={"lighter"}
         >
           Soy Profesional
@@ -271,9 +252,7 @@ const Faqs: React.FC = () => {
           </AccordionItem>
           <AccordionItem>
             <h2>
-              <AccordionButton
-                _expanded={{  color: "medium_green" }}
-              >
+              <AccordionButton _expanded={{ color: "medium_green" }}>
                 <Box flex="1" textAlign="left">
                   ¿En cuántas categorías me puedo inscribir?
                 </Box>
@@ -290,9 +269,7 @@ const Faqs: React.FC = () => {
 
           <AccordionItem>
             <h2>
-              <AccordionButton
-                _expanded={{ color: "medium_green" }}
-              >
+              <AccordionButton _expanded={{ color: "medium_green" }}>
                 <Box flex="1" textAlign="left">
                   ¿Cómo cambio mi email?
                 </Box>
@@ -306,9 +283,7 @@ const Faqs: React.FC = () => {
           </AccordionItem>
           <AccordionItem>
             <h2>
-              <AccordionButton
-                _expanded={{ color: "medium_green" }}
-              >
+              <AccordionButton _expanded={{ color: "medium_green" }}>
                 <Box flex="1" textAlign="left">
                   ¿Puedo cambiar mi ubicación?
                 </Box>
@@ -321,9 +296,7 @@ const Faqs: React.FC = () => {
           </AccordionItem>
           <AccordionItem>
             <h2>
-              <AccordionButton
-                _expanded={{  color: "medium_green" }}
-              >
+              <AccordionButton _expanded={{ color: "medium_green" }}>
                 <Box flex="1" textAlign="left">
                   ¿Cuántas imágenes de mis trabajos puedo añadir a mi perfil?
                 </Box>
@@ -343,9 +316,7 @@ const Faqs: React.FC = () => {
           </AccordionItem>
           <AccordionItem>
             <h2>
-              <AccordionButton
-                _expanded={{  color: "medium_green" }}
-              >
+              <AccordionButton _expanded={{ color: "medium_green" }}>
                 <Box flex="1" textAlign="left">
                   ¿Cómo selecciono mis categorías de trabajo?
                 </Box>
@@ -362,9 +333,7 @@ const Faqs: React.FC = () => {
           </AccordionItem>
           <AccordionItem>
             <h2>
-              <AccordionButton
-                _expanded={{ color: "medium_green" }}
-              >
+              <AccordionButton _expanded={{ color: "medium_green" }}>
                 <Box flex="1" textAlign="left">
                   No existe una categoría para los servicios que ofrezco, ¿qué
                   hago?
@@ -381,9 +350,7 @@ const Faqs: React.FC = () => {
           </AccordionItem>
           <AccordionItem>
             <h2>
-              <AccordionButton
-                _expanded={{  color: "medium_green" }}
-              >
+              <AccordionButton _expanded={{ color: "medium_green" }}>
                 <Box flex="1" textAlign="left">
                   ¿Qué es ser profesional certificado en Rubrit?
                 </Box>
@@ -401,9 +368,7 @@ const Faqs: React.FC = () => {
           </AccordionItem>
           <AccordionItem>
             <h2>
-              <AccordionButton
-                _expanded={{  color: "medium_green" }}
-              >
+              <AccordionButton _expanded={{ color: "medium_green" }}>
                 <Box flex="1" textAlign="left">
                   ¿Cómo encuentro clientes?
                 </Box>
@@ -424,9 +389,7 @@ const Faqs: React.FC = () => {
           </AccordionItem>
           <AccordionItem>
             <h2>
-              <AccordionButton
-                _expanded={{  color: "medium_green" }}
-              >
+              <AccordionButton _expanded={{ color: "medium_green" }}>
                 <Box flex="1" textAlign="left">
                   Cómo denunciar a un usuario
                 </Box>

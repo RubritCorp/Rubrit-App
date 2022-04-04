@@ -301,7 +301,6 @@ const RequestDetail: React.FC<IProps> = ({
                                   </PopoverTrigger>
                                   <Portal>
                                     <PopoverContent>
-                                      {console.log(request)}
                                       <Form
                                         userId={request.userId?._id}
                                         profId={request.professionalId?._id}
