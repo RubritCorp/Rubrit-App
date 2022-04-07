@@ -44,6 +44,7 @@ const PrivateRequestMain: React.FC<{ professionalId: string }> = ({
   >(null);
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState<boolean>(false);
+  const toast = useToast();
 
   async function preSubmit(event: any, values: any) {
     event.preventDefault();
@@ -59,8 +60,18 @@ const PrivateRequestMain: React.FC<{ professionalId: string }> = ({
     }
   }
 
+  useEffect(() => {
+    if (String(session?._id) === professionalId) {
+      toast({
+        title: `Aviso importante! No puedes crear una solicitud privada siendo el usuario que la envia y recibe.`,
+        status: "error",
+        isClosable: true,
+      });
+    }
+  }, []);
   function showCurrentStep() {
     let CurrentComponent;
+
     if (isRequestSuccessful === null) {
       // Render component when form is not sent yet
       CurrentComponent = <StepTwoFields />;
@@ -87,6 +98,7 @@ const PrivateRequestMain: React.FC<{ professionalId: string }> = ({
             bg: "green.600",
           }}
           disabled={
+            String(session?._id) === professionalId ||
             values.title.length === 0 ||
             Object.keys(errors).length > 0 ||
             isSubmitting ||
@@ -241,7 +253,7 @@ const PrivateRequestSide: React.FC = () => {
             97% formalidad
           </Text>
         </Flex>
-        <Text mt={2}>Serivicos Ofrecidos :</Text>
+        <Text mt={2}>Servicios Ofrecidos :</Text>
         {user?.items?.map((m: any, i: number) => (
           <Flex key={i} alignItems={"center"}>
             <CheckIcon color={"medium_green"} />
