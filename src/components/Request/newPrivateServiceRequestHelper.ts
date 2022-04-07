@@ -47,13 +47,17 @@ export const handleSubmit = async (values: DataInitialValues) => {
   
   try {
     const session = await getSession();
+
+    console.log("id session, request" , session?._id, professionalId)
     if (!session) throw new Error('No session');
     let serviceRequest = { title, description, location, lat, lng, images: null, userId: session._id, professionalId };
     // API request for file upload
     if (images && images?.length > 0) {
       const { data } = await axios.post(`${envConfig?.apiUrl}/aws/upload-files`, formData, { headers: { 'content-type': 'multipart/form-data' } });
       serviceRequest.images = data.urls;
-    }
+    } 
+
+
     const apiResponse = await axios.post('/api/serviceRequest/new', serviceRequest);
     return { success: true, data: apiResponse.data}
   } catch (err) {

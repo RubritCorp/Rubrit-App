@@ -50,10 +50,10 @@ const cases: ICases = {
     user.address.name = serviceRange.addressName;
     user.address.lat = serviceRange.lat;
     user.address.lng = serviceRange.lng;
-    if (certification.length) {
+    if (certification?.length) {
       user.workerData.certification = [...certification];
     }
-    if (services.length) {
+    if (services?.length) {
       user.workerData.images = [...services];
     }
     if (Object.keys(categories).length > 0) {
