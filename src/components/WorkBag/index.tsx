@@ -222,7 +222,7 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
     setCard(newCard);
   };
 
-  if (nearOffers.length < 1) return <Text>No Hay Ofertas en Tu Zona</Text>;
+  // if (nearOffers.length < 1) return <Text>No Hay Ofertas en Tu Zona</Text>;
 
   const accessChat = async (userId: string) => {
     try {

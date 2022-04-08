@@ -19,7 +19,11 @@ import {
   Image,
   useToast,
 } from "@chakra-ui/react";
-import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  QuestionIcon,
+} from "@chakra-ui/icons";
 import { Star, Check, Checks, CheckCircle } from "phosphor-react";
 
 //interfaces
@@ -61,7 +65,7 @@ const ImageModal: React.FC<ImageModal> = ({ url, title }) => {
             onClick={onOpen}
             objectFit="cover"
             _hover={{ cursor: "zoom-in" }}
-          ></Image>
+          />
         </Flex>
         <Modal isOpen={isOpen} onClose={onClose} size="xl">
           <ModalOverlay />
@@ -113,7 +117,6 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
 
   //pagination states
   const [numberPage, setNumberPage] = useState<number>(0);
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   if (!user) return <Loading />;
   return (
@@ -133,7 +136,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
               margin={{ base: "0rem", md: "1rem", lg: "1rem" }}
               alt={user.name}
               objectFit={"cover"}
-            ></Image>
+            />
           </Box>
           <Flex flexDirection={"column"}>
             <Flex
@@ -143,7 +146,10 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
               justifyContent={"center"}
             >
               <Flex padding={"1rem"} flexDirection={"column"}>
-                <Heading fontSize={{ base: "1rem", md: "1.2rem", lg: "2rem" }}>
+                <Heading
+                  fontSize={{ base: "1rem", md: "1.2rem", lg: "2rem" }}
+                  textTransform={"capitalize"}
+                >
                   {user.name}
                 </Heading>
                 <Flex>
@@ -198,44 +204,84 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                 </Flex>
               </Flex>
               <Flex flexDirection={"column"} alignItems={"center"}>
-                <Button
-                  as={"button"}
-                  width={{ base: "150px", md: "200px", lg: "250px" }}
-                  height={{ base: "45px", md: "45px", lg: "45px" }}
-                  borderRadius={"10px"}
-                  bg={"medium_green"}
-                  color={"white"}
-                  fontSize={{ base: "1rem", md: "1.2rem", lg: "1.4rem" }}
-                  _hover={{
-                    transform: "translateY(-2px)",
-                    boxShadow: "lg",
-                  }}
-                  isLoading={loading}
-                  onClick={() => {
-                    if (!Session?.isAuthenticated) {
-                      if (!toast.isActive("no-authenticated")) {
-                        toast({
-                          title: "¡Aún no has verificado tu identidad!",
-                          description:
-                            "Hemos detectado que aún no has verificado tu correo electronico, porfavor revisa tu casilla de correo, si no has recibido el codigo puedes reenviar el mail.",
-                          status: "error",
-                          duration: 9000,
-                          isClosable: true,
-                          position: "bottom-left",
-                          id: "no-authenticated",
-                        });
+                {user._id !== Session?._id ? (
+                  <Button
+                    as={"button"}
+                    width={{ base: "150px", md: "200px", lg: "250px" }}
+                    height={{ base: "45px", md: "45px", lg: "45px" }}
+                    borderRadius={"10px"}
+                    bg={"medium_green"}
+                    color={"white"}
+                    fontSize={{ base: "1rem", md: "1.2rem", lg: "1.4rem" }}
+                    _hover={{
+                      transform: "translateY(-2px)",
+                      boxShadow: "lg",
+                    }}
+                    isLoading={loading}
+                    onClick={() => {
+                      if (!Session?.isAuthenticated) {
+                        if (!toast.isActive("no-authenticated")) {
+                          toast({
+                            title: "¡Aún no has verificado tu identidad!",
+                            description:
+                              "Hemos detectado que aún no has verificado tu correo electronico, porfavor revisa tu casilla de correo, si no has recibido el codigo puedes reenviar el mail.",
+                            status: "error",
+                            duration: 9000,
+                            isClosable: true,
+                            position: "bottom-left",
+                            id: "no-authenticated",
+                          });
+                        }
+                        return;
                       }
-                      return;
-                    }
-                    router.push({
-                      pathname: "/request/new",
-                      query: { id: `${user._id}` },
-                    });
-                    setLoading(true);
-                  }}
-                >
-                  Pedir Cotizacion
-                </Button>
+                      router.push({
+                        pathname: "/request/new",
+                        query: { id: `${user._id}` },
+                      });
+                      setLoading(true);
+                    }}
+                  >
+                    Pedir Cotizacion
+                  </Button>
+                ) : (
+                  <Button
+                    width={{ base: "150px", md: "200px", lg: "250px" }}
+                    height={{ base: "45px", md: "45px", lg: "45px" }}
+                    borderRadius={"10px"}
+                    bg={"medium_green"}
+                    color={"white"}
+                    fontSize={{ base: "1rem", md: "1.2rem", lg: "1.4rem" }}
+                    _hover={{
+                      transform: "translateY(-2px)",
+                      boxShadow: "lg",
+                    }}
+                    isLoading={loading}
+                    onClick={() => {
+                      if (!Session?.isAuthenticated) {
+                        if (!toast.isActive("no-authenticated")) {
+                          toast({
+                            title: "¡Aún no has verificado tu identidad!",
+                            description:
+                              "Hemos detectado que aún no has verificado tu correo electronico, porfavor revisa tu casilla de correo, si no has recibido el codigo puedes reenviar el mail.",
+                            status: "error",
+                            duration: 9000,
+                            isClosable: true,
+                            position: "bottom-left",
+                            id: "no-authenticated",
+                          });
+                        }
+                        return;
+                      }
+                      router.push({
+                        pathname: "/myAccount",
+                        query: { site: `offerServices` },
+                      });
+                      setLoading(true);
+                    }}
+                  >
+                    Editar Perfil
+                  </Button>
+                )}
                 <Button
                   variant={"outline"}
                   colorScheme={"red"}
@@ -269,22 +315,119 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
             </Flex>
           </Flex>
         </Flex>
-        <Flex flexDirection={"column"}>
-          <Heading
-            fontSize={{
-              base: "1rem",
-              md: "1.2rem",
-              lg: "1.5rem",
-            }}
-            color={"light_grey_sub"}
-          >
-            DESCRIPCION
-          </Heading>
-          <Text fontSize={{ base: "0.9rem", md: "1.2rem", lg: "1.4rem" }}>
-            {user.description}
-          </Text>
 
-          <Divider margin={"1em 0"}></Divider>
+        <Flex justifyContent={"space-between"}>
+          <Box
+            w={"62%"}
+            bg={"#fafafa"}
+            borderRadius={7}
+            p={"1rem"}
+            boxShadow={"2xl"}
+          >
+            <Heading
+              fontSize={{
+                base: ".8rem",
+                md: "1.2rem",
+              }}
+              color={"light_grey_sub"}
+              d={"flex"}
+              alignItems={"center"}
+            >
+              <QuestionIcon color={"light_blue"} mr={2} />
+              DESCRIPCION
+            </Heading>
+            <Divider mt={4} mb={4} />
+            <Text fontSize={{ base: "0.9rem", md: "1.2rem", lg: "1.4rem" }}>
+              {user.description}
+            </Text>
+          </Box>
+          <Box
+            w={"35%"}
+            bg={"#fafafa"}
+            borderRadius={7}
+            p={"1rem"}
+            boxShadow={"2xl"}
+          >
+            {workerData.items?.map((cat: any, index: number) => {
+              return (
+                <Flex flexDirection={"column"} key={cat.category.name}>
+                  <Heading
+                    fontSize={{
+                      base: ".8rem",
+                      md: "1.2rem",
+                    }}
+                    color={"light_grey_sub"}
+                    key={cat.category.name}
+                  >
+                    {cat.category.name}
+                  </Heading>
+                  <Box>
+                    {cat.subcategories?.map((sub: any, index: number) => (
+                      <Text
+                        key={index}
+                        fontSize={{
+                          base: ".6rem",
+                          md: "1rem",
+                        }}
+                      >
+                        {sub.name}
+                      </Text>
+                    ))}
+                  </Box>
+                  <Divider mt={2} mb={2} />
+                </Flex>
+              );
+            })}
+          </Box>
+        </Flex>
+
+        <Flex
+          mt={4}
+          bg={"#fafafa"}
+          borderRadius={7}
+          p={"1rem"}
+          boxShadow={"2xl"}
+          flexDirection={"column"}
+          position={"relative"}
+        >
+          <Box w={"100%"}>
+            <Heading
+              color={"light_grey_sub"}
+              d={"flex"}
+              alignItems={"center"}
+              fontSize={{
+                base: ".8rem",
+                md: "1.2rem",
+              }}
+            >
+              <QuestionIcon color={"light_blue"} mr={2} />
+              TRABAJOS REALIZADOS
+            </Heading>
+            <Divider mt={4} mb={4} />
+          </Box>
+
+          <Flex justifyContent={"space-around"}>
+            {workerData.images?.slice(0, 3).map((m: any, i: number) => (
+              <Box key={i} w={"30%"} d={"flex"} justifyContent={"center"}>
+                <ImageModal url={m} title={m}>
+                  <Box key={i} backgroundImage={m}></Box>
+                </ImageModal>
+              </Box>
+            ))}
+          </Flex>
+          <Box d={"flex"}>
+            <Text cursor={"pointer"} width={"50%"} textAlign={"center"}>
+              <ChevronLeftIcon w={6} h={6} />
+              Anterior
+            </Text>
+            <Text cursor={"pointer"} width={"50%"} textAlign={"center"}>
+              Siguiente
+              <ChevronRightIcon w={6} h={6} />
+            </Text>
+          </Box>
+        </Flex>
+
+        {/* <Flex flexDirection={"column"} border={"1px solid blue"}>
           <Flex
             w={"100%"}
             flexWrap={{
@@ -297,30 +440,9 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
             <Stack>
               <Flex flexDirection={"column"} justifyContent={"space-between"}>
                 <Box>
-                  <Heading
-                    fontSize={{
-                      base: "1rem",
-                      md: "1.2rem",
-                      lg: "1.5rem",
-                    }}
-                    color={"light_grey_sub"}
-                  >
-                    TRABAJOS REALIZADOS
-                  </Heading>
-                  <Flex
-                    flexWrap={"wrap"}
-                    justifyContent={"space-evenly"}
-                    gap={5}
-                    w={{ base: "md", lg: "xl" }}
-                  >
-                    {workerData.images
-                      ?.slice(numberPage, numberPage + 4)
-                      .map((m: any, i: number) => (
-                        <ImageModal url={m} title={m} key={i}>
-                          <Box key={i} backgroundImage={m}></Box>
-                        </ImageModal>
-                      ))}
-                  </Flex>
+                  
+                    
+                
                   <Flex
                     justifyContent={{ base: "center", md: "space-evenly" }}
                     flexDirection={{ base: "column", md: "row" }}
@@ -476,41 +598,8 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
             >
               <Comments {...{ user }} />
             </Flex>
-            <Box borderRadius={"10px"} margin={"2em"}>
-              <Flex justifyContent="center">
-                <Flex
-                  flexDirection={"column"}
-                  padding={{ base: "1em", lg: "2em" }}
-                  boxShadow={"lg"}
-                  overflowY={"auto"}
-                >
-                  {workerData.items?.map((cat: any, index: number) => {
-                    return (
-                      <Flex flexDirection={"column"} key={cat.category.name}>
-                        <Heading
-                          fontSize={{
-                            base: "1rem",
-                            md: "1.2rem",
-                            lg: "1.5rem",
-                          }}
-                          color={"light_grey_sub"}
-                          key={cat.category.name}
-                        >
-                          {cat.category.name}
-                        </Heading>
-                        <Box>
-                          {cat.subcategories?.map((sub: any, index: number) => (
-                            <Text key={index}>{sub.name}</Text>
-                          ))}
-                        </Box>
-                      </Flex>
-                    );
-                  })}
-                </Flex>
-              </Flex>
-            </Box>
           </Flex>
-        </Flex>
+        </Flex> */}
       </Container>
     </Layout>
   );

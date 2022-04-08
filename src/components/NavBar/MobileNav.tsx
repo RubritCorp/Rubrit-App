@@ -41,7 +41,7 @@ const MobileNav: React.FC<{ payerId: string }> = ({ payerId }) => {
   return (
     <Stack
       bg={useColorModeValue("white", "gray.800")}
-      p={4}
+      p={1}
       display={{ md: "none" }}
     >
       <Button
