@@ -1,47 +1,69 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const search = async (query: string) => {
   try {
-    const apiResponse = await axios.get(`/api/public/users/search?query=${query}`)
-    return { success: true, data: apiResponse.data}
+    const apiResponse = await axios.get(
+      `/api/public/users/search?query=${query}`
+    );
+    return { success: true, data: apiResponse.data };
   } catch (err) {
-    return { success: false, data: err}
+    return { success: false, data: err };
   }
 };
 
 export const filter = (results: any, filters: any) => {
   if (filters.orderBy == "DEF") {
-    results = [...results.sort((user1: any, _: any) => (user1.isPremium ? -1 : 1))]
+    results = [
+      ...results.sort((user1: any, _: any) => (user1.isPremium ? -1 : 1)),
+    ];
   }
   if (filters.orderBy == "PUN") {
-    results = [...results.sort((user1: any, user2: any) => (avgRating(user1) < avgRating(user2) ? 1 : -1))]
+    results = [
+      ...results.sort((user1: any, user2: any) =>
+        avgRating(user1) < avgRating(user2) ? 1 : -1
+      ),
+    ];
   }
   if (filters.location && Object.keys(filters.location).length > 0) {
-    results = [...results.filter((user: any) => isWithinRange(user, filters.location))]
+    results = [
+      ...results.filter((user: any) => isWithinRange(user, filters.location)),
+    ];
   }
   if (filters.rating && filters.rating.length > 0) {
-    results = [...results.filter((user: any) => (avgRating(user) >= filters.rating[0] && avgRating(user) <= filters.rating[1] ))]
+    results = [
+      ...results.filter(
+        (user: any) =>
+          avgRating(user) >= filters.rating[0] &&
+          avgRating(user) <= filters.rating[1]
+      ),
+    ];
   }
   return results;
 };
 
-function avgRating(user: any) {
+/* function avgRating(user: any) {
   let sum: number = 0;
   if (user.rating?.length > 0) {
-    user.rating.forEach((r: any) => r.score ? sum += +r.score : null)
-    return sum/user.rating.length;
+    user.rating.forEach((r: any) => (r.score ? (sum += +r.score) : null));
+    return sum / user.rating.length;
   }
   return 0;
+} */
+
+function avgRating(user: any) {
+  return user.rating.averageScore;
 }
 
 function isWithinRange(user: any, location: any) {
-  return distance({
-    lat1: location.lat,
-    lon1: location.lng,
-    lat2: user.address.lat ? user.address.lat : 0,
-    lon2: user.address.lng ? user.address.lng : 0,
-    unit: "K",
-  }) < location.range
+  return (
+    distance({
+      lat1: location.lat,
+      lon1: location.lng,
+      lat2: user.address.lat ? user.address.lat : 0,
+      lon2: user.address.lng ? user.address.lng : 0,
+      unit: "K",
+    }) < location.range
+  );
 }
 
 type Props = {

@@ -31,7 +31,7 @@ const cases: ICases = {
     const {
       data: { score, user, date, comment, userComment },
     } = req.body.data;
-    
+
     try {
       const ratingModel = {
         score,
@@ -39,13 +39,23 @@ const cases: ICases = {
         userComment,
         description: comment,
       };
-      const fetchUser = await User.findOneAndUpdate(
-        { _id: user },
-        { $push: { rating: ratingModel } }
-      );
+
+      const fetchUser = await User.findOne({ _id: user });
+
+      fetchUser.rating.comments = [ratingModel, ...fetchUser.rating.comments];
+      fetchUser.rating.averageScore =
+        (fetchUser.rating.averageScore + score) /
+        fetchUser.rating.comments.length;
+      /* 
+       const averageScore = fetchUser.rating.comments.forEach((e:any) => {
+         
+       }); */
+
+      fetchUser.save();
+
       res.status(200).json({ message: "Comments updated" });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       res.status(404).json({ message: "Error ocurred " });
     }
   },

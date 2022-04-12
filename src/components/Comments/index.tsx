@@ -133,7 +133,7 @@ export default function Comments({ user }: any) {
         mb={10}
         minChildWidth={{ base: "80%", lg: "420px" }}
       >
-        {user?.rating.map((el: any, index: number) => (
+        {user?.rating.comments.map((el: any, index: number) => (
           <TestimonialCard
             description={el.description}
             score={Math.floor(el.score)}
