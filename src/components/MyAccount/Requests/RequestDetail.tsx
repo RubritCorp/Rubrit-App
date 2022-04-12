@@ -92,7 +92,6 @@ const RequestDetail: React.FC<IProps> = ({
   }
 
   const requestState = (state: any) => {
-    console.log(state);
     for (let val in state) {
       if (state[val] && val === "active") {
         return <Text color={"medium_green"}>Activa</Text>;
@@ -296,16 +295,19 @@ const RequestDetail: React.FC<IProps> = ({
                               request.category === null
                             ? ({ isOpen, onClose }) => (
                                 <>
-                                  <PopoverTrigger>
-                                    <Button
-                                      //rightIcon={<DeleteIcon />}
-                                      bg={"light_blue"}
-                                      variant="outline"
-                                      size="xs"
-                                    >
-                                      Comentar
-                                    </Button>
-                                  </PopoverTrigger>
+                                  {format === "sent" && !request?.commented ? (
+                                    <PopoverTrigger>
+                                      <Button
+                                        //rightIcon={<DeleteIcon />}
+                                        bg={"light_blue"}
+                                        variant="outline"
+                                        size="xs"
+                                      >
+                                        Comentar
+                                      </Button>
+                                    </PopoverTrigger>
+                                  ) : null}
+
                                   <Portal>
                                     <PopoverContent>
                                       <Form
@@ -314,6 +316,7 @@ const RequestDetail: React.FC<IProps> = ({
                                         onCancel={onClose}
                                         onClose={onClose}
                                         format={format}
+                                        requestId={request._id}
                                         {...{ load, setReload }}
                                       />
                                     </PopoverContent>

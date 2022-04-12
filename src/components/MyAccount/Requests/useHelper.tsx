@@ -20,8 +20,8 @@ import {
   PopoverTrigger,
   Image,
   ButtonGroup,
-  Stack,
   Textarea,
+  Stack,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
@@ -33,6 +33,55 @@ import {
 import axios from "axios";
 import { useState, useRef } from "react";
 
+import { Star } from "phosphor-react";
+
+import styles from "./Starsrating.module.css";
+
+interface IStarsRating {
+  rating: number;
+  hover: number;
+  setRating: (i: number) => void;
+  setHover: (i: number) => void;
+}
+
+const StarRating: React.FC<IStarsRating> = ({
+  rating,
+  hover,
+  setRating,
+  setHover,
+}) => {
+  return (
+    <div className="star-rating">
+      {[...Array(5)].map((star, index) => {
+        index += 1;
+        return (
+          <button
+            type="button"
+            key={index}
+            className={
+              index <= (hover || rating) ? `${styles.on}` : `${styles.off}`
+            }
+            onClick={() => setRating(index)}
+            onMouseEnter={() => setHover(index)}
+            onMouseLeave={() => setHover(rating)}
+          >
+            <Star weight="fill" size={30} />
+          </button>
+        );
+      })}
+    </div>
+  );
+};
+
+interface IForm {
+  score: number;
+  comment: string;
+  userComment: string;
+  date: string;
+  user: string;
+  requestId: string;
+}
+
 export const Form: React.FC<any> = ({
   onCancel,
   userId,
@@ -41,41 +90,43 @@ export const Form: React.FC<any> = ({
   setReload,
   onClose,
   format,
+  requestId,
 }) => {
   const date = new Date();
+  const [rating, setRating] = useState<number>(0);
+  const [hover, setHover] = useState<number>(0);
   const formatedDate = date.toISOString().split("T")[0];
-  const [form, setForm] = useState<any>({
+  const areaRef = useRef<any>();
+  const toast = useToast();
+  const [form, setForm] = useState<IForm>({
     score: 0,
     comment: "",
     userComment: format === "received" ? profId : userId,
     date: formatedDate,
     user: format === "received" ? userId : profId,
+    requestId,
   });
-  const areaRef = useRef<any>();
-  const numRef = useRef<any>();
-  const toast = useToast();
 
   function handleInputOnChange(event: any) {
-    if (typeof event === "string") {
-      setForm({ ...form, score: Number(event) });
-    } else {
-      setForm({ ...form, comment: event.target.value });
-    }
+    setForm({ ...form, comment: event.target.value, requestId });
   }
 
   async function handleOnSubmit() {
     const finalData = {
       ...form,
+      score: rating,
     };
-    onClose();
-    setReload(!load);
-    areaRef.current.value = "";
 
+    areaRef.current.value = "";
+    onClose();
+    setHover(0);
+    setRating(0);
     await axios.put(`/api/user/commentReceived`, {
       data: {
         data: finalData,
       },
     });
+    setReload(!load);
     toast({
       title: "Comentario enviado",
       description: "Se envio tu comentario y puntuacion al usuario",
@@ -103,21 +154,16 @@ export const Form: React.FC<any> = ({
             Puntuacion
           </Text>
         </Flex>
-        <NumberInput
-          name={"numberInput"}
-          min={0}
-          max={5}
-          size="md"
-          step={0.25}
-          onChange={handleInputOnChange}
-          ref={numRef}
-        >
-          <NumberInputField />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
+        <Flex justifyContent={"center"}>
+          <StarRating
+            {...{
+              rating,
+              hover,
+              setRating,
+              setHover,
+            }}
+          />
+        </Flex>
         <ButtonGroup d="flex" justifyContent="flex-end">
           <Button variant="outline" onClick={onCancel}>
             Cancel
