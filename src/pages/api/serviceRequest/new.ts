@@ -53,6 +53,7 @@ const cases: ICases = {
             images,
             userId,
             professionalId,
+            commented : false,
           })
         : (data = {
             category,
@@ -64,8 +65,11 @@ const cases: ICases = {
             userId,
             professionalId,
           });
+
+          
       const serviceRequest = await ServiceRequest.create(data);
 
+      console.log("request publica", serviceRequest)
       await User.findByIdAndUpdate(userId, {
         $push: { "requests.sent": serviceRequest._id },
       });
@@ -185,7 +189,9 @@ const cases: ICases = {
       res
         .status(200)
         .json({ message: "Request updated", requests: requestUpdate });
-    } catch (err) {}
+    } catch (err) {
+      console.log(err)
+    }
   },
   DELETE: async (req, res) => {
     try {
