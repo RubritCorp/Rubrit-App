@@ -47,22 +47,25 @@ const ImageModal: React.FC<ImageModal> = ({ url, title }) => {
           _hover={{ cursor: "zoom-in" }}
         />
       </Flex>
-      <Modal isOpen={isOpen} onClose={onClose} size="xl">
+      <Modal isOpen={isOpen} onClose={onClose} size="xl" isCentered>
         <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            <ModalCloseButton />
+        <ModalContent m={2}>
+          <ModalHeader p={0}>
+            <ModalCloseButton
+              mt={2}
+              mr={2}
+              rounded={"full"}
+              bg={"warning_red"}
+              _hover={{
+                background: "warning_red",
+              }}
+            />
           </ModalHeader>
-          <ModalBody>
+          <ModalBody p={2}>
             <Flex justifyContent={"center"}>
-              <Image src={url} alt={`img-solicitud ${url}`}></Image>
+              <Image src={url} alt={`img-solicitud ${url}`} />
             </Flex>
           </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Cerrar
-            </Button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </>
@@ -71,10 +74,11 @@ const ImageModal: React.FC<ImageModal> = ({ url, title }) => {
 
 const Images = ({ images }: Props) => {
   const [page, setPage] = useState<number>(0);
+
   return (
     <Flex flexDirection={"column"}>
       <Flex justifyContent={"space-around"}>
-        {images?.slice(0, 3).map((m: any, i: number) => (
+        {images?.slice(page, page + 3).map((m: any, i: number) => (
           <Box key={i} w={"30%"} d={"flex"} justifyContent={"center"}>
             <ImageModal url={m} title={m}>
               <Box key={i} backgroundImage={m}></Box>
@@ -83,19 +87,42 @@ const Images = ({ images }: Props) => {
         ))}
       </Flex>
       <Box d={"flex"} mt={4}>
-        <Text
-          cursor={"pointer"}
-          width={"50%"}
-          textAlign={"center"}
-          onClick={() => setPage(page - 1)}
-        >
-          <ChevronLeftIcon w={6} h={6} />
-          Anterior
-        </Text>
-        <Text cursor={"pointer"} width={"50%"} textAlign={"center"}>
-          Siguiente
-          <ChevronRightIcon w={6} h={6} />
-        </Text>
+        {page !== 0 ? (
+          <Text
+            cursor={"pointer"}
+            onClick={() => {
+              page / 4 === Math.ceil(images.length / 3) - 1
+                ? ""
+                : setPage(page - 3);
+            }}
+            width={"50%"}
+            textAlign={"center"}
+          >
+            <ChevronLeftIcon w={6} h={6} />
+            Anterior
+          </Text>
+        ) : (
+          <Text width={"50%"}></Text>
+        )}
+
+        {page / 3 + 1 !== Math.ceil(images.length / 3) &&
+        images.length !== 0 ? (
+          <Text
+            cursor={"pointer"}
+            onClick={() => {
+              page / 4 === Math.ceil(images.length / 3) - 1
+                ? ""
+                : setPage(page + 3);
+            }}
+            width={"50%"}
+            textAlign={"center"}
+          >
+            Siguiente
+            <ChevronRightIcon w={6} h={6} />
+          </Text>
+        ) : (
+          <Text width={"50%"}></Text>
+        )}
       </Box>
     </Flex>
   );

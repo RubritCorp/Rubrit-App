@@ -5,12 +5,6 @@ import {
   Divider,
   Flex,
   Text,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
   useDisclosure,
   useColorModeValue,
   Heading,
@@ -18,14 +12,9 @@ import {
   useTheme,
   Image,
   useToast,
-  ModalHeader,
 } from "@chakra-ui/react";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  QuestionIcon,
-} from "@chakra-ui/icons";
-import { Star, Check, Checks, CheckCircle } from "phosphor-react";
+import { QuestionIcon } from "@chakra-ui/icons";
+import { Star, Check, Checks, User } from "phosphor-react";
 
 //interfaces
 import { IUser } from "../../Provider/UsersProvider";
@@ -38,7 +27,6 @@ import { useSession } from "next-auth/react";
 //components
 import Layout from "../layout";
 import Comments from "../Comments";
-import Loading from "../Loading";
 import Map from "../Maps/Map";
 import ReportProfile from "./ReportProfile";
 import Images from "./Images";
@@ -68,7 +56,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
 
   return (
     <Layout>
-      <Container maxW={"container.xl"} py={10}>
+      <Container maxW={"container.xl"} py={5}>
         <Flex
           flexDirection={"row"}
           justifyContent={"space-evenly"}
@@ -113,7 +101,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                 <Text>{user.address.name}</Text>
                 <Flex flexDirection={"column"}>
                   <Flex flexDirection={"row"}>
-                    {scoreTotal &&
+                    {scoreTotal !== 0 &&
                       Array(Math.floor(scoreTotal))
                         .fill(undefined)
                         .map((el: any, index: number) => (
@@ -124,13 +112,31 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                             color={theme.colors.medium_green}
                           />
                         ))}
-
+                    {scoreTotal < 5 &&
+                      Array(5 - Math.floor(scoreTotal))
+                        .fill(undefined)
+                        .map((el: any, index: number) => (
+                          <Star
+                            key={index}
+                            size={20}
+                            color={theme.colors.medium_green}
+                          />
+                        ))}
                     <Text
                       ml={"0.5rem"}
+                      mr={2}
                       fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
                       fontWeight="bold"
                     >
-                      {scoreTotal}
+                      {scoreTotal.toFixed(scoreTotal === 0 ? 0 : 1)}
+                    </Text>
+                    <User size={20} color={"gray"} />
+                    <Text
+                      ml={1}
+                      d={"flex"}
+                      fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
+                    >
+                      {user.rating.comments.length} en total
                     </Text>
                   </Flex>
                   <Flex flexDirection={"row"}>
@@ -167,11 +173,14 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                   )}
                 </Flex>
               </Flex>
-              <Flex flexDirection={"column"} alignItems={"center"}>
+              <Flex
+                flexDirection={{ base: "row", md: "column" }}
+                alignItems={"center"}
+                justifyContent={{ base: "space-between", md: "" }}
+              >
                 {user._id !== `${Session?._id}` ? (
                   <Button
-                    as={"button"}
-                    width={{ base: "150px", md: "200px", lg: "250px" }}
+                    width={{ base: "140px", md: "200px", lg: "250px" }}
                     height={{ base: "45px", md: "45px", lg: "45px" }}
                     borderRadius={"10px"}
                     bg={"medium_green"}
@@ -210,6 +219,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                 ) : (
                   <Button
                     width={{ base: "150px", md: "200px", lg: "250px" }}
+                    mr={{ base: 1, md: 0 }}
                     height={{ base: "45px", md: "45px", lg: "45px" }}
                     borderRadius={"10px"}
                     bg={"medium_green"}
@@ -247,12 +257,13 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                   </Button>
                 )}
                 <Button
+                  ml={{ base: 1, md: 0 }}
                   variant={"outline"}
                   colorScheme={"red"}
                   width={{ base: "150px", md: "200px", lg: "250px" }}
                   height={{ base: "45px", md: "45px", lg: "45px" }}
                   borderRadius={7}
-                  mt={4}
+                  mt={{ base: 0, md: 4 }}
                   onClick={onOpenReportProfile}
                   isDisabled={user._id === `${Session?._id}`}
                 >
@@ -261,30 +272,18 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                 <ReportProfile
                   {...{ isOpenReportProfile, onCloseReportProfile }}
                 />
-
-                {/* <Flex
-                  flexDirection={"row"}
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                  padding={"0.5rem"}
-                >
-                  <CheckCircle
-                    size={30}
-                    weight="fill"
-                    color={theme.colors.medium_green}
-                  />
-                  <Text fontSize={"0.6rem"}>
-                    TOP (dentro de los 20 mejores de la zona)
-                  </Text>
-                </Flex> */}
               </Flex>
             </Flex>
           </Flex>
         </Flex>
 
-        <Flex justifyContent={"space-between"}>
+        <Flex
+          justifyContent={"space-between"}
+          flexDirection={{ base: "column", md: "row" }}
+          mt={4}
+        >
           <Box
-            w={"62%"}
+            w={{ base: "100%", md: "62%" }}
             bg={useColorModeValue("#fafafa", "#1A202C")}
             borderRadius={7}
             p={"1rem"}
@@ -308,12 +307,26 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
             </Text>
           </Box>
           <Box
-            w={"35%"}
+            w={{ base: "100%", md: "35%" }}
+            mt={{ base: 4, md: 0 }}
             bg={useColorModeValue("#fafafa", "#1A202C")}
             borderRadius={7}
             p={"1rem"}
             boxShadow={"2xl"}
           >
+            <Heading
+              fontSize={{
+                base: ".8rem",
+                md: "1.2rem",
+              }}
+              color={"light_grey_sub"}
+              d={"flex"}
+              alignItems={"center"}
+            >
+              <QuestionIcon color={"light_blue"} mr={2} />
+              SERVICIOS
+            </Heading>
+            <Divider mt={4} mb={4} />
             {workerData.items?.map((cat: any, index: number) => {
               return (
                 <Flex flexDirection={"column"} key={cat.category.name}>
@@ -332,8 +345,9 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                       <Text
                         key={index}
                         fontSize={{
-                          base: ".6rem",
+                          base: "0.7rem",
                           md: "1rem",
+                          lg: "1.2rem",
                         }}
                       >
                         {sub.name}
@@ -356,198 +370,222 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
           flexDirection={"column"}
           position={"relative"}
         >
-          <Box w={"100%"}>
-            <Heading
-              color={"light_grey_sub"}
-              d={"flex"}
-              alignItems={"center"}
-              fontSize={{
-                base: ".8rem",
-                md: "1.2rem",
-              }}
-            >
-              <QuestionIcon color={"light_blue"} mr={2} />
-              TRABAJOS REALIZADOS
-            </Heading>
-            <Divider mt={4} mb={4} />
-          </Box>
+          {user.workerData.images.length ? (
+            <>
+              <Box w={"100%"}>
+                <Heading
+                  color={"light_grey_sub"}
+                  d={"flex"}
+                  alignItems={"center"}
+                  fontSize={{
+                    base: ".8rem",
+                    md: "1.2rem",
+                  }}
+                >
+                  <QuestionIcon color={"light_blue"} mr={2} />
+                  TRABAJOS REALIZADOS
+                </Heading>
+                <Divider mt={4} mb={4} />
+              </Box>
 
-          <Images images={workerData.images} />
+              <Images images={workerData.images} />
+            </>
+          ) : (
+            <>
+              <Box w={"100%"}>
+                <Heading
+                  color={"light_grey_sub"}
+                  d={"flex"}
+                  alignItems={"center"}
+                  fontSize={{
+                    base: ".8rem",
+                    md: "1.2rem",
+                  }}
+                  textAlign={{ base: "start", md: "center" }}
+                >
+                  <QuestionIcon color={"light_blue"} mr={2} />
+                  {user.name} aún no ha cargado trabajos realizados.
+                </Heading>
+              </Box>
+            </>
+          )}
         </Flex>
 
-        {/* <Flex flexDirection={"column"} border={"1px solid blue"}>
-          <Flex
-            w={"100%"}
-            flexWrap={{
-              base: "wrap",
-              md: "wrap",
-              lg: "nowrap",
-            }}
-            justifyContent={"space-between"}
-          >
-            <Stack>
-              <Flex flexDirection={"column"} justifyContent={"space-between"}>
-                <Box>
-                  
-                    
-                
-                  <Flex
-                    justifyContent={{ base: "center", md: "space-evenly" }}
-                    flexDirection={{ base: "column", md: "row" }}
-                    mt={3}
-                  >
-                    <Text
-                      color="gray"
-                      fontSize={{ base: "sm", md: "lg" }}
-                      textAlign={{ base: "start", md: "start" }}
-                    >
-                      Mostrando{" "}
-                      {
-                        workerData.images.slice(numberPage, numberPage + 4)
-                          .length
-                      }{" "}
-                      de {workerData.images.length}{" "}
-                      {workerData.images.length === 1
-                        ? "Elemento"
-                        : "Elementos"}
-                    </Text>
-                    <Flex w={{ base: "100%", md: "50%" }}>
-                      {numberPage !== 0 ? (
-                        <Text
-                          cursor={"pointer"}
-                          onClick={() => {
-                            numberPage === 0
-                              ? ""
-                              : setNumberPage(numberPage - 4);
-                          }}
-                          width={"50%"}
-                          textAlign={"center"}
-                        >
-                          <ChevronLeftIcon w={6} h={6} />
-                          Anterior
-                        </Text>
-                      ) : (
-                        <Text width={"50%"}></Text>
-                      )}
-                      {numberPage / 4 + 1 !==
-                        Math.ceil(workerData.images.length / 4) &&
-                      workerData.images.length !== 0 ? (
-                        <Text
-                          cursor={"pointer"}
-                          onClick={() => {
-                            numberPage / 4 ===
-                            Math.ceil(workerData.images.length / 4) - 1
-                              ? ""
-                              : setNumberPage(numberPage + 4);
-                          }}
-                          width={"50%"}
-                          textAlign={"right"}
-                        >
-                          Siguiente
-                          <ChevronRightIcon w={6} h={6} />
-                        </Text>
-                      ) : (
-                        <Text width={"50%"}></Text>
-                      )}
-                    </Flex>
-                  </Flex>
-                  <Divider margin={"1em 0"}></Divider>
-                </Box>
+        <Flex
+          mt={4}
+          bg={useColorModeValue("#fafafa", "#1A202C")}
+          borderRadius={7}
+          p={"1rem"}
+          boxShadow={"2xl"}
+          flexDirection={"column"}
+          position={"relative"}
+        >
+          {workerData.certification.length ? (
+            <>
+              <Box w={"100%"}>
                 <Heading
-                  fontSize={{
-                    base: "1rem",
-                    md: "1.2rem",
-                    lg: "1.5rem",
-                  }}
                   color={"light_grey_sub"}
+                  d={"flex"}
+                  alignItems={"center"}
+                  fontSize={{
+                    base: ".8rem",
+                    md: "1.2rem",
+                  }}
                 >
+                  <QuestionIcon color={"light_blue"} mr={2} />
                   DOCUMENTACION
                 </Heading>
-                <Flex
-                  flexWrap={"wrap"}
-                  justifyContent={"space-evenly"}
-                  w={{ base: "md", lg: "2xl" }}
-                >
-                  {workerData.certification.map((m: any, i: number) => {
-                    if (i < 2) {
-                      return (
-                        <Box
-                          key={i}
-                          position={"relative"}
-                          w={"48%"}
-                          h={{ base: "150px", lg: "180px" }}
-                          bgGradient="linear(to-r, #ddd, #e8e8e8)"
-                          mt={7}
-                          borderRadius={7}
-                          backgroundImage={m}
-                          backgroundPosition={"center"}
-                          backgroundSize={"cover"}
-                        ></Box>
-                      );
-                    }
-                  })}
-                </Flex>
-                <Divider margin={"1em 0"}></Divider>
-              </Flex>
-            </Stack>
-            <Flex justifyContent="center">
-              <Box>
-                <Heading
-                  fontSize={{
-                    base: "1rem",
-                    md: "1.2rem",
-                    lg: "1.5rem",
-                  }}
-                  color={"light_grey_sub"}
-                >
-                  UBICACION
-                </Heading>
-                <Box
-                  height={{ base: "sm", md: "md", lg: "lg" }}
-                  width={{ base: "md", md: "lg", lg: "xl" }}
-                  p={2}
-                >
-                  {user.address.lat && user.address.lng ? (
-                    <Map
-                      location={{
-                        lat: user.address.lat,
-                        lng: user.address.lng,
-                      }}
-                      coverage={user.address.searchRange}
-                    />
-                  ) : (
-                    <Map />
-                  )}
-                </Box>
+                <Divider mt={4} mb={4} />
               </Box>
-            </Flex>
-          </Flex>
-          <Flex
-            flexDirection={{ base: "column", lg: "row" }}
-            justifyContent={"space-evenly"}
-            marginTop={"10"}
-            marginBottom={"10"}
+              <Images images={workerData.certification} />
+            </>
+          ) : (
+            <Box w={"100%"}>
+              <Heading
+                color={"light_grey_sub"}
+                d={"flex"}
+                alignItems={"center"}
+                fontSize={{
+                  base: ".8rem",
+                  md: "1.2rem",
+                }}
+                textAlign={{ base: "start", md: "center" }}
+              >
+                <QuestionIcon color={"light_blue"} mr={2} />
+                {user.name} aún no ha cargado documentación.
+              </Heading>
+            </Box>
+          )}
+        </Flex>
+
+        <Flex
+          flexDirection={
+            user.rating.comments.length
+              ? { base: "column", lg: "row" }
+              : "column"
+          }
+          justifyContent={"space-between"}
+          position={"relative"}
+        >
+          <Box
+            mt={4}
+            bg={useColorModeValue("#fafafa", "#1A202C")}
+            borderRadius={7}
+            p={"1rem"}
+            boxShadow={"2xl"}
+            flexDirection={"column"}
+            w={
+              user.rating.comments.length ? { base: "100%", lg: "49%" } : "100%"
+            }
           >
-            <Flex
-              maxH={{ base: "100%", lg: "450px" }}
-              overflow={{ base: "hidden", lg: "auto" }}
-              css={{
-                "&::-webkit-scrollbar": {
-                  width: "3px",
-                },
-                "&::-webkit-scrollbar-track": {
-                  width: "15px",
-                },
-                "&::-webkit-scrollbar-thumb": {
-                  background: "#38a169",
-                  borderRadius: "24px",
-                },
-              }}
-            >
-              <Comments {...{ user }} />
-            </Flex>
-          </Flex>
-        </Flex> */}
+            <Box w={"100%"}>
+              <Heading
+                color={"light_grey_sub"}
+                d={"flex"}
+                alignItems={"center"}
+                fontSize={{
+                  base: ".8rem",
+                  md: "1.2rem",
+                }}
+              >
+                <QuestionIcon color={"light_blue"} mr={2} />
+                ÁREA DE SERVICIO
+              </Heading>
+              <Divider mt={4} mb={4} />
+            </Box>
+            <Box height={"505px"} width={"100%"} p={2}>
+              {user.address.lat && user.address.lng ? (
+                <Map
+                  location={{
+                    lat: user.address.lat,
+                    lng: user.address.lng,
+                  }}
+                  coverage={user.address.searchRange}
+                />
+              ) : (
+                <Map />
+              )}
+            </Box>
+          </Box>
+
+          <Box
+            mt={4}
+            bg={useColorModeValue("#fafafa", "#1A202C")}
+            borderRadius={7}
+            p={"1rem"}
+            boxShadow={"2xl"}
+            flexDirection={"column"}
+            w={
+              user.rating.comments.length ? { base: "100%", lg: "49%" } : "100%"
+            }
+          >
+            {user.rating.comments.length ? (
+              <>
+                <Box
+                  w={"100%"}
+                  d={"flex"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                >
+                  <Heading
+                    color={"light_grey_sub"}
+                    d={"flex"}
+                    alignItems={"center"}
+                    fontSize={{
+                      base: ".8rem",
+                      md: "1.2rem",
+                    }}
+                  >
+                    <QuestionIcon color={"light_blue"} mr={2} />
+                    OPINIONES
+                  </Heading>
+                  <Text
+                    fontSize={{
+                      base: ".6rem",
+                      md: ".8rem",
+                    }}
+                  >
+                    {user.rating.comments.length} opiniones en total.
+                  </Text>
+                </Box>
+                <Divider mt={4} mb={4} />
+                <Box
+                  height={"505px"}
+                  overflow="auto"
+                  css={{
+                    "&::-webkit-scrollbar": {
+                      width: "3px",
+                    },
+                    "&::-webkit-scrollbar-track": {
+                      width: "15px",
+                    },
+                    "&::-webkit-scrollbar-thumb": {
+                      background: "#38a169",
+                      borderRadius: "24px",
+                    },
+                  }}
+                >
+                  <Comments {...{ user }} />
+                </Box>
+              </>
+            ) : (
+              <Box w={"100%"}>
+                <Heading
+                  color={"light_grey_sub"}
+                  d={"flex"}
+                  alignItems={"center"}
+                  fontSize={{
+                    base: ".8rem",
+                    md: "1.2rem",
+                  }}
+                >
+                  <QuestionIcon color={"light_blue"} mr={2} />
+                  Aún no hay comentarios
+                </Heading>
+              </Box>
+            )}
+          </Box>
+        </Flex>
       </Container>
     </Layout>
   );
