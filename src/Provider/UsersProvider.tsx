@@ -20,10 +20,15 @@ type Subcategory = {
 };
 
 type IRating = {
-  userComment: { name: string; profilePic: string; email: string };
-  description: string;
-  score: number;
-  date: string;
+  averageScore: number;
+  comments: [
+    {
+      userComment: { name: string; profilePic: string; email: string };
+      description: string;
+      score: number;
+      date: string;
+    }
+  ];
 };
 
 type Items = {
@@ -58,7 +63,7 @@ export interface IUser {
   preferences: {
     hideAddres: boolean;
   };
-  rating: IRating[];
+  rating: IRating;
   workerData: {
     images: string[];
     certification: string[];
@@ -66,6 +71,7 @@ export interface IUser {
     items: Items[];
   };
   requests: {
+    completed: number;
     recibed: string[];
     send: string[];
   };

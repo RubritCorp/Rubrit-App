@@ -12,12 +12,13 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
-  Stack,
+  useColorModeValue,
   Heading,
   Button,
   useTheme,
   Image,
   useToast,
+  ModalHeader,
 } from "@chakra-ui/react";
 import {
   ChevronLeftIcon,
@@ -40,53 +41,7 @@ import Comments from "../Comments";
 import Loading from "../Loading";
 import Map from "../Maps/Map";
 import ReportProfile from "./ReportProfile";
-
-interface ImageModal {
-  url: string;
-  title: string;
-}
-
-const ImageModal: React.FC<ImageModal> = ({ url, title }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  return (
-    <>
-      <Flex>
-        <Flex justifyContent={"space-evenly"}>
-          <Image
-            src={url}
-            alt={`img-solicitud ${url}`}
-            boxSize={"200px"}
-            bgGradient="linear(to-r, #ddd, #e8e8e8)"
-            mt={2}
-            backgroundPosition={"center"}
-            backgroundSize={"cover"}
-            borderRadius={7}
-            onClick={onOpen}
-            objectFit="cover"
-            _hover={{ cursor: "zoom-in" }}
-          />
-        </Flex>
-        <Modal isOpen={isOpen} onClose={onClose} size="xl">
-          <ModalOverlay />
-          <ModalContent>
-            <ModalCloseButton />
-            <ModalBody>
-              <Flex justifyContent={"center"}>
-                <Image src={url} alt={`img-solicitud ${url}`}></Image>
-              </Flex>
-            </ModalBody>
-            <ModalFooter>
-              <Button colorScheme="blue" mr={3} onClick={onClose}>
-                Close
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </Flex>
-    </>
-  );
-};
+import Images from "./Images";
 
 interface IUserProps {
   user: string;
@@ -109,16 +64,8 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
   } = useDisclosure();
 
   //average rating
+  const scoreTotal: number = user.rating.averageScore;
 
-  const scoreTotal: number = Math.ceil(
-    user.rating?.reduce((total: any, el: any) => (total += el.score), 0) /
-      user.rating.length
-  );
-
-  //pagination states
-  const [numberPage, setNumberPage] = useState<number>(0);
-
-  if (!user) return <Loading />;
   return (
     <Layout>
       <Container maxW={"container.xl"} py={10}>
@@ -167,7 +114,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                 <Flex flexDirection={"column"}>
                   <Flex flexDirection={"row"}>
                     {scoreTotal &&
-                      Array(scoreTotal)
+                      Array(Math.floor(scoreTotal))
                         .fill(undefined)
                         .map((el: any, index: number) => (
                           <Star
@@ -177,34 +124,51 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                             color={theme.colors.medium_green}
                           />
                         ))}
+
                     <Text
                       ml={"0.5rem"}
                       fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
-                    ></Text>
+                      fontWeight="bold"
+                    >
+                      {scoreTotal}
+                    </Text>
                   </Flex>
                   <Flex flexDirection={"row"}>
                     <Check size={20} weight="fill" />
                     <Text
                       ml={"0.5rem"}
-                      fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
+                      fontSize={{
+                        base: "0.7rem",
+                        md: "0.8rem",
+                        lg: "1rem",
+                      }}
                     >
-                      {Math.floor(Math.random() * (99 - 2)) + 2} Trabajos
-                      realizados
+                      {user.requests.completed > 0 ? (
+                        <>
+                          <b>{user.requests.completed}</b>
+                          <span>&nbsp; Trabajos realizados</span>
+                        </>
+                      ) : (
+                        "Ningun trabajo Realizado"
+                      )}
                     </Text>
                   </Flex>
-                  <Flex flexDirection={"row"}>
-                    <Checks size={20} weight="fill" />
-                    <Text
-                      ml={"0.5rem"}
-                      fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
-                    >
-                      Más del {Math.floor(scoreTotal * 20)} % de satisfacción
-                    </Text>
-                  </Flex>
+                  {scoreTotal > 0 && (
+                    <Flex flexDirection={"row"}>
+                      <Checks size={20} weight="fill" />
+                      <Text
+                        ml={"0.5rem"}
+                        fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
+                      >
+                        Más del <b>{Math.floor(scoreTotal * 20)} %</b> de
+                        satisfacción
+                      </Text>
+                    </Flex>
+                  )}
                 </Flex>
               </Flex>
               <Flex flexDirection={"column"} alignItems={"center"}>
-                {user._id !== Session?._id ? (
+                {user._id !== `${Session?._id}` ? (
                   <Button
                     as={"button"}
                     width={{ base: "150px", md: "200px", lg: "250px" }}
@@ -290,13 +254,15 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                   borderRadius={7}
                   mt={4}
                   onClick={onOpenReportProfile}
+                  isDisabled={user._id === `${Session?._id}`}
                 >
                   Reportar Perfil
                 </Button>
                 <ReportProfile
                   {...{ isOpenReportProfile, onCloseReportProfile }}
                 />
-                <Flex
+
+                {/* <Flex
                   flexDirection={"row"}
                   justifyContent={"center"}
                   alignItems={"center"}
@@ -310,7 +276,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                   <Text fontSize={"0.6rem"}>
                     TOP (dentro de los 20 mejores de la zona)
                   </Text>
-                </Flex>
+                </Flex> */}
               </Flex>
             </Flex>
           </Flex>
@@ -319,7 +285,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
         <Flex justifyContent={"space-between"}>
           <Box
             w={"62%"}
-            bg={"#fafafa"}
+            bg={useColorModeValue("#fafafa", "#1A202C")}
             borderRadius={7}
             p={"1rem"}
             boxShadow={"2xl"}
@@ -343,7 +309,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
           </Box>
           <Box
             w={"35%"}
-            bg={"#fafafa"}
+            bg={useColorModeValue("#fafafa", "#1A202C")}
             borderRadius={7}
             p={"1rem"}
             boxShadow={"2xl"}
@@ -383,7 +349,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
 
         <Flex
           mt={4}
-          bg={"#fafafa"}
+          bg={useColorModeValue("#fafafa", "#1A202C")}
           borderRadius={7}
           p={"1rem"}
           boxShadow={"2xl"}
@@ -406,25 +372,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
             <Divider mt={4} mb={4} />
           </Box>
 
-          <Flex justifyContent={"space-around"}>
-            {workerData.images?.slice(0, 3).map((m: any, i: number) => (
-              <Box key={i} w={"30%"} d={"flex"} justifyContent={"center"}>
-                <ImageModal url={m} title={m}>
-                  <Box key={i} backgroundImage={m}></Box>
-                </ImageModal>
-              </Box>
-            ))}
-          </Flex>
-          <Box d={"flex"}>
-            <Text cursor={"pointer"} width={"50%"} textAlign={"center"}>
-              <ChevronLeftIcon w={6} h={6} />
-              Anterior
-            </Text>
-            <Text cursor={"pointer"} width={"50%"} textAlign={"center"}>
-              Siguiente
-              <ChevronRightIcon w={6} h={6} />
-            </Text>
-          </Box>
+          <Images images={workerData.images} />
         </Flex>
 
         {/* <Flex flexDirection={"column"} border={"1px solid blue"}>

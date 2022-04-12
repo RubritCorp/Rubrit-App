@@ -30,7 +30,7 @@ const cases: ICases = {
 
     try {
       const user = await User.find({ _id: id })
-        .select("name items profilePic address.name")
+        .select("name items profilePic address.name rating")
         .populate({ path: "workerData.items.category", model: "Category" });
 
       res.status(200).json({ message: "Data was fetched", user });

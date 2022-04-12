@@ -119,23 +119,32 @@ const userSchema = new Schema(
         default: false,
       },
     },
-    rating: [
-      {
-        userComment: {
-          type: Types.ObjectId,
-          ref: "User",
-        },
-        description: {
-          type: String,
-        },
-        score: {
-          type: Number,
-        },
-        date: {
-          type: String,
-        },
+    rating: {
+      averageScore: {
+        type: Number,
+        default: 0,
+        min: 0,
+        max: 5,
       },
-    ],
+      comments: [
+        {
+          userComment: {
+            type: Types.ObjectId,
+            ref: "User",
+          },
+          description: {
+            type: String,
+          },
+          score: {
+            type: Number,
+          },
+          date: {
+            type: String,
+          },
+        },
+      ],
+    },
+
     workerData: {
       shortDescription: {
         type: String,
@@ -168,8 +177,12 @@ const userSchema = new Schema(
         },
       ],
     },
-
     requests: {
+      completed: {
+        type: Number,
+        default: 0,
+        min: 0,
+      },
       received: [{ type: Types.ObjectId, ref: "ServiceRequest" }],
       sent: [{ type: Types.ObjectId, ref: "ServiceRequest" }],
     },
