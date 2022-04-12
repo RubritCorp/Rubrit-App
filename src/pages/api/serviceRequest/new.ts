@@ -69,7 +69,7 @@ const cases: ICases = {
           
       const serviceRequest = await ServiceRequest.create(data);
 
-      console.log("request publica", serviceRequest)
+      
       await User.findByIdAndUpdate(userId, {
         $push: { "requests.sent": serviceRequest._id },
       });
