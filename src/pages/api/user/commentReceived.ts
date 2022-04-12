@@ -52,14 +52,19 @@ const cases: ICases = {
       const fetchUser = await User.findOne({ _id: user });
 
       fetchUser.rating.comments = [ratingModel, ...fetchUser.rating.comments];
-      fetchUser.rating.averageScore =
-        (fetchUser.rating.averageScore + score) /
-        fetchUser.rating.comments.length;
-      /* 
-       const averageScore = fetchUser.rating.comments.forEach((e:any) => {
-         
-       }); */
-       
+
+      const averageScore = fetchUser.rating.comments?.reduce(function (
+        acc: any,
+        cur: any
+      ) {
+        if (acc?.score) {
+          return acc.score + cur.score;
+        }
+        return acc + cur.score;
+      });
+
+      fetchUser.rating.averageScore = (averageScore + score) / fetchUser.rating.comments.length;
+
       fetchUser.save();
 
       res.status(200).json({ message: "Comments updated" });

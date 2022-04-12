@@ -1,7 +1,7 @@
 import {
   Avatar,
   Box,
-  chakra,
+  Text,
   Flex,
   SimpleGrid,
   useColorModeValue,
@@ -25,14 +25,13 @@ function TestimonialCard(props: ITestimonialCard) {
   const { description, score, date, userComment } = props;
   const theme = useTheme();
 
-  if (!userComment?.name && !userComment?.profilePic) return null;
   return (
     <Flex
+      bg={useColorModeValue("#EDF2F7", "#2B3444")}
       boxShadow={"xl"}
-      maxW="100%"
+      w="100%"
       maxH="12rem"
       direction={"row"}
-      width={"100%"}
       rounded={"xl"}
       p={"0.7em"}
       justifyContent={"space-between"}
@@ -53,6 +52,7 @@ function TestimonialCard(props: ITestimonialCard) {
         textAlign={"left"}
         justifyContent={"space-between"}
         p={"1em"}
+        w={"100%"}
       >
         <Flex
           paddingRight={"1em"}
@@ -84,13 +84,12 @@ function TestimonialCard(props: ITestimonialCard) {
           </Flex>
         </Flex>
 
-        <Flex flexDirection="column">
+        <Flex flexDirection="column" w={"100%"}>
           <Box minH={"6.45rem"}>
-            <chakra.p fontFamily={"Poppins"} fontWeight={"bold"}>
-              {userComment.name}
-            </chakra.p>
-            <chakra.p
-              fontFamily={"Poppins"}
+            <Text fontWeight={"bold"} fontSize={{ base: "xs", md: "lg" }}>
+              {userComment?.name}
+            </Text>
+            <Text
               fontSize={{
                 base: "0.7rem",
                 sm: "0.8rem",
@@ -98,19 +97,19 @@ function TestimonialCard(props: ITestimonialCard) {
                 lg: "1rem",
               }}
               pb={4}
-              h={{ base: "60px", lg: "70px" }}
+              h={{ base: "100px", lg: "70px" }}
             >
               {description}
-            </chakra.p>
+            </Text>
           </Box>
-          <chakra.p
+          <Text
             fontFamily={"Roboto"}
             fontWeight={600}
             pb={4}
             color={theme.colors.medium_green}
           >
             {date}
-          </chakra.p>
+          </Text>
         </Flex>
       </Flex>
     </Flex>
@@ -119,20 +118,8 @@ function TestimonialCard(props: ITestimonialCard) {
 
 export default function Comments({ user }: any) {
   return (
-    <Flex
-      textAlign={"center"}
-      justifyContent={"center"}
-      maxW={"700px"}
-      flexWrap={"wrap"}
-      m={"15px"}
-    >
-      <SimpleGrid
-        columns={[1, null, 1]}
-        spacing={"6"}
-        mt={5}
-        mb={10}
-        minChildWidth={{ base: "80%", lg: "420px" }}
-      >
+    <Flex textAlign={"center"} justifyContent={"center"}>
+      <SimpleGrid columns={[1, null, 1]} spacing={"6"} mt={5} mb={10} w={"95%"}>
         {user?.rating.comments.map((el: any, index: number) => (
           <TestimonialCard
             description={el.description}
