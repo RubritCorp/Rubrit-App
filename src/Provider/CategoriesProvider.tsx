@@ -8,8 +8,6 @@ import {
   useState,
   useEffect,
 } from "react";
-import { boolean } from "yup";
-
 
 export interface ICategories {
   picture_small: string;

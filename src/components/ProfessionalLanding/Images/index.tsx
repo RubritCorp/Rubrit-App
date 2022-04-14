@@ -14,9 +14,14 @@ import {
   Button,
   useDisclosure,
 } from "@chakra-ui/react";
-import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import {
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronUpIcon,
+} from "@chakra-ui/icons";
 //from modules
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
   images: string[];
@@ -32,13 +37,12 @@ const ImageModal: React.FC<ImageModal> = ({ url, title }) => {
 
   return (
     <>
-      <Flex justifyContent={"space-evenly"}>
+      <Flex justifyContent={"space-evenly"} alignItems={"center"}>
         <Image
           src={url}
           alt={`img-solicitud ${url}`}
           boxSize={"200px"}
           bgGradient="linear(to-r, #ddd, #e8e8e8)"
-          mt={2}
           backgroundPosition={"center"}
           backgroundSize={"cover"}
           borderRadius={7}
@@ -73,10 +77,92 @@ const ImageModal: React.FC<ImageModal> = ({ url, title }) => {
 };
 
 const Images = ({ images }: Props) => {
-  const [page, setPage] = useState<number>(0);
+  const [seeMore, setSeeMore] = useState<boolean>(false);
+
+  const [imagesAmount, setImagesAmount] = useState<{
+    amount: number;
+    size: string;
+  }>({
+    amount: 2,
+    size: "50%",
+  });
+
+  function imagesOnBoard(): void {
+    if (window.innerWidth < 720)
+      setImagesAmount({
+        amount: 2,
+        size: "50%",
+      });
+    else if (window.innerWidth < 900)
+      setImagesAmount({
+        amount: 3,
+        size: "33%",
+      });
+    else if (window.innerWidth < 1120)
+      setImagesAmount({
+        amount: 4,
+        size: "25%",
+      });
+    else
+      setImagesAmount({
+        amount: 5,
+        size: "20%",
+      });
+  }
+
+  useEffect(() => {
+    if (window) {
+      imagesOnBoard();
+      window.addEventListener("resize", imagesOnBoard);
+      return () => window.removeEventListener("resize", imagesOnBoard);
+    }
+  }, []);
 
   return (
     <Flex flexDirection={"column"}>
+      <Flex
+        maxH={seeMore ? "740px" : "240px"}
+        overflow={seeMore ? "auto" : "hidden"}
+        flexWrap={"wrap"}
+        transition={".7s"}
+        css={{
+          "&::-webkit-scrollbar": {
+            width: "3px",
+          },
+          "&::-webkit-scrollbar-track": {
+            width: "15px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            background: "#38a169",
+            borderRadius: "24px",
+          },
+        }}
+      >
+        {images?.map((m: any, i: number) => (
+          <Box
+            key={i}
+            w={imagesAmount?.size}
+            h={"250px"}
+            d={"flex"}
+            justifyContent={"center"}
+          >
+            <ImageModal url={m} title={m}>
+              <Box key={i} backgroundImage={m}></Box>
+            </ImageModal>
+          </Box>
+        ))}
+      </Flex>
+      {images?.length > imagesAmount?.amount && (
+        <Button
+          onClick={() => setSeeMore(!seeMore)}
+          mt={2}
+          variant={"ghost"}
+          rightIcon={!seeMore ? <ChevronDownIcon /> : <ChevronUpIcon />}
+        >
+          {seeMore ? "Mostrar Menos" : "Mostrar Más"}
+        </Button>
+      )}
+      {/* <Flex flexDirection={"column"}>
       <Flex justifyContent={"space-around"}>
         {images?.slice(page, page + 3).map((m: any, i: number) => (
           <Box key={i} w={"30%"} d={"flex"} justifyContent={"center"}>
@@ -85,8 +171,9 @@ const Images = ({ images }: Props) => {
             </ImageModal>
           </Box>
         ))}
-      </Flex>
-      <Box d={"flex"} mt={4}>
+      </Flex> */}
+
+      {/* <Box d={"flex"} mt={4}>
         {page !== 0 ? (
           <Text
             cursor={"pointer"}
@@ -123,7 +210,7 @@ const Images = ({ images }: Props) => {
         ) : (
           <Text width={"50%"}></Text>
         )}
-      </Box>
+      </Box> */}
     </Flex>
   );
 };

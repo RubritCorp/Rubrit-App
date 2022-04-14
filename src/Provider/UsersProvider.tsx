@@ -69,6 +69,7 @@ export interface IUser {
     certification: string[];
     rangeCoverage: number;
     items: Items[];
+    workerDescription: string;
   };
   requests: {
     completed: number;

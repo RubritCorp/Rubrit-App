@@ -13,7 +13,7 @@ import {
   Image,
   useToast,
 } from "@chakra-ui/react";
-import { QuestionIcon } from "@chakra-ui/icons";
+import { InfoIcon } from "@chakra-ui/icons";
 import { Star, Check, Checks, User } from "phosphor-react";
 
 //interfaces
@@ -89,13 +89,15 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                 </Heading>
                 <Flex>
                   {workerData.items?.map((cat: any, i: number) => {
-                    return (
-                      <Flex flexDirection={"column"} key={i}>
-                        <Text color={"medium_green"}>
-                          {`${cat.category.name}`}&nbsp;
-                        </Text>
-                      </Flex>
-                    );
+                    if (i <= 2) {
+                      return (
+                        <Flex flexDirection={"column"} key={i}>
+                          <Text color={"medium_green"}>
+                            {`${cat.category.name}`}&nbsp;&nbsp;&nbsp;
+                          </Text>
+                        </Flex>
+                      );
+                    }
                   })}
                 </Flex>
                 <Text>{user.address.name}</Text>
@@ -288,31 +290,56 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
             borderRadius={7}
             p={"1rem"}
             boxShadow={"2xl"}
+            d={"flex"}
+            flexDirection={"column"}
+            justifyContent={"space-between"}
           >
-            <Heading
-              fontSize={{
-                base: ".8rem",
-                md: "1.2rem",
-              }}
-              color={"light_grey_sub"}
-              d={"flex"}
-              alignItems={"center"}
-            >
-              <QuestionIcon color={"light_blue"} mr={2} />
-              DESCRIPCION
-            </Heading>
-            <Divider mt={4} mb={4} />
-            <Text fontSize={{ base: "0.9rem", md: "1.2rem", lg: "1.4rem" }}>
-              {user.description}
-            </Text>
+            <Box mb={5}>
+              <Heading
+                fontSize={{
+                  base: ".8rem",
+                  md: "1.2rem",
+                }}
+                color={"light_grey_sub"}
+                d={"flex"}
+                alignItems={"center"}
+              >
+                <InfoIcon color={"light_blue"} mr={2} />
+                DESCRIPCION LABORAL
+              </Heading>
+              <Divider mt={4} mb={4} />
+              <Text fontSize={{ base: "0.9rem", md: "1.2rem", lg: "1.4rem" }}>
+                {user.workerData.workerDescription}
+              </Text>
+            </Box>
+
+            <Box mt={5}>
+              <Heading
+                fontSize={{
+                  base: ".8rem",
+                  md: "1.2rem",
+                }}
+                color={"light_grey_sub"}
+                d={"flex"}
+                alignItems={"center"}
+              >
+                <InfoIcon color={"light_blue"} mr={2} />
+                DESCRIPCION PERSONAL
+              </Heading>
+              <Divider mt={4} mb={4} />
+              <Text fontSize={{ base: "0.9rem", md: "1.2rem", lg: "1.4rem" }}>
+                {user.description}
+              </Text>
+            </Box>
           </Box>
           <Box
             w={{ base: "100%", md: "35%" }}
+            maxH={"700px"}
             mt={{ base: 4, md: 0 }}
             bg={useColorModeValue("#fafafa", "#1A202C")}
             borderRadius={7}
-            p={"1rem"}
             boxShadow={"2xl"}
+            position={"relative"}
           >
             <Heading
               fontSize={{
@@ -320,44 +347,70 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                 md: "1.2rem",
               }}
               color={"light_grey_sub"}
+              bg={useColorModeValue("#fafafa", "#1A202C")}
+              h={"4rem"}
+              borderRadius={7}
+              position={"sticky"}
+              zIndex={10}
+              top={0}
               d={"flex"}
-              alignItems={"center"}
+              flexDirection={"column"}
             >
-              <QuestionIcon color={"light_blue"} mr={2} />
-              SERVICIOS
+              <Box p={"1rem"}>
+                <InfoIcon color={"light_blue"} mr={2} />
+                SERVICIOS
+              </Box>
+              <Divider mb={4} />
             </Heading>
-            <Divider mt={4} mb={4} />
-            {workerData.items?.map((cat: any, index: number) => {
-              return (
-                <Flex flexDirection={"column"} key={cat.category.name}>
-                  <Heading
-                    fontSize={{
-                      base: ".8rem",
-                      md: "1.2rem",
-                    }}
-                    color={"light_grey_sub"}
-                    key={cat.category.name}
-                  >
-                    {cat.category.name}
-                  </Heading>
-                  <Box>
-                    {cat.subcategories?.map((sub: any, index: number) => (
-                      <Text
-                        key={index}
-                        fontSize={{
-                          base: "0.7rem",
-                          md: "1rem",
-                          lg: "1.2rem",
-                        }}
-                      >
-                        {sub.name}
-                      </Text>
-                    ))}
-                  </Box>
-                  <Divider mt={2} mb={2} />
-                </Flex>
-              );
-            })}
+            <Box
+              p={"0 1rem 1rem 1rem"}
+              maxH={"620px"}
+              overflow={"auto"}
+              css={{
+                "&::-webkit-scrollbar": {
+                  width: "3px",
+                },
+                "&::-webkit-scrollbar-track": {
+                  width: "15px",
+                },
+                "&::-webkit-scrollbar-thumb": {
+                  background: "#38a169",
+                  borderRadius: "24px",
+                },
+              }}
+            >
+              {workerData.items?.map((cat: any, index: number) => {
+                return (
+                  <Flex flexDirection={"column"} key={cat.category.name}>
+                    <Heading
+                      fontSize={{
+                        base: ".9rem",
+                        md: "1.2rem",
+                      }}
+                      color={"light_grey_sub"}
+                      key={cat.category.name}
+                    >
+                      {cat.category.name}
+                    </Heading>
+                    <Box>
+                      {cat.subcategories?.map((sub: any, index: number) => (
+                        <Text
+                          key={index}
+                          fontSize={{
+                            base: "0.9rem",
+                            md: "1rem",
+                            lg: "1.2rem",
+                          }}
+                        >
+                          {sub.name}
+                        </Text>
+                      ))}
+                    </Box>
+                    <Divider mt={2} mb={2} />
+                  </Flex>
+                );
+              })}
+            </Box>
           </Box>
         </Flex>
 
@@ -382,7 +435,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                     md: "1.2rem",
                   }}
                 >
-                  <QuestionIcon color={"light_blue"} mr={2} />
+                  <InfoIcon color={"light_blue"} mr={2} />
                   TRABAJOS REALIZADOS
                 </Heading>
                 <Divider mt={4} mb={4} />
@@ -403,7 +456,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                   }}
                   textAlign={{ base: "start", md: "center" }}
                 >
-                  <QuestionIcon color={"light_blue"} mr={2} />
+                  <InfoIcon color={"light_blue"} mr={2} />
                   {user.name} aún no ha cargado trabajos realizados.
                 </Heading>
               </Box>
@@ -432,7 +485,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                     md: "1.2rem",
                   }}
                 >
-                  <QuestionIcon color={"light_blue"} mr={2} />
+                  <InfoIcon color={"light_blue"} mr={2} />
                   DOCUMENTACION
                 </Heading>
                 <Divider mt={4} mb={4} />
@@ -451,7 +504,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                 }}
                 textAlign={{ base: "start", md: "center" }}
               >
-                <QuestionIcon color={"light_blue"} mr={2} />
+                <InfoIcon color={"light_blue"} mr={2} />
                 {user.name} aún no ha cargado documentación.
               </Heading>
             </Box>
@@ -488,7 +541,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                   md: "1.2rem",
                 }}
               >
-                <QuestionIcon color={"light_blue"} mr={2} />
+                <InfoIcon color={"light_blue"} mr={2} />
                 ÁREA DE SERVICIO
               </Heading>
               <Divider mt={4} mb={4} />
@@ -536,7 +589,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                       md: "1.2rem",
                     }}
                   >
-                    <QuestionIcon color={"light_blue"} mr={2} />
+                    <InfoIcon color={"light_blue"} mr={2} />
                     OPINIONES
                   </Heading>
                   <Text
@@ -579,7 +632,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                     md: "1.2rem",
                   }}
                 >
-                  <QuestionIcon color={"light_blue"} mr={2} />
+                  <InfoIcon color={"light_blue"} mr={2} />
                   Aún no hay comentarios
                 </Heading>
               </Box>
