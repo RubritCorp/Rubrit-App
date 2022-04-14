@@ -377,7 +377,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                 <Flex flexDirection={"column"} key={cat.category.name}>
                   <Heading
                     fontSize={{
-                      base: ".8rem",
+                      base: ".9rem",
                       md: "1.2rem",
                     }}
                     color={"light_grey_sub"}
@@ -390,7 +390,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                       <Text
                         key={index}
                         fontSize={{
-                          base: "0.7rem",
+                          base: "0.9rem",
                           md: "1rem",
                           lg: "1.2rem",
                         }}
