@@ -146,8 +146,9 @@ const userSchema = new Schema(
     },
 
     workerData: {
-      shortDescription: {
+      workerDescription: {
         type: String,
+        max: 250,
       },
       images: [
         {

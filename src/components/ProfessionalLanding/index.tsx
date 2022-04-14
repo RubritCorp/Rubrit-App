@@ -89,13 +89,20 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                 </Heading>
                 <Flex>
                   {workerData.items?.map((cat: any, i: number) => {
-                    return (
-                      <Flex flexDirection={"column"} key={i}>
-                        <Text color={"medium_green"}>
-                          {`${cat.category.name}`}&nbsp;
-                        </Text>
-                      </Flex>
-                    );
+                    if (i <= 2) {
+                      return (
+                        <Flex flexDirection={"column"} key={i}>
+                          <Text color={"medium_green"}>
+                            {`${cat.category.name}`}
+                            {(workerData.items?.length > 1 &&
+                              i === workerData.items?.length - 1) ||
+                            i === 2
+                              ? ""
+                              : "-"}
+                          </Text>
+                        </Flex>
+                      );
+                    }
                   })}
                 </Flex>
                 <Text>{user.address.name}</Text>
@@ -288,31 +295,69 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
             borderRadius={7}
             p={"1rem"}
             boxShadow={"2xl"}
+            d={"flex"}
+            flexDirection={"column"}
+            justifyContent={"space-between"}
           >
-            <Heading
-              fontSize={{
-                base: ".8rem",
-                md: "1.2rem",
-              }}
-              color={"light_grey_sub"}
-              d={"flex"}
-              alignItems={"center"}
-            >
-              <QuestionIcon color={"light_blue"} mr={2} />
-              DESCRIPCION
-            </Heading>
-            <Divider mt={4} mb={4} />
-            <Text fontSize={{ base: "0.9rem", md: "1.2rem", lg: "1.4rem" }}>
-              {user.description}
-            </Text>
+            <Box mb={5}>
+              <Heading
+                fontSize={{
+                  base: ".8rem",
+                  md: "1.2rem",
+                }}
+                color={"light_grey_sub"}
+                d={"flex"}
+                alignItems={"center"}
+              >
+                <QuestionIcon color={"light_blue"} mr={2} />
+                DESCRIPCION LABORAL
+              </Heading>
+              <Divider mt={4} mb={4} />
+              <Text fontSize={{ base: "0.9rem", md: "1.2rem", lg: "1.4rem" }}>
+                {user.workerData.workerDescription}
+              </Text>
+            </Box>
+
+            <Box mt={5}>
+              <Heading
+                fontSize={{
+                  base: ".8rem",
+                  md: "1.2rem",
+                }}
+                color={"light_grey_sub"}
+                d={"flex"}
+                alignItems={"center"}
+              >
+                <QuestionIcon color={"light_blue"} mr={2} />
+                DESCRIPCION PERSONAL
+              </Heading>
+              <Divider mt={4} mb={4} />
+              <Text fontSize={{ base: "0.9rem", md: "1.2rem", lg: "1.4rem" }}>
+                {user.description}
+              </Text>
+            </Box>
           </Box>
           <Box
             w={{ base: "100%", md: "35%" }}
+            maxH={"700px"}
             mt={{ base: 4, md: 0 }}
             bg={useColorModeValue("#fafafa", "#1A202C")}
             borderRadius={7}
             p={"1rem"}
             boxShadow={"2xl"}
+            overflow={"auto"}
+            css={{
+              "&::-webkit-scrollbar": {
+                width: "3px",
+              },
+              "&::-webkit-scrollbar-track": {
+                width: "15px",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                background: "#38a169",
+                borderRadius: "24px",
+              },
+            }}
           >
             <Heading
               fontSize={{
