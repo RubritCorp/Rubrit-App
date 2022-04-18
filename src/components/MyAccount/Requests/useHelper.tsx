@@ -381,5 +381,3 @@ export const ModalActivar: React.FC<any> = ({
     </Popover>
   );
 };
-
-export const useHelper = () => {};

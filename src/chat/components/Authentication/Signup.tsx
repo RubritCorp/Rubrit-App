@@ -26,8 +26,6 @@ const Signup = () => {
   // const [pic, setPic] = useState();
   const [loading, setLoading] = useState(false);
 
-  // const postDetails = (pics: any) => {};
-
   const submitHandler = async () => {
     setLoading(true);
     if (!name || !email || !password || !confirmpassword) {

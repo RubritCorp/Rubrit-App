@@ -4,7 +4,6 @@ import styles from "./Map.module.css";
 import envConfig from "../../../next-env-config";
 import { useSession } from "next-auth/react";
 
-type Props = {};
 interface ILocation {
   lat: number;
   lng: number;
