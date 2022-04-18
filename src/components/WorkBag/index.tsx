@@ -13,30 +13,12 @@ import {
   Button,
   SimpleGrid,
   useDisclosure,
-  Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  DrawerHeader,
-  DrawerBody,
-  Input,
-  DrawerFooter,
-  InputGroup,
-  InputLeftElement,
-  Textarea,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Link,
   useToast,
 } from "@chakra-ui/react";
 //from modules
 import React, { ReactNode, useEffect, useState } from "react";
 //icons
-import { CurrencyDollarSimple, Envelope, Phone } from "phosphor-react";
+
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import envConfig from "../../../next-env-config";
