@@ -199,7 +199,7 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                       onClick={() => setLoading(true)}
                       isLoading={loading}
                     >
-                      {status === "authenticated" && `${Session._id}` === _id
+                      {status === "authenticated" && `${Session?._id}` === _id
                         ? "Mi Perfil Profesional"
                         : "Contactar"}
                     </Button>
