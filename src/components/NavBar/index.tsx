@@ -31,7 +31,7 @@ import {
 import { useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { Session } from "next-auth/core/types";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import Link from "next/link";
 //components
 import DesktopNav from "./DesktopNav";
@@ -171,12 +171,14 @@ const WithSubnavigation: React.FC = () => {
           )}
           <Link href="/" passHref={true}>
             <a>
-              <Image
-                src={rubritlogo}
-                alt="user-image"
-                width={"120px"}
-                height={"35px"}
-              />
+              <Box marginTop={"5px"}>
+                <Image
+                  src={rubritlogo}
+                  alt="user-image"
+                  width={"120px"}
+                  height={"35px"}
+                />
+              </Box>
             </a>
           </Link>
           <Flex display={{ base: "none", md: "flex" }} ml={10}>

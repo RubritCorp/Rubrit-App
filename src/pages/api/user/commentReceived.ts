@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 //models
 import User from "models/User";
+import ServiceRequest from "../../../models/ServiceRequest"
 //interface
 import { IUser } from "models/User/IUser";
 //db
@@ -29,7 +30,7 @@ interface DataAccesDenied {
 const cases: ICases = {
   PUT: async (req, res) => {
     const {
-      data: { score, user, date, comment, userComment },
+      data: { score, user, date, comment, userComment, requestId },
     } = req.body.data;
 
     try {
@@ -40,6 +41,14 @@ const cases: ICases = {
         description: comment,
       };
 
+          
+
+      const fetchRequest = await ServiceRequest.findOne({_id : requestId})
+
+      if(!fetchRequest.commented) {
+        fetchRequest.commented = true;
+        fetchRequest.save();
+      }
       const fetchUser = await User.findOne({ _id: user });
 
       fetchUser.rating.comments = [ratingModel, ...fetchUser.rating.comments];
@@ -54,8 +63,7 @@ const cases: ICases = {
         return acc + cur.score;
       });
 
-      fetchUser.rating.averageScore =
-        (averageScore + score) / fetchUser.rating.comments.length;
+      fetchUser.rating.averageScore = (averageScore + score) / fetchUser.rating.comments.length;
 
       fetchUser.save();
 

@@ -28,7 +28,6 @@ const serviceRequestSchema = new Schema(
     category: { type: Types.ObjectId, default: null },
     subcategory: { type: Types.ObjectId, default: null },
     state : {
-      
       active: {
         type: Boolean,
         required: true,
@@ -48,13 +47,11 @@ const serviceRequestSchema = new Schema(
         type: Boolean,
         required: true,
         default: false
-      },
-      comment: {
-        type: String,
       }
-
     },
-   
+    commented: {
+      type: Boolean,
+    },
     contractId: Types.ObjectId,
   },
   {
