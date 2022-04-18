@@ -45,8 +45,9 @@ const MobileNav: React.FC<{ payerId: string }> = ({ payerId }) => {
       display={{ md: "none" }}
     >
       <Button
+        p={0}
         onClick={onOpen}
-        leftIcon={<HamburgerIcon />}
+        leftIcon={<HamburgerIcon w={"27px"} h={"27px"} />}
         variant="ghost"
         iconSpacing={0}
       />

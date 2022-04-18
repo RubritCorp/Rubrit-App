@@ -141,6 +141,58 @@ const userSchema = new Schema(
           date: {
             type: String,
           },
+          reactions: {
+            likes: {
+              amount: {
+                type: Number,
+                default: 0,
+              },
+              users: [
+                {
+                  type: String,
+                  default: [],
+                },
+              ],
+            },
+            dislikes: {
+              amount: {
+                type: Number,
+                default: 0,
+              },
+              users: [
+                {
+                  type: String,
+                  default: [],
+                },
+              ],
+            },
+            spam: {
+              amount: {
+                type: Number,
+                default: 0,
+              },
+              users: [
+                {
+                  type: String,
+                  default: [],
+                },
+              ],
+            },
+            reviewedResponse: {
+              response: {
+                type: String,
+                min: 10,
+                max: 250,
+              },
+              date: {
+                type: String,
+              },
+              edited: {
+                type: Boolean,
+                default: false,
+              },
+            },
+          },
         },
       ],
     },

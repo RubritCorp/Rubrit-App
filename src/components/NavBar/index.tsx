@@ -195,7 +195,7 @@ const WithSubnavigation: React.FC = () => {
             <DarkModeSwitch />
           </Box>
           {!session &&
-            (status === "loading" || status === "unauthenticated") ? (
+          (status === "loading" || status === "unauthenticated") ? (
             <Button
               id="signInButton"
               display={{ base: "inline-flex", md: "inline-flex" }}
@@ -222,7 +222,6 @@ const WithSubnavigation: React.FC = () => {
                   transition={".7s"}
                 >
                   <BellIcon fontSize={"2xl"} />
-
                 </MenuButton>
                 <MenuList pl={2}>
                   {!notification.length && "No New Messages"}
@@ -230,16 +229,22 @@ const WithSubnavigation: React.FC = () => {
                   {!notification.length && "No New Messages"}
 
                   {notification.map((notif) => (
-                    <MenuItem d={{ base: "inline", md: "none" }}
+                    <MenuItem
+                      d={{ base: "inline", md: "none" }}
                       key={notif._id}
                       onClick={() => {
                         setSelectedChat(notif.chat);
-                        setNotification(notification.filter((n) => n !== notif));
+                        setNotification(
+                          notification.filter((n) => n !== notif)
+                        );
                       }}
                     >
                       {notif.chat.isGroupChat
                         ? `New Message in ${notif.chat.chatName}`
-                        : `New Message from ${getSender(user, notif.chat.users)}`}
+                        : `New Message from ${getSender(
+                            user,
+                            notif.chat.users
+                          )}`}
                     </MenuItem>
                   ))}
                 </MenuList>
@@ -350,8 +355,6 @@ const WithSubnavigation: React.FC = () => {
                       </>
                     )}
 
-
-                    <MenuDivider d={{ base: "", md: "none" }} />
                     <MenuItem
                       onClick={() => {
                         signOut({ redirect: false });
