@@ -8,6 +8,7 @@ import Fonts from "styles/Fonts";
 import { CategoriesProvider } from "Provider/CategoriesProvider";
 import { UsersProvider } from "Provider/UsersProvider";
 import ChatProvider from "chat/context/ChatProvider";
+import { NextPage } from "next";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

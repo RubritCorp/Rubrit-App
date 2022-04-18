@@ -1,3 +1,8 @@
 import Faqs from "../components/Faqs";
+import { NextPage } from "next";
 
-export default Faqs;
+const index: NextPage = () => {
+  return <Faqs />;
+};
+
+export default index;
