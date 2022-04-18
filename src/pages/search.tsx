@@ -8,8 +8,9 @@ import Navbar from "components/NavBar";
 import SearchResults from "components/Search/SearchResults";
 import SearchWithSideBar from "components/Search";
 import { filter, search } from "components/Search/searchHelper";
+import { NextPage } from "next";
 
-const Search: React.FC<{
+const Search: NextPage<{
   title?: string;
   description?: string;
 }> = ({ title, description }) => {

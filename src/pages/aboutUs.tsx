@@ -1,3 +1,8 @@
-import AboutUs from "../components/AboutUs"
+import AboutUs from "../components/AboutUs";
+import { NextPage } from "next";
 
-export default AboutUs 
+const index: NextPage = () => {
+  return <AboutUs />;
+};
+
+export default index;
