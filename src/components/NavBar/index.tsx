@@ -357,7 +357,6 @@ const WithSubnavigation: React.FC = () => {
                       </>
                     )}
 
-                    <MenuDivider d={{ base: "", md: "none" }} />
                     <MenuItem
                       onClick={() => {
                         signOut({ redirect: false });

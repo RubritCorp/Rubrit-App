@@ -12,6 +12,7 @@ import {
   useTheme,
   Image,
   useToast,
+  Tooltip,
 } from "@chakra-ui/react";
 import { InfoIcon } from "@chakra-ui/icons";
 import { Star, Check, Checks, User } from "phosphor-react";
@@ -20,7 +21,7 @@ import { Star, Check, Checks, User } from "phosphor-react";
 import { IUser } from "../../Provider/UsersProvider";
 
 //from modules
-import { useState } from "react";
+import { ReactChild, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 
@@ -40,9 +41,8 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
   const router = useRouter();
   const toast = useToast();
   const [loading, setLoading] = useState<boolean>(false);
-  const { data: Session } = useSession();
+  const { data: Session, status } = useSession();
   const user: IUser = JSON.parse(props.user);
-
   const { workerData } = user;
 
   const {
@@ -53,6 +53,49 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
 
   //average rating
   const scoreTotal: number = user.rating.averageScore;
+  const formatNumber = new Intl.NumberFormat("en-US");
+  const userWhoCommented = formatNumber.format(user.rating.comments.length);
+
+  //graph
+
+  const [ratings, setRatings] = useState<Number[]>([]);
+
+  useEffect(() => {
+    var one = 0;
+    var two = 0;
+    var three = 0;
+    var four = 0;
+    var five = 0;
+    user.rating.comments?.forEach((f) => {
+      interface ICases {
+        1: () => void;
+        2: () => void;
+        3: () => void;
+        4: () => void;
+        5: () => void;
+      }
+
+      const cases: ICases = {
+        1: () => (one += 1),
+        2: () => (two += 1),
+        3: () => (three += 1),
+        4: () => (four += 1),
+        5: () => (five += 1),
+      };
+
+      if (
+        f.score === 1 ||
+        f.score === 2 ||
+        f.score === 3 ||
+        f.score === 4 ||
+        f.score === 5
+      ) {
+        cases[f.score]();
+      }
+    });
+    setRatings([five, four, three, two, one]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Layout>
@@ -92,7 +135,14 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                     if (i <= 2) {
                       return (
                         <Flex flexDirection={"column"} key={i}>
-                          <Text color={"medium_green"}>
+                          <Text
+                            color={"medium_green"}
+                            fontSize={{
+                              base: "0.7rem",
+                              md: "0.8rem",
+                              lg: "1rem",
+                            }}
+                          >
                             {`${cat.category.name}`}&nbsp;&nbsp;&nbsp;
                           </Text>
                         </Flex>
@@ -138,7 +188,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                       d={"flex"}
                       fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
                     >
-                      {user.rating.comments.length} en total
+                      {userWhoCommented} en total
                     </Text>
                   </Flex>
                   <Flex flexDirection={"row"}>
@@ -187,7 +237,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                     borderRadius={"10px"}
                     bg={"medium_green"}
                     color={"white"}
-                    fontSize={{ base: "1rem", md: "1.2rem", lg: "1.4rem" }}
+                    fontSize={{ base: ".8rem", md: "1.2rem", lg: "1.4rem" }}
                     _hover={{
                       transform: "translateY(-2px)",
                       boxShadow: "lg",
@@ -226,7 +276,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                     borderRadius={"10px"}
                     bg={"medium_green"}
                     color={"white"}
-                    fontSize={{ base: "1rem", md: "1.2rem", lg: "1.4rem" }}
+                    fontSize={{ base: ".8rem", md: "1.2rem", lg: "1.4rem" }}
                     _hover={{
                       transform: "translateY(-2px)",
                       boxShadow: "lg",
@@ -336,6 +386,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
             w={{ base: "100%", md: "35%" }}
             maxH={"700px"}
             mt={{ base: 4, md: 0 }}
+            pb={"2rem"}
             bg={useColorModeValue("#fafafa", "#1A202C")}
             borderRadius={7}
             boxShadow={"2xl"}
@@ -351,7 +402,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
               h={"4rem"}
               borderRadius={7}
               position={"sticky"}
-              zIndex={10}
+              zIndex={1}
               top={0}
               d={"flex"}
               flexDirection={"column"}
@@ -363,8 +414,8 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
               <Divider mb={4} />
             </Heading>
             <Box
-              p={"0 1rem 1rem 1rem"}
-              maxH={"620px"}
+              p={"0 1rem "}
+              maxH={"610px"}
               overflow={"auto"}
               css={{
                 "&::-webkit-scrollbar": {
@@ -379,7 +430,7 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                 },
               }}
             >
-              {workerData.items?.map((cat: any, index: number) => {
+              {workerData.items?.map((cat: any) => {
                 return (
                   <Flex flexDirection={"column"} key={cat.category.name}>
                     <Heading
@@ -590,16 +641,8 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                     }}
                   >
                     <InfoIcon color={"light_blue"} mr={2} />
-                    OPINIONES
+                    VALORACIONES
                   </Heading>
-                  <Text
-                    fontSize={{
-                      base: ".6rem",
-                      md: ".8rem",
-                    }}
-                  >
-                    {user.rating.comments.length} opiniones en total.
-                  </Text>
                 </Box>
                 <Divider mt={4} mb={4} />
                 <Box
@@ -618,7 +661,100 @@ const ProfessionalLanding: React.FC<IUserProps> = (props) => {
                     },
                   }}
                 >
-                  <Comments {...{ user }} />
+                  <Flex h={"10rem"}>
+                    <Box
+                      w={"40%"}
+                      d={"flex"}
+                      flexDirection={"column"}
+                      justifyContent={"center"}
+                      alignItems={"center"}
+                    >
+                      <Text fontSize={"3rem"} fontWeight={"light"}>
+                        {scoreTotal.toFixed(scoreTotal === 0 ? 0 : 1)}
+                      </Text>
+                      <Flex>
+                        {scoreTotal !== 0 &&
+                          Array(Math.floor(scoreTotal))
+                            .fill(undefined)
+                            .map((el: any, index: number) => (
+                              <Star
+                                key={index}
+                                size={20}
+                                weight="fill"
+                                color={theme.colors.medium_green}
+                              />
+                            ))}
+                        {scoreTotal < 5 &&
+                          Array(5 - Math.floor(scoreTotal))
+                            .fill(undefined)
+                            .map((el: any, index: number) => (
+                              <Star
+                                key={index}
+                                weight="duotone"
+                                size={20}
+                                color={theme.colors.medium_green}
+                              />
+                            ))}
+                      </Flex>
+                      <Flex mt={2}>
+                        <User size={20} color={"gray"} />
+                        <Text
+                          ml={1}
+                          d={"flex"}
+                          fontSize={{
+                            base: "0.7rem",
+                            md: "0.8rem",
+                            lg: "1rem",
+                          }}
+                        >
+                          {userWhoCommented} en total
+                        </Text>
+                      </Flex>
+                    </Box>
+                    <Flex
+                      w={"60%"}
+                      flexDirection={"column"}
+                      justifyContent={"space-between"}
+                    >
+                      {ratings.map((m, i) => (
+                        <Tooltip key={i} label={`${m} opiniones`}>
+                          <Flex>
+                            <Text w={"5%"} mr={2} textAlign={"center"}>
+                              {i === 0
+                                ? 5
+                                : i === 1
+                                ? 4
+                                : i === 2
+                                ? 3
+                                : i === 3
+                                ? 2
+                                : 1}
+                            </Text>
+                            <Box
+                              h={"1.5rem"}
+                              w={`${
+                                typeof m === "number" &&
+                                (m * 100) / user.rating.comments.length
+                              }%`}
+                              bg={
+                                i === 0
+                                  ? "#57bb8a"
+                                  : i === 1
+                                  ? "#9ace6a"
+                                  : i === 2
+                                  ? "#ffcf02"
+                                  : i === 3
+                                  ? "#ff9f02"
+                                  : "#ff6f31"
+                              }
+                            />
+                          </Flex>
+                        </Tooltip>
+                      ))}
+                    </Flex>
+                  </Flex>
+
+                  <Comments {...{ user, Session }} />
                 </Box>
               </>
             ) : (

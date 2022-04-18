@@ -1,16 +1,12 @@
 import ProfessionalLanding from "../../components/ProfessionalLanding";
-
-import { useRouter } from "next/router";
 import { GetServerSideProps, NextPage } from "next/types";
 import { ParsedUrlQuery } from "querystring";
 import { getUser } from "pages/api/public/users/getProfile";
 
 const UserLanding: NextPage<any> = ({ user }) => {
-  const { query } = useRouter();
-
   return (
     <>
-      <ProfessionalLanding user={user} />
+      <ProfessionalLanding {...{ user }} />
     </>
   );
 };

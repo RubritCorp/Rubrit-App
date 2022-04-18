@@ -2,7 +2,6 @@
 import {
   Box,
   Flex,
-  Text,
   Image,
   Modal,
   ModalOverlay,
@@ -10,16 +9,10 @@ import {
   ModalHeader,
   ModalCloseButton,
   ModalBody,
-  ModalFooter,
   Button,
   useDisclosure,
 } from "@chakra-ui/react";
-import {
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ChevronUpIcon,
-} from "@chakra-ui/icons";
+import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 //from modules
 import { useEffect, useState } from "react";
 
@@ -32,7 +25,7 @@ interface ImageModal {
   title: string;
 }
 
-const ImageModal: React.FC<ImageModal> = ({ url, title }) => {
+const ImageModal: React.FC<ImageModal> = ({ url }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -162,55 +155,6 @@ const Images = ({ images }: Props) => {
           {seeMore ? "Mostrar Menos" : "Mostrar Más"}
         </Button>
       )}
-      {/* <Flex flexDirection={"column"}>
-      <Flex justifyContent={"space-around"}>
-        {images?.slice(page, page + 3).map((m: any, i: number) => (
-          <Box key={i} w={"30%"} d={"flex"} justifyContent={"center"}>
-            <ImageModal url={m} title={m}>
-              <Box key={i} backgroundImage={m}></Box>
-            </ImageModal>
-          </Box>
-        ))}
-      </Flex> */}
-
-      {/* <Box d={"flex"} mt={4}>
-        {page !== 0 ? (
-          <Text
-            cursor={"pointer"}
-            onClick={() => {
-              page / 4 === Math.ceil(images.length / 3) - 1
-                ? ""
-                : setPage(page - 3);
-            }}
-            width={"50%"}
-            textAlign={"center"}
-          >
-            <ChevronLeftIcon w={6} h={6} />
-            Anterior
-          </Text>
-        ) : (
-          <Text width={"50%"}></Text>
-        )}
-
-        {page / 3 + 1 !== Math.ceil(images.length / 3) &&
-        images.length !== 0 ? (
-          <Text
-            cursor={"pointer"}
-            onClick={() => {
-              page / 4 === Math.ceil(images.length / 3) - 1
-                ? ""
-                : setPage(page + 3);
-            }}
-            width={"50%"}
-            textAlign={"center"}
-          >
-            Siguiente
-            <ChevronRightIcon w={6} h={6} />
-          </Text>
-        ) : (
-          <Text width={"50%"}></Text>
-        )}
-      </Box> */}
     </Flex>
   );
 };

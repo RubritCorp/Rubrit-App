@@ -561,16 +561,36 @@ const cases: ICases = {
 
       /*  const user = await User.find().updateMany({}, [
         {
-          $unset: ["userType"],
+          $unset: ["rating.comments.amountLikes", "rating.comments.likes"],
         },
       ]); */
+      const user = await User.findById("62506ea1bd9453439850fb3b");
 
-      const user = await User.find().updateMany(
-        {},
-        {
-          statusAccount: "ACTIVE",
-        }
-      );
+      user.rating.comments[0].reactions.reviewedResponse = {
+        response: "Muchas gracias",
+        date: "14-4-2022",
+      };
+      user.save();
+      /* user.map(async (m) => {
+        m.rating.comments.map((m: any) => {
+          m.reactions = {
+            spam: { amount: 0, users: [] },
+          };
+          m.save();
+        });
+        m.save();
+      }); */
+
+      /* user.map(async (m) => {
+        m.rating.comments.map((m: any) => {
+          m.reactions = {
+            likes: { amount: 1, users: ["62506ea1bd9453439850fb3b"] },
+            dislikes: { amount: 0, users: [] },
+          };
+          m.save();
+        });
+        m.save();
+      }); */
 
       /* user.map(async (m) => {
         m.role = "USER";
