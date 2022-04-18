@@ -252,14 +252,14 @@ const Register: React.FC<{
                     {" "}
                     Inicia Sesión
                   </Text>
-                  /*<Box d={"flex"} justifyContent={"center"} marginTop={"2rem"}>
+                  <Box d={"flex"} justifyContent={"center"} marginTop={"2rem"}>
                     <ReCAPTCHA
                       sitekey={`${process.env.CAPTCHA_ID}`}
                       onChange={(e: any) => {
                         setVerified(true);
                       }}
                     />
-                  </Box>*/
+                  </Box>
                   <ModalFooter p={"40px 0px 0px 0px"}>
                     <Button
                       mr={3}
