@@ -1,3 +1,8 @@
 import CommunityPrinciples from "../components/CommunityPrinciples";
+import { NextPage } from "next";
 
-export default CommunityPrinciples;
+const index: NextPage = () => {
+  return <CommunityPrinciples />;
+};
+
+export default index;
