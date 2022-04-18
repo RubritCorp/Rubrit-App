@@ -95,7 +95,7 @@ export function useUsers() {
 }
 
 type Props = {
-  children: ReactNode;
+  children: any;
 };
 
 export function UsersProvider({ children }: Props) {

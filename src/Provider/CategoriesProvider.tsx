@@ -38,7 +38,7 @@ export function useCategories() {
 }
 
 type Props = {
-  children: ReactNode;
+  children: any;
 };
 
 export function CategoriesProvider({ children }: Props) {
