@@ -1,15 +1,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { Session } from "next-auth/core/types";
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useState,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 export type IMessage = {
   _id: string;

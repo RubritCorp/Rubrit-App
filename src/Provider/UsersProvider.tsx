@@ -1,11 +1,5 @@
 import axios from "axios";
-import {
-  useContext,
-  createContext,
-  ReactNode,
-  useState,
-  useEffect,
-} from "react";
+import { useContext, createContext, any, useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 
 type Category = {
@@ -95,7 +89,7 @@ export function useUsers() {
 }
 
 type Props = {
-  children: ReactNode;
+  children: any;
 };
 
 export function UsersProvider({ children }: Props) {

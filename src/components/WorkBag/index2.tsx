@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { any, useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -11,11 +11,11 @@ import {
 } from "@chakra-ui/react";
 import Layout from "components/layout";
 import SideBar from "./SideBar";
-const Request = ({ children }: { children: ReactNode }) => {
+const Request = ({ children }: { children: any }) => {
   return <Box>{children}</Box>;
 };
 
-const RequestContent = ({ children }: { children: ReactNode }) => {
+const RequestContent = ({ children }: { children: any }) => {
   return (
     <Stack
       bg={useColorModeValue("white", "gray.800")}
@@ -46,7 +46,7 @@ const RequestContent = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const RequestTitle = ({ children }: { children: ReactNode }) => {
+const RequestTitle = ({ children }: { children: any }) => {
   return (
     <Heading as={"h3"} fontSize={"xl"}>
       {children}
@@ -54,7 +54,7 @@ const RequestTitle = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const RequestDescription = ({ children }: { children: ReactNode }) => {
+const RequestDescription = ({ children }: { children: any }) => {
   return (
     <Text
       textAlign={"center"}
@@ -100,10 +100,8 @@ const WorkBagResults: React.FC<{ requests: any }> = ({ requests }) => {
           direction={{ base: "column", md: "row" }}
           spacing={{ base: 10, md: 4, lg: 10 }}
         >
-
           {requests?.map((req: any, i: number) => (
             <Request key={i}>
-
               <RequestContent>
                 <RequestTitle>{req?.title}</RequestTitle>
                 <RequestDescription>{req?.description}</RequestDescription>

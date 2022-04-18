@@ -1,13 +1,7 @@
 import axios from "axios";
 import { ICategory } from "models/Category/ICategory";
 import { ISubcategory } from "models/Subcategory/ISubcategory";
-import {
-  useContext,
-  createContext,
-  ReactNode,
-  useState,
-  useEffect,
-} from "react";
+import { useContext, createContext, any, useState, useEffect } from "react";
 
 export interface ICategories {
   picture_small: string;
@@ -38,7 +32,7 @@ export function useCategories() {
 }
 
 type Props = {
-  children: ReactNode;
+  children: any;
 };
 
 export function CategoriesProvider({ children }: Props) {

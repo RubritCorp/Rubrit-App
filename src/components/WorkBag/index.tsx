@@ -16,7 +16,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 //from modules
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { any, useEffect, useState } from "react";
 //icons
 
 import { useSession } from "next-auth/react";
@@ -24,7 +24,7 @@ import axios from "axios";
 import envConfig from "../../../next-env-config";
 import { useRouter } from "next/router";
 
-const Testimonial = ({ children }: { children: ReactNode }) => {
+const Testimonial = ({ children }: { children: any }) => {
   return <Box>{children}</Box>;
 };
 
@@ -56,7 +56,7 @@ const TestimonialAvatar = ({
   );
 };
 
-const TestimonialContent = ({ children }: { children: ReactNode }) => {
+const TestimonialContent = ({ children }: { children: any }) => {
   return (
     <Stack
       maxW={"lg"}
@@ -95,7 +95,7 @@ const TestimonialContent = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const TestimonialText = ({ children }: { children: ReactNode }) => {
+const TestimonialText = ({ children }: { children: any }) => {
   return (
     <Text
       textAlign={"center"}
