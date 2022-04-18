@@ -26,7 +26,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-const BecomePremium: NextPage<{ email: string }> = ({ email }) => {
+const BecomePremium: React.FC<{ email: string }> = ({ email }) => {
   const [input, setInput] = useState({
     cardNumber: "",
     cardExpirationMonth: "",
