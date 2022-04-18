@@ -100,8 +100,10 @@ const WorkBagResults: React.FC<{ requests: any }> = ({ requests }) => {
           direction={{ base: "column", md: "row" }}
           spacing={{ base: 10, md: 4, lg: 10 }}
         >
-          {requests?.map((req: any) => (
-            <Request>
+
+          {requests?.map((req: any, i: number) => (
+            <Request key={i}>
+
               <RequestContent>
                 <RequestTitle>{req?.title}</RequestTitle>
                 <RequestDescription>{req?.description}</RequestDescription>
