@@ -68,7 +68,7 @@ export const chatContextDefaultValues: chatContextType = {
 const ChatContext = createContext<chatContextType>(chatContextDefaultValues);
 
 type Props = {
-  children: ReactNode;
+  children: any;
 };
 const ChatProvider = ({ children }: Props) => {
   const [user, setUser] = useState<IUserChat>(chatContextDefaultValues.user);
