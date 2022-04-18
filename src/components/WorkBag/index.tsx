@@ -16,7 +16,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 //from modules
-import React, { any, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 //icons
 
 import { useSession } from "next-auth/react";
