@@ -14,8 +14,7 @@ import { Storefront, Wrench, UsersFour, Handshake } from "phosphor-react";
 
 //componentes
 import Layout from "../layout";
-//styles
-
+//la dani en 4
 const AboutUs: React.FC = () => {
   const theme = useTheme();
 
@@ -32,10 +31,18 @@ const AboutUs: React.FC = () => {
             direction="column"
             marginTop={10}
           >
-            <Heading fontSize={{ base: "xl", md: "xl", lg: "2xl" }} textAlign="center" marginBottom={1}>
+            <Heading
+              fontSize={{ base: "xl", md: "xl", lg: "2xl" }}
+              textAlign="center"
+              marginBottom={1}
+            >
               Revolucionando el trabajo diario
             </Heading>
-            <Text fontSize={{ base: "l", md: "l", lg: "xl" }} textAlign="center" marginBottom={5}>
+            <Text
+              fontSize={{ base: "l", md: "l", lg: "xl" }}
+              textAlign="center"
+              marginBottom={5}
+            >
               El trabajo diario es importante. Pero también requiere mucho
               tiempo. Podemos ayudarte.
             </Text>
@@ -53,10 +60,18 @@ const AboutUs: React.FC = () => {
           </Flex>
         </Box>
         <Flex justifyContent="center" padding={5} direction="column">
-          <Heading fontSize={{ base: "xl", md: "xl", lg: "2xl" }} textAlign="center" marginBottom={2}>
+          <Heading
+            fontSize={{ base: "xl", md: "xl", lg: "2xl" }}
+            textAlign="center"
+            marginBottom={2}
+          >
             Haga más en menos tiempo
           </Heading>
-          <Text fontSize={{ base: "l", md: "l", lg: "xl" }} textAlign="center" marginBottom={5}>
+          <Text
+            fontSize={{ base: "l", md: "l", lg: "xl" }}
+            textAlign="center"
+            marginBottom={5}
+          >
             Nuestra plataforma de servicio lo conecta instantáneamente con
             trabajadores calificados para ayudarlo en trabajos ocasionales y
             mandados, para que pueda ser más productivo todos los días.
@@ -87,7 +102,10 @@ const AboutUs: React.FC = () => {
               >
                 350.000
               </Heading>
-              <Text fontSize={{ base: "l", md: "l", lg: "xl" }} textAlign="center">
+              <Text
+                fontSize={{ base: "l", md: "l", lg: "xl" }}
+                textAlign="center"
+              >
                 horas dedicadas a hacer mandados por toda la ciudad
               </Text>
             </Container>
@@ -109,7 +127,10 @@ const AboutUs: React.FC = () => {
               >
                 16.000
               </Heading>
-              <Text fontSize={{ base: "l", md: "l", lg: "xl" }} textAlign="center">
+              <Text
+                fontSize={{ base: "l", md: "l", lg: "xl" }}
+                textAlign="center"
+              >
                 reparaciones en hogares y oficinas
               </Text>
             </Container>
@@ -131,7 +152,10 @@ const AboutUs: React.FC = () => {
               >
                 4.000
               </Heading>
-              <Text fontSize={{ base: "l", md: "l", lg: "xl" }} textAlign="center">
+              <Text
+                fontSize={{ base: "l", md: "l", lg: "xl" }}
+                textAlign="center"
+              >
                 nuevos usuarios en el último mes
               </Text>
             </Container>
@@ -155,7 +179,11 @@ const AboutUs: React.FC = () => {
           >
             Nuestro Equipo
           </Heading>
-          <Text fontSize={{ base: "l", md: "l", lg: "xl" }} textAlign="center" marginBottom={75}>
+          <Text
+            fontSize={{ base: "l", md: "l", lg: "xl" }}
+            textAlign="center"
+            marginBottom={75}
+          >
             Contamos los mejores profesionales a su servicio, para asistirlo las
             24 hs. del día
           </Text>
