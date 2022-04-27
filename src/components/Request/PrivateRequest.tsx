@@ -7,6 +7,7 @@ import {
   Image,
   useColorModeValue,
   useToast,
+  useTheme,
 } from "@chakra-ui/react";
 import { Star, Check, Checks } from "phosphor-react";
 import { Formik } from "formik";
@@ -24,6 +25,7 @@ import {
 import { useRouter } from "next/router";
 import axios from "axios";
 import { CheckIcon } from "@chakra-ui/icons";
+import { workerData } from "worker_threads";
 
 const PrivateRequest: React.FC<{ professionalId: string }> = ({
   professionalId,
@@ -44,6 +46,7 @@ const PrivateRequestMain: React.FC<{ professionalId: string }> = ({
   >(null);
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState<boolean>(false);
+  const toast = useToast();
 
   async function preSubmit(event: any, values: any) {
     event.preventDefault();
@@ -59,8 +62,19 @@ const PrivateRequestMain: React.FC<{ professionalId: string }> = ({
     }
   }
 
+  useEffect(() => {
+    if (String(session?._id) === professionalId) {
+      toast({
+        title: `Aviso importante! No puedes crear una solicitud privada siendo el usuario que la envia y recibe.`,
+        status: "error",
+        isClosable: true,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   function showCurrentStep() {
     let CurrentComponent;
+
     if (isRequestSuccessful === null) {
       // Render component when form is not sent yet
       CurrentComponent = <StepTwoFields />;
@@ -87,6 +101,7 @@ const PrivateRequestMain: React.FC<{ professionalId: string }> = ({
             bg: "green.600",
           }}
           disabled={
+            String(session?._id) === professionalId ||
             values.title.length === 0 ||
             Object.keys(errors).length > 0 ||
             isSubmitting ||
@@ -149,11 +164,48 @@ const PrivateRequestMain: React.FC<{ professionalId: string }> = ({
   );
 };
 
+type DataItems = {
+  description: string;
+  icon: string;
+  name: string;
+  picture_big: string;
+  picture_small: string;
+  subcategories: string[];
+  _id: string;
+};
+
+type DataComments = {
+  date: string;
+  description: string;
+  score: number;
+  userComment: string;
+  _id: string;
+};
+
+type DataRating = {
+  averageScore: number;
+  comments: DataComments[];
+};
+
+interface IUser {
+  _id: string;
+  address: {
+    name: string;
+  };
+  name: string;
+  profilePic: string;
+  workerData: {
+    items: DataItems[];
+  };
+  rating: DataRating;
+}
+
 const PrivateRequestSide: React.FC = () => {
+  const theme = useTheme();
+  const toast = useToast();
   const router = useRouter();
   const { id } = router.query;
-  const [user, setUser] = useState<any>();
-  const toast = useToast();
+  const [user, setUser] = useState<IUser>();
 
   useEffect(() => {
     if (id) {
@@ -179,6 +231,8 @@ const PrivateRequestSide: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  console.log(user);
 
   return (
     <Stack
@@ -214,13 +268,24 @@ const PrivateRequestSide: React.FC = () => {
 
       <Flex flexDirection={"column"}>
         <Flex flexDirection={"row"}>
-          <Star size={20} weight="fill" />
+          {user?.rating.averageScore &&
+            Array(Math.floor(user?.rating.averageScore))
+              .fill(undefined)
+              .map((el: any, index: number) => (
+                <Star
+                  key={index}
+                  size={20}
+                  weight="fill"
+                  color={theme.colors.medium_green}
+                />
+              ))}
 
           <Text
             ml={"0.5rem"}
             fontSize={{ base: "0.7rem", md: "0.8rem", lg: "1rem" }}
+            fontWeight="bold"
           >
-            90% de satisfaccion
+            {user?.rating.averageScore}
           </Text>
         </Flex>
         <Flex flexDirection={"row"}>
@@ -241,8 +306,8 @@ const PrivateRequestSide: React.FC = () => {
             97% formalidad
           </Text>
         </Flex>
-        <Text mt={2}>Serivicos Ofrecidos :</Text>
-        {user?.items?.map((m: any, i: number) => (
+        <Text mt={2}>Servicios Ofrecidos :</Text>
+        {user?.workerData.items?.map((m: any, i: number) => (
           <Flex key={i} alignItems={"center"}>
             <CheckIcon color={"medium_green"} />
             <Text ml={2}>{m.category.name}</Text>

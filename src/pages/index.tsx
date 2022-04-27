@@ -1,8 +1,9 @@
 //components
 import Layout from "components/layout";
 import LandingPage from "components/LandingPage";
+import { NextPage } from "next";
 
-const Index = () => {
+const index: NextPage = () => {
   return (
     <Layout
       title="Todos los servicios en un solo lugar"
@@ -13,4 +14,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default index;

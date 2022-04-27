@@ -44,7 +44,7 @@ export default function SimpleSidebar({
   filters,
   setFilters,
 }: {
-  children: ReactNode;
+  children: any;
   isOpen: boolean;
   onClose: any;
   filters: any;

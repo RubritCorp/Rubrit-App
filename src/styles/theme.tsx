@@ -19,7 +19,7 @@ const colors = {
   dark_grey: "#888888",
   ghost_white: "#F3F6FF",
   l_green: "#BBE1C3",
-  warning_red: "#e74e2b",
+  warning_red: "#c9322b",
   light_green_sub: {
     50: "#dcfff1",
     100: "#aeffde",

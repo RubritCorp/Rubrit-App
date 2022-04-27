@@ -41,12 +41,13 @@ const MobileNav: React.FC<{ payerId: string }> = ({ payerId }) => {
   return (
     <Stack
       bg={useColorModeValue("white", "gray.800")}
-      p={4}
+      p={1}
       display={{ md: "none" }}
     >
       <Button
+        p={0}
         onClick={onOpen}
-        leftIcon={<HamburgerIcon />}
+        leftIcon={<HamburgerIcon w={"27px"} h={"27px"} />}
         variant="ghost"
         iconSpacing={0}
       />
@@ -157,19 +158,19 @@ const MobileNav: React.FC<{ payerId: string }> = ({ payerId }) => {
 
             <Stack spacing={4} fontWeight={600} fontSize={"md"} marginTop={2}>
               <Link href="/findServices" passHref>
-                <a>
-                  <Text cursor={"pointer"}>Buscar Servicios</Text>
-                </a>
+                <Text cursor={"pointer"}>
+                  <a>Buscar Servicios</a>
+                </Text>
               </Link>
               <Link href="/offerServices" passHref>
-                <a>
-                  <Text cursor={"pointer"}>Ofrecer tus Servicios</Text>
-                </a>
+                <Text cursor={"pointer"}>
+                  <a>Ofrecer tus Servicios</a>
+                </Text>
               </Link>
               <Link href="/workbag" passHref>
-                <a>
-                  <Text cursor={"pointer"}>Bolsa de Trabajo</Text>
-                </a>
+                <Text cursor={"pointer"}>
+                  <a>Bolsa de Trabajo</a>
+                </Text>
               </Link>
             </Stack>
 

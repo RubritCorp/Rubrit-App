@@ -4,10 +4,7 @@ import {
   Alert,
   AlertIcon,
   Text,
-  Button,
-  Stack,
   Skeleton,
-  Flex,
   Container,
 } from "@chakra-ui/react";
 import CardProfesional from "components/CardProfesional";
@@ -58,7 +55,7 @@ const NearProfesionals: React.FC = () => {
         settings: {
           centerMode: true,
           centerPadding: "10px",
-          slidesToShow: 2,
+          slidesToShow: cardsToSlider.length <= 2 ? cardsToSlider.length : 2,
           dots: true,
         },
       },
@@ -67,29 +64,13 @@ const NearProfesionals: React.FC = () => {
         settings: {
           centerMode: true,
           centerPadding: "1px",
-          slidesToShow: 1,
+          slidesToShow: cardsToSlider.length <= 1 ? cardsToSlider.length : 1,
           dots: true,
         },
       },
     ],
   };
   useEffect(() => {}, [Session]);
-
-  const Skeletons = () => {
-    return (
-      <>
-        <Container
-          borderRadius={7}
-          height="420px"
-          maxW={"container.xl"}
-          centerContent
-          py={10}
-        >
-          <Skeleton w={"100%"} h={"100%"} />
-        </Container>
-      </>
-    );
-  };
 
   return (
     <Box

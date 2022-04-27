@@ -15,8 +15,8 @@ import {
 import Link from "next/link";
 import { useState } from "react";
 //assets
-import Premium from "assets/premium.png";
 import { CheckIcon, StarIcon } from "@chakra-ui/icons";
+import { useSession } from "next-auth/react";
 
 interface CardFindProfesionalProps {
   img: string;
@@ -39,7 +39,9 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
   categories,
   isPremium,
 }) => {
+  const { data: Session, status } = useSession();
   const [loading, setLoading] = useState<boolean>(false);
+
   return (
     <Container maxW={"container.xl"} centerContent py={2}>
       <Flex position={"relative"}>
@@ -62,6 +64,7 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
           <Box
             key={name}
             maxW={{ base: "250px", md: "350px" }}
+            height={"500px"}
             w={"100%"}
             bg={useColorModeValue("white", "gray.800")}
             boxShadow={"2xl"}
@@ -135,6 +138,7 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                       color={"green.500"}
                       w={"296px"}
                       h={"50px"}
+                      lineHeight={{ base: 2, md: 1.5 }}
                       overflow="hidden"
                       css={{
                         display: "-webkit-box",
@@ -149,7 +153,7 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                 {categories && (
                   <>
                     <Divider mt={3} />
-                    <Box minH={"80px"} >
+                    <Box minH={"80px"}>
                       <Text textAlign={"center"} mt={5} color={"medium_green"}>
                         Rubros
                       </Text>
@@ -195,7 +199,9 @@ const CardProfesional: React.FC<CardFindProfesionalProps> = ({
                       onClick={() => setLoading(true)}
                       isLoading={loading}
                     >
-                      Contactar
+                      {status === "authenticated" && `${Session?._id}` === _id
+                        ? "Mi Perfil Profesional"
+                        : "Contactar"}
                     </Button>
                   </a>
                 </Link>

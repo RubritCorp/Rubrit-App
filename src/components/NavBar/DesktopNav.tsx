@@ -49,7 +49,7 @@ export default function DesktopNav() {
           <PopoverTrigger>
             <Text
               p={2}
-              fontSize={{ base: "xs", xl: "sm" }}
+              fontSize={{ base: "1rem", xl: "1.1rem" }}
               fontWeight={500}
               color={linkColor}
               _hover={{
@@ -126,7 +126,7 @@ export default function DesktopNav() {
             <a>
               <Text
                 p={2}
-                fontSize={{ base: "xs", xl: "sm" }}
+                fontSize={{ base: "1rem", xl: "1.1rem" }}
                 fontWeight={500}
                 color={linkColor}
                 _hover={{
@@ -155,7 +155,7 @@ export default function DesktopNav() {
             <a>
               <Text
                 p={2}
-                fontSize={{ base: "xs", xl: "sm" }}
+                fontSize={{ base: "1rem", xl: "1.1rem" }}
                 fontWeight={500}
                 color={linkColor}
                 _hover={{
@@ -184,7 +184,7 @@ export default function DesktopNav() {
             <a>
               <Text
                 p={2}
-                fontSize={{ base: "xs", xl: "sm" }}
+                fontSize={{ base: "1rem", xl: "1.1rem" }}
                 fontWeight={500}
                 color={linkColor}
                 _hover={{

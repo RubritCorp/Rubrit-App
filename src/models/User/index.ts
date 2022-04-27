@@ -119,26 +119,88 @@ const userSchema = new Schema(
         default: false,
       },
     },
-    rating: [
-      {
-        userComment: {
-          type: Types.ObjectId,
-          ref: "User",
-        },
-        description: {
-          type: String,
-        },
-        score: {
-          type: Number,
-        },
-        date: {
-          type: String,
-        },
+    rating: {
+      averageScore: {
+        type: Number,
+        default: 0,
+        min: 0,
+        max: 5,
       },
-    ],
+      comments: [
+        {
+          userComment: {
+            type: Types.ObjectId,
+            ref: "User",
+          },
+          description: {
+            type: String,
+          },
+          score: {
+            type: Number,
+          },
+          date: {
+            type: String,
+          },
+          reactions: {
+            likes: {
+              amount: {
+                type: Number,
+                default: 0,
+              },
+              users: [
+                {
+                  type: String,
+                  default: [],
+                },
+              ],
+            },
+            dislikes: {
+              amount: {
+                type: Number,
+                default: 0,
+              },
+              users: [
+                {
+                  type: String,
+                  default: [],
+                },
+              ],
+            },
+            spam: {
+              amount: {
+                type: Number,
+                default: 0,
+              },
+              users: [
+                {
+                  type: String,
+                  default: [],
+                },
+              ],
+            },
+            reviewedResponse: {
+              response: {
+                type: String,
+                min: 10,
+                max: 250,
+              },
+              date: {
+                type: String,
+              },
+              edited: {
+                type: Boolean,
+                default: false,
+              },
+            },
+          },
+        },
+      ],
+    },
+
     workerData: {
-      shortDescription: {
+      workerDescription: {
         type: String,
+        max: 250,
       },
       images: [
         {
@@ -168,8 +230,12 @@ const userSchema = new Schema(
         },
       ],
     },
-
     requests: {
+      completed: {
+        type: Number,
+        default: 0,
+        min: 0,
+      },
       received: [{ type: Types.ObjectId, ref: "ServiceRequest" }],
       sent: [{ type: Types.ObjectId, ref: "ServiceRequest" }],
     },

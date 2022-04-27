@@ -18,10 +18,17 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { FieldHookConfig, useField } from "formik";
+//hooks
 import { ChangeEvent, useState, useRef } from "react";
+//interfaces
 import type CustomFieldProps from "./ICustomFieldProps";
 
-const ImageModal: React.FC<any> = ({ url, title }) => {
+interface ImageModal {
+  url: string;
+  title: string;
+}
+
+const ImageModal: React.FC<ImageModal> = ({ url, title }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (

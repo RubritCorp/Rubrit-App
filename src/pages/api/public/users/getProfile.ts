@@ -47,7 +47,7 @@ export async function getUser(userId: any) {
       select: "_id name",
     },
     {
-      path: "rating.userComment",
+      path: "rating.comments.userComment",
       model: "User",
       select: "_id name profilePic email",
     },
@@ -74,7 +74,7 @@ const cases: ICases = {
       },
     ];
     const user = await User.findOne({ _id: userId }).populate(populateQuery);
-      
+
     if (!user) return res.status(404).json({ message: "User not found" });
 
     res.status(200).json({ message: "User data", user });

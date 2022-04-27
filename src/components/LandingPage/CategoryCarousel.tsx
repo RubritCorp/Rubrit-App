@@ -5,9 +5,6 @@ import {
   Heading,
   IconButton,
   useColorModeValue,
-  Container,
-  Stack,
-  Text,
   Center,
 } from "@chakra-ui/react";
 import { ArrowLeft, ArrowRight } from "phosphor-react";

@@ -19,7 +19,7 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
-const ListHeader = ({ children }: { children: ReactNode }) => {
+const ListHeader = ({ children }: { children: any }) => {
   return (
     <Text fontWeight={"500"} fontSize={"lg"} mb={2}>
       {children}
@@ -31,7 +31,7 @@ const SocialButton = ({
   children,
   label,
 }: {
-  children: ReactNode;
+  children: any;
   label: string;
 }) => {
   return (
@@ -99,7 +99,7 @@ const Footer: React.FC = () => {
             <Link href={"/faqs"}>
               <a>FAQs</a>
             </Link>
-            <Link href={"/comunityPrinciply"}>
+            <Link href={"/communityPrinciples"}>
               <a>Principios de la Comunidad</a>
             </Link>
           </Stack>

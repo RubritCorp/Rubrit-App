@@ -1,3 +1,8 @@
-import CookiesPolicy from '../components/CookiesPolicy/cookiesPolicy';
+import CookiesPolicy from "../components/CookiesPolicy";
+import { NextPage } from "next";
 
-export default CookiesPolicy;
+const index: NextPage = () => {
+  return <CookiesPolicy />;
+};
+
+export default index;

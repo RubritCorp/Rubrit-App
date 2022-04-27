@@ -1,3 +1,8 @@
-import FindServices from "../components/FindServices"
+import FindServices from "../components/FindServices";
+import { NextPage } from "next";
 
-export default FindServices 
+const index: NextPage = () => {
+  return <FindServices />;
+};
+
+export default index;

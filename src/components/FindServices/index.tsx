@@ -29,7 +29,7 @@ import Layout from "../layout";
 import Comments from "../Comments";
 //styles
 import styles from "./FindServices.module.css";
-import { boolean } from "yup";
+
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 
@@ -209,7 +209,7 @@ const FindServices: React.FC = () => {
                   <>
                     <Text marginRight={4}>YA TENES UNA CUENTA?</Text>
 
-                    <Text color={theme.colors.medium_green}>
+                    <Text color={"medium_green"}>
                       <span
                         className={styles.link}
                         onClick={() =>

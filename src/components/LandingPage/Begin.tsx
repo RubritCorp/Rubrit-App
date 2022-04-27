@@ -26,7 +26,7 @@ import { Binoculars, Wrench } from "phosphor-react";
 
 const Begin: React.FC = () => {
   const { status } = useSession();
-  const router = useRouter();
+
   const {
     isOpen: isOpenOne,
     onOpen: onOpenOne,

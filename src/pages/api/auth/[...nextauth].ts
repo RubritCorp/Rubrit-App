@@ -59,7 +59,7 @@ export default NextAuth({
       clientSecret: `${process.env.GITHUB_SECRET}`,
     }), */
   ],
-  secret: process.env.SECRET,
+  secret: envConfig?.secret,
   events: {
     async signIn(message) {
       "Inicio de sesión exitoso";
@@ -154,4 +154,5 @@ export default NextAuth({
     newUser: `${envConfig?.host}/COMPLETARPERFIL`,
     error: `${envConfig?.host}`,
   },
+  debug: true,
 });

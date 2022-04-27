@@ -8,8 +8,6 @@ import {
   useState,
   useEffect,
 } from "react";
-import { boolean } from "yup";
-
 
 export interface ICategories {
   picture_small: string;
@@ -40,7 +38,7 @@ export function useCategories() {
 }
 
 type Props = {
-  children: ReactNode;
+  children: any;
 };
 
 export function CategoriesProvider({ children }: Props) {

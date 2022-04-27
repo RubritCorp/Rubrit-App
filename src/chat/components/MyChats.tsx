@@ -106,14 +106,14 @@ const MyChats: React.FC<{ fetchAgain: boolean }> = ({ fetchAgain }) => {
         justifyContent="space-between"
         alignItems="center"
       >
-        <Text>My Chats</Text>
+        <Text>Rubrit Chat</Text>
         <GroupChatModal>
           <Button
             d="flex"
             fontSize={{ base: "17px", md: "10px", lg: "17px" }}
             rightIcon={<AddIcon />}
           >
-            New Group Chat
+            Nuevo grupo de trabajo
           </Button>
         </GroupChatModal>
       </Box>

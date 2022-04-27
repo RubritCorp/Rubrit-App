@@ -31,7 +31,7 @@ import {
 import { useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { Session } from "next-auth/core/types";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import Link from "next/link";
 //components
 import DesktopNav from "./DesktopNav";
@@ -46,12 +46,15 @@ import Profile from "components/Profile/Profile";
 import Image from "next/image";
 //providers
 import rubritlogo from "assets/RUBRIT.png";
+import { getSender } from "chat/config/ChatLogic";
+import { useChat } from "chat/context/ChatProvider";
 
 const WithSubnavigation: React.FC = () => {
+  const { user, setSelectedChat, notification, setNotification } = useChat();
   const toast = useToast();
   const [isAuth, setIsAuth] = useState<boolean>();
   const [isLogin, setIsLogin] = useState<boolean>(true);
-  const [user, setUser] = useState<Session>();
+  const [user1, setUser1] = useState<Session>();
   const { pathname } = useRouter();
   const { data: session, status } = useSession();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -68,7 +71,7 @@ const WithSubnavigation: React.FC = () => {
 
   useEffect(() => {
     if (session && status === "authenticated") {
-      setUser(session);
+      setUser1(session);
       onClose();
 
       if (!toast.isActive("verify-account")) {
@@ -168,12 +171,14 @@ const WithSubnavigation: React.FC = () => {
           )}
           <Link href="/" passHref={true}>
             <a>
-              <Image
-                src={rubritlogo}
-                alt="user-image"
-                width={"120px"}
-                height={"35px"}
-              />
+              <Box marginTop={"5px"}>
+                <Image
+                  src={rubritlogo}
+                  alt="user-image"
+                  width={"120px"}
+                  height={"35px"}
+                />
+              </Box>
             </a>
           </Link>
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
@@ -220,6 +225,31 @@ const WithSubnavigation: React.FC = () => {
                 >
                   <BellIcon fontSize={"2xl"} />
                 </MenuButton>
+                <MenuList pl={2}>
+                  {!notification.length && "No New Messages"}
+
+                  {!notification.length && "No New Messages"}
+
+                  {notification.map((notif) => (
+                    <MenuItem
+                      d={{ base: "inline", md: "none" }}
+                      key={notif._id}
+                      onClick={() => {
+                        setSelectedChat(notif.chat);
+                        setNotification(
+                          notification.filter((n) => n !== notif)
+                        );
+                      }}
+                    >
+                      {notif.chat.isGroupChat
+                        ? `New Message in ${notif.chat.chatName}`
+                        : `New Message from ${getSender(
+                            user,
+                            notif.chat.users
+                          )}`}
+                    </MenuItem>
+                  ))}
+                </MenuList>
               </Menu>
               <Menu isLazy>
                 {/* fix Popper warning */}
@@ -230,16 +260,17 @@ const WithSubnavigation: React.FC = () => {
                     bg={"transparent"}
                     transition={".7s"}
                   >
-                    {user && (
+                    {user1 && (
                       <Avatar
-                        src={user?.image}
-                        name={user?.name}
+                        src={user1?.image}
+                        name={user1?.name}
                         cursor={"pointer"}
                         size={"sm"}
                         id={"profile"}
                       />
                     )}
                   </MenuButton>
+
                   <MenuList>
                     <MenuItem onClick={() => onOpenProfile()}>
                       Mi Perfil
@@ -326,10 +357,6 @@ const WithSubnavigation: React.FC = () => {
                       </>
                     )}
 
-                    <MenuItem d={{ base: "inline", md: "none" }}>
-                      Notificaciones
-                    </MenuItem>
-                    <MenuDivider d={{ base: "", md: "none" }} />
                     <MenuItem
                       onClick={() => {
                         signOut({ redirect: false });

@@ -13,36 +13,18 @@ import {
   Button,
   SimpleGrid,
   useDisclosure,
-  Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  DrawerHeader,
-  DrawerBody,
-  Input,
-  DrawerFooter,
-  InputGroup,
-  InputLeftElement,
-  Textarea,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Link,
   useToast,
 } from "@chakra-ui/react";
 //from modules
 import React, { ReactNode, useEffect, useState } from "react";
 //icons
-import { CurrencyDollarSimple, Envelope, Phone } from "phosphor-react";
+
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import envConfig from "../../../next-env-config";
 import { useRouter } from "next/router";
 
-const Testimonial = ({ children }: { children: ReactNode }) => {
+const Testimonial = ({ children }: { children: any }) => {
   return <Box>{children}</Box>;
 };
 
@@ -74,7 +56,7 @@ const TestimonialAvatar = ({
   );
 };
 
-const TestimonialContent = ({ children }: { children: ReactNode }) => {
+const TestimonialContent = ({ children }: { children: any }) => {
   return (
     <Stack
       maxW={"lg"}
@@ -113,7 +95,7 @@ const TestimonialContent = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const TestimonialText = ({ children }: { children: ReactNode }) => {
+const TestimonialText = ({ children }: { children: any }) => {
   return (
     <Text
       textAlign={"center"}
@@ -222,7 +204,7 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
     setCard(newCard);
   };
 
-  if (nearOffers.length < 1) return <Text>No Hay Ofertas en Tu Zona</Text>;
+  // if (nearOffers.length < 1) return <Text>No Hay Ofertas en Tu Zona</Text>;
 
   const accessChat = async (userId: string) => {
     try {
@@ -272,66 +254,70 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
               tu presupuesto
             </Text>
           </Stack>
-          <Stack
-            direction={{ base: "column", md: "row" }}
-            spacing={{ base: 10, md: 4, lg: 10 }}
-          >
-            <SimpleGrid columns={[1, null, 3]} spacing="40px">
-              {currentCards?.map((item: any, index: number) => (
-                <Testimonial key={index}>
-                  <TestimonialContent>
-                    <Box marginTop={"-6"} marginRight={"-5"} alignSelf={"end"}>
-                      <Button
-                        w={"5px"}
-                        size={"xs"}
-                        variant="outline"
-                        onClick={() => handleOnCloseCard(item._id)}
-                      >
-                        x
-                      </Button>
-                    </Box>
-                    {/* TESTIMONIAL HEADING */}
-                    <Heading
-                      as={"h3"}
-                      fontSize={"xl"}
-                      textAlign={"center"}
-                      overflow="hidden"
-                      css={{
-                        display: "-webkit-box",
-                        ["WebkitBoxOrient"]: "vertical",
-                        ["WebkitLineClamp"]: "2",
-                      }}
-                    >
-                      {item.title}
-                    </Heading>
 
-                    <TestimonialText>{item.testimonialWork}</TestimonialText>
-                    <Stack p={3} align={"center"}>
-                      <Button
-                        onClick={() => {
-                          status === "authenticated"
-                            ? accessChat(item.userId)
-                            : // ? onOpen()
-                              document.getElementById("signInButton")?.click();
-                        }} //acaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                        bg={"green.500"}
-                        _hover={{ bg: "green.400" }}
-                        position={"absolute"}
-                        bottom={8}
-                      >
-                        <Text color={"white"}>Enviar Presupuesto</Text>
-                      </Button>
-                    </Stack>
-                  </TestimonialContent>
-                  <TestimonialAvatar
-                    src={item.src}
-                    name={item.name}
-                    location={item.location}
-                  />
-                </Testimonial>
-              ))}
-            </SimpleGrid>
-          </Stack>
+          <SimpleGrid
+            justifyContent={"center"}
+            columns={[1, null, 3]}
+            spacing="40px"
+          >
+            {currentCards?.map((item: any, index: number) => (
+              <Testimonial key={index}>
+                <TestimonialContent>
+                  <Flex
+                    marginTop={"-6"}
+                    marginRight={"-5"}
+                    justifyContent={"flex-end"}
+                  >
+                    <Button
+                      w={"5px"}
+                      size={"xs"}
+                      variant="outline"
+                      onClick={() => handleOnCloseCard(item._id)}
+                    >
+                      x
+                    </Button>
+                  </Flex>
+                  {/* TESTIMONIAL HEADING */}
+                  <Heading
+                    as={"h3"}
+                    fontSize={"xl"}
+                    textAlign={"center"}
+                    overflow="hidden"
+                    css={{
+                      display: "-webkit-box",
+                      ["WebkitBoxOrient"]: "vertical",
+                      ["WebkitLineClamp"]: "2",
+                    }}
+                  >
+                    {item.title}
+                  </Heading>
+
+                  <TestimonialText>{item.testimonialWork}</TestimonialText>
+                  <Stack p={3} align={"center"}>
+                    <Button
+                      onClick={() => {
+                        status === "authenticated"
+                          ? accessChat(item.userId)
+                          : // ? onOpen()
+                            document.getElementById("signInButton")?.click();
+                      }} //acaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                      bg={"green.500"}
+                      _hover={{ bg: "green.400" }}
+                      position={"absolute"}
+                      bottom={8}
+                    >
+                      <Text color={"white"}>Enviar Presupuesto</Text>
+                    </Button>
+                  </Stack>
+                </TestimonialContent>
+                <TestimonialAvatar
+                  src={item.src}
+                  name={item.name}
+                  location={item.location}
+                />
+              </Testimonial>
+            ))}
+          </SimpleGrid>
         </Container>
       </Box>
       <Paginate
@@ -342,54 +328,6 @@ const WorkBag: React.FC<{ nearOffers: any }> = ({ nearOffers }) => {
           setCurrentPage(pageNumber)
         }
       />
-      <Drawer size={"md"} isOpen={isOpen} placement="right" onClose={onClose}>
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>Presupuesto A Enviar</DrawerHeader>
-
-          <DrawerBody>
-            <Stack spacing={4}>
-              <Text color="#6bdaae" mb="8px">
-                {" "}
-                Detalle del trabajo a realizar:{" "}
-              </Text>
-              <Textarea
-                h={"450px"}
-                value={text}
-                onChange={handleInputChange}
-                placeholder="Realice su detalle aca ..."
-                size="xl"
-              />
-
-              <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  color="gray.300"
-                  fontSize="1.2em"
-                >
-                  <CurrencyDollarSimple
-                    size={30}
-                    color="#6bdaae"
-                    weight="light"
-                  />
-                </InputLeftElement>
-                <Input placeholder="Enter amount" />
-              </InputGroup>
-            </Stack>
-          </DrawerBody>
-
-          <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Cancelar
-            </Button>
-            <Button colorScheme="green" mr={3}>
-              Enviar
-            </Button>
-            <Button colorScheme="red">Guardar</Button>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
     </Layout>
   );
 };

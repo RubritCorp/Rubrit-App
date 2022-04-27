@@ -20,10 +20,15 @@ type Subcategory = {
 };
 
 type IRating = {
-  userComment: { name: string; profilePic: string; email: string };
-  description: string;
-  score: number;
-  date: string;
+  averageScore: number;
+  comments: [
+    {
+      userComment: { name: string; profilePic: string; email: string };
+      description: string;
+      score: number;
+      date: string;
+    }
+  ];
 };
 
 type Items = {
@@ -52,19 +57,22 @@ export interface IUser {
     country: string;
     lat: number;
     lng: number;
+    searchRange: number;
   };
   isAuthenticated: boolean;
   preferences: {
     hideAddres: boolean;
   };
-  rating: IRating[];
+  rating: IRating;
   workerData: {
     images: string[];
     certification: string[];
     rangeCoverage: number;
     items: Items[];
+    workerDescription: string;
   };
   requests: {
+    completed: number;
     recibed: string[];
     send: string[];
   };
@@ -87,7 +95,7 @@ export function useUsers() {
 }
 
 type Props = {
-  children: ReactNode;
+  children: any;
 };
 
 export function UsersProvider({ children }: Props) {

@@ -1,4 +1,8 @@
+import TermService from "../components/TermService";
+import { NextPage } from "next";
 
-import TermServices from '../components/TermService/termService';
+const index: NextPage = () => {
+  return <TermService />;
+};
 
-export default TermServices;
+export default index;

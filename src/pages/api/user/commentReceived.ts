@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 //models
 import User from "models/User";
+import ServiceRequest from "../../../models/ServiceRequest"
 //interface
 import { IUser } from "models/User/IUser";
 //db
@@ -29,9 +30,9 @@ interface DataAccesDenied {
 const cases: ICases = {
   PUT: async (req, res) => {
     const {
-      data: { score, user, date, comment, userComment },
+      data: { score, user, date, comment, userComment, requestId },
     } = req.body.data;
-    
+
     try {
       const ratingModel = {
         score,
@@ -39,13 +40,36 @@ const cases: ICases = {
         userComment,
         description: comment,
       };
-      const fetchUser = await User.findOneAndUpdate(
-        { _id: user },
-        { $push: { rating: ratingModel } }
-      );
+
+          
+
+      const fetchRequest = await ServiceRequest.findOne({_id : requestId})
+
+      if(!fetchRequest.commented) {
+        fetchRequest.commented = true;
+        fetchRequest.save();
+      }
+      const fetchUser = await User.findOne({ _id: user });
+
+      fetchUser.rating.comments = [ratingModel, ...fetchUser.rating.comments];
+
+      const averageScore = fetchUser.rating.comments?.reduce(function (
+        acc: any,
+        cur: any
+      ) {
+        if (acc?.score) {
+          return acc.score + cur.score;
+        }
+        return acc + cur.score;
+      });
+
+      fetchUser.rating.averageScore = (averageScore + score) / fetchUser.rating.comments.length;
+
+      fetchUser.save();
+
       res.status(200).json({ message: "Comments updated" });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       res.status(404).json({ message: "Error ocurred " });
     }
   },

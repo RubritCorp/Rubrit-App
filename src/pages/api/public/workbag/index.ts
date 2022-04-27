@@ -53,9 +53,11 @@ export default async function getNearServices({
   lng,
   RangeCoverage,
 }: Props) {
+  console.log(categories, lat, lng, RangeCoverage);
+
   try {
     const options: Props = {
-      categories: categories ? categories : [""],
+      categories: categories ? categories : [" "],
       lat: lat ? lat : -31.4198303,
       lng: lng ? lng : -64.1903709,
       RangeCoverage: RangeCoverage ? RangeCoverage : 100,
@@ -88,8 +90,7 @@ export default async function getNearServices({
             )
         )
       );
-             
-                  
+
       services = categoriesMatch.filter((f) => f !== null);
 
       if (services.length < 1) return [];
